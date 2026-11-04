@@ -95,7 +95,18 @@ route (`lake exe cache get`, `lake build`, `lake env lean <file>`); that
 route has not been run here. "Disputed" items were
 corrected (the scan's verdict changed), not left wrong.
 
-## Licensing of quoted material
+## License
 
-Book statements are paraphrased with a section citation. OEIS text is
-quoted under CC BY-SA 4.0 with the A-number as attribution.
+All material in this repository owned by its author is dedicated to the
+public domain under [CC0 1.0](LICENSE). Material owned by others keeps its
+own terms.
+
+## AI disclosure
+
+The problem scan, the proofs and disproofs, the Lean formalisations, the
+prior-art review, the scripts and the text of this repository were produced
+by AI agents (Anthropic's Claude models, mainly Claude Opus 5.5, run through
+Claude Code), directed by a human who chose the sources and set the goals. Checks applied: each result re-derived by a second
+agent; Lean files checked by the Lean kernel (each file states what it does
+not check); prior art searched per item (2026-11-04). Results without a full
+Lean proof are AI-generated arguments that no human has refereed.

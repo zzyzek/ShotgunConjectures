@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2022 Niels Voss. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSES/Apache-2.0.txt.
+Authors: Niels Voss
+Modified 2026: lemmas made public, `cipollaNum_eq` added (Shotgun Conjectures).
+-/
 import Mathlib.NumberTheory.FermatPsp
 import Mathlib.Algebra.Order.Ring.GeomSum
 
