@@ -1,0 +1,78 @@
+import OpenProblemsLib
+
+/-
+COM-C088 (Mathlib). Coman's conjecture 88: there are infinitely many 2-Poulet numbers p1 p2
+(p1 < p2 primes, p1 p2 a Fermat pseudoprime to base 2) with p2 − p1 = 84. README result:
+false; the only ones are 3277 = 29 · 113 and 5461 = 43 · 127.
+
+Main theorem `C088_main`: the set of such numbers is {3277, 5461} (Mathlib
+`Nat.FermatPsp _ 2`); `C088_false`: it is not infinite.
+Proof: for P = p(p + 84), gcd(p − 1, P − 1) and gcd(p + 83, P − 1) divide 84 (core-Lean
+identities `id1`, `id2` of `C088.lean`, copied below in namespace `Core`), so Fermat's
+little theorem with ord_p(2) ∣ P − 1 (library `prime_dvd_pow_sub_one_of_gcd_dvd`) puts both primes
+among the prime factors of 2⁸⁴ − 1 = 3²·5·7²·13·29·43·113·127·337·1429·5419·14449 (primes by
+Pratt certificates); the only pairs 84 apart are (29, 113) and (43, 127), both pseudoprimes
+(kernel `powMod`).
+
+Outside Lean: nothing. (Generated from certificate/C088_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C088.lean
+
+@CERT
+
+@PRIMES primes_M84 3 3 5 7 7 13 29 43 113 127 337 1429 5419 14449
+
+theorem M84 : 2 ^ 84 - 1 = [3, 3, 5, 7, 7, 13, 29, 43, 113, 127, 337, 1429, 5419, 14449].prod := by
+  decide +kernel
+
+theorem dvd_M84 (p P : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hP : P.FermatPsp 2) (hpP : p ∣ P)
+    (hg : Nat.gcd (p - 1) (P - 1) ∣ 84) :
+    p ∈ [3, 3, 5, 7, 7, 13, 29, 43, 113, 127, 337, 1429, 5419, 14449] := by
+  have h := prime_dvd_pow_sub_one_of_gcd_dvd hp hpP
+    (fun h2 => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2)) hP.1 hg
+  rw [M84] at h
+  exact mem_of_prime_dvd_prod _ primes_M84 hp h
+
+theorem C088_main : {P : ℕ | ∃ p1 p2 : ℕ, p1.Prime ∧ p2.Prime ∧ p1 < p2 ∧ p2 = p1 + 84 ∧
+    P = p1 * p2 ∧ P.FermatPsp 2} = {3277, 5461} := by
+  ext P
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  constructor
+  · rintro ⟨p, q, hp, hq, _, rfl, rfl, hP⟩
+    have hp1 := hp.one_le
+    have hp2 : p ≠ 2 := by rintro rfl; norm_num at hq
+    have hq2 : p + 84 ≠ 2 := by omega
+    have g1 : Nat.gcd (p - 1) (p * (p + 84) - 1) ∣ 84 := by
+      have a := Nat.gcd_dvd_left (p - 1) (p * (p + 84) - 1)
+      have b := Nat.gcd_dvd_right (p - 1) (p * (p + 84) - 1)
+      generalize Nat.gcd (p - 1) (p * (p + 84) - 1) = G at a b ⊢
+      rw [Core.id1 p hp1] at b
+      exact (Nat.dvd_add_right (Dvd.dvd.mul_right a _)).mp b
+    have g2 : Nat.gcd (p + 84 - 1) (p * (p + 84) - 1) ∣ 84 := by
+      have a := Nat.gcd_dvd_left (p + 84 - 1) (p * (p + 84) - 1)
+      have b := Nat.gcd_dvd_right (p + 84 - 1) (p * (p + 84) - 1)
+      generalize Nat.gcd (p + 84 - 1) (p * (p + 84) - 1) = G at a b ⊢
+      have c : G ∣ p * (p + 84) - 1 + 84 := by
+        rw [Core.id2 p hp1]
+        rw [show p + 84 - 1 = p + 83 by omega] at a
+        exact Dvd.dvd.mul_right a _
+      exact (Nat.dvd_add_right b).mp c
+    have m1 := dvd_M84 p _ hp hp2 hP (Dvd.intro _ rfl) g1
+    have m2 := dvd_M84 (p + 84) _ hq hq2 hP (Dvd.intro_left _ rfl) g2
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at m1 m2
+    rcases m1 with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
+      omega
+  · rintro (rfl | rfl)
+    · exact ⟨29, 113, by norm_num, by norm_num, by norm_num, rfl, rfl,
+        fermatPsp_of_pspCheck 3277 2 29 (by decide +kernel)⟩
+    · exact ⟨43, 127, by norm_num, by norm_num, by norm_num, rfl, rfl,
+        fermatPsp_of_pspCheck 5461 2 43 (by decide +kernel)⟩
+
+theorem C088_false : ¬ Set.Infinite {P : ℕ | ∃ p1 p2 : ℕ, p1.Prime ∧ p2.Prime ∧ p1 < p2 ∧
+    p2 = p1 + 84 ∧ P = p1 * p2 ∧ P.FermatPsp 2} := by
+  rw [C088_main, Set.not_infinite]
+  exact Set.toFinite _

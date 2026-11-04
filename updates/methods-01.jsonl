@@ -1,0 +1,112 @@
+{"id": "OEIS-A061002", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A071010", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A072901", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A074766", "methods": ["known-theorem"]}
+{"id": "OEIS-A079665", "methods": ["elementary-proof"]}
+{"id": "OEIS-A080674", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A081199", "methods": ["elementary-proof", "finite-identity"]}
+{"id": "OEIS-A081200", "methods": ["elementary-proof", "finite-identity"]}
+{"id": "OEIS-A081201", "methods": ["elementary-proof", "finite-identity"]}
+{"id": "OEIS-A081320", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A081532", "methods": ["explicit-counterexample"]}
+{"id": "OEIS-A083452", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A085765b", "methods": ["elementary-proof", "finite-identity"]}
+{"id": "OEIS-A086449", "methods": ["elementary-proof"]}
+{"id": "OEIS-A087324", "methods": ["modular-obstruction", "explicit-counterexample"]}
+{"id": "OEIS-A088104", "methods": ["known-theorem"]}
+{"id": "OEIS-A088120", "methods": ["explicit-counterexample"]}
+{"id": "OEIS-A088276", "methods": ["covering-congruences", "explicit-counterexample"]}
+{"id": "OEIS-A088982", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A088987", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A089758", "methods": ["known-theorem"]}
+{"id": "OEIS-A090519", "methods": ["known-theorem"]}
+{"id": "OEIS-A094787", "methods": ["elementary-proof", "parametric-family"]}
+{"id": "OEIS-A097406", "methods": ["known-theorem", "elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A098016", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A100056", "methods": ["explicit-counterexample"]}
+{"id": "OEIS-A100682", "methods": ["exact-arithmetic", "explicit-counterexample"]}
+{"id": "OEIS-A101312", "methods": ["elementary-proof", "explicit-counterexample"]}
+{"id": "OEIS-A101462", "methods": ["covering-congruences"]}
+{"id": "OEIS-A102613", "methods": ["known-theorem"]}
+{"id": "OEIS-A104896", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A105596", "methods": ["elementary-proof", "modular-obstruction"]}
+{"id": "OEIS-A106249", "methods": ["finite-identity", "elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A107363", "methods": ["finite-identity"]}
+{"id": "OEIS-A110320", "methods": ["finite-identity"]}
+{"id": "OEIS-A110735", "methods": ["modular-obstruction", "explicit-counterexample"]}
+{"id": "OEIS-A112992", "methods": ["elementary-proof"]}
+{"id": "OEIS-A113249", "methods": ["finite-identity"]}
+{"id": "OEIS-A113250", "methods": ["finite-identity"]}
+{"id": "OEIS-A113251", "methods": ["finite-identity"]}
+{"id": "OEIS-A113252", "methods": ["finite-identity"]}
+{"id": "OEIS-A113253", "methods": ["finite-identity"]}
+{"id": "OEIS-A113255", "methods": ["finite-identity"]}
+{"id": "OEIS-A113256", "methods": ["finite-identity"]}
+{"id": "OEIS-A113599", "methods": ["elementary-proof"]}
+{"id": "OEIS-A113610", "methods": ["explicit-counterexample"]}
+{"id": "OEIS-A114534", "methods": ["elementary-proof"]}
+{"id": "OEIS-A115038", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A121627", "methods": ["elementary-proof"]}
+{"id": "OEIS-A125148", "methods": ["known-theorem"]}
+{"id": "OEIS-A126142", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A129454", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A133212", "methods": ["finite-identity"]}
+{"id": "OEIS-A134002", "methods": ["elementary-proof", "known-theorem"]}
+{"id": "OEIS-A134003", "methods": ["elementary-proof", "known-theorem", "restatement-or-misstatement"]}
+{"id": "OEIS-A135499", "methods": ["elementary-proof", "restatement-or-misstatement"]}
+{"id": "OEIS-A135571", "methods": ["elementary-proof"]}
+{"id": "OEIS-A135659", "methods": ["elementary-proof", "modular-obstruction"]}
+{"id": "OEIS-A137328", "methods": ["elementary-proof", "modular-obstruction"]}
+{"id": "OEIS-A139043", "methods": ["known-theorem"]}
+{"id": "OEIS-A140869", "methods": ["elementary-proof"]}
+{"id": "OEIS-A144652", "methods": ["elementary-proof"]}
+{"id": "OEIS-A145878", "methods": ["finite-identity", "elementary-proof"]}
+{"id": "OEIS-A165640", "methods": ["finite-identity", "elementary-proof"]}
+{"id": "OEIS-A167230", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A176494", "methods": ["covering-congruences", "explicit-counterexample"]}
+{"id": "OEIS-A182085", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A182088", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A182089", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A182132", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A182133", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A182151", "methods": ["known-theorem", "elementary-proof", "complete-table-scan"]}
+{"id": "OEIS-A182206", "methods": ["known-theorem", "elementary-proof", "complete-table-scan"]}
+{"id": "OEIS-A182207", "methods": ["known-theorem", "elementary-proof", "complete-table-scan"]}
+{"id": "OEIS-A182208", "methods": ["known-theorem", "modular-obstruction", "complete-table-scan"]}
+{"id": "OEIS-A182334", "methods": ["explicit-counterexample", "units-pell", "finite-identity"]}
+{"id": "OEIS-A182381", "methods": ["known-theorem", "elementary-proof", "complete-table-scan"]}
+{"id": "OEIS-A182416", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A182515", "methods": ["known-theorem", "elementary-proof", "complete-table-scan"]}
+{"id": "OEIS-A182532", "methods": ["known-theorem", "elementary-proof", "complete-table-scan"]}
+{"id": "OEIS-A188644", "methods": ["elementary-proof", "known-theorem"]}
+{"id": "OEIS-A188645", "methods": ["elementary-proof", "known-theorem"]}
+{"id": "OEIS-A188646", "methods": ["elementary-proof", "known-theorem"]}
+{"id": "OEIS-A188647", "methods": ["elementary-proof", "known-theorem"]}
+{"id": "OEIS-A192205", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A195507", "methods": ["elementary-proof"]}
+{"id": "OEIS-A197521", "methods": ["elementary-proof", "finite-identity"]}
+{"id": "OEIS-A209260", "methods": ["known-theorem"]}
+{"id": "OEIS-A210445", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A210529", "methods": ["known-theorem"]}
+{"id": "OEIS-A210826", "methods": ["elementary-proof", "known-theorem"]}
+{"id": "OEIS-A212843", "methods": ["elementary-proof", "explicit-counterexample", "complete-table-scan"]}
+{"id": "OEIS-A213257", "methods": ["elementary-proof"]}
+{"id": "OEIS-A213258", "methods": ["elementary-proof"]}
+{"id": "OEIS-A214305", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "OEIS-A214449", "methods": ["explicit-counterexample", "exact-arithmetic"]}
+{"id": "OEIS-A214900", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A214970", "methods": ["known-theorem", "finite-identity"]}
+{"id": "OEIS-A215461", "methods": ["elementary-proof", "modular-obstruction"]}
+{"id": "OEIS-A215462", "methods": ["elementary-proof"]}
+{"id": "OEIS-A217448", "methods": ["elementary-proof", "complete-table-scan"]}
+{"id": "OEIS-A221650", "methods": ["elementary-proof"]}
+{"id": "OEIS-A225001", "methods": ["exact-arithmetic", "elementary-proof"]}
+{"id": "OEIS-A226160", "methods": ["elementary-proof"]}
+{"id": "OEIS-A226188", "methods": ["elementary-proof"]}
+{"id": "OEIS-A226661", "methods": ["parametric-family", "elementary-proof"]}
+{"id": "OEIS-A226676", "methods": ["parametric-family", "elementary-proof"]}
+{"id": "OEIS-A226677", "methods": ["parametric-family", "elementary-proof"]}
+{"id": "OEIS-A227553", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A228931", "methods": ["units-pell", "elementary-proof"]}
+{"id": "OEIS-A228933", "methods": ["units-pell", "elementary-proof"]}
+{"id": "OEIS-A229910", "methods": ["known-theorem", "explicit-counterexample"]}

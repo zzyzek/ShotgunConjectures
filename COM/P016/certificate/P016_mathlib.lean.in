@@ -1,0 +1,24 @@
+import OpenProblemsLib
+
+/-
+COM-P016 (Mathlib). Coman's problem 16 asks about the conjecture that every Carmichael
+number is ≡ 1 (mod 10), ≡ 1 (mod 12) or ≡ 1 (mod 14). README result: false,
+62745 = 3 * 5 * 47 * 89 is ≡ 5, 9, 11 modulo 10, 12, 14.
+
+Main theorem `P016_false`: the negation of that conjecture. Carmichael by Korselt's
+criterion (Mathlib), primes by Pratt certificates checked by the kernel.
+
+Outside Lean: nothing. (Generated from certificate/P016_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CERT
+
+@CARM carmichael_C 62745 3 5 47 89
+
+theorem P016_false : ¬ ∀ C : ℕ, C.IsCarmichael → C % 10 = 1 ∨ C % 12 = 1 ∨ C % 14 = 1 := by
+  intro h
+  have := h 62745 carmichael_C
+  norm_num at this

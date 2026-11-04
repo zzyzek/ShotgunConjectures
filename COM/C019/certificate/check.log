@@ -1,0 +1,4 @@
+162401 [17, 41, 233] True [1, 9, 9]
+3-Carmichael below 1e13 failing both forms: 637 [162401, 252601, 334153, 410041]
+C019 OK
+exit 0

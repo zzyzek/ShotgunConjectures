@@ -1,0 +1,37 @@
+import OpenProblemsLib
+
+/-
+COM-C123 (Mathlib; also covers C188, P064, P145). Coman's conjecture 123: every Carmichael
+number is p q + q - p with p, q primes. README result: false, counterexample
+1024651 = 19 * 199 * 271.
+
+Main theorem `C123_false`: ¬ ∀ C, C Carmichael → ∃ primes p q with C = p q + q - p, and the
+explicit form `C123_witness`: 1024651 is Carmichael and is not p q + q - p for any primes.
+Carmichael-ness: Korselt's criterion (Mathlib `Nat.isCarmichael_iff_korselt`), primes by
+Pratt certificates checked by the kernel. The "no p, q" part is the core-Lean search of
+`C123.lean`, copied below in namespace `Core`; its `IsPrime` is `Nat.Prime` by
+`Nat.prime_def`.
+
+Outside Lean: nothing. The count "86 of the first 4000" is not checked here.
+(Generated from certificate/C123_mathlib.lean.in by tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C123.lean
+
+theorem core_isPrime_iff (p : ℕ) : Core.IsPrime p ↔ p.Prime := Nat.prime_def.symm
+
+@CERT
+
+@CARM carmichael_1024651 1024651 19 199 271
+
+theorem C123_witness : Nat.IsCarmichael 1024651 ∧
+    ∀ p q : ℕ, p.Prime → q.Prime → 1024651 ≠ p * q + q - p :=
+  ⟨carmichael_1024651, fun p q hp hq =>
+    Core.fails p q ((core_isPrime_iff p).mpr hp) ((core_isPrime_iff q).mpr hq)⟩
+
+theorem C123_false : ¬ ∀ C : ℕ, C.IsCarmichael → ∃ p q : ℕ, p.Prime ∧ q.Prime ∧ C = p * q + q - p := by
+  intro h
+  obtain ⟨p, q, hp, hq, he⟩ := h 1024651 carmichael_1024651
+  exact C123_witness.2 p q hp hq he

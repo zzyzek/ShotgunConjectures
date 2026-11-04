@@ -1,0 +1,50 @@
+import OpenProblemsLib
+
+/-
+COM-C011 (Mathlib). Coman's conjecture 11: no Carmichael number with three prime factors has
+the shape (6x+1)(6y+1)(6z−1); all are (+,+,+), (−,−,−) or (+,−,−) modulo 6. README result:
+misstated; the "no (+,+,−)" part is true, the "all are of these shapes" part fails for
+561 = 3 * 11 * 17.
+
+Main theorems:
+* `C011_no_ppm`: for all x, y, z with 6x+1 prime, (6x+1)(6y+1)(6z−1) is not a Carmichael
+  number (Mathlib `Nat.IsCarmichael`; natural subtraction, z = 0 gives 0). This is stronger
+  than the stated part (only 6x+1 needs to be prime). Proof: Korselt's criterion in the
+  necessary direction (Mathlib `Nat.IsCarmichael.prime_sub_one_dvd`) gives 6x ∣ C − 1, so
+  C ≡ 1 (mod 6), while the shape is ≡ 5 (mod 6) (core-Lean `shape_mod6`, copied below).
+* `C011_561`: 561 = 3 * 11 * 17 is a Carmichael number (Korselt, primes by Pratt
+  certificates) and is not a product a b c of three numbers each ≡ ±1 (mod 6).
+
+Outside Lean: nothing. (Generated from certificate/C011_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C011.lean
+
+@CERT
+
+@CARM carmichael_561 561 3 11 17
+
+theorem C011_no_ppm (x y z : ℕ) (hx : (6 * x + 1).Prime) :
+    ¬ ((6 * x + 1) * (6 * y + 1) * (6 * z - 1)).IsCarmichael := by
+  intro h
+  rcases Nat.eq_zero_or_pos z with rfl | hz
+  · simpa using h.two_lt
+  have h5 := Core.shape_mod6 x y z hz
+  have hk := korselt_necessary h hx (by rw [mul_assoc]; exact Dvd.intro _ rfl)
+  have h6 : 6 ∣ (6 * x + 1) * (6 * y + 1) * (6 * z - 1) - 1 :=
+    Nat.dvd_trans (Dvd.intro x (by omega)) hk
+  have := h.two_lt
+  generalize (6 * x + 1) * (6 * y + 1) * (6 * z - 1) = C at *
+  omega
+
+theorem C011_561 : Nat.IsCarmichael 561 ∧ 561 = 3 * 11 * 17 ∧
+    ∀ a b c : ℕ, (a % 6 = 1 ∨ a % 6 = 5) → (b % 6 = 1 ∨ b % 6 = 5) → (c % 6 = 1 ∨ c % 6 = 5) →
+      a * b * c ≠ 561 := by
+  refine ⟨carmichael_561, rfl, fun a b c ha hb hc he => ?_⟩
+  have h3 : 3 ∣ a * b * c := by rw [he]; norm_num
+  rcases (Nat.Prime.dvd_mul Nat.prime_three).mp h3 with h3 | h3
+  · rcases (Nat.Prime.dvd_mul Nat.prime_three).mp h3 with h3 | h3 <;> omega
+  · omega

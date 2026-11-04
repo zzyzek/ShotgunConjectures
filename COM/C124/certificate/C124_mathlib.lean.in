@@ -1,0 +1,122 @@
+import OpenProblemsLib
+
+/-
+COM-C124 (Mathlib). Coman's conjecture 124: every 3-Carmichael number C (a Carmichael number
+with exactly three prime factors) divisible by 5 is p(q − 2^n) with p a prime factor of C
+other than 5, q prime and n ≥ 1. README result: true; the only such C are 1105, 2465 and
+10585, and 1105 = 13(89 − 2²), 2465 = 17(149 − 2²), 10585 = 29(367 − 2).
+
+Main theorem `C124_main`: for every Carmichael number C (Mathlib `Nat.IsCarmichael`) with
+`C.primeFactors.card = 3` and 5 ∣ C: C ∈ {1105, 2465, 10585}, and C = p(q − 2^n) for some
+prime p ∣ C with p ≠ 5, prime q and n ≥ 1.
+Proof: C is squarefree (Mathlib), so C = 5pq with primes p < q other than 5. Korselt's
+criterion in the necessary direction (Mathlib `Nat.IsCarmichael.prime_sub_one_dvd`):
+q − 1 ∣ 5pq − 1 gives 5p − 1 = h(q − 1) with h ≤ 4; p − 1 ∣ 5q − 1 and the core-Lean identity
+`key` of `C124.lean` (copied below in namespace `Core`) give p − 1 ∣ 20 + 4h, so p ≤ 37 and
+q < 200; a kernel enumeration (`enum_small`, primality as trial division) over these finitely
+many (p, h, q) leaves the three numbers.
+
+Outside Lean: nothing. (Generated from certificate/C124_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C124.lean
+
+/-- Bool form of the finite enumeration (kernel-evaluated). -/
+def enumB : Bool :=
+  Core.allLt (fun p => Core.allLt (fun h => Core.allLt (fun q =>
+    !(h * (q - 1) == 5 * p - 1) || !(decide (2 ≤ p)) || !(Core.noDivRange p 2 (p - 2)) ||
+    !(Core.noDivRange q 2 (q - 2)) || p == 5 || q == 5 || !(decide (p < q)) ||
+    !((5 * p * q - 1) % (p - 1) == 0) || !((5 * p * q - 1) % (q - 1) == 0) ||
+    !((5 * p * q - 1) % 4 == 0) ||
+    (5 * p * q == 1105 || 5 * p * q == 2465 || 5 * p * q == 10585)) 200) 5) 38
+
+theorem enumB_eq : enumB = true := by decide +kernel
+
+theorem enum_small : ∀ p, p < 38 → ∀ h, h < 5 → ∀ q, q < 200 → h * (q - 1) = 5 * p - 1 →
+    2 ≤ p → Core.noDivRange p 2 (p - 2) = true → Core.noDivRange q 2 (q - 2) = true → p ≠ 5 →
+    q ≠ 5 → p < q → (5 * p * q - 1) % (p - 1) = 0 →
+    (5 * p * q - 1) % (q - 1) = 0 → (5 * p * q - 1) % 4 = 0 →
+    5 * p * q = 1105 ∨ 5 * p * q = 2465 ∨ 5 * p * q = 10585 := by
+  intro p hp h hh q hq e p2 tp tq p5 q5 pq m1 m2 m3
+  have := Core.allLt_spec _ _ (Core.allLt_spec _ _ (Core.allLt_spec _ _ enumB_eq p hp) h hh) q hq
+  simp only [e, p2, tp, tq, p5, q5, pq, m1, m2, m3, beq_self_eq_true, Bool.not_true, Bool.false_or,
+    beq_iff_eq, decide_true, Bool.or_eq_true] at this
+  simpa [p5, q5, or_assoc] using this
+
+theorem trial_of_prime (p : ℕ) (hp : p.Prime) : Core.noDivRange p 2 (p - 2) = true :=
+  Core.noDivRange_of_prime p _ (Nat.prime_def.mp hp) (by have := hp.two_le; omega)
+
+theorem sorted (p q : ℕ) (hp : p.Prime) (hq : q.Prime) (hp5 : p ≠ 5) (hq5 : q ≠ 5) (hpq : p < q)
+    (h : (5 * p * q).IsCarmichael) : 5 * p * q = 1105 ∨ 5 * p * q = 2465 ∨ 5 * p * q = 10585 := by
+  have hp2 := hp.two_le
+  have kq := korselt_necessary h hq (Dvd.intro_left _ rfl)
+  have kp := korselt_necessary h hp (Dvd.intro (5 * q) (by ring))
+  have k5 : 4 ∣ 5 * p * q - 1 := by
+    simpa using korselt_necessary h Nat.prime_five (Dvd.intro (p * q) (by ring))
+  -- q - 1 ∣ 5p - 1
+  have e1 : 5 * p * q - 1 = (q - 1) * (5 * p) + (5 * p - 1) := by
+    obtain ⟨q', rfl⟩ : ∃ q', q = q' + 1 := ⟨q - 1, by omega⟩
+    simp only [Nat.add_sub_cancel]
+    have : 5 * p * (q' + 1) = 5 * p * q' + 5 * p := by ring
+    rw [this, mul_comm q' (5 * p)]
+    omega
+  have dq : q - 1 ∣ 5 * p - 1 := by
+    rw [e1] at kq; exact (Nat.dvd_add_right (Dvd.intro _ rfl)).mp kq
+  obtain ⟨h0, hh⟩ := dq
+  have hh5 : h0 < 5 := by
+    by_contra hge
+    have : (q - 1) * 5 ≤ (q - 1) * h0 := Nat.mul_le_mul_left _ (by omega)
+    omega
+  -- p - 1 ∣ 5q - 1
+  have e2 : 5 * p * q - 1 = (p - 1) * (5 * q) + (5 * q - 1) := by
+    obtain ⟨p', rfl⟩ : ∃ p', p = p' + 1 := ⟨p - 1, by omega⟩
+    simp only [Nat.add_sub_cancel]
+    have : 5 * (p' + 1) * q = p' * (5 * q) + 5 * q := by ring
+    rw [this]
+    omega
+  have dp : p - 1 ∣ 5 * q - 1 := by
+    rw [e2] at kp; exact (Nat.dvd_add_right (Dvd.intro _ rfl)).mp kp
+  have hkey := Core.key p q h0 (by omega) (by rw [mul_comm]; exact hh.symm) (by omega)
+  have dp2 : p - 1 ∣ 20 + 4 * h0 := by
+    have : p - 1 ∣ h0 * (5 * q - 1) := Dvd.dvd.mul_left dp _
+    rw [hkey, add_assoc] at this
+    exact (Nat.dvd_add_right (Dvd.intro_left 25 rfl)).mp this
+  have hp38 : p < 38 := by
+    have := Nat.le_of_dvd (by omega) dp2
+    omega
+  have hq200 : q < 200 := by
+    rcases Nat.eq_zero_or_pos h0 with h00 | h0pos
+    · subst h00; omega
+    · have : (q - 1) * 1 ≤ (q - 1) * h0 := Nat.mul_le_mul_left _ h0pos
+      omega
+  exact enum_small p hp38 h0 hh5 q hq200 (by rw [mul_comm]; exact hh.symm) hp2 (trial_of_prime p hp)
+    (trial_of_prime q hq) hp5 hq5 hpq
+    (Nat.mod_eq_zero_of_dvd kp) (Nat.mod_eq_zero_of_dvd kq) (Nat.mod_eq_zero_of_dvd k5)
+
+theorem C124_main (C : ℕ) (h : C.IsCarmichael) (h3 : C.primeFactors.card = 3) (h5 : 5 ∣ C) :
+    (C = 1105 ∨ C = 2465 ∨ C = 10585) ∧
+    ∃ p q n : ℕ, p.Prime ∧ p ∣ C ∧ p ≠ 5 ∧ q.Prime ∧ 1 ≤ n ∧ C = p * (q - 2 ^ n) := by
+  have hC0 : C ≠ 0 := by have := h.two_lt; omega
+  have hprod : ∏ p ∈ C.primeFactors, p = C := Nat.prod_primeFactors_of_squarefree h.squarefree
+  have h5mem : 5 ∈ C.primeFactors := Nat.mem_primeFactors.mpr ⟨Nat.prime_five, h5, hC0⟩
+  have hcard : (C.primeFactors.erase 5).card = 2 := by
+    rw [Finset.card_erase_of_mem h5mem, h3]
+  obtain ⟨x, y, hxy, hs⟩ := Finset.card_eq_two.mp hcard
+  have hx : x ∈ C.primeFactors.erase 5 := by rw [hs]; simp
+  have hy : y ∈ C.primeFactors.erase 5 := by rw [hs]; simp
+  rw [Finset.mem_erase, Nat.mem_primeFactors] at hx hy
+  have hC : C = 5 * x * y := by
+    rw [← hprod, ← Finset.mul_prod_erase _ _ h5mem, hs, Finset.prod_pair hxy, mul_assoc]
+  have hvals : C = 1105 ∨ C = 2465 ∨ C = 10585 := by
+    rcases lt_or_gt_of_ne hxy with hlt | hlt
+    · rw [hC] at h ⊢; exact sorted x y hx.2.1 hy.2.1 hx.1 hy.1 hlt h
+    · rw [show C = 5 * y * x by rw [hC]; ring] at h ⊢
+      exact sorted y x hy.2.1 hx.2.1 hy.1 hx.1 hlt h
+  refine ⟨hvals, ?_⟩
+  rcases hvals with rfl | rfl | rfl
+  · exact ⟨13, 89, 2, by norm_num, by norm_num, by norm_num, by norm_num, by norm_num, by norm_num⟩
+  · exact ⟨17, 149, 2, by norm_num, by norm_num, by norm_num, by norm_num, by norm_num, by norm_num⟩
+  · exact ⟨29, 367, 1, by norm_num, by norm_num, by norm_num, by norm_num, by norm_num, by norm_num⟩

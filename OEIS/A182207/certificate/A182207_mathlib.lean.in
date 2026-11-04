@@ -1,0 +1,56 @@
+import OpenProblemsLib
+
+/-
+OEIS-A182207 (Mathlib). Conjecture (Coman 2012): any Carmichael number C divisible by p and 2p − 1 (both prime) can be written as C = p(2p − 1)(n(2p − 2) + p).
+README result: true.
+
+Main theorem `A182207_main`: for every prime p with 2p − 1 prime and every Carmichael number C
+(Mathlib `Nat.IsCarmichael`) divisible by p and by 2p − 1 there is a natural n with
+C = p(2p − 1)(n(2p − 2) + p). Proof: Carmichael numbers are odd (Mathlib
+`Nat.IsCarmichael.odd`), so p = 2j + 3; Korselt's criterion in the necessary direction
+(Mathlib `Nat.IsCarmichael.prime_sub_one_dvd`) for the prime 2p − 1 gives
+2p − 2 ∣ C − 1; with C = p(2p − 1)m the core-Lean congruence `key` of `COM/C042/C042.lean`
+(copied below in namespace `Core`) gives m ≡ p (mod 2p − 2).
+
+Outside Lean: nothing. (Generated from certificate/A182207_mathlib.lean.in by tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../../../COM/C042/C042.lean
+
+theorem A182207_main (p C : ℕ) (hp : p.Prime) (hq : (2 * p - 1).Prime) (h : C.IsCarmichael)
+    (hpC : p ∣ C) (hqC : (2 * p - 1) ∣ C) :
+    ∃ n, C = p * (2 * p - 1) * (n * (2 * p - 2) + p) := by
+  have hp2 := hp.two_le
+  have hp3 : 3 ≤ p := by
+    by_contra hlt
+    have h2 : p = 2 := by omega
+    subst h2
+    exact (Nat.not_even_iff_odd.mpr h.odd) (even_iff_two_dvd.mpr hpC)
+  have hk := korselt_necessary h hq hqC
+  have hcop : Nat.Coprime p (2 * p - 1) := (Nat.coprime_primes hp hq).mpr (by omega)
+  obtain ⟨m, rfl⟩ := hcop.mul_dvd_of_dvd_of_dvd hpC hqC
+  have hodd : p % 2 = 1 := Nat.odd_iff.mp (hp.odd_of_ne_two (by omega))
+  obtain ⟨j, rfl⟩ : ∃ j, p = 2 * j + 3 := ⟨(p - 3) / 2, by omega⟩
+  have eM : 2 * (2 * j + 3) - 1 - 1 = 4 * j + 4 := by omega
+  have eM' : 2 * (2 * j + 3 - 1) = 4 * j + 4 := by omega
+  rw [eM] at hk
+  have hX : 1 ≤ (2 * j + 3) * (2 * (2 * j + 3) - 1) * m := by
+    rcases Nat.eq_zero_or_pos m with rfl | hm
+    · exfalso; simpa using h.two_lt
+    · exact Nat.mul_pos (Nat.mul_pos (by omega) (by omega)) hm
+  have hmod1 : (2 * j + 3) * (2 * (2 * j + 3) - 1) * m % (4 * j + 4) = 1 := by
+    have := ((Nat.modEq_iff_dvd' hX).mpr hk)
+    unfold Nat.ModEq at this
+    rw [← this, Nat.mod_eq_of_lt (by omega)]
+  have hkey := Core.key j m
+  simp only [eM'] at hkey
+  have hmod : m % (4 * j + 4) = 2 * j + 3 := by
+    rw [hkey hmod1, Nat.mod_eq_of_lt (by omega)]
+  have hm : m = m / (4 * j + 4) * (4 * j + 4) + (2 * j + 3) := by
+    have := Nat.div_add_mod' m (4 * j + 4)
+    rw [hmod] at this
+    omega
+  refine ⟨m / (4 * j + 4), ?_⟩
+  rw [show 2 * (2 * j + 3) - 2 = 4 * j + 4 by omega, ← hm]

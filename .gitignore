@@ -1,0 +1,5 @@
+.lake/
+*.axioms.lean
+data
+__pycache__/
+lib/build/

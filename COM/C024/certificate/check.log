@@ -1,0 +1,5 @@
+p = 5, k = 2: n = 45, bases 8, 10: 1 10
+p = 5, k = 5: n = 105, bases 20, 22: 85 1
+failing (p, k), p < 60, k < 30: 63 [(5, 2), (5, 5), (5, 6), (5, 7), (5, 10), (5, 11), (5, 12), (5, 15)]
+C024: fails exactly when k = 0, 1 or 2 (mod p) in this range
+exit 0

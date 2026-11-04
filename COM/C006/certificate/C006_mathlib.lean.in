@@ -1,0 +1,69 @@
+import OpenProblemsLib
+
+/-
+COM-C006 (Mathlib). Coman's conjecture 6: there are infinitely many Poulet numbers
+p² + 81p + 3pq with p = 30k + 13 and q = 30k + 41 prime. README reading: the same k for p
+and q (so q = p + 28). README result: false under this reading; the only such Poulet numbers
+are 2821 and 14491.
+
+Main theorem `C006_main`: {N | ∃ k, 30k+13 and 30k+41 prime, N = p² + 81p + 3pq with
+p = 30k+13, q = 30k+41, and N a Fermat pseudoprime to base 2} = {2821, 14491}
+(Mathlib `Nat.FermatPsp _ 2`); `C006_false`: this set is not infinite.
+Proof: N = p(4p + 165) and N − 1 = (p − 1)(4p + 169) + 168 (core-Lean `reduction` of
+`C006.lean`, copied below in namespace `Core`), so gcd(p − 1, N − 1) ∣ 168 and Fermat's
+little theorem with ord_p(2) ∣ N − 1 (library `prime_dvd_pow_sub_one_of_gcd_dvd`) puts p among the
+prime factors of 2¹⁶⁸ − 1 (17 primes, by Pratt certificates); only 13 and 43 are ≡ 13
+(mod 30), giving 2821 and 14491, both pseudoprimes (kernel `powMod`).
+
+Outside Lean: nothing. (Generated from certificate/C006_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C006.lean
+
+@CERT
+
+@PRIMES primes_M168 3 3 5 7 7 13 17 29 43 113 127 241 337 1429 3361 5419 14449 15790321 88959882481
+
+theorem M168 : 2 ^ 168 - 1 = [3, 3, 5, 7, 7, 13, 17, 29, 43, 113, 127, 241, 337, 1429, 3361, 5419,
+    14449, 15790321, 88959882481].prod := by
+  decide +kernel
+
+theorem C006_main : {N : ℕ | ∃ k : ℕ, (30 * k + 13).Prime ∧ (30 * k + 41).Prime ∧
+    N = (30 * k + 13) ^ 2 + 81 * (30 * k + 13) + 3 * (30 * k + 13) * (30 * k + 41) ∧
+    N.FermatPsp 2} = {2821, 14491} := by
+  ext N
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  constructor
+  · rintro ⟨k, hp, hq, rfl, hP⟩
+    have eN : (30 * k + 13) ^ 2 + 81 * (30 * k + 13) + 3 * (30 * k + 13) * (30 * k + 41) =
+        (30 * k + 13) * ((30 * k + 13) + 81 + 3 * ((30 * k + 13) + 28)) := by ring
+    rw [eN] at hP ⊢
+    generalize hpdef : 30 * k + 13 = p at hp hP ⊢
+    have hp1 := hp.one_le
+    have g : Nat.gcd (p - 1) (p * (p + 81 + 3 * (p + 28)) - 1) ∣ 168 := by
+      have a := Nat.gcd_dvd_left (p - 1) (p * (p + 81 + 3 * (p + 28)) - 1)
+      have b := Nat.gcd_dvd_right (p - 1) (p * (p + 81 + 3 * (p + 28)) - 1)
+      generalize Nat.gcd (p - 1) (p * (p + 81 + 3 * (p + 28)) - 1) = G at a b ⊢
+      rw [Core.reduction p hp1] at b
+      exact (Nat.dvd_add_right (Dvd.dvd.mul_right a _)).mp b
+    have h := prime_dvd_pow_sub_one_of_gcd_dvd hp (Dvd.intro _ rfl)
+      (fun h2 => by have := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2; omega) hP.1 g
+    rw [M168] at h
+    have hm := mem_of_prime_dvd_prod _ primes_M168 hp h
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hm
+    rcases hm with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
+      rfl | rfl | rfl | rfl | rfl | rfl <;> omega
+  · rintro (rfl | rfl)
+    · exact ⟨0, by norm_num, by norm_num, by norm_num,
+        fermatPsp_of_pspCheck 2821 2 7 (by decide +kernel)⟩
+    · exact ⟨1, by norm_num, by norm_num, by norm_num,
+        fermatPsp_of_pspCheck 14491 2 43 (by decide +kernel)⟩
+
+theorem C006_false : ¬ Set.Infinite {N : ℕ | ∃ k : ℕ, (30 * k + 13).Prime ∧ (30 * k + 41).Prime ∧
+    N = (30 * k + 13) ^ 2 + 81 * (30 * k + 13) + 3 * (30 * k + 13) * (30 * k + 41) ∧
+    N.FermatPsp 2} := by
+  rw [C006_main, Set.not_infinite]
+  exact Set.toFinite _

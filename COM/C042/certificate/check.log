@@ -1,0 +1,3 @@
+pairs (C, p) with p, 2p-1 | C below 1e13: 3480  failures: 0
+C042 OK
+exit 0

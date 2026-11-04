@@ -1,0 +1,84 @@
+import OpenProblemsLib
+
+/-
+OEIS A088120 (Mathlib). a(n) is the smallest prime of the form a(a+d)···(a+(n−1)d) + d
+(a, d ≥ 1). Conjecture (2): the common difference d arising is 1 except for n = 4 and 5
+(d = 2). README result: false; a(12) = 1·3·5···23 + 2 = 316234143227 with d = 2.
+
+Main theorem `A088120_main`: W = 316234143227 is the least element of
+{N | N prime ∧ ∃ a d ≥ 1, N = ∏_{i<12} (a + i d) + d} (Mathlib `IsLeast`), and every
+representation W = ∏_{i<12} (a + i d) + d with a, d ≥ 1 has d = 2. So a(12) = W and the
+difference arising at n = 12 is 2, not 1.
+Proof: W prime by a Pratt certificate (kernel); the product is monotone in a and d
+(Mathlib `Finset.prod_le_prod`), so only (a, d) = (1..4, 1) and (1, 2) give values ≤ W;
+the four d = 1 values 12!+1, 13!+1, 14!/2+1, 15!/6+1 have explicit factors 13, 83, 31, 32009.
+
+Outside Lean: nothing. (Generated from certificate/A088120_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CERT
+
+@PRIME prime_W 316234143227
+
+/-- The product a(a+d)···(a+11d). -/
+def P (a d : ℕ) : ℕ := ∏ i ∈ Finset.range 12, (a + i * d)
+
+theorem P_mono (a d a0 d0 : ℕ) (ha : a0 ≤ a) (hd : d0 ≤ d) : P a0 d0 + d0 ≤ P a d + d := by
+  have : P a0 d0 ≤ P a d := by
+    unfold P
+    apply Finset.prod_le_prod
+    intro i _
+    have := Nat.mul_le_mul_left i hd
+    omega
+  omega
+
+theorem vals : P 1 1 + 1 = 479001601 ∧ P 2 1 + 1 = 6227020801 ∧ P 3 1 + 1 = 43589145601 ∧
+    P 4 1 + 1 = 217945728001 ∧ P 1 2 + 2 = 316234143227 ∧ 316234143227 < P 5 1 + 1 ∧
+    316234143227 < P 2 2 + 2 ∧ 316234143227 < P 1 3 + 3 := by
+  simp only [P, Finset.prod_range_succ, Finset.prod_range_zero]
+  norm_num
+
+theorem small_composite : ¬ (479001601 : ℕ).Prime ∧ ¬ (6227020801 : ℕ).Prime ∧
+    ¬ (43589145601 : ℕ).Prime ∧ ¬ (217945728001 : ℕ).Prime :=
+  ⟨Nat.not_prime_of_dvd_of_lt (by norm_num : 13 ∣ 479001601) (by norm_num) (by norm_num),
+   Nat.not_prime_of_dvd_of_lt (by norm_num : 83 ∣ 6227020801) (by norm_num) (by norm_num),
+   Nat.not_prime_of_dvd_of_lt (by norm_num : 31 ∣ 43589145601) (by norm_num) (by norm_num),
+   Nat.not_prime_of_dvd_of_lt (by norm_num : 32009 ∣ 217945728001) (by norm_num) (by norm_num)⟩
+
+/-- Every value P a d + d ≤ W (a, d ≥ 1) is one of the five listed. -/
+theorem cases_le (a d : ℕ) (ha : 1 ≤ a) (hd : 1 ≤ d) (h : P a d + d ≤ 316234143227) :
+    (d = 1 ∧ (a = 1 ∨ a = 2 ∨ a = 3 ∨ a = 4)) ∨ (d = 2 ∧ a = 1) := by
+  obtain ⟨_, _, _, _, _, b51, b22, b13⟩ := vals
+  rcases Nat.lt_or_ge d 3 with hd3 | hd3
+  · rcases Nat.lt_or_ge d 2 with hd2 | hd2
+    · have hd1 : d = 1 := by omega
+      subst hd1
+      rcases Nat.lt_or_ge a 5 with ha5 | ha5
+      · left; omega
+      · have := P_mono a 1 5 1 ha5 le_rfl; omega
+    · have hd2' : d = 2 := by omega
+      subst hd2'
+      rcases Nat.lt_or_ge a 2 with ha2 | ha2
+      · right; omega
+      · have := P_mono a 2 2 2 ha2 le_rfl; omega
+  · have := P_mono a d 1 3 ha hd3; omega
+
+theorem A088120_main :
+    IsLeast {N : ℕ | N.Prime ∧ ∃ a d : ℕ, 1 ≤ a ∧ 1 ≤ d ∧ N = P a d + d} 316234143227 ∧
+    ∀ a d : ℕ, 1 ≤ a → 1 ≤ d → P a d + d = 316234143227 → d = 2 := by
+  obtain ⟨v1, v2, v3, v4, v12, _, _, _⟩ := vals
+  obtain ⟨c1, c2, c3, c4⟩ := small_composite
+  refine ⟨⟨⟨prime_W, 1, 2, le_rfl, by norm_num, v12.symm⟩, ?_⟩, ?_⟩
+  · rintro N ⟨hN, a, d, ha, hd, rfl⟩
+    by_contra hlt
+    rcases cases_le a d ha hd (by omega) with ⟨rfl, rfl | rfl | rfl | rfl⟩ | ⟨rfl, rfl⟩
+    · exact c1 (v1 ▸ hN)
+    · exact c2 (v2 ▸ hN)
+    · exact c3 (v3 ▸ hN)
+    · exact c4 (v4 ▸ hN)
+    · omega
+  · intro a d ha hd h
+    rcases cases_le a d ha hd h.le with ⟨rfl, rfl | rfl | rfl | rfl⟩ | ⟨rfl, rfl⟩ <;> omega

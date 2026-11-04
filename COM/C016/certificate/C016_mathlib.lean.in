@@ -1,0 +1,19 @@
+import OpenProblemsLib
+
+/-
+COM-C016 (Mathlib). Coman's conjecture 16: (30n−7)(90n−23)(300n−79) is a Carmichael number whenever its factors are all prime.
+README result: true.
+
+Main theorem `C016_main`: for every natural n, if all the factors are prime then their
+product is a Carmichael number (Mathlib `Nat.IsCarmichael`). The factors with a negative constant use natural subtraction; for n = 0 they are 0, which is not prime, so the hypotheses exclude n = 0, matching the stated range n ≥ 1.
+Proof: Korselt's criterion (Mathlib `Nat.isCarmichael_iff_korselt`, via
+`isCarmichael_of_factors`): the factors are distinct primes and f − 1 divides N − 1 for
+each factor f by an explicit polynomial identity (checked by `ring`).
+
+Outside Lean: nothing. (Generated from certificate/C016_mathlib.lean.in by
+tools/lean_expand.py and tools/family_lean.py.)
+-/
+
+open OpenProblemsLib
+
+@FAMILY C016_main 30,-7 90,-23 300,-79

@@ -1,0 +1,19 @@
+import OpenProblemsLib
+
+/-
+COM-C013 (Mathlib). Coman's conjecture 13: (30n+7)(60n+13)(150n+31) is a Carmichael number whenever its factors are all prime.
+README result: true.
+
+Main theorem `C013_main`: for every natural n, if all the factors are prime then their
+product is a Carmichael number (Mathlib `Nat.IsCarmichael`). 
+Proof: Korselt's criterion (Mathlib `Nat.isCarmichael_iff_korselt`, via
+`isCarmichael_of_factors`): the factors are distinct primes and f − 1 divides N − 1 for
+each factor f by an explicit polynomial identity (checked by `ring`).
+
+Outside Lean: nothing. (Generated from certificate/C013_mathlib.lean.in by
+tools/lean_expand.py and tools/family_lean.py.)
+-/
+
+open OpenProblemsLib
+
+@FAMILY C013_main 30,7 60,13 150,31

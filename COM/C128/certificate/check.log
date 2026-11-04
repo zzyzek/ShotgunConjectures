@@ -1,0 +1,4 @@
+M = 15 * prod q: True  a mod 15 = 0
+compatible: True 15 4 1
+C128 covering OK
+exit 0

@@ -1,0 +1,5 @@
+30411201 [3, 101, 167, 601] True
+formula at n = 0, 1: 6130801 42551401
+failures below 1e13: 498
+C055 OK
+exit 0

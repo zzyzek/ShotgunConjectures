@@ -1,0 +1,5 @@
+compatible: True  g, lambda(g), h = 435 28 7
+S(3-1), S(5-1), S(29-1) = 2 4 7
+Carmichael numbers in the progression below 1e13: []
+C076 OK
+exit 0

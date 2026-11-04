@@ -1,0 +1,7 @@
+C013 Korselt divisibility holds for n = 1..4999; Carmichael numbers with all factors prime: [488881, 288120421, 492559141, 1632785701]
+C014 Korselt divisibility holds for n = 1..4999; Carmichael numbers with all factors prime: [192739365541, 197531244744661, 973694665856161, 11861640972220321]
+C015 Korselt divisibility holds for n = 1..4999; Carmichael numbers with all factors prime: [461574735553, 9138965362663119013, 9688364125836900193, 188827930507861611073]
+C016 Korselt divisibility holds for n = 1..4999; Carmichael numbers with all factors prime: [4335241, 542497201, 2598933481, 25923026641]
+C017 Korselt divisibility holds for n = 1..4999; Carmichael numbers with all factors prime: [1152271, 64377991, 775368901, 1213619761]
+OK
+exit 0

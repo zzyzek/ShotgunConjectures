@@ -1,0 +1,38 @@
+import OpenProblemsLib
+
+/-
+COM-P122 (Mathlib). Coman's problem 122: are there Carmichael or Poulet numbers p + q + r,
+with p, q, r primes in one residue class mod 30 coprime to 30, other than
+561 = 47 + 167 + 347? README result: yes, the Poulet number 4371 = 7 + 7 + 4357 and the
+Carmichael number 656601 = 7 + 7 + 656587; such sums are ≡ 3r (mod 30).
+
+Main theorem `P122_yes`: (1) 4371 is a Fermat pseudoprime to base 2 (Mathlib
+`Nat.FermatPsp 4371 2`) and 4371 = 7 + 7 + 4357 with 7, 4357 prime, ≡ 7 (mod 30);
+(2) 656601 is a Carmichael number and 656601 = 7 + 7 + 656587 with 656587 prime ≡ 7
+(mod 30); (3) 7 is coprime to 30; (4) for any p, q, r ≡ c (mod 30),
+p + q + r ≡ 3c (mod 30). Carmichael by Korselt's criterion (Mathlib), base-2
+pseudoprimality by a kernel `powMod` computation, primes by Pratt certificates.
+
+Outside Lean: nothing. (Generated from certificate/P122_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CERT
+
+@CARM carmichael_656601 656601 3 11 101 197
+@PRIMES primes_p 7 4357 656587
+
+theorem poulet_4371 : Nat.FermatPsp 4371 2 := fermatPsp_of_pspCheck 4371 2 3 (by decide +kernel)
+
+theorem P122_yes :
+    (Nat.FermatPsp 4371 2 ∧ 4371 = 7 + 7 + 4357 ∧ Nat.Prime 7 ∧ Nat.Prime 4357 ∧
+      7 % 30 = 7 ∧ 4357 % 30 = 7) ∧
+    (Nat.IsCarmichael 656601 ∧ 656601 = 7 + 7 + 656587 ∧ Nat.Prime 656587 ∧ 656587 % 30 = 7) ∧
+    Nat.Coprime 7 30 ∧
+    (∀ p q r c : ℕ, p % 30 = c → q % 30 = c → r % 30 = c → (p + q + r) % 30 = 3 * c % 30) := by
+  refine ⟨⟨poulet_4371, rfl, primes_p 7 (by simp), primes_p 4357 (by simp), rfl, rfl⟩,
+    ⟨carmichael_656601, rfl, primes_p 656587 (by simp), rfl⟩, by norm_num, ?_⟩
+  intro p q r c hp hq hr
+  omega

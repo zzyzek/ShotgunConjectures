@@ -1,0 +1,4 @@
+617093 [43, 113, 127] True [29, 85, 71]
+Poulet with >= 3 prime factors below 1e13 failing: 3352 [617093, 1534541, 2537641]
+C031 OK
+exit 0

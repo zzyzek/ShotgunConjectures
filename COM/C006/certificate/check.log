@@ -1,0 +1,6 @@
+primes dividing 2^168-1: [3, 5, 7, 13, 17, 29, 43, 113, 127, 241, 337, 1429, 3361, 5419, 14449, 15790321, 88959882481]
+candidate p = 13 N = 2821 Poulet
+candidate p = 43 N = 14491 Poulet
+brute force p < 1e6: [2821, 14491]
+C006 OK
+exit 0

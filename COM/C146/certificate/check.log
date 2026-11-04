@@ -1,0 +1,4 @@
+149281 [11, 41, 331] True [True, True, False]
+3-Poulet below 1e13 failing: 14029 [149281, 196021, 258511]
+C146 OK
+exit 0

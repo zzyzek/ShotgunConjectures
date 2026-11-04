@@ -1,0 +1,9 @@
+formula: 3150 vars, 16378 clauses
+  50000 lemmas checked
+  100000 lemmas checked
+VERIFIED: empty clause derived at lemma 111246 (0 RAT checks, 102657 deletions, 0 unmatched deletions)
+
+real	0m3.766s
+user	0m3.733s
+sys	0m0.024s
+rc=0

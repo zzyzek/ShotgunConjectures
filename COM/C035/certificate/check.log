@@ -1,0 +1,2 @@
+C035 OK: for odd p | P, P/p = p (mod 8) iff P = 1 (mod 8)
+exit 0

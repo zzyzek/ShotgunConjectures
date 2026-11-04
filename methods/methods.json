@@ -1,0 +1,98 @@
+[
+ {
+  "id": "reading-the-statement",
+  "name": "Pin the statement before solving",
+  "role": "reading",
+  "cue": "Any problem. Especially OCR text, OEIS offsets, informal wording (\"distinct\", \"surrounded\", \"abuts\")."
+ },
+ {
+  "id": "explicit-counterexample",
+  "name": "Explicit counterexample",
+  "role": "disproof",
+  "cue": "\"Every n ...\", \"the only solutions are ...\", \"X is always prime/composite\", \"no n with ...\"."
+ },
+ {
+  "id": "complete-table-scan",
+  "name": "Scan a complete table",
+  "role": "both",
+  "cue": "Universal or uniqueness claims about pseudoprimes, Carmichael numbers or sequence terms: \"every Carmichael number ...\", \"the only ... are\", \"are there others besides ...\"."
+ },
+ {
+  "id": "covering-congruences",
+  "name": "Covering congruences",
+  "role": "disproof",
+  "cue": "\"A·b^n + C is prime for some n\", \"for every x there is n with F(x, n) prime\", families k·2^n ± 1, p + 2^n."
+ },
+ {
+  "id": "reduction-to-constant",
+  "name": "Congruence reduction to a constant",
+  "role": "both",
+  "cue": "\"Infinitely many Carmichael numbers / pseudoprimes of the form p·g(p)\"."
+ },
+ {
+  "id": "modular-obstruction",
+  "name": "Modular obstruction",
+  "role": "disproof",
+  "cue": "\"X = Y has no solutions beyond ...\", \"every member of a family is a sum of ...\"."
+ },
+ {
+  "id": "sat-threshold",
+  "name": "Incremental SAT threshold",
+  "role": "both",
+  "cue": "\"Least N such that every colouring / arrangement of [1, N] ...\", existence of a small combinatorial object."
+ },
+ {
+  "id": "finite-identity",
+  "name": "Finite verification of identities",
+  "role": "proof",
+  "cue": "OEIS \"Conjecture: a(n) = formula\", \"g.f. is ...\", \"satisfies the recurrence ...\"."
+ },
+ {
+  "id": "parametric-family",
+  "name": "Parametric families plus a finite check",
+  "role": "proof",
+  "cue": "\"Every n ≥ N0 has a representation / two representations ...\"."
+ },
+ {
+  "id": "density-bound",
+  "name": "Density / union bound",
+  "role": "proof",
+  "cue": "\"Infinitely many n such that n − f(k) avoids P for all k\", \"every n is a sum of two numbers of type T\"."
+ },
+ {
+  "id": "exact-arithmetic",
+  "name": "Exact evaluation of real-valued statements",
+  "role": "both",
+  "cue": "Floors of roots, comparisons like n! vs m^m, \"nearest x\"."
+ },
+ {
+  "id": "units-pell",
+  "name": "Units, Pell equations, continued fractions",
+  "role": "both",
+  "cue": "Sequences of n with a quadratic form value square ± constant; recurrences with palindromic coefficients; a(k+1) = a(k)^2 − 2."
+ },
+ {
+  "id": "known-theorem",
+  "name": "Apply a classical theorem",
+  "role": "proof",
+  "cue": "Coman-type \"infinitely many pseudoprimes of form ...\" claims and similar, where a classical construction already gives the family."
+ },
+ {
+  "id": "elementary-proof",
+  "name": "Direct elementary argument",
+  "role": "both",
+  "cue": "Anything settled by a short algebraic, combinatorial or number-theoretic argument not covered by another method."
+ },
+ {
+  "id": "restatement-or-misstatement",
+  "name": "Restatement, triviality, misstatement",
+  "role": "reading",
+  "cue": "The item restates another one, is trivially true or false, or is misstated (OCR, wrong index)."
+ },
+ {
+  "id": "lean-certificate",
+  "name": "Lean certificates in core Lean",
+  "role": "certification",
+  "cue": "Any result whose evidence is a finite object or a finite computation, plus \"for every n\" claims reducible to finitely many facts and a periodicity lemma."
+ }
+]

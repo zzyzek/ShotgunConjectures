@@ -1,0 +1,74 @@
+import OpenProblemsLib
+
+/-
+OEIS A051451 (Mathlib). Conjecture (M. Winkler 2013, the "next" version): for every n > 2
+there is a twin prime pair [p, p+2] with p < a(n) such that the next twin prime pair above
+a(n) is [a(n)+p, a(n)+p+2]; a(n) = lcm(1..x), x the n-th prime power (A000961). README
+result: false at n = 35, where x = 89 and L = a(35) = lcm(1..89).
+
+Main theorem `A051451_false`: with L = lcm(1, ..., 89) (`(List.range' 1 89).foldl Nat.lcm 1`):
+(1) no q with L < q < L + 17159 has q and q + 2 both prime; (2) L + 17159 and L + 17161 are
+prime, so [L + 17159, L + 17161] is the next twin pair above L; (3) there is no p < L with
+p, p + 2 prime such that [L + p, L + p + 2] is the next twin pair above L (it would force
+p = 17159, but 17161 = 131²).
+Proof: (1) is the core-Lean `window` of `A051451.lean` (copied below in namespace
+`Core`; explicit proper divisors); (2) by Pratt certificates checked by the kernel.
+
+`index_35`: 89 is the 35th term of A000961 (1, 2, 3, 4, 5, 7, 8, ...): exactly 35 numbers
+x ≤ 89 are 1 or a prime power (Mathlib `IsPrimePow`), and 89 is one; so L = a(35).
+
+Outside Lean: nothing. (Generated from
+certificate/A051451_mathlib.lean.in by tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../A051451.lean
+
+@CERT
+
+@PRIMES twin 718766754945489455304472257065075294400+17159 718766754945489455304472257065075294400+17161
+
+theorem index_35 : ((List.range 90).filter (fun x => x = 1 ∨ IsPrimePow x)).length = 35 ∧
+    IsPrimePow 89 := by
+  constructor <;> decide +kernel
+
+theorem L_eq : (List.range' 1 89).foldl Nat.lcm 1 = Core.L := by decide +kernel
+
+theorem no_twin_below (q : ℕ) (h1 : (List.range' 1 89).foldl Nat.lcm 1 < q)
+    (h2 : q < (List.range' 1 89).foldl Nat.lcm 1 + 17159) : ¬ (q.Prime ∧ (q + 2).Prime) := by
+  rw [L_eq] at h1 h2
+  rintro ⟨hq, hq2⟩
+  obtain ⟨m, rfl⟩ : ∃ m, q = Core.L + m := ⟨q - Core.L, by omega⟩
+  rcases Core.window m (by omega) (by omega) with ⟨d, hd1, hd2, hd⟩ | ⟨d, hd1, hd2, hd⟩
+  · exact Nat.not_prime_of_dvd_of_lt hd (by omega) hd2 hq
+  · exact Nat.not_prime_of_dvd_of_lt hd (by omega) hd2 hq2
+
+theorem A051451_false :
+    (∀ q, (List.range' 1 89).foldl Nat.lcm 1 < q → q < (List.range' 1 89).foldl Nat.lcm 1 + 17159 →
+      ¬ (q.Prime ∧ (q + 2).Prime)) ∧
+    ((List.range' 1 89).foldl Nat.lcm 1 + 17159).Prime ∧
+    ((List.range' 1 89).foldl Nat.lcm 1 + 17161).Prime ∧
+    ¬ ∃ p, p < (List.range' 1 89).foldl Nat.lcm 1 ∧ p.Prime ∧ (p + 2).Prime ∧
+      ((List.range' 1 89).foldl Nat.lcm 1 + p).Prime ∧ ((List.range' 1 89).foldl Nat.lcm 1 + p + 2).Prime ∧
+      ∀ q, (List.range' 1 89).foldl Nat.lcm 1 < q → q < (List.range' 1 89).foldl Nat.lcm 1 + p →
+        ¬ (q.Prime ∧ (q + 2).Prime) := by
+  have t1 : ((List.range' 1 89).foldl Nat.lcm 1 + 17159).Prime := by
+    rw [L_eq]; exact twin _ (by simp [Core.L])
+  have t2 : ((List.range' 1 89).foldl Nat.lcm 1 + 17161).Prime := by
+    rw [L_eq]; exact twin _ (by simp [Core.L])
+  refine ⟨no_twin_below, t1, t2, ?_⟩
+  have nb := no_twin_below
+  generalize (List.range' 1 89).foldl Nat.lcm 1 = L at *
+  rintro ⟨p, _, hp, hp2, hLp, hLp2, hnext⟩
+  -- p ≥ 17159: otherwise L + p is a twin pair below L + 17159.
+  have hge : 17159 ≤ p := by
+    by_contra hlt
+    exact nb _ (by have := hp.pos; omega) (by omega) ⟨hLp, hLp2⟩
+  -- p ≤ 17159: otherwise L + 17159 is a twin pair below L + p.
+  have hle : p ≤ 17159 := by
+    by_contra hlt
+    exact hnext _ (by omega) (by omega) ⟨t1, by rw [add_assoc]; exact t2⟩
+  have : p = 17159 := by omega
+  subst this
+  exact Nat.not_prime_of_dvd_of_lt (by norm_num : 131 ∣ 17159 + 2) (by norm_num) (by norm_num) hp2

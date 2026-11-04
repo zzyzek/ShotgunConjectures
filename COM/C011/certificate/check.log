@@ -1,0 +1,4 @@
+561 [3, 11, 17] True [3, 5, 5]
+3-Carmichael numbers below 1e10 by residues of factors mod 6: {(3, 5, 5): 1, (1, 5, 5): 108, (1, 1, 1): 211, (5, 5, 5): 15}
+C011 OK
+exit 0

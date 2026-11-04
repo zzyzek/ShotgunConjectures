@@ -1,0 +1,192 @@
+# Croft, Falconer, Guy, Unsolved Problems in Geometry
+
+H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
+
+9 entries: 5 resolved by this project, 1 answered elsewhere, 3 disputed or partial.
+
+Of the 5 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 2 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
+
+Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
+
+## Resolved by this project
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [C2.1](C2.1/) | disproved | a perfect squared rectangle with only one square surrounded by larger ones | [full proof](C2.1/C2_1_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [C2.2](C2.2/) | disproved | a coprime perfect squared rectangle with no square of square side | [full proof](C2.2/C2_2_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [C2.3](C2.3/) | proved | a rectangle with two perfect squarings sharing no square size | [full proof](C2.3/C2_3_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [E4.4](E4.4/) | proved | Birch's 8-point question holds for points in general position | needs Mathlib | new | [elementary-proof](../methods/elementary-proof/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [F3.5](F3.5/) | trivial or misstated | order of magnitude of g\_d(n), the largest n-distance set in R^d | needs Mathlib | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+
+## Answered in the literature; written up or confirmed here
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [B18.2](B18.2/) | proved | every polyhedron has a realization with all edges tangent to a sphere | — | — | [known-theorem](../methods/known-theorem/README.md) |
+
+## Disputed or only partly answered (not counted as resolutions)
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [B15.1](B15.1/) | proved | counting polyhedra by vertices and faces — not a resolution | — | — | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
+| [B17.1](B17.1/) | proved | smallest dimension of a simplicial polytope with non-unimodal f-vector is 20 | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [D5.4](D5.4/) | proved | rectangles of total area 1 and side ≤ 1 pack into a square of area 2 | — | — | [known-theorem](../methods/known-theorem/README.md) |
+
+## Short proofs
+
+Copied from each problem README (source paraphrase, result, argument).
+
+### [C2.1](C2.1/): a perfect squared rectangle with only one square surrounded by larger ones
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section C2. Moroń asked whether in a squared rectangle there are always at
+least two squares that are surrounded by (four) larger ones. ("Probably not.")
+
+**Reading.** "Squared rectangle" read as perfect (all squares different); with repeated sizes
+even a 2 × 1 rectangle of two unit squares has none. A square counts as surrounded (most
+permissive reading) if it does not touch the boundary and every square sharing a boundary
+segment of positive length with it is larger; every stricter reading gives a smaller count.
+Moroń's original wording (Colloq. Math. 2 (1951) Problems 66–68) was not seen.
+
+**Result.** No. The classical order-9 perfect rectangle 61 × 69 with squares 2, 5, 7, 9, 16,
+25, 28, 33, 36 has exactly one surrounded square (side 2). (The smallest square of a perfect
+squared rectangle is always surrounded, so 1 is the least possible count.)
+
+**Argument.** The four squares not touching the boundary are 2, 5, 7, 9; each of 5, 7, 9 shares
+an edge segment with the square 2 (along y = 36, x = 38, y = 34 respectively), so only 2 is
+surrounded.
+
+Lean: [full proof](C2.1/C2_1_mathlib.lean).
+
+### [C2.2](C2.2/): a coprime perfect squared rectangle with no square of square side
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section C2. Moroń asked whether, in a squared rectangle whose sides are
+relatively prime, there is always a square whose side is a perfect square. ("Probably not.")
+
+**Result.** No. The simple perfect squared rectangle 799 × 689 (gcd 1) of order 14 with squares
+5, 7, 23, 28, 30, 37, 44, 67, 72, 220, 287, 292, 397, 402 has no square whose side is a perfect
+square. (The scan also found witnesses of orders 17 and 23.)
+
+**Argument.** Direct check of the tiling and of the 14 sides.
+
+Lean: [full proof](C2.2/C2_2_mathlib.lean).
+
+### [C2.3](C2.3/): a rectangle with two perfect squarings sharing no square size
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section C2. Moroń asked whether some rectangle can be squared in two distinct
+ways with no square occurring in both squarings. ("Probably so.")
+
+**Result.** Yes. The 593 × 422 rectangle has the perfect squarings
+{2, 22, 37, 39, 41, 43, 80, 164, 178, 200, 207, 215, 222} and
+{18, 38, 49, 67, 72, 85, 103, 116, 154, 175, 192, 230, 247}, both of order 13, with no common
+size.
+
+**Argument.** Direct check of both tilings.
+
+Lean: [full proof](C2.3/C2_3_mathlib.lean).
+
+### [E4.4](E4.4/): Birch's 8-point question holds for points in general position
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section E4. Birch asks whether every set of 8 points in the plane can be
+partitioned into two triangles and a segment so that the segment cuts the interior of both
+triangles.
+
+**Reading.** "Triangle" = convex hull of three of the points; "cuts the interior" = the segment
+meets the open triangle.
+
+**Result.** - Points in general position (no three collinear): yes.
+- As literally stated, for arbitrary sets: no. With 7 collinear points and one more, a triangle
+  with nonempty interior must use the off-line point, so two such triangles cannot coexist.
+
+**Argument.** For points in general position the property depends only on the orientations of
+triples. Sort the points by x-coordinate (after a rotation). The orientations form a signotope
+(for i < j < k < l the sequence χ(ijk), χ(ijl), χ(ikl), χ(jkl) changes sign at most once), so a
+SAT encoding over all signotopes covers every general-position set (and possibly non-realizable
+ones, which only strengthens UNSAT). "Segment pq meets open triangle abc" is exact in general
+position as: p or q strictly inside, or pq properly crossing an edge. Forbidding all 280
+partitions is UNSAT.
+
+Lean: needs Mathlib.
+
+### [F3.5](F3.5/): order of magnitude of g_d(n), the largest n-distance set in R^d
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section F3. g_d(n) is the largest number of points in R^d determining at most
+n distinct distances. Bannai, Bannai & Stanton and Blokhuis showed g_d(n) ≤ C(d + n, n); the book
+asks whether "g_d(n) ~ d^n is the correct order of magnitude for large n" (our copy's wording).
+
+**Reading.** Two readings, both trivial.
+- d → ∞ with n fixed (the reading in which d^n is natural): yes, g_d(n) = Θ_n(d^n).
+- n → ∞ with d fixed (literal "for large n"): no, since C(d + n, n) = C(n + d, d) is a
+  polynomial of degree d in n, far below d^n.
+
+**Result.** Trivial or misstated (see Reading).
+
+**Argument.** Upper bound: C(d + n, n) ≤ (d + n)^n / n! = (1 + o(1)) d^n / n! as d → ∞. Lower
+bound: the 0/1 vectors of length d + 1 with exactly n ones lie in the hyperplane Σx_i = n
+(a copy of R^d), number C(d + 1, n) = (1 + o(1)) d^n / n!, and their pairwise distances are
+√(2j), 1 ≤ j ≤ n, so at most n distances (for d + 1 ≥ 2n; otherwise use fewer ones). Hence
+g_d(n) ≍ d^n / n! for fixed n.
+
+Lean: needs Mathlib.
+
+### [B18.2](B18.2/): every polyhedron has a realization with all edges tangent to a sphere
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section B18. Is every convex polyhedron combinatorially equivalent to one with
+all its edges touching a sphere?
+
+**Result.** Yes: the Koebe–Andreev–Thurston circle packing theorem in its midsphere form
+(every 3-connected planar graph is realized by a polyhedron whose edges are tangent to the unit
+sphere; one can even choose the realization with the origin as centroid of the tangency
+points). Literature answer, not a scan resolution.
+
+**Argument.** Not reproduced (circle-packing theorem).
+
+Lean: —.
+
+### [B15.1](B15.1/): counting polyhedra by vertices and faces — not a resolution
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section B15. How many combinatorially different convex polyhedra have v
+vertices and f faces? The book notes exact values are known only for small v, f (its Table B1),
+asks for a significantly more efficient enumeration algorithm than extending the table, for the
+computational complexity, and for asymptotics.
+
+**Result.** Disputed as a resolution. Fast generators exist (plantri, Brinkmann & McKay 2007,
+enumerates 3-connected planar graphs far beyond Table B1; counts by edges are OEIS A000944),
+so the table has been extended. But the book's questions (an exact count in general, a provably
+better algorithm, the complexity, asymptotics for unrooted polyhedra) are open-ended and are
+not settled by that. The scan's record cites plantri and OEIS from memory.
+
+**Argument.** None.
+
+Lean: —.
+
+### [B17.1](B17.1/): smallest dimension of a simplicial polytope with non-unimodal f-vector is 20
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section B17. Björner and Lee found simplicial polytopes with non-unimodal
+f-vectors in dimensions 24 and 20; the book asks for the smallest dimension in which
+unimodality fails, both for simplicial polytopes and in general (Björner: true for simplicial
+d ≤ 15).
+
+**Result.** Simplicial case: 20. Eckhoff showed that simplicial d-polytopes have unimodal
+f-vectors for d ≤ 19, and the 20-dimensional examples of Björner and of Lee are non-unimodal.
+Literature answer. The general (non-simplicial) case asked in the same sentence is not settled
+by this record.
+
+**Argument.** None beyond the citations.
+
+Lean: —.
+
+### [D5.4](D5.4/): rectangles of total area 1 and side ≤ 1 pack into a square of area 2
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section D5. Can every set of rectangles with total area 1 and maximum side 1
+be packed into a square of area 2? If they have total area 3 and maximum side 1, will they
+cover a square of area 1?
+
+**Result.** Packing question: yes, according to the introduction of a paper in Periodica
+Mathematica Hungarica (doi 10.1007/s10998-015-0083-2, 2015), which states the answer is positive
+and cites an earlier reference that was not identified. Covering question: not checked.
+Literature, partial.
+
+**Argument.** None.
+
+Lean: —.
+

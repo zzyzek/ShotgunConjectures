@@ -1,0 +1,2 @@
+{"id": "OEIS-A100682", "lean": "OEIS/A100682/A100682.lean", "lean_status": "checked", "review": "lean-witness", "certificate": "OEIS/A100682/certificate", "notes": "outside Lean: monotonicity of x^4 (real step)"}
+{"id": "COM-C125", "lean": "COM/C125/C125.lean", "lean_status": "checked", "review": "lean-proof", "certificate": "COM/C125/certificate", "depends_on": ["primality of p (PARI)"], "notes": "compositeness for all n proved in core Lean"}

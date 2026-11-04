@@ -1,0 +1,31 @@
+import OpenProblemsLib
+
+/-
+COM-P062 (Mathlib). Coman's problem 62: are there p, C1, C2, C3 besides
+(59, 561, 1729, 2465) with p, p + C1 − 1, p + C2 − 1 prime, C1, C2 Carmichael and the sum
+p + (p + C1 − 1) + (p + C2 − 1) = C3 a Carmichael number? README result: yes,
+(1812443, 561, 6601, 5444489).
+
+Main theorem `P062_yes`: such a quadruple exists other than (59, 561, 1729, 2465).
+Carmichael by Korselt's criterion (Mathlib), primes by Pratt certificates checked by the
+kernel.
+
+Outside Lean: nothing. (Generated from certificate/P062_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CERT
+
+@CARM carmichael_561 561 3 11 17
+@CARM carmichael_6601 6601 7 23 41
+@CARM carmichael_5444489 5444489 29 197 953
+@PRIMES primes_p 1812443 1813003 1819043
+
+theorem P062_yes : ∃ p C1 C2 C3 : ℕ, p.Prime ∧ (p + C1 - 1).Prime ∧ (p + C2 - 1).Prime ∧
+    C1.IsCarmichael ∧ C2.IsCarmichael ∧ C3.IsCarmichael ∧
+    p + (p + C1 - 1) + (p + C2 - 1) = C3 ∧ (p, C1, C2, C3) ≠ (59, 561, 1729, 2465) := by
+  refine ⟨1812443, 561, 6601, 5444489, primes_p _ (by simp), primes_p _ (by simp),
+    primes_p _ (by simp), carmichael_561, carmichael_6601, carmichael_5444489, by norm_num,
+    by decide⟩

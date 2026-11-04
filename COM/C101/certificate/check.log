@@ -1,0 +1,2 @@
+C101 OK for twin primes 5 <= p < 2e5 (p = 3: 1744 = 2^4 * 109)
+exit 0

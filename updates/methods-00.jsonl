@@ -1,0 +1,154 @@
+{"id": "COM-C003", "methods": ["known-theorem", "parametric-family", "complete-table-scan"]}
+{"id": "COM-C004", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C006", "methods": ["reduction-to-constant", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C011", "methods": ["restatement-or-misstatement", "modular-obstruction", "explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C012", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C013", "methods": ["known-theorem", "finite-identity", "complete-table-scan"]}
+{"id": "COM-C014", "methods": ["known-theorem", "finite-identity", "complete-table-scan"]}
+{"id": "COM-C015", "methods": ["known-theorem", "finite-identity", "complete-table-scan"]}
+{"id": "COM-C016", "methods": ["known-theorem", "finite-identity", "complete-table-scan"]}
+{"id": "COM-C017", "methods": ["known-theorem", "finite-identity", "complete-table-scan"]}
+{"id": "COM-C019", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C021", "methods": ["elementary-proof", "explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C022", "methods": ["elementary-proof", "complete-table-scan"]}
+{"id": "COM-C023", "methods": ["explicit-counterexample", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C024", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C025", "methods": ["elementary-proof"]}
+{"id": "COM-C026", "methods": ["explicit-counterexample", "modular-obstruction", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C027", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C029", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C031", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C032", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C035", "methods": ["restatement-or-misstatement", "modular-obstruction", "complete-table-scan"]}
+{"id": "COM-C037", "methods": ["known-theorem", "complete-table-scan"]}
+{"id": "COM-C042", "methods": ["known-theorem", "elementary-proof", "complete-table-scan"]}
+{"id": "COM-C044", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C045", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C050", "methods": ["known-theorem", "complete-table-scan"]}
+{"id": "COM-C051", "methods": ["elementary-proof", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C054", "methods": ["elementary-proof", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C055", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C058", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C076", "methods": ["known-theorem", "complete-table-scan"]}
+{"id": "COM-C077", "methods": ["known-theorem", "complete-table-scan"]}
+{"id": "COM-C086", "methods": ["reduction-to-constant", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C088", "methods": ["reduction-to-constant", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C089", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C090", "methods": ["elementary-proof", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C091", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C095", "methods": ["explicit-counterexample", "modular-obstruction", "complete-table-scan"]}
+{"id": "COM-C096", "methods": ["explicit-counterexample", "modular-obstruction", "complete-table-scan"]}
+{"id": "COM-C099", "methods": ["modular-obstruction", "explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C101", "methods": ["modular-obstruction", "elementary-proof", "complete-table-scan"]}
+{"id": "COM-C102", "methods": ["restatement-or-misstatement", "complete-table-scan"]}
+{"id": "COM-C103", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C108", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C112", "methods": ["restatement-or-misstatement", "complete-table-scan"]}
+{"id": "COM-C116", "methods": ["reduction-to-constant", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C123", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C124", "methods": ["elementary-proof", "reduction-to-constant", "complete-table-scan"]}
+{"id": "COM-C125", "methods": ["covering-congruences", "explicit-counterexample"]}
+{"id": "COM-C128", "methods": ["covering-congruences", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C136", "methods": ["explicit-counterexample", "modular-obstruction", "complete-table-scan"]}
+{"id": "COM-C137", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-C138", "methods": ["known-theorem", "complete-table-scan"]}
+{"id": "COM-C139", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-C140", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-C146", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C147", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C148", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C149", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C150", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C151", "methods": ["elementary-proof", "known-theorem", "complete-table-scan"]}
+{"id": "COM-C162", "methods": ["known-theorem", "complete-table-scan"]}
+{"id": "COM-C173", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C174", "methods": ["explicit-counterexample"]}
+{"id": "COM-C179", "methods": ["restatement-or-misstatement", "reduction-to-constant", "known-theorem"]}
+{"id": "COM-C180", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C183", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-C184", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-C188", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-C190", "methods": ["modular-obstruction", "explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C194", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-C195", "methods": ["modular-obstruction", "explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-C196", "methods": ["modular-obstruction", "explicit-counterexample"]}
+{"id": "COM-C200", "methods": ["modular-obstruction", "known-theorem", "complete-table-scan"]}
+{"id": "COM-P004", "methods": ["restatement-or-misstatement", "explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P005", "methods": ["restatement-or-misstatement", "elementary-proof", "known-theorem"]}
+{"id": "COM-P008", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-P015", "methods": ["modular-obstruction", "complete-table-scan"]}
+{"id": "COM-P016", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P018", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P022", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P026", "methods": ["restatement-or-misstatement", "explicit-counterexample", "modular-obstruction"]}
+{"id": "COM-P038", "methods": ["restatement-or-misstatement", "modular-obstruction", "explicit-counterexample"]}
+{"id": "COM-P040", "methods": ["modular-obstruction", "explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P042", "methods": ["restatement-or-misstatement", "modular-obstruction", "elementary-proof"]}
+{"id": "COM-P044", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P045", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P046", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-P047", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-P051", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-P052", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-P055", "methods": ["restatement-or-misstatement", "reduction-to-constant", "known-theorem"]}
+{"id": "COM-P062", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P064", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-P065", "methods": ["restatement-or-misstatement", "covering-congruences", "elementary-proof"]}
+{"id": "COM-P068", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P069", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "COM-P078", "methods": ["restatement-or-misstatement", "explicit-counterexample", "modular-obstruction"]}
+{"id": "COM-P080", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-P085", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-P089", "methods": ["restatement-or-misstatement", "elementary-proof", "known-theorem"]}
+{"id": "COM-P103", "methods": ["restatement-or-misstatement", "known-theorem"]}
+{"id": "COM-P115", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-P122", "methods": ["explicit-counterexample", "modular-obstruction", "complete-table-scan"]}
+{"id": "COM-P128", "methods": ["restatement-or-misstatement", "reduction-to-constant", "known-theorem"]}
+{"id": "COM-P132", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-P133", "methods": ["restatement-or-misstatement"]}
+{"id": "COM-P145", "methods": ["restatement-or-misstatement", "explicit-counterexample"]}
+{"id": "COM-P147", "methods": ["restatement-or-misstatement", "modular-obstruction"]}
+{"id": "COM-P150", "methods": ["restatement-or-misstatement"]}
+{"id": "GEO-B15.1", "methods": ["restatement-or-misstatement"]}
+{"id": "GEO-B17.1", "methods": ["known-theorem"]}
+{"id": "GEO-B18.2", "methods": ["known-theorem"]}
+{"id": "GEO-C2.1", "methods": ["explicit-counterexample", "elementary-proof"]}
+{"id": "GEO-C2.2", "methods": ["explicit-counterexample"]}
+{"id": "GEO-C2.3", "methods": ["explicit-counterexample"]}
+{"id": "GEO-D5.4", "methods": ["known-theorem"]}
+{"id": "GEO-E4.4", "methods": ["elementary-proof", "explicit-counterexample"]}
+{"id": "GEO-F3.5", "methods": ["restatement-or-misstatement", "elementary-proof"]}
+{"id": "NT-A3.11", "methods": ["explicit-counterexample"]}
+{"id": "NT-A3.9", "methods": ["explicit-counterexample", "modular-obstruction"]}
+{"id": "NT-B10.3", "methods": ["modular-obstruction", "elementary-proof"]}
+{"id": "NT-B16.6", "methods": ["exact-arithmetic", "units-pell"]}
+{"id": "NT-B16.7", "methods": ["density-bound", "elementary-proof"]}
+{"id": "NT-B2.3", "methods": ["explicit-counterexample"]}
+{"id": "NT-B2.7", "methods": ["explicit-counterexample", "complete-table-scan"]}
+{"id": "NT-B2.8", "methods": ["explicit-counterexample"]}
+{"id": "NT-B31.5", "methods": ["explicit-counterexample"]}
+{"id": "NT-B36.6", "methods": ["known-theorem"]}
+{"id": "NT-B36.7", "methods": ["known-theorem"]}
+{"id": "NT-B40.2", "methods": ["modular-obstruction"]}
+{"id": "NT-B40.3", "methods": ["elementary-proof"]}
+{"id": "NT-B41.5", "methods": ["elementary-proof"]}
+{"id": "NT-D2.2", "methods": ["explicit-counterexample", "modular-obstruction"]}
+{"id": "NT-E10.3", "methods": ["known-theorem"]}
+{"id": "NT-E25.1", "methods": ["complete-table-scan"]}
+{"id": "NT-E4.3", "methods": ["elementary-proof"]}
+{"id": "NT-F19.1", "methods": ["parametric-family"]}
+{"id": "NT-F23.2", "methods": ["modular-obstruction", "elementary-proof"]}
+{"id": "NT-F31.2", "methods": ["elementary-proof", "modular-obstruction"]}
+{"id": "NT-F6.2", "methods": ["known-theorem"]}
+{"id": "OEIS-A000040", "methods": ["elementary-proof"]}
+{"id": "OEIS-A000120", "methods": ["elementary-proof"]}
+{"id": "OEIS-A004050", "methods": ["known-theorem", "elementary-proof"]}
+{"id": "OEIS-A005408", "methods": ["elementary-proof"]}
+{"id": "OEIS-A008578", "methods": ["elementary-proof"]}
+{"id": "OEIS-A008676", "methods": ["finite-identity"]}
+{"id": "OEIS-A023402", "methods": ["explicit-counterexample", "modular-obstruction"]}
+{"id": "OEIS-A024812", "methods": ["exact-arithmetic", "elementary-proof"]}
+{"id": "OEIS-A025060", "methods": ["parametric-family", "elementary-proof"]}
+{"id": "OEIS-A029795", "methods": ["explicit-counterexample", "elementary-proof"]}
+{"id": "OEIS-A051451", "methods": ["explicit-counterexample"]}
+{"id": "OEIS-A051924", "methods": ["explicit-counterexample", "known-theorem"]}

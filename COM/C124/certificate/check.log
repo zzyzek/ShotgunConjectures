@@ -1,0 +1,7 @@
+3-Carmichael numbers divisible by 5: [1105, 2465, 10585]
+data check: [1105, 2465, 10585]
+1105 pairs (p, n) with C/p + 2^n prime: [(13, 2), (13, 4), (13, 6), (13, 10)]
+2465 pairs (p, n) with C/p + 2^n prime: [(17, 2), (17, 8), (29, 2), (29, 4)]
+10585 pairs (p, n) with C/p + 2^n prime: [(29, 1), (29, 3), (29, 5), (29, 9)]
+C124 OK
+exit 0

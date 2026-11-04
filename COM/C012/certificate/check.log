@@ -1,0 +1,5 @@
+405739681 [229, 457, 3877] True [1, 1, 1]
+s(C) = 43  s((C+1)/2) = 40
+relations (1)-(5) with n != 0: False False False False False
+C012 OK
+exit 0

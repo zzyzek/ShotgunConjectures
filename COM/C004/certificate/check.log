@@ -1,0 +1,4 @@
+158369 [29, 43, 127] True [29, 13, 7]
+3-Poulet, no factor 23 mod 30, failing both forms, below 1e13: 8344 smallest [158369, 252601, 334153]
+C004 OK
+exit 0

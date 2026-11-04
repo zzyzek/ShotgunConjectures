@@ -1,0 +1,19 @@
+import OpenProblemsLib
+
+/-
+OEIS-A182088 (Mathlib). Conjecture (Coman 2012): (30n−29)(60n−59)(90n−89)(180n−179) is a Carmichael number if its four factors are all prime (n ≥ 1).
+README result: true.
+
+Main theorem `A182088_main`: for every natural n, if all the factors are prime then their
+product is a Carmichael number (Mathlib `Nat.IsCarmichael`). The factors with a negative constant use natural subtraction; for n = 0 they are 0, which is not prime, so the hypotheses exclude n = 0, matching the stated range n ≥ 1.
+Proof: Korselt's criterion (Mathlib `Nat.isCarmichael_iff_korselt`, via
+`isCarmichael_of_factors`): the factors are distinct primes and f − 1 divides N − 1 for
+each factor f by an explicit polynomial identity (checked by `ring`).
+
+Outside Lean: nothing. (Generated from certificate/A182088_mathlib.lean.in by
+tools/lean_expand.py and tools/family_lean.py.)
+-/
+
+open OpenProblemsLib
+
+@FAMILY A182088_main 30,-29 60,-59 90,-89 180,-179

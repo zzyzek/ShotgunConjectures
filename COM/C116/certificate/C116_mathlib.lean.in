@@ -1,0 +1,59 @@
+import OpenProblemsLib
+
+/-
+COM-C116 (Mathlib; also covers C179, P055, P128). Coman's conjecture 116: there are
+infinitely many Carmichael numbers p⁴ + 60p with p prime (2821 and 29341 for p = 7, 13).
+README result: false; these two are the only ones.
+
+Main theorem `C116_main`: {p | p prime ∧ p⁴ + 60p is a Carmichael number} = {7, 13}
+(Mathlib `Nat.IsCarmichael`); `C116_false`: this set is not infinite.
+Proof: p ∣ C, so Korselt's criterion in the necessary direction (Mathlib
+`Nat.IsCarmichael.prime_sub_one_dvd`) gives p − 1 ∣ C − 1 = (p−1)(p³+p²+p+61) + 60, hence
+p − 1 ∣ 60 and p ∈ {2, 3, 5, 7, 11, 13, 31, 61}. For p = 2, 3, 5, 11, 31, 61 the coprime base b = 7
+has b^(C−1) ≢ 1 (mod C) (kernel `powMod`), so C is not Carmichael; 2821 = 7·13·31 and
+29341 = 13·37·61 are Carmichael by Korselt's criterion (primes by Pratt certificates).
+
+Outside Lean: nothing. (Generated from certificate/C116_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CERT
+
+@CARM carmichael_2821 2821 7 13 31
+@CARM carmichael_29341 29341 13 37 61
+
+theorem identity (p : ℕ) (hp : 1 ≤ p) :
+    p ^ 4 + 60 * p - 1 = (p - 1) * (p ^ 3 + p ^ 2 + p + 61) + 60 := by
+  obtain ⟨m, rfl⟩ : ∃ m, p = m + 1 := ⟨p - 1, by omega⟩
+  simp only [Nat.add_sub_cancel]
+  ring_nf
+  omega
+
+theorem C116_main : {p : ℕ | p.Prime ∧ (p ^ 4 + 60 * p).IsCarmichael} = {7, 13} := by
+  ext p
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  constructor
+  · rintro ⟨hp, h⟩
+    have hk := korselt_necessary h hp (Dvd.intro (p ^ 3 + 60) (by ring))
+    rw [identity p hp.one_le] at hk
+    have h60 : p - 1 ∣ 60 := (Nat.dvd_add_right (Dvd.intro _ rfl)).mp hk
+    have hle : p ≤ 61 := by have := Nat.le_of_dvd (by norm_num) h60; omega
+    revert h
+    interval_cases p
+    all_goals intro h
+    all_goals first
+      | (exfalso; norm_num at hp; done)
+      | (exfalso; norm_num at h60; done)
+      | (left; rfl)
+      | (right; rfl)
+      | (exfalso; revert h
+         exact not_isCarmichael_of_powMod _ 7 (by norm_num) (by norm_num) (by decide +kernel))
+  · rintro (rfl | rfl)
+    · exact ⟨by norm_num, carmichael_2821⟩
+    · exact ⟨by norm_num, carmichael_29341⟩
+
+theorem C116_false : ¬ Set.Infinite {p : ℕ | p.Prime ∧ (p ^ 4 + 60 * p).IsCarmichael} := by
+  rw [C116_main, Set.not_infinite]
+  exact Set.toFinite _

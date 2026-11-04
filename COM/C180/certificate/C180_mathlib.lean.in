@@ -1,0 +1,32 @@
+import OpenProblemsLib
+
+/-
+COM-C180 (Mathlib). Coman's conjecture 180: no Carmichael number is ≡ 3, 17, 23 or 27
+(mod 30). README result: false; 330794193633 ≡ 3, 66243263297 ≡ 17, 1097343303233 ≡ 23,
+28173681537 ≡ 27 (mod 30) are Carmichael numbers.
+
+Main theorem `C180_false`: for each r ∈ {3, 17, 23, 27} there is a Carmichael number
+≡ r (mod 30). Carmichael by Korselt's criterion (Mathlib), primes by Pratt certificates
+checked by the kernel.
+
+Outside Lean: nothing. (Generated from certificate/C180_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CERT
+
+@CARM carmichael_3 330794193633 3 827 6569 20297
+@CARM carmichael_17 66243263297 113 6833 85793
+@CARM carmichael_23 1097343303233 2069 8273 64109
+@CARM carmichael_27 28173681537 3 353 2699 9857
+
+theorem C180_false : ∀ r ∈ ({3, 17, 23, 27} : Finset ℕ), ∃ C : ℕ, C.IsCarmichael ∧ C % 30 = r := by
+  intro r hr
+  simp only [Finset.mem_insert, Finset.mem_singleton] at hr
+  rcases hr with rfl | rfl | rfl | rfl
+  · exact ⟨_, carmichael_3, by norm_num⟩
+  · exact ⟨_, carmichael_17, by norm_num⟩
+  · exact ⟨_, carmichael_23, by norm_num⟩
+  · exact ⟨_, carmichael_27, by norm_num⟩

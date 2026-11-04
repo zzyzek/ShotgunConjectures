@@ -1,0 +1,4 @@
+C(C-2) mod 30 = 9
+C1^2 - 2C2 mod 30 = 9
+P040 OK
+exit 0

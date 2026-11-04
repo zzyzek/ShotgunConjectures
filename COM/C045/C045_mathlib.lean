@@ -1,0 +1,41 @@
+import OpenProblemsLib
+
+/-
+COM-C045 (Mathlib). Coman's conjecture 45: if C1 = (C2 + C3)/2 with Carmichael numbers
+C1, C2, C3, then C2 divides both C1 and C3. README result: false,
+29341 + 63973 = 2 * 46657.
+
+Main theorem `C045_false`: the negation of the conjecture, with the witness
+(C1, C2, C3) = (46657, 29341, 63973); 29341 does not divide 46657. Carmichael by Korselt's
+criterion (Mathlib), primes by Pratt certificates checked by the kernel.
+
+Outside Lean: nothing. The count "798 of 871 APs below 1e13" is not checked here.
+(Generated from certificate/C045_mathlib.lean.in by tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+/-- Pratt certificate for every prime used below (tools/pratt_cert.py). -/
+def cert : List PrattStep :=
+  [⟨2, 1, []⟩,
+   ⟨3, 2, [(2, 1)]⟩,
+   ⟨7, 3, [(2, 1), (3, 1)]⟩,
+   ⟨13, 2, [(2, 2), (3, 1)]⟩,
+   ⟨19, 2, [(2, 1), (3, 2)]⟩,
+   ⟨37, 2, [(2, 2), (3, 2)]⟩,
+   ⟨5, 2, [(2, 2)]⟩,
+   ⟨61, 2, [(2, 2), (3, 1), (5, 1)]⟩,
+   ⟨97, 5, [(2, 5), (3, 1)]⟩]
+
+theorem carmichael_29341 : Nat.IsCarmichael 29341 :=
+  isCarmichael_of_carmichaelCheck 29341 [13, 37, 61] cert (by decide +kernel)
+theorem carmichael_46657 : Nat.IsCarmichael 46657 :=
+  isCarmichael_of_carmichaelCheck 46657 [13, 37, 97] cert (by decide +kernel)
+theorem carmichael_63973 : Nat.IsCarmichael 63973 :=
+  isCarmichael_of_carmichaelCheck 63973 [7, 13, 19, 37] cert (by decide +kernel)
+
+theorem C045_false : ¬ ∀ C1 C2 C3 : ℕ, C1.IsCarmichael → C2.IsCarmichael → C3.IsCarmichael →
+    C2 + C3 = 2 * C1 → C2 ∣ C1 ∧ C2 ∣ C3 := by
+  intro h
+  have := (h 46657 29341 63973 carmichael_46657 carmichael_29341 carmichael_63973 (by norm_num)).1
+  norm_num at this

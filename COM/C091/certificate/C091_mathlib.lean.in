@@ -1,0 +1,36 @@
+import OpenProblemsLib
+
+/-
+COM-C091 (Mathlib; also covers P008). Coman's conjecture 91: every Carmichael number C is
+n(an - a + 1)(bn - b + 1) or n(an - a - 1)(bn - b - 1) with n the least prime factor of C
+and a, b natural. README reading: a, b ≥ 1 (a = 0 makes the first form trivial). README
+result: false, counterexample 162401 = 17 * 41 * 233.
+
+Main theorem `C091_false`: the negation of the conjecture with n = `Nat.minFac C` and
+a, b ≥ 1 (natural subtraction, as in the core file; for a, b ≥ 1 and n ≥ 2 nothing is
+truncated). Carmichael by Korselt's criterion (Mathlib), primes by Pratt certificates; the
+"neither form" part is the core-Lean factor-pair search of `C091.lean`, copied below in
+namespace `Core`.
+
+Outside Lean: nothing. (Generated from certificate/C091_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C091.lean
+
+@CERT
+
+@CARM carmichael_C 162401 17 41 233
+
+theorem minFac_C : Nat.minFac 162401 = 17 := by norm_num
+
+theorem C091_false : ¬ ∀ C : ℕ, C.IsCarmichael →
+    ∃ a b : ℕ, 1 ≤ a ∧ 1 ≤ b ∧
+      (C = C.minFac * (a * C.minFac - a + 1) * (b * C.minFac - b + 1) ∨
+       C = C.minFac * (a * C.minFac - a - 1) * (b * C.minFac - b - 1)) := by
+  intro h
+  obtain ⟨a, b, ha, hb, h1 | h1⟩ := h 162401 carmichael_C
+  · rw [minFac_C] at h1; exact Core.formI a b ha hb h1
+  · rw [minFac_C] at h1; exact Core.formII a b ha hb h1

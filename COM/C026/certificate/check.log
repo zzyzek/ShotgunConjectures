@@ -1,0 +1,5 @@
+(2,7,71) and (3,67,269) satisfy the hypothesis
+a with a, 90a+1, 180a+1 prime (a | b-1 blocks Carmichael multiples): [3, 13, 17, 31, 37, 47, 101, 149]
+Carmichael numbers below 1e13 divisible by 201: 0
+C026 OK
+exit 0

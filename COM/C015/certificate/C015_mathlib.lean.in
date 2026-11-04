@@ -1,0 +1,19 @@
+import OpenProblemsLib
+
+/-
+COM-C015 (Mathlib). Coman's conjecture 15: (330n+7)(660n+13)(990n+19)(1980n+37) is a Carmichael number whenever its factors are all prime.
+README result: true.
+
+Main theorem `C015_main`: for every natural n, if all the factors are prime then their
+product is a Carmichael number (Mathlib `Nat.IsCarmichael`). 
+Proof: Korselt's criterion (Mathlib `Nat.isCarmichael_iff_korselt`, via
+`isCarmichael_of_factors`): the factors are distinct primes and f − 1 divides N − 1 for
+each factor f by an explicit polynomial identity (checked by `ring`).
+
+Outside Lean: nothing. (Generated from certificate/C015_mathlib.lean.in by
+tools/lean_expand.py and tools/family_lean.py.)
+-/
+
+open OpenProblemsLib
+
+@FAMILY C015_main 330,7 660,13 990,19 1980,37

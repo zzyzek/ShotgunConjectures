@@ -1,0 +1,4 @@
+C1 = 46657 = (29341 + 63973)/2; 46657 mod 29341 = 17316
+3-term APs of Carmichael numbers below 1e13: 871  violating: 798
+C045 OK
+exit 0

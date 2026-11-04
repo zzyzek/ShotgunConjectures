@@ -1,0 +1,4 @@
+561 mod 561*560 Carmichael compatible (Larsen): (True, 561, 80, 80)
+Carmichael numbers = 561 (mod 561*560), > 561^2, below 1e13: 4 [10054063041, 709277461761, 795066389601, 7650392590401]
+C037 OK
+exit 0

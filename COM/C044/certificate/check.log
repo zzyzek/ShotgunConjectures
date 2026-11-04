@@ -1,0 +1,7 @@
+Carmichael = 1 mod 10, all prime factors = 1 mod 10, C = 11 mod 30, below 1e13: 30
+  by number of prime factors: [3, 5]  first: [(1909001, [41, 101, 461]), (221884001, [131, 521, 3251])]
+  all prime factors = 11 mod 30: True
+  with >= 5 factors: [(1044430736441, [41, 191, 281, 521, 911]), (1894509409001, [11, 41, 101, 251, 165701]), (3558903712001, [11, 41, 251, 401, 78401])]
+  1909001 = 1 * 4141 * 461  residues mod 30: 1 11  Carmichael: True
+C044 data check done
+exit 0

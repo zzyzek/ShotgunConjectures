@@ -1,0 +1,62 @@
+import OpenProblemsLib
+
+/-
+COM-C086 (Mathlib). Coman's conjecture 86: for every twin prime pair (q1, q2) there is a
+2-Poulet number p1 p2 (p1 < p2 primes, p1 p2 a Fermat pseudoprime to base 2) with
+q1 = p2 − p1 − 1 and q2 = p2 − p1 + 1. README result: false for (3, 5); no 2-Poulet number
+has p2 − p1 = 4.
+
+Main theorems: `C086_no_gap4`: no product p(p + 4) of two primes is a Fermat pseudoprime to
+base 2 (Mathlib `Nat.FermatPsp _ 2`); `C086_false`: the negation of the conjecture.
+Proof: for P = p(p + 4), gcd(p − 1, P − 1) and gcd(p + 3, P − 1) divide 4 (core-Lean `id1`,
+`id2` of `C086.lean`, copied below in namespace `Core`), so Fermat's little theorem with
+ord_p(2) ∣ P − 1 (library `prime_dvd_pow_sub_one_of_gcd_dvd`) makes both primes divide
+2⁴ − 1 = 3 · 5, impossible for primes 4 apart.
+
+Outside Lean: nothing. (Generated from certificate/C086_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C086.lean
+
+theorem dvd_15 (p P : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hP : P.FermatPsp 2) (hpP : p ∣ P)
+    (hg : Nat.gcd (p - 1) (P - 1) ∣ 4) : p = 3 ∨ p = 5 := by
+  have h := prime_dvd_pow_sub_one_of_gcd_dvd hp hpP
+    (fun h2 => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2)) hP.1 hg
+  norm_num at h
+  have := Nat.le_of_dvd (by norm_num) h
+  revert hp h
+  interval_cases p <;> norm_num
+
+theorem C086_no_gap4 (p : ℕ) (hp : p.Prime) (hq : (p + 4).Prime) : ¬ (p * (p + 4)).FermatPsp 2 := by
+  intro hP
+  have hp1 := hp.one_le
+  have hp2 : p ≠ 2 := by rintro rfl; norm_num at hq
+  have g1 : Nat.gcd (p - 1) (p * (p + 4) - 1) ∣ 4 := by
+    have a := Nat.gcd_dvd_left (p - 1) (p * (p + 4) - 1)
+    have b := Nat.gcd_dvd_right (p - 1) (p * (p + 4) - 1)
+    generalize Nat.gcd (p - 1) (p * (p + 4) - 1) = G at a b ⊢
+    rw [Core.id1 p hp1] at b
+    exact (Nat.dvd_add_right (Dvd.dvd.mul_right a _)).mp b
+  have g2 : Nat.gcd (p + 4 - 1) (p * (p + 4) - 1) ∣ 4 := by
+    have a := Nat.gcd_dvd_left (p + 4 - 1) (p * (p + 4) - 1)
+    have b := Nat.gcd_dvd_right (p + 4 - 1) (p * (p + 4) - 1)
+    generalize Nat.gcd (p + 4 - 1) (p * (p + 4) - 1) = G at a b ⊢
+    have c : G ∣ p * (p + 4) - 1 + 4 := by
+      rw [Core.id2 p hp1]
+      rw [show p + 4 - 1 = p + 3 by omega] at a
+      exact Dvd.dvd.mul_right a _
+    exact (Nat.dvd_add_right b).mp c
+  have m1 := dvd_15 p _ hp hp2 hP (Dvd.intro _ rfl) g1
+  have m2 := dvd_15 (p + 4) _ hq (by omega) hP (Dvd.intro_left _ rfl) g2
+  omega
+
+theorem C086_false : ¬ ∀ q1 q2 : ℕ, q1.Prime → q2.Prime → q2 = q1 + 2 →
+    ∃ p1 p2 : ℕ, p1.Prime ∧ p2.Prime ∧ p1 < p2 ∧ (p1 * p2).FermatPsp 2 ∧
+      q1 = p2 - p1 - 1 ∧ q2 = p2 - p1 + 1 := by
+  intro h
+  obtain ⟨p1, p2, hp1, hp2, hlt, hP, e1, _⟩ := h 3 5 (by norm_num) (by norm_num) rfl
+  obtain rfl : p2 = p1 + 4 := by omega
+  exact C086_no_gap4 p1 hp1 hp2 hP

@@ -1,0 +1,144 @@
+import OpenProblemsLib
+
+/-
+OEIS A212843 (Mathlib). Conjectures (Coman 2012): (1) only Carmichael numbers ≡ 1 (mod 10)
+can have prime divisors ≡ 1 (mod 10); (2) every Carmichael number C ≡ 1 (mod 10) whose prime
+divisors are all ≡ 1 (mod 10) can be written (30a+1)(30b+1)(30c+1), (30a+11)(30b+11)(30c+11)
+or (30a+1)(30b+11)(30c+11); "in other words", none is (30a+1)(30b+1)(30c+11).
+README reading: the three factors may be composite. README result: (1) true; (2) true; the
+"in other words" sentence is true for three prime factors and false in general.
+
+Main theorems (Mathlib `Nat.IsCarmichael`):
+* `A212843_part1`: C Carmichael, p a prime divisor with p ≡ 1 (mod 10) ⇒ C ≡ 1 (mod 10).
+* `A212843_part2`: C Carmichael, C ≡ 1 (mod 10), every prime divisor ≡ 1 (mod 10) ⇒
+  C = x y z with x, y, z > 1 and (x, y, z) ≡ (1, 1, 1), (11, 11, 11) or (1, 11, 11) (mod 30)
+  (factors > 1 as in the README's grouping into nonempty blocks).
+* `A212843_three`: (30a+1)(30b+1)(30c+11) is never Carmichael when 30a+1 is prime (in
+  particular when all three factors are prime).
+* `A212843_other_words_false`: 1044430736441 = 41·191·281·521·911 is a Carmichael number
+  ≡ 1 (mod 10) with all prime divisors ≡ 1 (mod 10), and equals
+  (30·261+1)(30·4880+1)(30·30+11).
+Proof: Korselt's criterion in the necessary direction (Mathlib
+`Nat.IsCarmichael.prime_sub_one_dvd`), at least three prime factors (Mathlib
+`Nat.IsCarmichael.three_le_card_primeFactors`), Korselt's sufficient direction for the
+witness (primes by Pratt certificates), and the core-Lean `three_primes` of `A212843.lean`
+(copied below in namespace `Core`).
+
+Outside Lean: nothing. (Generated from certificate/A212843_mathlib.lean.in by
+tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../A212843.lean
+
+@CERT
+
+@CARM carmichael_W 1044430736441 41 191 281 521 911
+
+@PRIMES primes_W 41 191 281 521 911
+
+theorem A212843_part1 (C p : ℕ) (h : C.IsCarmichael) (hp : p.Prime) (hd : p ∣ C)
+    (h10 : p % 10 = 1) : C % 10 = 1 := by
+  have hk := korselt_necessary h hp hd
+  have h2 := hp.two_le
+  have : 10 ∣ C - 1 := Nat.dvd_trans (Nat.dvd_of_mod_eq_zero (by omega)) hk
+  have := h.two_lt
+  omega
+
+theorem res30 (p : ℕ) (hp : p.Prime) (h10 : p % 10 = 1) : p % 30 = 1 ∨ p % 30 = 11 := by
+  have h3 : p % 30 = 1 ∨ p % 30 = 11 ∨ p % 30 = 21 := by omega
+  rcases h3 with h3 | h3 | h3
+  · exact Or.inl h3
+  · exact Or.inr h3
+  · have := (Nat.Prime.eq_one_or_self_of_dvd hp 3 (by omega)).resolve_left (by norm_num)
+    omega
+
+theorem one_mod30 (C p : ℕ) (h : C.IsCarmichael) (hp : p.Prime) (hd : p ∣ C)
+    (h30 : p % 30 = 1) : C % 30 = 1 := by
+  have hk := korselt_necessary h hp hd
+  have h2 := hp.two_le
+  have : 30 ∣ C - 1 := Nat.dvd_trans (Nat.dvd_of_mod_eq_zero (by omega)) hk
+  have := h.two_lt
+  omega
+
+theorem A212843_part2 (C : ℕ) (h : C.IsCarmichael) (hC10 : C % 10 = 1)
+    (hall : ∀ p, p.Prime → p ∣ C → p % 10 = 1) :
+    ∃ x y z, 1 < x ∧ 1 < y ∧ 1 < z ∧ C = x * y * z ∧
+      ((x % 30 = 1 ∧ y % 30 = 1 ∧ z % 30 = 1) ∨ (x % 30 = 11 ∧ y % 30 = 11 ∧ z % 30 = 11) ∨
+       (x % 30 = 1 ∧ y % 30 = 11 ∧ z % 30 = 11)) := by
+  have hC2 := h.two_lt
+  have h3 := h.three_le_card_primeFactors
+  have hC30 : C % 30 = 1 ∨ C % 30 = 11 := by
+    have : C % 30 = 1 ∨ C % 30 = 11 ∨ C % 30 = 21 := by omega
+    rcases this with h1 | h1 | h1
+    · exact Or.inl h1
+    · exact Or.inr h1
+    · have := hall 3 Nat.prime_three (by omega)
+      omega
+  -- C = p * q * r with p, q prime and r > 1.
+  have hp : C.minFac.Prime := Nat.minFac_prime (by omega)
+  obtain ⟨C1, hC1⟩ := Nat.minFac_dvd C
+  set p := C.minFac with hpdef
+  have hC1ne : C1 ≠ 0 := by rintro rfl; simp at hC1; omega
+  have hC1one : C1 ≠ 1 := by
+    rintro rfl; rw [mul_one] at hC1; exact h.not_prime (hC1 ▸ hp)
+  have hq : C1.minFac.Prime := Nat.minFac_prime hC1one
+  obtain ⟨r, hr⟩ := Nat.minFac_dvd C1
+  set q := C1.minFac with hqdef
+  have hr0 : r ≠ 0 := by rintro rfl; simp at hr; exact hC1ne hr
+  have hr1 : r ≠ 1 := by
+    rintro rfl
+    rw [mul_one] at hr
+    rw [hC1, hr, Nat.primeFactors_mul hp.ne_zero hq.ne_zero, Nat.Prime.primeFactors hp,
+      Nat.Prime.primeFactors hq] at h3
+    have := Finset.card_union_le ({p} : Finset ℕ) {q}
+    simp only [Finset.card_singleton] at this
+    omega
+  have hCe : C = p * q * r := by rw [hC1, hr, mul_assoc]
+  have hpd : p ∣ C := ⟨q * r, by rw [hCe, mul_assoc]⟩
+  have hqd : q ∣ C := ⟨p * r, by rw [hCe]; ring⟩
+  have hp30 := res30 p hp (hall p hp hpd)
+  have hq30 := res30 q hq (hall q hq hqd)
+  have hmod : C % 30 = (p % 30) * (q % 30) * (r % 30) % 30 := by
+    rw [hCe, Nat.mul_mod (p * q) r, Nat.mul_mod p q, Nat.mod_mul_mod]
+  have p1 := hp.one_lt
+  have q1 := hq.one_lt
+  have r1 : 1 < r := by omega
+  rcases hC30 with hc | hc
+  · rcases hp30 with ha | ha <;> rcases hq30 with hb | hb <;> rw [ha, hb] at hmod
+    · exact ⟨p, q, r, p1, q1, r1, hCe, Or.inl ⟨ha, hb, by omega⟩⟩
+    · exact ⟨p, q, r, p1, q1, r1, hCe, Or.inr (Or.inr ⟨ha, hb, by omega⟩)⟩
+    · exact ⟨q, p, r, q1, p1, r1, by rw [hCe]; ring, Or.inr (Or.inr ⟨hb, ha, by omega⟩)⟩
+    · exact ⟨r, p, q, r1, p1, q1, by rw [hCe]; ring, Or.inr (Or.inr ⟨by omega, ha, hb⟩)⟩
+  · have ha : p % 30 = 11 := by
+      rcases hp30 with ha | ha
+      · have := one_mod30 C p h hp hpd ha; omega
+      · exact ha
+    have hb : q % 30 = 11 := by
+      rcases hq30 with hb | hb
+      · have := one_mod30 C q h hq hqd hb; omega
+      · exact hb
+    rw [ha, hb] at hmod
+    exact ⟨p, q, r, p1, q1, r1, hCe, Or.inr (Or.inl ⟨ha, hb, by omega⟩)⟩
+
+theorem A212843_three (a b c : ℕ) (ha : (30 * a + 1).Prime) :
+    ¬ ((30 * a + 1) * (30 * b + 1) * (30 * c + 11)).IsCarmichael := by
+  intro h
+  have hk := korselt_necessary h ha (by rw [mul_assoc]; exact Dvd.intro _ rfl)
+  have h2 := ha.two_le
+  have h3 : 3 ∣ (30 * a + 1) * (30 * b + 1) * (30 * c + 11) - 1 :=
+    Nat.dvd_trans (Dvd.intro (10 * a) (by omega)) hk
+  have hm := Core.three_primes a b c
+  have := h.two_lt
+  generalize (30 * a + 1) * (30 * b + 1) * (30 * c + 11) = C at *
+  omega
+
+theorem A212843_other_words_false : ∃ C : ℕ, C.IsCarmichael ∧ C % 10 = 1 ∧
+    (∀ p, p.Prime → p ∣ C → p % 10 = 1) ∧
+    ∃ a b c : ℕ, C = (30 * a + 1) * (30 * b + 1) * (30 * c + 11) := by
+  refine ⟨1044430736441, carmichael_W, by norm_num, ?_, 261, 4880, 30, by norm_num⟩
+  intro p hp hd
+  have := mem_of_prime_dvd_prod [41, 191, 281, 521, 911] primes_W hp (by simpa using hd)
+  simp at this
+  rcases this with rfl | rfl | rfl | rfl | rfl <;> rfl

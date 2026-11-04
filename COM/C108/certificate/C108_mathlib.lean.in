@@ -1,0 +1,37 @@
+import OpenProblemsLib
+
+/-
+COM-C108 (Mathlib; also covers the first conjecture of P051). Coman's conjecture 108:
+every Carmichael number C is n(n + p)/8 with n ≥ 1 and p a prime or a prime power.
+README result: false, counterexample 162401 = 17 * 41 * 233.
+
+Main theorem `C108_false`: the negation, reading C = n(n + p)/8 as 8C = n(n + p) and
+"prime or prime power" as Mathlib's `IsPrimePow` (which includes primes). Carmichael by
+Korselt's criterion (Mathlib), primes by Pratt certificates; the "no n, p" part is the
+core-Lean divisor search of `C108.lean`, copied below in namespace `Core`; its `IsPrimePow`
+is Mathlib's (`core_isPrimePow_iff`).
+
+Outside Lean: nothing. The count "363 of the first 3000" is not checked here.
+(Generated from certificate/C108_mathlib.lean.in by tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CORE ../C108.lean
+
+theorem core_isPrimePow_iff (m : ℕ) : Core.IsPrimePow m ↔ IsPrimePow m := by
+  constructor
+  · rintro ⟨q, k, hq, hk, rfl⟩
+    exact ⟨q, k, Nat.prime_iff.mp (Nat.prime_def.mpr hq), hk, rfl⟩
+  · rintro ⟨q, k, hq, hk, rfl⟩
+    exact ⟨q, k, Nat.prime_def.mp (Nat.prime_iff.mpr hq), hk, rfl⟩
+
+@CERT
+
+@CARM carmichael_C 162401 17 41 233
+
+theorem C108_false : ¬ ∀ C : ℕ, C.IsCarmichael →
+    ∃ n p : ℕ, 1 ≤ n ∧ IsPrimePow p ∧ 8 * C = n * (n + p) := by
+  intro h
+  obtain ⟨n, p, hn, hp, he⟩ := h 162401 carmichael_C
+  exact Core.fails n p hn ((core_isPrimePow_iff p).mpr hp) he

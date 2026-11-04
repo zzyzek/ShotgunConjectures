@@ -1,0 +1,4 @@
+Poulet divisible by 23*67 below 1e13: 1249  all of the form 1541*(66n+23), n >= 1
+2^(35443-1) mod 35443 = 4624
+C051 OK
+exit 0

@@ -1,0 +1,19 @@
+import OpenProblemsLib
+
+/-
+OEIS A182085 (Mathlib). Conjecture (Coman 2012): (30k+7)(60k+13)(150k+31) is a Carmichael
+number if its three factors are all prime (k ≥ 0). README result: true.
+
+Main theorem `A182085_main`: for every natural k, if 30k+7, 60k+13 and 150k+31 are prime
+then their product is a Carmichael number (Mathlib `Nat.IsCarmichael`). Proof: Korselt's
+criterion (Mathlib `Nat.isCarmichael_iff_korselt`, via `isCarmichael_of_factors`): the
+factors are distinct primes and f − 1 divides N − 1 for each factor f by an explicit
+polynomial identity (checked by `ring`).
+
+Outside Lean: nothing. (Generated from certificate/A182085_mathlib.lean.in by
+tools/lean_expand.py and tools/family_lean.py.)
+-/
+
+open OpenProblemsLib
+
+@FAMILY A182085_main 30,7 60,13 150,31

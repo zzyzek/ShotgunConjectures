@@ -1,0 +1,32 @@
+import OpenProblemsLib
+
+/-
+COM-P022 (Mathlib). Coman's problem 22: are there Carmichael numbers 176n + 1 besides 2465
+and 15841? README result: yes, 340561, 670033, 825265, 1615681, ...
+
+Main theorem `P022_yes`: 340561, 670033, 825265 and 1615681 are Carmichael numbers of the
+form 176n + 1 (and differ from 2465, 15841). Carmichael by Korselt's criterion (Mathlib),
+primes by Pratt certificates checked by the kernel.
+
+Outside Lean: nothing. The count "15 below 10^7" is not checked here.
+(Generated from certificate/P022_mathlib.lean.in by tools/lean_expand.py.)
+-/
+
+open OpenProblemsLib
+
+@CERT
+
+@CARM carmichael_340561 340561 13 17 23 67
+@CARM carmichael_670033 670033 7 13 37 199
+@CARM carmichael_825265 825265 5 7 17 19 73
+@CARM carmichael_1615681 1615681 23 199 353
+
+theorem P022_yes : ∀ C ∈ [340561, 670033, 825265, 1615681],
+    C.IsCarmichael ∧ (∃ n, C = 176 * n + 1) ∧ C ≠ 2465 ∧ C ≠ 15841 := by
+  intro C hC
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hC
+  rcases hC with rfl | rfl | rfl | rfl
+  · exact ⟨carmichael_340561, ⟨1935, rfl⟩, by norm_num, by norm_num⟩
+  · exact ⟨carmichael_670033, ⟨3807, rfl⟩, by norm_num, by norm_num⟩
+  · exact ⟨carmichael_825265, ⟨4689, rfl⟩, by norm_num, by norm_num⟩
+  · exact ⟨carmichael_1615681, ⟨9180, rfl⟩, by norm_num, by norm_num⟩

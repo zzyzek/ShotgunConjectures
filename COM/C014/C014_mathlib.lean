@@ -1,0 +1,57 @@
+import OpenProblemsLib
+
+/-
+COM-C014 (Mathlib). Coman's conjecture 14: (30n−29)(60n−59)(90n−89)(180n−179) is a Carmichael number whenever its factors are all prime.
+README result: true.
+
+Main theorem `C014_main`: for every natural n, if all the factors are prime then their
+product is a Carmichael number (Mathlib `Nat.IsCarmichael`). The factors with a negative constant use natural subtraction; for n = 0 they are 0, which is not prime, so the hypotheses exclude n = 0, matching the stated range n ≥ 1.
+Proof: Korselt's criterion (Mathlib `Nat.isCarmichael_iff_korselt`, via
+`isCarmichael_of_factors`): the factors are distinct primes and f − 1 divides N − 1 for
+each factor f by an explicit polynomial identity (checked by `ring`).
+
+Outside Lean: nothing. (Generated from certificate/C014_mathlib.lean.in by
+tools/lean_expand.py and tools/family_lean.py.)
+-/
+
+open OpenProblemsLib
+
+theorem C014_main (n : ℕ) (h1 : (30 * n - 29).Prime) (h2 : (60 * n - 59).Prime) (h3 : (90 * n - 89).Prime) (h4 : (180 * n - 179).Prime) :
+    ((30 * n - 29) * (60 * n - 59) * (90 * n - 89) * (180 * n - 179)).IsCarmichael := by
+  have l1 := h1.two_le
+  have l2 := h2.two_le
+  have l3 := h3.two_le
+  have l4 := h4.two_le
+  obtain ⟨k, rfl⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
+  have e1 : 30 * (k + 1) - 29 = 30 * k + 1 := by omega
+  have e2 : 60 * (k + 1) - 59 = 60 * k + 1 := by omega
+  have e3 : 90 * (k + 1) - 89 = 90 * k + 1 := by omega
+  have e4 : 180 * (k + 1) - 179 = 180 * k + 1 := by omega
+  rw [e1] at h1
+  rw [e2] at h2
+  rw [e3] at h3
+  rw [e4] at h4
+  rw [e1, e2, e3, e4]
+  apply isCarmichael_of_factors _ [30 * k + 1, 60 * k + 1, 90 * k + 1, 180 * k + 1]
+  · simp only [List.mem_cons, List.not_mem_nil, or_false]
+    rintro p (rfl | rfl | rfl | rfl)
+    exacts [h1, h2, h3, h4]
+  · simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
+      List.nodup_nil, not_false_eq_true, and_true]
+    omega
+  · simp only [List.prod_cons, List.prod_nil, mul_one, mul_assoc]
+  · simp
+  · simp only [List.mem_cons, List.not_mem_nil, or_false]
+    rintro p (rfl | rfl | rfl | rfl)
+    · refine dvd_sub_one_of_eq (Q := 972000 * k ^ 3 + 64800 * k ^ 2 + 1410 * k + 12) ?_
+      rw [show 30 * k + 1 - 1 = 30 * k + 0 by omega]
+      ring
+    · refine dvd_sub_one_of_eq (Q := 486000 * k ^ 3 + 32400 * k ^ 2 + 705 * k + 6) ?_
+      rw [show 60 * k + 1 - 1 = 60 * k + 0 by omega]
+      ring
+    · refine dvd_sub_one_of_eq (Q := 324000 * k ^ 3 + 21600 * k ^ 2 + 470 * k + 4) ?_
+      rw [show 90 * k + 1 - 1 = 90 * k + 0 by omega]
+      ring
+    · refine dvd_sub_one_of_eq (Q := 162000 * k ^ 3 + 10800 * k ^ 2 + 235 * k + 2) ?_
+      rw [show 180 * k + 1 - 1 = 180 * k + 0 by omega]
+      ring
