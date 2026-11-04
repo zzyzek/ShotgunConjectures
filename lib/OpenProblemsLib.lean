@@ -6,3 +6,4 @@ import OpenProblemsLib.Cipolla
 import OpenProblemsLib.SquaredRect
 import OpenProblemsLib.ArithFactor
 import OpenProblemsLib.D_CombLine
+import OpenProblemsLib.R5_Quadratic

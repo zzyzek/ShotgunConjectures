@@ -1,93 +1,91 @@
-# OEIS entries: settled conjectures
+# OEIS entries presented as open that are settled
 
-One line per entry. `kind`: substantive, immediate (follows quickly from a known theorem), cross-reference
-(answer already in the literature). Machine-readable: [oeis-updates.jsonl](oeis-updates.jsonl).
+One line per OEIS entry (83). `settled by`: this project, or the literature (cross-reference only).
+`Lean`: full = the whole result is proved in Lean; partial = one named step is outside Lean; none = written proof.
+Machine-readable: [oeis-updates.jsonl](oeis-updates.jsonl).
 
-| A-number | kind | verdict | Lean | proof |
+| A-number | settled by | verdict | Lean | proof |
 |---|---|---|---|---|
-| [A008578](https://oeis.org/A008578) | substantive | true | full | [OEIS-A008578](../OEIS/A008578/README.md) |
-| [A045764](https://oeis.org/A045764) | substantive | true | full | [NT-B10.3](../NT/B10.3/README.md) |
-| [A094787](https://oeis.org/A094787) | substantive | true | full | [OEIS-A094787](../OEIS/A094787/README.md) |
-| [A100682](https://oeis.org/A100682) | substantive | false | full | [OEIS-A100682](../OEIS/A100682/README.md) |
-| [A113249](https://oeis.org/A113249) | substantive | true | full | [OEIS-A113249](../OEIS/A113249/README.md) |
-| [A113250](https://oeis.org/A113250) | substantive | true | full | [OEIS-A113250](../OEIS/A113250/README.md) |
-| [A113251](https://oeis.org/A113251) | substantive | true | full | [OEIS-A113251](../OEIS/A113251/README.md) |
-| [A113252](https://oeis.org/A113252) | substantive | true | full | [OEIS-A113252](../OEIS/A113252/README.md) |
-| [A113253](https://oeis.org/A113253) | substantive | true | full | [OEIS-A113253](../OEIS/A113253/README.md) |
-| [A113255](https://oeis.org/A113255) | substantive | true | full | [OEIS-A113255](../OEIS/A113255/README.md) |
-| [A113256](https://oeis.org/A113256) | substantive | true | full | [OEIS-A113256](../OEIS/A113256/README.md) |
-| [A134002](https://oeis.org/A134002) | substantive | true | full | [OEIS-A134002](../OEIS/A134002/README.md) |
-| [A134003](https://oeis.org/A134003) | substantive | true | full | [OEIS-A134003](../OEIS/A134003/README.md) |
-| [A210445](https://oeis.org/A210445) | substantive | true | full | [OEIS-A210445](../OEIS/A210445/README.md) |
-| [A212843](https://oeis.org/A212843) | substantive | trivial or misstated | full | [COM-C044](../COM/C044/README.md) |
-| [A212843](https://oeis.org/A212843) | substantive | true | full | [OEIS-A212843](../OEIS/A212843/README.md) |
-| [A214449](https://oeis.org/A214449) | substantive | false | full | [OEIS-A214449](../OEIS/A214449/README.md) |
-| [A215944](https://oeis.org/A215944) | substantive | false | full | [COM-C032](../COM/C032/README.md) |
-| [A229487](https://oeis.org/A229487) | substantive | true | full | [NT-B41.5](../NT/B41.5/README.md) |
-| [A004050](https://oeis.org/A004050) | immediate | true | partial | [OEIS-A004050](../OEIS/A004050/README.md) |
-| [A005408](https://oeis.org/A005408) | immediate | true | full | [OEIS-A005408](../OEIS/A005408/README.md) |
-| [A008676](https://oeis.org/A008676) | immediate | true | full | [OEIS-A008676](../OEIS/A008676/README.md) |
-| [A025060](https://oeis.org/A025060) | immediate | trivial or misstated | full | [OEIS-A025060](../OEIS/A025060/README.md) |
-| [A029795](https://oeis.org/A029795) | immediate | false | full | [OEIS-A029795](../OEIS/A029795/README.md) |
-| [A051924](https://oeis.org/A051924) | immediate | false | full | [OEIS-A051924](../OEIS/A051924/README.md) |
-| [A061002](https://oeis.org/A061002) | immediate | true | full | [OEIS-A061002](../OEIS/A061002/README.md) |
-| [A074766](https://oeis.org/A074766) | immediate | true | none | [OEIS-A074766](../OEIS/A074766/README.md) |
-| [A080674](https://oeis.org/A080674) | immediate | true | full | [OEIS-A080674](../OEIS/A080674/README.md) |
-| [A081320](https://oeis.org/A081320) | immediate | true | full | [OEIS-A081320](../OEIS/A081320/README.md) |
-| [A083452](https://oeis.org/A083452) | immediate | trivial or misstated | full | [OEIS-A083452](../OEIS/A083452/README.md) |
-| [A087324](https://oeis.org/A087324) | immediate | false | full | [OEIS-A087324](../OEIS/A087324/README.md) |
-| [A088104](https://oeis.org/A088104) | immediate | true | none | [OEIS-A088104](../OEIS/A088104/README.md) |
-| [A088120](https://oeis.org/A088120) | immediate | false | full | [OEIS-A088120](../OEIS/A088120/README.md) |
-| [A089758](https://oeis.org/A089758) | immediate | true | full | [OEIS-A089758](../OEIS/A089758/README.md) |
-| [A090519](https://oeis.org/A090519) | immediate | true | full | [OEIS-A090519](../OEIS/A090519/README.md) |
-| [A100056](https://oeis.org/A100056) | immediate | false | full | [OEIS-A100056](../OEIS/A100056/README.md) |
-| [A101312](https://oeis.org/A101312) | immediate | trivial or misstated | none | [OEIS-A101312](../OEIS/A101312/README.md) |
-| [A104896](https://oeis.org/A104896) | immediate | true | full | [OEIS-A104896](../OEIS/A104896/README.md) |
-| [A105596](https://oeis.org/A105596) | immediate | true | partial | [OEIS-A105596](../OEIS/A105596/README.md) |
-| [A106249](https://oeis.org/A106249) | immediate | true | full | [OEIS-A106249](../OEIS/A106249/README.md) |
-| [A107363](https://oeis.org/A107363) | immediate | true | full | [OEIS-A107363](../OEIS/A107363/README.md) |
-| [A110320](https://oeis.org/A110320) | immediate | true | partial | [OEIS-A110320](../OEIS/A110320/README.md) |
-| [A110735](https://oeis.org/A110735) | immediate | false | full | [OEIS-A110735](../OEIS/A110735/README.md) |
-| [A113610](https://oeis.org/A113610) | immediate | false | full | [OEIS-A113610](../OEIS/A113610/README.md) |
-| [A129454](https://oeis.org/A129454) | immediate | true | full | [OEIS-A129454](../OEIS/A129454/README.md) |
-| [A133212](https://oeis.org/A133212) | immediate | true | full | [OEIS-A133212](../OEIS/A133212/README.md) |
-| [A135571](https://oeis.org/A135571) | immediate | true | full | [OEIS-A135571](../OEIS/A135571/README.md) |
-| [A137328](https://oeis.org/A137328) | immediate | false | full | [OEIS-A137328](../OEIS/A137328/README.md) |
-| [A139043](https://oeis.org/A139043) | immediate | true | partial | [OEIS-A139043](../OEIS/A139043/README.md) |
-| [A140869](https://oeis.org/A140869) | immediate | true | full | [OEIS-A140869](../OEIS/A140869/README.md) |
-| [A144652](https://oeis.org/A144652) | immediate | true | full | [OEIS-A144652](../OEIS/A144652/README.md) |
-| [A165640](https://oeis.org/A165640) | immediate | true | full | [OEIS-A165640](../OEIS/A165640/README.md) |
-| [A167230](https://oeis.org/A167230) | immediate | true | full | [OEIS-A167230](../OEIS/A167230/README.md) |
-| [A182132](https://oeis.org/A182132) | immediate | true | full | [COM-C016](../COM/C016/README.md) |
-| [A182132](https://oeis.org/A182132) | immediate | true | full | [OEIS-A182132](../OEIS/A182132/README.md) |
-| [A182207](https://oeis.org/A182207) | immediate | trivial or misstated | full | [COM-C042](../COM/C042/README.md) |
-| [A182207](https://oeis.org/A182207) | immediate | true | full | [OEIS-A182207](../OEIS/A182207/README.md) |
-| [A182334](https://oeis.org/A182334) | immediate | false | full | [OEIS-A182334](../OEIS/A182334/README.md) |
-| [A182532](https://oeis.org/A182532) | immediate | true | full | [OEIS-A182532](../OEIS/A182532/README.md) |
-| [A192205](https://oeis.org/A192205) | immediate | true | full | [OEIS-A192205](../OEIS/A192205/README.md) |
-| [A197521](https://oeis.org/A197521) | immediate | true | full | [OEIS-A197521](../OEIS/A197521/README.md) |
-| [A210529](https://oeis.org/A210529) | immediate | true | full | [OEIS-A210529](../OEIS/A210529/README.md) |
-| [A214970](https://oeis.org/A214970) | immediate | true | full | [OEIS-A214970](../OEIS/A214970/README.md) |
-| [A215343](https://oeis.org/A215343) | immediate | true | partial | [COM-C037](../COM/C037/README.md) |
-| [A215461](https://oeis.org/A215461) | immediate | true | full | [OEIS-A215461](../OEIS/A215461/README.md) |
-| [A215462](https://oeis.org/A215462) | immediate | true | partial | [OEIS-A215462](../OEIS/A215462/README.md) |
-| [A217448](https://oeis.org/A217448) | immediate | true | full | [OEIS-A217448](../OEIS/A217448/README.md) |
-| [A221650](https://oeis.org/A221650) | immediate | true | full | [OEIS-A221650](../OEIS/A221650/README.md) |
-| [A226661](https://oeis.org/A226661) | immediate | true | full | [OEIS-A226661](../OEIS/A226661/README.md) |
-| [A226676](https://oeis.org/A226676) | immediate | true | full | [OEIS-A226676](../OEIS/A226676/README.md) |
-| [A226677](https://oeis.org/A226677) | immediate | true | full | [OEIS-A226677](../OEIS/A226677/README.md) |
-| [A227553](https://oeis.org/A227553) | immediate | true | full | [OEIS-A227553](../OEIS/A227553/README.md) |
-| [A228933](https://oeis.org/A228933) | immediate | true | full | [OEIS-A228933](../OEIS/A228933/README.md) |
-| [A072901](https://oeis.org/A072901) | cross-reference | trivial or misstated | partial | [OEIS-A072901](../OEIS/A072901/README.md) |
-| [A079665](https://oeis.org/A079665) | cross-reference | trivial or misstated | full | [OEIS-A079665](../OEIS/A079665/README.md) |
-| [A081199](https://oeis.org/A081199) | cross-reference | true | full | [OEIS-A081199](../OEIS/A081199/README.md) |
-| [A081200](https://oeis.org/A081200) | cross-reference | true | full | [OEIS-A081200](../OEIS/A081200/README.md) |
-| [A081201](https://oeis.org/A081201) | cross-reference | true | full | [OEIS-A081201](../OEIS/A081201/README.md) |
-| [A088276](https://oeis.org/A088276) | cross-reference | false | full | [OEIS-A088276](../OEIS/A088276/README.md) |
-| [A097406](https://oeis.org/A097406) | cross-reference | trivial or misstated | full | [OEIS-A097406](../OEIS/A097406/README.md) |
-| [A101462](https://oeis.org/A101462) | cross-reference | false | full | [OEIS-A101462](../OEIS/A101462/README.md) |
-| [A102613](https://oeis.org/A102613) | cross-reference | trivial or misstated | full | [OEIS-A102613](../OEIS/A102613/README.md) |
-| [A115038](https://oeis.org/A115038) | cross-reference | true | full | [OEIS-A115038](../OEIS/A115038/README.md) |
-| [A125148](https://oeis.org/A125148) | cross-reference | true | full | [OEIS-A125148](../OEIS/A125148/README.md) |
-| [A176494](https://oeis.org/A176494) | cross-reference | false | full | [OEIS-A176494](../OEIS/A176494/README.md) |
-| [A182088](https://oeis.org/A182088) | cross-reference | true | full | [OEIS-A182088](../OEIS/A182088/README.md) |
+| [A004050](https://oeis.org/A004050) | this project | true | partial | [OEIS/A004050](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A004050) |
+| [A005408](https://oeis.org/A005408) | this project | true | full | [OEIS/A005408](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A005408) |
+| [A008578](https://oeis.org/A008578) | this project | true | full | [OEIS/A008578](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A008578) |
+| [A008676](https://oeis.org/A008676) | this project | true | full | [OEIS/A008676](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A008676) |
+| [A025060](https://oeis.org/A025060) | this project | trivial or misstated | full | [OEIS/A025060](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A025060) |
+| [A029795](https://oeis.org/A029795) | this project | false | full | [OEIS/A029795](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A029795) |
+| [A045764](https://oeis.org/A045764) | this project | true | full | [NT/B10.3](https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B10.3) |
+| [A051924](https://oeis.org/A051924) | this project | false | full | [OEIS/A051924](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A051924) |
+| [A061002](https://oeis.org/A061002) | this project | true | full | [OEIS/A061002](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A061002) |
+| [A072901](https://oeis.org/A072901) | literature | trivial or misstated | full | [OEIS/A072901](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A072901) |
+| [A074766](https://oeis.org/A074766) | this project | true | none | [OEIS/A074766](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A074766) |
+| [A079665](https://oeis.org/A079665) | literature | trivial or misstated | full | [OEIS/A079665](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A079665) |
+| [A080674](https://oeis.org/A080674) | this project | true | full | [OEIS/A080674](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A080674) |
+| [A081199](https://oeis.org/A081199) | literature | true | full | [OEIS/A081199](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A081199) |
+| [A081200](https://oeis.org/A081200) | literature | true | full | [OEIS/A081200](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A081200) |
+| [A081201](https://oeis.org/A081201) | literature | true | full | [OEIS/A081201](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A081201) |
+| [A081320](https://oeis.org/A081320) | this project | true | full | [OEIS/A081320](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A081320) |
+| [A083452](https://oeis.org/A083452) | this project | trivial or misstated | full | [OEIS/A083452](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083452) |
+| [A087324](https://oeis.org/A087324) | this project | false | full | [OEIS/A087324](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A087324) |
+| [A088104](https://oeis.org/A088104) | this project | true | none | [OEIS/A088104](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A088104) |
+| [A088120](https://oeis.org/A088120) | this project | false | full | [OEIS/A088120](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A088120) |
+| [A088276](https://oeis.org/A088276) | literature | false | full | [OEIS/A088276](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A088276) |
+| [A089758](https://oeis.org/A089758) | this project | true | full | [OEIS/A089758](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A089758) |
+| [A090519](https://oeis.org/A090519) | this project | true | full | [OEIS/A090519](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A090519) |
+| [A094787](https://oeis.org/A094787) | this project | true | full | [OEIS/A094787](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A094787) |
+| [A097406](https://oeis.org/A097406) | literature | trivial or misstated | full | [OEIS/A097406](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A097406) |
+| [A100056](https://oeis.org/A100056) | this project | false | full | [OEIS/A100056](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A100056) |
+| [A100682](https://oeis.org/A100682) | this project | false | full | [OEIS/A100682](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A100682) |
+| [A101312](https://oeis.org/A101312) | this project | trivial or misstated | none | [OEIS/A101312](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A101312) |
+| [A101462](https://oeis.org/A101462) | literature | false | full | [OEIS/A101462](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A101462) |
+| [A102613](https://oeis.org/A102613) | literature | trivial or misstated | full | [OEIS/A102613](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A102613) |
+| [A104896](https://oeis.org/A104896) | this project | true | full | [OEIS/A104896](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A104896) |
+| [A105596](https://oeis.org/A105596) | this project | true | full | [OEIS/A105596](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A105596) |
+| [A106249](https://oeis.org/A106249) | this project | true | full | [OEIS/A106249](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A106249) |
+| [A107363](https://oeis.org/A107363) | this project | true | full | [OEIS/A107363](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A107363) |
+| [A110320](https://oeis.org/A110320) | this project | true | full | [OEIS/A110320](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A110320) |
+| [A110735](https://oeis.org/A110735) | this project | false | full | [OEIS/A110735](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A110735) |
+| [A113249](https://oeis.org/A113249) | this project | true | full | [OEIS/A113249](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113249) |
+| [A113250](https://oeis.org/A113250) | this project | true | full | [OEIS/A113250](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113250) |
+| [A113251](https://oeis.org/A113251) | this project | true | full | [OEIS/A113251](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113251) |
+| [A113252](https://oeis.org/A113252) | this project | true | full | [OEIS/A113252](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113252) |
+| [A113253](https://oeis.org/A113253) | this project | true | full | [OEIS/A113253](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113253) |
+| [A113255](https://oeis.org/A113255) | this project | true | full | [OEIS/A113255](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113255) |
+| [A113256](https://oeis.org/A113256) | this project | true | full | [OEIS/A113256](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113256) |
+| [A113610](https://oeis.org/A113610) | this project | false | full | [OEIS/A113610](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113610) |
+| [A115038](https://oeis.org/A115038) | literature | true | full | [OEIS/A115038](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A115038) |
+| [A125148](https://oeis.org/A125148) | literature | true | full | [OEIS/A125148](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A125148) |
+| [A129454](https://oeis.org/A129454) | this project | true | full | [OEIS/A129454](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A129454) |
+| [A133212](https://oeis.org/A133212) | this project | true | full | [OEIS/A133212](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A133212) |
+| [A134002](https://oeis.org/A134002) | this project | true | full | [OEIS/A134002](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A134002) |
+| [A134003](https://oeis.org/A134003) | this project | true | full | [OEIS/A134003](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A134003) |
+| [A135571](https://oeis.org/A135571) | this project | true | full | [OEIS/A135571](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A135571) |
+| [A137328](https://oeis.org/A137328) | this project | false | full | [OEIS/A137328](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A137328) |
+| [A139043](https://oeis.org/A139043) | this project | true | partial | [OEIS/A139043](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A139043) |
+| [A140869](https://oeis.org/A140869) | this project | true | full | [OEIS/A140869](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A140869) |
+| [A144652](https://oeis.org/A144652) | this project | true | full | [OEIS/A144652](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A144652) |
+| [A165640](https://oeis.org/A165640) | this project | true | full | [OEIS/A165640](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A165640) |
+| [A167230](https://oeis.org/A167230) | this project | true | full | [OEIS/A167230](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A167230) |
+| [A176494](https://oeis.org/A176494) | literature | false | full | [OEIS/A176494](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A176494) |
+| [A182088](https://oeis.org/A182088) | literature | true | full | [OEIS/A182088](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A182088) |
+| [A182132](https://oeis.org/A182132) | this project | true | full | [OEIS/A182132](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A182132) |
+| [A182207](https://oeis.org/A182207) | this project | true | full | [OEIS/A182207](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A182207) |
+| [A182334](https://oeis.org/A182334) | this project | false | full | [OEIS/A182334](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A182334) |
+| [A182532](https://oeis.org/A182532) | this project | true | full | [OEIS/A182532](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A182532) |
+| [A192205](https://oeis.org/A192205) | this project | true | full | [OEIS/A192205](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A192205) |
+| [A197521](https://oeis.org/A197521) | this project | true | full | [OEIS/A197521](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A197521) |
+| [A210445](https://oeis.org/A210445) | this project | true | full | [OEIS/A210445](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A210445) |
+| [A210529](https://oeis.org/A210529) | this project | true | full | [OEIS/A210529](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A210529) |
+| [A212843](https://oeis.org/A212843) | this project | true | full | [OEIS/A212843](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A212843) |
+| [A214449](https://oeis.org/A214449) | this project | false | full | [OEIS/A214449](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A214449) |
+| [A214970](https://oeis.org/A214970) | this project | true | full | [OEIS/A214970](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A214970) |
+| [A215343](https://oeis.org/A215343) | this project | true | partial | [COM/C037](https://github.com/zzyzek/ShotgunConjectures/tree/main/COM/C037) |
+| [A215461](https://oeis.org/A215461) | this project | true | full | [OEIS/A215461](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A215461) |
+| [A215462](https://oeis.org/A215462) | this project | true | partial | [OEIS/A215462](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A215462) |
+| [A215944](https://oeis.org/A215944) | this project | false | full | [COM/C032](https://github.com/zzyzek/ShotgunConjectures/tree/main/COM/C032) |
+| [A217448](https://oeis.org/A217448) | this project | true | full | [OEIS/A217448](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A217448) |
+| [A221650](https://oeis.org/A221650) | this project | true | full | [OEIS/A221650](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A221650) |
+| [A226661](https://oeis.org/A226661) | this project | true | full | [OEIS/A226661](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A226661) |
+| [A226676](https://oeis.org/A226676) | this project | true | full | [OEIS/A226676](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A226676) |
+| [A226677](https://oeis.org/A226677) | this project | true | full | [OEIS/A226677](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A226677) |
+| [A227553](https://oeis.org/A227553) | this project | true | full | [OEIS/A227553](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A227553) |
+| [A228933](https://oeis.org/A228933) | this project | true | full | [OEIS/A228933](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228933) |
+| [A229487](https://oeis.org/A229487) | this project | true | full | [NT/B41.5](https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B41.5) |

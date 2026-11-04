@@ -316,7 +316,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A105596](https://oeis.org/A105596): the self-convolution with alternating signs is 1 mod 4
 
-- Problem: [OEIS-A105596](OEIS/A105596/README.md) (proved, new). Lean: Lean (partial), [`A105596_mathlib.lean`](OEIS/A105596/A105596_mathlib.lean).
+- Problem: [OEIS-A105596](OEIS/A105596/README.md) (proved, new). Lean: Lean proof, [`A105596_mathlib.lean`](OEIS/A105596/A105596_mathlib.lean).
 - Prior art: The oddness input is Gao's; the mod-4 step from it to A105596 is stated nowhere.
 - Draft comment:
 
@@ -340,7 +340,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A110320](https://oeis.org/A110320): blocks in RNA secondary structures via Whitney numbers
 
-- Problem: [OEIS-A110320](OEIS/A110320/README.md) (proved, partly-known). Lean: Lean (partial), [`A110320_mathlib.lean`](OEIS/A110320/A110320_mathlib.lean).
+- Problem: [OEIS-A110320](OEIS/A110320/README.md) (proved, partly-known). Lean: Lean proof, [`A110320_mathlib.lean`](OEIS/A110320/A110320_mathlib.lean).
 - Prior art: With Tenn's crown = fence(n) - fence(n-2) identity, McGarvey's conjecture is Irwin's formula rewritten; nobody has written that down.
 - Draft comment:
 

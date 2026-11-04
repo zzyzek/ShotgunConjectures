@@ -1,0 +1,1 @@
+{"id": "OEIS-A105596", "lean": "OEIS/A105596/A105596_mathlib.lean", "lean_status": "checked", "review": "lean-proof", "depends_on": [], "notes": "Mathlib proof: A105594/A105595/A105596 defined from the OEIS formulas; A105595_odd (Gao argument) + A105596_of_odd give c(2n+1)=0 and A105596(n) = 1 mod 4 (A105596_main); outside Lean: none"}

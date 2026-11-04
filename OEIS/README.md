@@ -4,7 +4,7 @@ Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS
 
 124 entries: 110 resolved by this project, 14 answered elsewhere, 0 disputed or partial.
 
-Of the 110 resolutions: 99 proved in full in Lean, 8 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
+Of the 110 resolutions: 102 proved in full in Lean, 5 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -24,7 +24,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A051451](A051451/) | disproved | the "next twin pair above a(n)" form fails at n = 35 | [full proof](A051451/A051451_mathlib.lean) | new | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A051924](A051924/) | disproved | a(n) ≡ n + 2 (mod n^2) also holds at n = 16843^2 | [full proof](A051924/A051924_mathlib.lean) | partly-known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A061002](A061002/) | proved | denominator(H(p)/H(p−1)) / numerator(H(p−1)/p^2) = p^3 | [full proof](A061002/A061002_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
-| [A072901](A072901/) | trivial or misstated | composites with disc Q(√n) = 4n are squarefree | [witness](A072901/A072901_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
+| [A072901](A072901/) | trivial or misstated | composites with disc Q(√n) = 4n are squarefree | [full proof](A072901/A072901_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A074766](A074766/) | proved | p(2n) − 2p(n) < 2n for all n | needs Mathlib | new (immediate) | [known-theorem](../methods/known-theorem/README.md) |
 | [A079665](A079665/) | trivial or misstated | when is (b^s + 1)/(b^r + 1) an integer | [full proof](A079665/A079665_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A080674](A080674/) | proved | counting integers below 10^n with digits only in {6,7,8,9} | [full proof](A080674/A080674_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
@@ -49,10 +49,10 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A101462](A101462/) | disproved | 2^k − 509203 is never prime, so a(42228) does not exist | [full proof](A101462/A101462_mathlib.lean) | known | [covering-congruences](../methods/covering-congruences/README.md) |
 | [A102613](A102613/) | trivial or misstated | π(n)/(n − π(n)) → 0 | [full proof](A102613/A102613_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md) |
 | [A104896](A104896/) | proved | counting integers below 10^n with no digit 0, 1, 2 | [full proof](A104896/A104896_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
-| [A105596](A105596/) | proved | the self-convolution with alternating signs is 1 mod 4 | [witness](A105596/A105596_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+| [A105596](A105596/) | proved | the self-convolution with alternating signs is 1 mod 4 | [full proof](A105596/A105596_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A106249](A106249/) | proved | roots of x^n + 1 in the left half-plane (index shift by one) | [full proof](A106249/A106249_mathlib.lean) | new (immediate) | [finite-identity](../methods/finite-identity/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A107363](A107363/) | proved | the nonnegative terms are exactly the Fibonacci numbers | [full proof](A107363/A107363_mathlib.lean) | new (immediate) | [finite-identity](../methods/finite-identity/README.md) |
-| [A110320](A110320/) | proved | blocks in RNA secondary structures via Whitney numbers | [witness](A110320/A110320_mathlib.lean) | partly-known | [finite-identity](../methods/finite-identity/README.md) |
+| [A110320](A110320/) | proved | blocks in RNA secondary structures via Whitney numbers | [full proof](A110320/A110320_mathlib.lean) | partly-known | [finite-identity](../methods/finite-identity/README.md) |
 | [A110735](A110735/) | disproved | no digit insertion makes a multiple of 101 | [full proof](A110735/A110735.lean) | new (immediate) | [modular-obstruction](../methods/modular-obstruction/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A112992](A112992/) | proved | ceiling(2^r/3) is a Jacobsthal number or one more | [full proof](A112992/A112992.lean) | known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A113249](A113249/) | proved | a(m, 2n+1) is a perfect square (the whole family) | [full proof](A113249/A113249.lean) | partly-known | [finite-identity](../methods/finite-identity/README.md) |
@@ -359,7 +359,7 @@ comment by V. Librandi and M. Marcus: "Conjecture: All terms are squarefree." (O
 discriminant d (d ≡ 1 mod 4) or 4d (d ≡ 2, 3 mod 4), at most 4d. If s ≥ 2 this is < 4n. So
 discriminant 4n forces s = 1 (and n ≡ 2, 3 mod 4).
 
-Lean: [witness](A072901/A072901_mathlib.lean).
+Lean: [full proof](A072901/A072901_mathlib.lean).
 
 ### [A074766](A074766/): p(2n) − 2p(n) < 2n for all n
 
@@ -745,7 +745,7 @@ the printed sequence is c(2n).
 c(2n) = 2Σ_{k<n} (−1)^k b(k) b(2n−k) + (−1)^n b(n)². Each b is odd, so each term of the sum is ±2 (mod 4) and the
 sum contributes 2n (mod 4); b(n)² ≡ 1 (mod 8). Hence c(2n) ≡ 2n + (−1)^n ≡ 1 (mod 4).
 
-Lean: [witness](A105596/A105596_mathlib.lean).
+Lean: [full proof](A105596/A105596_mathlib.lean).
 
 ### [A106249](A106249/): roots of x^n + 1 in the left half-plane (index shift by one)
 
@@ -785,14 +785,14 @@ Lean: [full proof](A107363/A107363_mathlib.lean).
 **Source.** [A110320](https://oeis.org/A110320) (number of blocks in all RNA secondary structures with n nodes),
 formula by G. McGarvey (2007): "Conjecture: a(n) = (A051292(n+2)-A051286(n+1))/2." (OEIS text, CC BY-SA 4.0.)
 
-**Result.** True, given the printed g.f.s: A110320 (E. Deutsch), A051286 = 1/R, A051292 = (1 − z² + R)/R with
+**Result.** True (proved from the combinatorial definitions; the printed g.f.s are also confirmed): A110320 (E. Deutsch), A051286 = 1/R, A051292 = (1 − z² + R)/R with
 R = √(1 − 2z − z² − 2z³ + z⁴).
 
 **Argument.** With these g.f.s the difference between Deutsch's g.f. (1−z−z²)/(2z²R) − 1/(2z²) and
 Σ_{n≥1} ½(A051292(n+2) − A051286(n+1)) z^n simplifies to 0: the parts with 1/R give
 ((1 − z²) − z)/(2z²R), and the polynomial parts cancel.
 
-Lean: [witness](A110320/A110320_mathlib.lean).
+Lean: [full proof](A110320/A110320_mathlib.lean).
 
 ### [A110735](A110735/): no digit insertion makes a multiple of 101
 

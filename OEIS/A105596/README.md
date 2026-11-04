@@ -15,7 +15,7 @@ sum contributes 2n (mod 4); b(n)² ≡ 1 (mod 8). Hence c(2n) ≡ 2n + (−1)^n 
 **Evidence.**
 - `certificate/check.py`: A105594/A105595 from the definition (|μ| of binomials via squarefreeness), b odd,
   c(odd) = 0 and c(even) ≡ 1 (mod 4) for m < 120, and agreement with the A105596 data.
-- Lean (Mathlib): [`A105596_mathlib.lean`](A105596_mathlib.lean), `A105596_main`: for every b : ℕ → ℤ with all values odd, c(2n+1) = 0 and c(2n) ≡ 1 (mod 4) for c(m) = Σ_k (-1)^k b(k) b(m-k). Outside Lean: that all A105595 terms are odd (B. Gao).
+- Lean (Mathlib): [`A105596_mathlib.lean`](A105596_mathlib.lean), `A105596_main`: with A105594, A105595 and A105596 defined in Lean from the OEIS formulas (T(n,k) = (Σ_j |μ(C(n,j))| (C(j,k) mod 2)) mod 2, row sums, c(m) = Σ_k (-1)^k b(k) b(m-k) with A105596(n) = c(2n)), c(2n+1) = 0 and A105596(n) ≡ 1 (mod 4) for every n. It combines `A105595_odd` (every A105595 term is odd, Gao's argument) with `A105596_of_odd` (the mod-4 statement for any sequence of odd integers). Outside Lean: none.
 
-**Review level.** `lean-witness`: the mod-4 argument is proved in Lean for every odd sequence; the oddness of A105595 (Gao) is outside Lean.
+**Review level.** `lean-proof`: the full result, including the oddness of A105595, is proved in Lean from the OEIS definitions.
 **Prior art.** Verdict new, immediate (OEIS status conjecture; searched 2026-11-04). The oddness input is Gao's; the mod-4 step from it to A105596 is stated nowhere. Sources: [OEIS A105596 (fetched 2026-11-04)](https://oeis.org/A105596): still says Conjecture; no proof, no 2026 edits; [Bing Gao, comment in OEIS A105595 (Sep 2026)](https://oeis.org/A105595): proves all A105595 terms odd (the input lemma). Searched: OEIS entry (text format); OEIS search for references; OEIS edit history; OEIS A105595, A105597; Google: A105596.
