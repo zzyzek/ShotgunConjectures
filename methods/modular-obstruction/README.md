@@ -65,4 +65,10 @@ descent and restrict to primitive tuples.
 - [OEIS-A137328](../../OEIS/A137328/README.md): the prime 2 never occurs
 - [OEIS-A182208](../../OEIS/A182208/README.md): Carmichael numbers divisible by 7 are never 7(6m+1)(6n-1)
 - [OEIS-A215461](../../OEIS/A215461/README.md): 2n is a prime plus an odd nonprime for every n > 5
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- NT-F6.1, modular-obstruction (partial; goal: characterise when Q(a, b) is finite): SAT for all a < b <= 40: Q(a, b) is finite (<= 195) exactly when a mod 3/5/7 prime obstruction applies; no proof for general a, b. Next: Prove finiteness for structured subfamilies only.
 <!-- end generated -->

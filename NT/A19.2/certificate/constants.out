@@ -1,0 +1,13 @@
+phi(2310) = 480
+s =      20  K*sigma = 0.918660  <= 23/25: True
+s =      21  K*sigma = 0.916364  <= 23/25: True
+s =     100  K*sigma = 0.881543  <= 23/25: True
+s = 1000000  K*sigma = 0.872728  <= 23/25: True
+s = 20: log2 lhs = 97042.2, log2 rhs = 101639
+s =   2  coprime sum = 4.491e-05  prime sum = 2.306e-05  bound = 8.995e-05
+s =   5  coprime sum = 1.792e-05  prime sum = 8.389e-06  bound = 2.249e-05
+s =  20  coprime sum = 4.428e-06  prime sum = 1.832e-06  bound = 4.734e-06
+s = 100  coprime sum = 8.303e-07  prime sum = 3.043e-07  bound = 9.086e-07
+ln x =   50  z =   38  K * sum_{p>z} 1/p^2 = 0.394
+ln x =  200  z =  113  K * sum_{p>z} 1/p^2 = 0.397
+ln x = 1000  z =  434  K * sum_{p>z} 1/p^2 = 0.467

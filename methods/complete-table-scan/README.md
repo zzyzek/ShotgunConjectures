@@ -119,4 +119,11 @@ A failure is a counterexample; no failure is evidence up to the bound (not a pro
 - [OEIS-A212843](../../OEIS/A212843/README.md): Carmichael numbers with prime factors ≡ 1 (mod 10)
 - [OEIS-A214305](../../OEIS/A214305/README.md): Coman's residue conjecture for Poulet numbers fails
 - [OEIS-A217448](../../OEIS/A217448/README.md): a(n) exists for every n (CRT)
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- NT-C19.1, complete-table-scan (partial; goal: prove uniqueness for all k): Exhaustive search confirms uniqueness for k <= 7; search cannot reach all k. Next: Needs a structural argument.
+- [NT-B10.3](../../NT/B10.3/README.md), complete-table-scan (failed; goal: core-Lean proof by checking phi and d for 10^6 numbers): Kernel evaluation of phi and the divisor function for 10^6 numbers is too slow in core Lean. Next: Done instead in Mathlib with a bound argument that shrinks the search.
 <!-- end generated -->

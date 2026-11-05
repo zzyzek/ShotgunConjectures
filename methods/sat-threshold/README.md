@@ -34,4 +34,11 @@ produce it.
 1 problems (primary method first in each problem's list).
 
 - [NT-E29.1](../../NT/E29.1/README.md): Graham's {x, y, x+y, xy} colouring threshold starting at 3 is 3150
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- NT-E20.1, sat-threshold (failed; goal: extend OEIS A002004 beyond n = 21): Plain SAT: UNSAT at N_4(n)+1 takes 0.1, 0.9, 13 s for n = 5, 6, 7 and over 100 s for n = 8, about 14x per letter, so n = 22 is far out of reach. Next: Symmetry breaking or the structure used for the known terms; not worth raw SAT.
+- GEO-C5.3, sat-threshold (partial; goal: decide whether the n-cube has an incomparable tiling): No incomparable tiling for n = 3..6 (n = 6 UNSAT in 101 s); n = 7, 8, 9 not attempted at that cost growth. Next: Symmetry reduction before n = 7.
 <!-- end generated -->

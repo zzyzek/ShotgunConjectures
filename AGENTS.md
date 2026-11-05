@@ -29,7 +29,10 @@ Worked examples (copy their shape):
    section), **Reading** (only if a convention or interpretation choice
    matters), **Result**, **Argument** (short, complete), **Evidence** (Lean file,
    scripts, what is outside Lean), **Review level**, **Prior art** (what was
-   checked, with date).
+   checked, with date). The prior-art search always includes
+   google-deepmind/formal-conjectures (a `research solved` tag with a
+   `formal_proof` link means someone has a Lean proof) and, for Erdős problems,
+   the teorth/erdosproblems wiki "AI contributions to Erdős problems".
 2. Copy the scripts that produced or check the result into `certificate/`
    (small files only; no data files over 1 MB; published tables are read from `data/`, see DATA.md).
 3. Lean, core only (no `import Mathlib`), in `<SRC>/<REST>/<M>.lean`

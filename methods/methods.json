@@ -100,5 +100,17 @@
   "name": "Layer LP with interval constraints",
   "role": "proof",
   "cue": "Upper bounds for codes in hypercube-like graphs invariant under coordinate permutations, conflicts between nearby weights (Z-channel codes)."
+ },
+ {
+  "id": "recurrence-asymptotics",
+  "name": "Asymptotics from polynomial recurrences",
+  "role": "proof",
+  "cue": "OEIS \"asymptotically\", \"a(n+1)/a(n) tends to\", \"mean of statistic ~ c n\", \"limit distribution is Poisson\" for sequences with hypergeometric terms or P-recursive counts."
+ },
+ {
+  "id": "creative-telescoping",
+  "name": "Creative telescoping certificate",
+  "role": "proof",
+  "cue": "OEIS \"Conjecture: (n+1)*a(n) - ... = 0\" (P-recursive recurrence) for a(n) given as a finite sum of binomial or hypergeometric terms."
  }
 ]

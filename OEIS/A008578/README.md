@@ -20,4 +20,4 @@ distinct primes, and q_1 < q_2 < … the primes.
   composite k, σ(k) ≤ k·Ω(k) with equality only at k = 6. Nothing outside Lean.
 
 **Review level.** `lean-proof`.
-**Prior art.** New. [A008578](https://oeis.org/A008578) still has the conjecture and R. J. Mathar's note that the general case needs a proof; no source found for sigma(k) <= k*Omega(k) on composites. Searched OEIS entry, references and history, web. Checked 2026-11-04.
+**Prior art.** Known (corrected 2026-11-05). Already proved in Lean 4 by others before this project: [otoi-lab/oeis-lean-proofs, A8578.lean](https://github.com/otoi-lab/oeis-lean-proofs/blob/14f275b8b370bcf76213de10bb3f8fda84a6461e/OeisProofs/FC/A8578.lean) (first commit 2026-10-12; marked solved in google-deepmind/formal-conjectures `FormalConjectures/OEIS/8578.lean`). This project's proof is independent. The OEIS entry still has the conjecture and R. J. Mathar's note. The 2026-11-04 review searched the OEIS entry, references, history and the web but not formal-conjectures.

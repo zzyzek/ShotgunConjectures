@@ -29,4 +29,10 @@ worked_example: "OEIS/A010101"
 1 problems (primary method first in each problem's list).
 
 - [OEIS-A010101](../../OEIS/A010101/README.md): a(10) ≤ 116 (upper bound improved from 117) (bound improved; problem still open)
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- [OEIS-A010101](../../OEIS/A010101/README.md), interval-layer-lp (partial; goal: a(10) <= 115 and better bounds at n = 11, 12): n = 11, 12: the LP reproduces the published 210 and 410 exactly. n = 10: going below 116 needs B(3,5) <= 68 (weights 3..5); LP gives 69; the exact value splits into about 1700 symmetry classes, each over 15 min in HiGHS. Next: Better symmetry handling for B(3,5); Schrijver-type SDP bounds.
 <!-- end generated -->

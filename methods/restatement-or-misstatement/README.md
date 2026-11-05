@@ -74,4 +74,11 @@ worked_example: ""
 - [OEIS-A129454](../../OEIS/A129454/README.md): p-adic valuation of a triple gcd product (true after an index shift)
 - [OEIS-A134003](../../OEIS/A134003/README.md): n(n+5) = a(a+5) + b(b+5) has no positive solution when n^2 + (n+5)^2 is prime
 - [OEIS-A135499](../../OEIS/A135499/README.md): equal digit sums at odd and even positions implies 11 | n (trivial)
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- [COM-P080](../../COM/P080/README.md), restatement-or-misstatement (wrong; goal: classify a four-part conjecture): The scan recorded 'proved'; only conjecture 2 is true, conjectures 1, 3, 4 are false (bounded values). Next: Give one verdict per part of a multi-part statement.
+- [GEO-B15.1](../../GEO/B15.1/README.md), restatement-or-misstatement (wrong; goal: classify as resolved): The question is open-ended (efficient algorithm, complexity, asymptotics); extending tables with plantri does not resolve it, and citations were from memory. Next: Do not count table extensions as resolutions of open-ended questions; verify citations.
 <!-- end generated -->

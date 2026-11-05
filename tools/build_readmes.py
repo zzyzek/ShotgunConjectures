@@ -130,6 +130,28 @@ def uses(e, mid):
   return (mid in e.get('methods', []))
 
 
+KINDS = [
+  ('missing-library', 'Missing from Mathlib (a known theorem the proof needs)'),
+  ('missing-tool',    'Missing tool (verified checker, computer algebra)'),
+  ('scale',           'Too large (search, solver or kernel cost)'),
+  ('method-too-weak', 'Method too weak for the goal'),
+  ('unfinished',      'Route found, not carried out'),
+  ('misreading',      'Wrong claim: statement misread'),
+  ('edge-case',       'Wrong claim: small or boundary cases missed'),
+]
+
+
+def attempt_line(a, rel):
+  # One bullet: problem link, method, outcome, the obstacle and what might
+  # work next.
+  #
+  src, rest = a['problem'].split('-', 1)
+  d = os.path.join(src, rest)
+  link = ( '[%s](%s%s/README.md)' % (a['problem'], rel, d) if os.path.exists(os.path.join(d, 'README.md')) else a['problem'] )
+  meth = ( a['method'] if a.get('method') else a.get('method_name', '?') )
+  return '%s, %s (%s; goal: %s): %s Next: %s' % (link, meth, a['outcome'], a['goal'], a['obstacle'], a['next'])
+
+
 def replace_block(path, body):
   s = open(path, encoding='utf-8').read()
   i, j = s.index(BEGIN), s.index(END)
@@ -146,6 +168,7 @@ def main():
   # Methods: index table and per-method problem lists.
   #
   meths = json.load(open('methods/methods.json', encoding='utf-8'))
+  atts  = [json.loads(l) for l in open('methods/attempts.jsonl', encoding='utf-8') if l.strip()]
   rows = ['| Method | Role | Applies when | Problems |', '|---|---|---|---|']
   for m in meths:
     used = [e for e in ents if uses(e, m['id'])]
@@ -156,7 +179,33 @@ def main():
       title, _ = parse(os.path.join(e['dir'], 'README.md'))
       lines.append('- [%s](../../%s/README.md): %s%s' % (e['id'], e['dir'], title,
                    ( '' if e['category'] == 'scan resolution' else ' (%s)' % e['category'] )))
-    replace_block(os.path.join('methods', m['id'], 'README.md'), '\n'.join(lines) if used else 'None tagged yet.')
+    if not used:
+      lines = ['None tagged yet.']
+    tried = [a for a in atts if a.get('method') == m['id']]
+    if tried:
+      lines += ['', '### Failed, partial and wrong attempts', '', 'From [attempts.jsonl](../attempts.jsonl).', '']
+      lines += ['- %s' % attempt_line(a, '../../') for a in tried]
+    replace_block(os.path.join('methods', m['id'], 'README.md'), '\n'.join(lines))
+
+  # Attempts that failed, stalled, or were wrong, grouped by what stopped
+  # them. Kept next to the index so the obstacles are as visible as the
+  # successes.
+  #
+  ids = { m['id'] for m in meths }
+  rows += ['', '## Failed, partial and wrong attempts', '',
+           'One record per attempt in [attempts.jsonl](attempts.jsonl) (fields: problem, method or method_name, goal, '
+           'outcome = failed / partial / stalled / wrong, obstacle_kind, obstacle, evidence, next, date). '
+           '`wrong` = a claim this project made that a second reader refuted.', '']
+  for kind, label in KINDS:
+    g = [a for a in atts if a['obstacle_kind'] == kind]
+    if g:
+      rows += ['### %s (%d)' % (label, len(g)), '']
+      rows += ['- %s' % attempt_line(a, '../') for a in g]
+      rows.append('')
+  bad = sorted({ a['method'] for a in atts if a.get('method') and a['method'] not in ids } |
+               { a['obstacle_kind'] for a in atts if a['obstacle_kind'] not in dict(KINDS) })
+  if bad:
+    raise SystemExit('attempts.jsonl: unknown method or obstacle_kind: %s' % bad)
   replace_block('methods/README.md', '\n'.join(rows))
 
   # Status table in the top README.

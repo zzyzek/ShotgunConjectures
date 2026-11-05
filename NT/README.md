@@ -2,9 +2,9 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-23 entries: 15 resolved by this project, 8 answered elsewhere, 0 disputed or partial.
+25 entries: 17 resolved by this project, 8 answered elsewhere, 0 disputed or partial.
 
-Of the 15 resolutions: 13 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
+Of the 17 resolutions: 15 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -13,6 +13,8 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [A3.9](A3.9/) | disproved | the smallest prime with digit sum k does not always end in 99 | [full proof](A3.9/A3_9_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+| [A19.2](A19.2/) | proved | infinitely many n with every n − 2^k squarefree | [full proof](A19.2/A19_2_mathlib.lean) | new | [density-bound](../methods/density-bound/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [B2.1](B2.1/) | proved | every n ≥ 2 is a sum of two deficient numbers | [full proof](B2.1/B2_1_mathlib.lean) | new | [density-bound](../methods/density-bound/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [B2.7](B2.7/) | disproved | a harmonic number with two harmonic seeds | [full proof](B2.7/B2_7_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [B2.8](B2.8/) | disproved | H(n) = 3p does not force a harmonic number to be arithmetic | [full proof](B2.8/B2_8_mathlib.lean) | new | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B10.3](B10.3/) | proved | Meeussen's numbers are not values of W(n) = n − d(n) − φ(n) + 1 | [full proof](B10.3/B10_3_mathlib.lean) | new | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
@@ -65,6 +67,97 @@ composite (factors 7, 6089, 827, 19, 61, 31, 7, 3011) and 6999999989 is prime
 (trial division up to its square root, 83666).
 
 Lean: [full proof](A3.9/A3_9_mathlib.lean).
+
+### [A19.2](A19.2/): infinitely many n with every n − 2^k squarefree
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section A19
+(values of n making n − 2^k prime). Alongside the prime question, Guy records Erdős's conjecture
+that there are infinitely many n for which n − 2^k is squarefree for every k with 2^k < n.
+OEIS [A091155](https://oeis.org/A091155) lists these n and says "Erdős conjectures that this
+sequence is infinite". Original reference: P. Erdős, On integers of the form 2^k + p and some
+related problems, *Summa Brasil. Math.* 2 (1950), 113–123.
+
+**Reading.** k runs over all k ≥ 0 with 2^k < n (k = 0 included, so n − 1 must be squarefree).
+n = 1 satisfies the condition vacuously; OEIS starts at 2. Neither affects infinitude.
+
+**Result.** Proved: the set {n : n − 2^k is squarefree for every k ≥ 0 with 2^k < n} is
+infinite. Quantitatively, for every s ≥ 20 there is such an n with s < n ≤ 2^(9702 s).
+
+**Argument.** Fix s ≥ 20 and put y = 2310 s, L = 4851 s, K = 2L, x = 2^K. Let R be the product
+of the odd primes ≤ y and M = 4R. Choose c < M with c ≡ 3 (mod 4) and R ∣ c (c = 3R if
+R ≡ 1 mod 4, else c = R). The candidates are n_j = c + Mj for 0 ≤ j < J = ⌊x/M⌋ − 1; all are
+≤ x, so for a candidate n the relevant k satisfy k < K.
+
+1. *p = 2.* n ≡ 3 (mod 4), so n − 1 ≡ 2, n − 2 ≡ 1 and n − 2^k ≡ 3 (mod 4) for k ≥ 2. Hence
+   4 ∤ n − 2^k.
+2. *Odd p ≤ y.* p ∣ R ∣ n and p ∤ 2^k, so p ∤ n − 2^k.
+3. *p > y.* If p² ∣ n − 2^k then p² < x, so p ≤ 2^L. For fixed (k, p) the candidates with
+   p² ∣ n − 2^k are congruent to each other mod M (all ≡ c) and mod p² (all ≡ 2^k), and
+   gcd(M, p²) = 1, so they are congruent mod Mp². Numbers ≤ x in one class mod Mp² number at
+   most x/(Mp²) + 1.
+4. *Prime sum.* A prime p > y ≥ 11 is coprime to 2310. Split m > 2310 s with gcd(m, 2310) = 1
+   into blocks [2310 j, 2310 j + 2310), j ≥ s; each block holds φ(2310) = 480 such m, each with
+   1/m² ≤ 1/(2310 j)². With 1/j² ≤ 1/(j−1) − 1/j (telescoping),
+   Σ_{p prime, p > y} 1/p² ≤ (480/2310²) Σ_{j ≥ s} 1/j² ≤ 480/(2310² (s − 1)) =: σ.
+   Then Kσ = 9702 s · 480 / (2310² (s − 1)) ≤ 23/25 for s ≥ 20 (it equals 0.9187 at s = 20 and
+   decreases to 0.8727).
+5. *Count.* Suppose no candidate is good. Each candidate lies in some set of step 3, so with
+   a = x/M,
+   a − 2 ≤ J ≤ Σ_{k<K} Σ_{y<p≤2^L} (x/(Mp²) + 1) ≤ K(aσ + 2^L) ≤ (23/25) a + K 2^L.
+   So 2a ≤ 25 (K 2^L + 2). But R ≤ primorial(y) ≤ 4^y gives M ≤ 2^(2y+2) and
+   a ≥ 2^(K − 2y − 2) = 2^(5082 s − 2) = 2^L · 2^(231 s − 2), while
+   25 (K 2^L + 2) ≤ 242600 s · 2^L < 2^18 · 2^s · 2^L ≤ 2 · 2^L · 2^(231 s − 2). Contradiction.
+6. So some candidate n is good. By Bertrand there is a prime q with 1155 s < q ≤ 2310 s = y;
+   q is odd, so q ∣ R and n ≥ c ≥ R ≥ q > s. As s is arbitrary, there are infinitely many good n.
+
+The only arithmetic input beyond counting is the primorial bound n# ≤ 4^n and Bertrand's
+postulate. The block bound replaces a prime-counting estimate: the union bound needs
+K Σ_{p>y} 1/p² < 1 while the modulus M must stay below about √x, and the crude bound
+Σ_{m>y} 1/m² ≤ 1/y does not fit both with M ≤ 4^y; restricting m to residues coprime to 2310
+(density 480/2310 ≈ 0.208) does, with K/y = 4.2 in the window (4, 4.81).
+
+Lean: [full proof](A19.2/A19_2_mathlib.lean).
+
+### [B2.1](B2.1/): every n ≥ 2 is a sum of two deficient numbers
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section B2.
+Guy asks (from *Abacus*) whether every integer n > 3 is the sum of two deficient numbers, that
+is, numbers m with σ(m) < 2m. OEIS [A337932](https://oeis.org/A337932) counts the representations.
+
+**Reading.** 1 is deficient (σ(1) = 1), so the statement holds for every n ≥ 2 and is proved in
+that form. The two summands are positive integers; they may be equal.
+
+**Result.** Proved: for every n ≥ 2 there are a, b ≥ 1 with a + b = n, σ(a) < 2a and σ(b) < 2b.
+
+**Argument.** For t ≥ 1 write rs(t) = Σ_{d ∣ t, d > 1} 1/d. Since σ(t) = Σ_{d∣t} t/d,
+σ(t) = t(1 + rs(t)), so t is deficient iff rs(t) < 1 (Markov-type counting below uses only this
+identity). For a family t_0, …, t_{K−1}, swapping the sums gives
+Σ_k rs(t_k) = Σ_{d>1} (1/d) · #{k : d ∣ t_k}.
+
+*Even n = 2K.* Take the K pairs (2k+1, n−2k−1), k < K. If no pair has two deficient members,
+each pair has rs ≥ 1 on one side, so K ≤ Σ_k rs(2k+1) + Σ_k rs(n−2k−1) = 2 Σ_k rs(2k+1)
+(the second family is the first in reverse order). A divisor d of an odd number is odd, and the
+odd numbers 2k+1 ≤ 2K divisible by d number at most 2K/d. Hence
+Σ_k rs(2k+1) ≤ 2K Σ_{odd d ≥ 3} 1/d² ≤ 2K (1/9 + 1/8) = 2K · 17/72, using
+1/d² ≤ 1/((d−1)(d+1)) = ½(1/(d−1) − 1/(d+1)), which telescopes over odd d ≥ 5 to 1/8.
+So K ≤ (34/36) K, impossible for K ≥ 1. No threshold is needed.
+
+*Odd n ≥ 300.* Choose r ∈ {1, 5} with 3 ∤ n − 2r (r = 5 if n ≡ 2 mod 3, else r = 1); let
+c = n − 2r and K = ⌊c/12⌋ ≥ 24. For k < K let m_k = 6k + r and b_k = c − 12k, so
+2m_k + b_k = n, and m_k, b_k are both coprime to 6. Since m odd gives σ(2m) = 3σ(m), the number
+2m_k is deficient iff rs(m_k) < 1/3. A bad pair therefore gives 1 ≤ 3 rs(m_k) + rs(b_k), and
+K ≤ 3 Σ_k rs(m_k) + Σ_k rs(b_k).
+Every divisor d > 1 of m_k or b_k is coprime to 6, so d ≥ 5. If d divides m_k and m_{k'}, then
+d ∣ 6(k − k'), so k ≡ k' (mod d); likewise d ∣ b_k, b_{k'} gives d ∣ 12(k − k'). So d hits at
+most K/d + 1 indices, and each family sum is at most
+K Σ_{odd d ≥ 5} 1/d² + Σ_{5 ≤ d ≤ n, (d,6)=1} 1/d ≤ K/8 + 11/8 + (n+1)/200,
+where the harmonic part is bounded by its exact value below 200 (1.3743… ≤ 11/8) plus 1/200 for
+each d ≥ 200. With n + 1 ≤ 12K + 23 this gives K ≤ K/2 + 11/2 + (12K + 23)/50, i.e. K ≤ 22,
+a contradiction.
+
+*2 ≤ n < 300.* Direct check (in Lean by kernel evaluation of σ).
+
+Lean: [full proof](B2.1/B2_1_mathlib.lean).
 
 ### [B2.7](B2.7/): a harmonic number with two harmonic seeds
 

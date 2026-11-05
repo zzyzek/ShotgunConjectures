@@ -4,17 +4,9 @@ OEIS entries whose conjecture this project settled and which OEIS does not yet r
 (prior-art review 2026-11-04: current entry, entries citing it, edit history, web, arXiv).
 Each draft comment is a starting point: shorten it to OEIS style and sign it. "Partly known" means a source covers part of it; the note says which part.
 
-70 entries.
+75 entries.
 
-## Substantive (not an immediate consequence of a known theorem) (18)
-
-### [A008578](https://oeis.org/A008578): 1 and the primes are exactly the k with sigma(k) > k·Omega(k)
-
-- Problem: [OEIS-A008578](OEIS/A008578/README.md) (proved, new). Lean: Lean proof, [`A008578_mathlib.lean`](OEIS/A008578/A008578_mathlib.lean).
-- Prior art: No source found for sigma(k) <= k Omega(k) on composites; elementary proof.
-- Draft comment:
-
-  > The conjecture is true: for composite k, sigma(k) <= k*bigomega(k), with equality only at k = 6. If k is not squarefree, sigma(k)/k < Product_{p|k} p/(p-1) <= omega(k) + 1 <= bigomega(k); if k is squarefree with m >= 2 prime factors, sigma(k)/k = Product_{p|k} (1 + 1/p) <= m; both middle bounds follow by comparing with the first m primes. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A008578.
+## Substantive (not an immediate consequence of a known theorem) (16)
 
 ### [A045764](https://oeis.org/A045764): Meeussen's numbers are not values of W(n) = n − d(n) − φ(n) + 1
 
@@ -48,14 +40,6 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true for every integer m: a(m,2n+1) = y(m,n)^2 with y(m,n) = 4*y(m,n-1) - m^2*y(m,n-2), y(m,0) = 2, y(m,1) = 8 - m^2. The characteristic polynomial of a(m,n) is (x^2 - m^2)(x^2 + 4x + m^2), so a(m,2n+1) and y(m,n)^2 both satisfy the order-4 recurrence with characteristic polynomial (X - m^2)^2*(X^2 + (2m^2 - 16)X + m^4), and their first four values agree as polynomials in m. For m = 3, y(3,n) is the b(n) of R. Israel's comment above; the case m = 8 is A113254. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113249.
 
-### [A113250](https://oeis.org/A113250): a(m, 2n+1) is a perfect square (m = 4)
-
-- Problem: [OEIS-A113250](OEIS/A113250/README.md) (proved, partly-known). Lean: Lean proof, [`A113250.lean`](OEIS/A113250/A113250.lean).
-- Prior art: The m = 3 (Israel 2017) and m = 8 (Stephan 2026, AI proof) cases are proved in OEIS; Jacob's 2023 closed forms make m = 1, 3, 5, 7 a one-line check. No source proves the family for all m, and the entry for this m still says Conjecture.
-- Draft comment:
-
-  > The conjecture is true for every integer m, in particular for m = 4: a(m,2n+1) = y(m,n)^2 with y(m,n) = 4*y(m,n-1) - m^2*y(m,n-2), y(m,0) = 2, y(m,1) = 8 - m^2. The characteristic polynomial of a(m,n) is (x^2 - m^2)(x^2 + 4x + m^2), so a(m,2n+1) and y(m,n)^2 both satisfy the order-4 recurrence with characteristic polynomial (X - m^2)^2*(X^2 + (2m^2 - 16)X + m^4), and their first four values agree as polynomials in m. This extends the m = 3 case proved in A113249 and the m = 8 case proved in A113254. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113250.
-
 ### [A113251](https://oeis.org/A113251): a(m, 2n+1) is a perfect square (m = 5)
 
 - Problem: [OEIS-A113251](OEIS/A113251/README.md) (proved, partly-known). Lean: Lean proof, [`A113251.lean`](OEIS/A113251/A113251.lean).
@@ -64,14 +48,6 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true for every integer m, in particular for m = 5: a(m,2n+1) = y(m,n)^2 with y(m,n) = 4*y(m,n-1) - m^2*y(m,n-2), y(m,0) = 2, y(m,1) = 8 - m^2. The characteristic polynomial of a(m,n) is (x^2 - m^2)(x^2 + 4x + m^2), so a(m,2n+1) and y(m,n)^2 both satisfy the order-4 recurrence with characteristic polynomial (X - m^2)^2*(X^2 + (2m^2 - 16)X + m^4), and their first four values agree as polynomials in m. This extends the m = 3 case proved in A113249 and the m = 8 case proved in A113254, and for m = 5 it also follows from the closed form of E. S. Jacob above by the half-angle identity. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113251.
 
-### [A113252](https://oeis.org/A113252): a(m, 2n+1) is a perfect square (m = 6)
-
-- Problem: [OEIS-A113252](OEIS/A113252/README.md) (proved, partly-known). Lean: Lean proof, [`A113252.lean`](OEIS/A113252/A113252.lean).
-- Prior art: The m = 3 (Israel 2017) and m = 8 (Stephan 2026, AI proof) cases are proved in OEIS; Jacob's 2023 closed forms make m = 1, 3, 5, 7 a one-line check. No source proves the family for all m, and the entry for this m still says Conjecture.
-- Draft comment:
-
-  > The conjecture is true for every integer m, in particular for m = 6: a(m,2n+1) = y(m,n)^2 with y(m,n) = 4*y(m,n-1) - m^2*y(m,n-2), y(m,0) = 2, y(m,1) = 8 - m^2. The characteristic polynomial of a(m,n) is (x^2 - m^2)(x^2 + 4x + m^2), so a(m,2n+1) and y(m,n)^2 both satisfy the order-4 recurrence with characteristic polynomial (X - m^2)^2*(X^2 + (2m^2 - 16)X + m^4), and their first four values agree as polynomials in m. This extends the m = 3 case proved in A113249 and the m = 8 case proved in A113254. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113252.
-
 ### [A113253](https://oeis.org/A113253): a(m, 2n+1) is a perfect square (m = 7)
 
 - Problem: [OEIS-A113253](OEIS/A113253/README.md) (proved, partly-known). Lean: Lean proof, [`A113253.lean`](OEIS/A113253/A113253.lean).
@@ -79,14 +55,6 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true for every integer m, in particular for m = 7: a(m,2n+1) = y(m,n)^2 with y(m,n) = 4*y(m,n-1) - m^2*y(m,n-2), y(m,0) = 2, y(m,1) = 8 - m^2. The characteristic polynomial of a(m,n) is (x^2 - m^2)(x^2 + 4x + m^2), so a(m,2n+1) and y(m,n)^2 both satisfy the order-4 recurrence with characteristic polynomial (X - m^2)^2*(X^2 + (2m^2 - 16)X + m^4), and their first four values agree as polynomials in m. This extends the m = 3 case proved in A113249 and the m = 8 case proved in A113254, and for m = 7 it also follows from the closed form of E. S. Jacob above by the half-angle identity. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113253.
-
-### [A113255](https://oeis.org/A113255): a(m, 2n+1) is a perfect square (m = 9)
-
-- Problem: [OEIS-A113255](OEIS/A113255/README.md) (proved, partly-known). Lean: Lean proof, [`A113255.lean`](OEIS/A113255/A113255.lean).
-- Prior art: The m = 3 (Israel 2017) and m = 8 (Stephan 2026, AI proof) cases are proved in OEIS; Jacob's 2023 closed forms make m = 1, 3, 5, 7 a one-line check. No source proves the family for all m, and the entry for this m still says Conjecture.
-- Draft comment:
-
-  > The conjecture is true for every integer m, in particular for m = 9: a(m,2n+1) = y(m,n)^2 with y(m,n) = 4*y(m,n-1) - m^2*y(m,n-2), y(m,0) = 2, y(m,1) = 8 - m^2. The characteristic polynomial of a(m,n) is (x^2 - m^2)(x^2 + 4x + m^2), so a(m,2n+1) and y(m,n)^2 both satisfy the order-4 recurrence with characteristic polynomial (X - m^2)^2*(X^2 + (2m^2 - 16)X + m^4), and their first four values agree as polynomials in m. This extends the m = 3 case proved in A113249 and the m = 8 case proved in A113254. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113255.
 
 ### [A113256](https://oeis.org/A113256): a(m, 2n+1) is a perfect square (m = 10)
 
@@ -111,6 +79,22 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true for positive a, b, the reading matching A134002, but false as literally worded ("in integers"), since a = n, b = 0 is always a solution. If M = n^2 + (n+5)^2 is prime, then 2M = (2n+5)^2 + 5^2 is the only representation of 2M as a sum of two squares (by uniqueness for the prime M), and a positive solution would give another one, 2M = (2a+5)^2 + (2b+5)^2. See A134002 for the converse. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A134003.
+
+### [A195608](https://oeis.org/A195608): first differences 1, 4, 6, runs of length 1 or 3, and A(m+1) − A(m−1) = 5 at run starts
+
+- Problem: [OEIS-A195608](OEIS/A195608/README.md) (proved, new). Lean: Lean proof, [`A195608_mathlib.lean`](OEIS/A195608/A195608_mathlib.lean).
+- Prior art: No proof found; elementary closed form via Thue-Morse, proved in Lean. Evil case m = 1 (series {1}) excluded from 3) since A(0) does not exist.
+- Draft comment:
+
+  > The conjecture is true: All three conjectures are true. Closed form, with t the Thue–Morse sequence (A010060): S = {2j+1 : t(j) = 0} ∪ {2j+2 : t(j) = t(j+1) = 0}. Sharper form of 3): for m ∈ S, m ≥ 2, A(m+1) − A(m−1) is 5 if m starts its series and 4 otherwise. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A195608). - _<Name>_, <Mon DD YYYY>
+
+### [A195609](https://oeis.org/A195609): first differences 1, 4, 6, runs of length 1 or 3, and A(m+1) − A(m−1) = 5 at run starts
+
+- Problem: [OEIS-A195609](OEIS/A195609/README.md) (proved, new). Lean: Lean proof, [`A195608_mathlib.lean`](OEIS/A195608/A195608_mathlib.lean).
+- Prior art: No proof found; elementary closed form via Thue-Morse, proved in Lean. Evil case m = 1 (series {1}) excluded from 3) since A(0) does not exist.
+- Draft comment:
+
+  > The conjecture is true: All three conjectures are true. Closed form, with t the Thue–Morse sequence: S = {2j+1 : t(j) = 1} ∪ {2j+2 : t(j) = t(j+1) = 1}. For m ∈ S, A(m+1) − A(m−1) is 5 if m starts its series and 4 otherwise. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A195609). - _<Name>_, <Mon DD YYYY>
 
 ### [A210445](https://oeis.org/A210445): a(n) < n for n > 1 and a(n) < n/2 for n > 47 (least k with kn practical)
 
@@ -160,7 +144,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjectured terms a(3) = 12 and a(4) = 30 are correct: the numbers whose trajectory under n -> phi(n) + 1 ends at 5 are exactly 5, 8, 10, 12, and those ending at 7 are exactly 7, 9, 14, 15, 16, 18, 20, 24, 30. The set reaching a prime q is built from q by repeatedly solving phi(n) = m - 1; the inverse totient sets needed are phi^(-1)(4) = {5, 8, 10, 12}, phi^(-1)(6) = {7, 9, 14, 18} and phi^(-1)(8) = {15, 16, 20, 24, 30}, while 7, 9, 11, 13, 14, 15, 17, 19, 23, 29 are not totients. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B41.5.
 
-## Immediate from a known theorem or short argument, still open in OEIS (52)
+## Immediate from a known theorem or short argument, still open in OEIS (59)
 
 ### [A004050](https://oeis.org/A004050): only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways
 
@@ -274,6 +258,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > Conjecture (2) is false: a(12) = 1*3*5*...*23 + 2 = 316234143227, with common difference 2. The smaller values k(k+1)...(k+11) + 1, k = 1..4, are composite (e.g., 12! + 1 = 13^2*2834329), and every other choice of a and d gives a larger value. Conjecture (1) is not addressed here. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A088120.
 
+### [A088617](https://oeis.org/A088617): mean number of U steps in a Schröder n-path is ~ n/√2
+
+- Problem: [OEIS-A088617](OEIS/A088617/README.md) (proved, new). Lean: paper proof, [`A088617_mathlib.lean`](OEIS/A088617/A088617_mathlib.lean).
+- Prior art: Roitner proved the companion A090981 (ascents) by the vectorial kernel method and singularity analysis; no proof of the U-step statement found. Proof here: exact formula 4U(n+1) = (3n+2)r(n+1) - n r(n) plus ratio limit r(n+1)/r(n) -> 3+2sqrt2.
+- Draft comment:
+
+  > The conjecture is true: With r(n) = Σ_k T(n,k) (A006318) and U(n) = Σ_k k·T(n,k), exactly 4·U(n+1) = (3n+2)·r(n+1) − n·r(n), and U(n)/(n·r(n)) → √(1/2). (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A088617). - _<Name>_, <Mon DD YYYY>
+
 ### [A089758](https://oeis.org/A089758): the prime concatenation chain never stops
 
 - Problem: [OEIS-A089758](OEIS/A089758/README.md) (proved, new). Lean: Lean proof, [`A089758_mathlib.lean`](OEIS/A089758/A089758_mathlib.lean).
@@ -305,6 +297,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true for 1901-2099 but false for the Gregorian calendar as a whole. Every "weekday w on day d" sequence equals "weekday u on the 13th" for some u, and on 1901-2099 the pattern has period 28 and weekday u corresponds to a shift of 20, 8, 24, 12, 0, 16, 4 years for u = Monday, ..., Sunday; across a non-leap century year this correspondence breaks, and over the 400-year cycle no weekday other than Friday gives a cyclic shift of the Friday sequence, as the unequal 400-year totals (688 Friday the 13ths, 684 to 687 for the other weekdays) already show. A proof is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A101312.
+
+### [A104895](https://oeis.org/A104895): positions of k ≥ 0 are A048724(k), positions of −k are A065621(k)
+
+- Problem: [OEIS-A104895](OEIS/A104895/README.md) (proved, partly-known). Lean: Lean proof, [`A104895_mathlib.lean`](OEIS/A104895/A104895_mathlib.lean).
+- Prior art: Conjecture follows from cross-referenced identities; no written proof found. %N name line misprinted (signs swapped).
+- Draft comment:
+
+  > The conjecture is true: a(n) = k exactly when n = A048724(k) (k ≥ 0), a(n) = −k exactly when n = A065621(k) (k ≥ 1), and a is a bijection from ℕ onto ℤ. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A104895). - _<Name>_, <Mon DD YYYY>
 
 ### [A104896](https://oeis.org/A104896): counting integers below 10^n with no digit 0, 1, 2
 
@@ -361,6 +361,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is false: a(12) = 27 > a(13) = 6 < a(14) = 27, but prime(12) = 37 and prime(13) = 41 are not twin primes. The variant with prime(n+1), prime(n+2) twins also fails, at n = 21 (a(21) = 65 > a(22) = 27 < a(23) = 70, prime(22) = 79, prime(23) = 83); below 10^5 there are 3194 and 1981 failures, respectively. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113610.
+
+### [A124431](https://oeis.org/A124431): Mathar's recurrence for Σ 2^k C(⌊(n+k)/2⌋, k) C(⌊(n+k+1)/2⌋, k)
+
+- Problem: [OEIS-A124431](OEIS/A124431/README.md) (proved, new). Lean: Lean proof, [`A124431_mathlib.lean`](OEIS/A124431/A124431_mathlib.lean).
+- Prior art: Entry prints an algebraic g.f. without proof; no proof of the recurrence found.
+- Draft comment:
+
+  > The conjecture is true: for every n ≥ 4. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A124431). - _<Name>_, <Mon DD YYYY>
 
 ### [A129454](https://oeis.org/A129454): p-adic valuation of a triple gcd product (true after an index shift)
 
@@ -482,6 +490,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > Conjectures (1)-(4) are true by Korselt's criterion: 6 and 16 divide C - 1, so 48 | C - 1, and with C = 119m, 119 == 23 (mod 48) gives m == 23 (mod 48), i.e., m == 7 (mod 8) and m == 2 (mod 3). Since C == 9m (mod 10), the last digit of C fixes m mod 5, giving m == 119, 95, 47, 71 (mod 120) for C == 1, 5, 3, 9 (mod 10). A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A182532.
 
+### [A187011](https://oeis.org/A187011): det(|p_i − p_j|) over the first n primes
+
+- Problem: [OEIS-A187011](OEIS/A187011/README.md) (proved, partly-known). Lean: paper proof, [`A187011_mathlib.lean`](OEIS/A187011/A187011_mathlib.lean).
+- Prior art: Sign part is the weighted-path case of the Bapat-Kirkland-Neumann tree formula; growth part a routine sieve corollary; no prior proof of the A187011 conjecture found.
+- Draft comment:
+
+  > The conjecture is true: Both parts are true. For n ≥ 2, a(n) = (−1)^(n−1) · 2^(n−2) · (p_n − 2) · ∏_{i<n} (p_{i+1} − p_i), so the sign part is immediate. The growth part follows from this formula and a sieve upper bound for prime pairs. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A187011). - _<Name>_, <Mon DD YYYY>
+
 ### [A192205](https://oeis.org/A192205): a(n)^(1/n) → 16√3/9 for the coefficient sum of (1-x-x^2+x^3)^n
 
 - Problem: [OEIS-A192205](OEIS/A192205/README.md) (proved, new). Lean: Lean proof, [`A192205_mathlib.lean`](OEIS/A192205/A192205_mathlib.lean).
@@ -497,6 +513,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: with x = t + 3 and s = sin(Pi*t/6), cos(Pi*x/2) = cos(Pi*x/3)^2 becomes (s+1)(4s^3 - 4s + 1) = 0, and the equation of A197383 becomes s(4s^3 - 4s + 1) = 0. Neither has a root with x in (0,3] (4s^3 - 4s + 1 > 0 for -1 <= s <= 0), and for t > 0 the least root of both comes from the least positive root s1 = 0.2696... of 4s^3 - 4s + 1, so both are given by t0 = (6/Pi)*arcsin(s1) = 0.52133782957... A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A197521.
+
+### [A197702](https://oeis.org/A197702): least k with n = ±1 ±3 ± … ±(2k−1)
+
+- Problem: [OEIS-A197702](OEIS/A197702/README.md) (proved, new). Lean: Lean proof, [`A197702_mathlib.lean`](OEIS/A197702/A197702_mathlib.lean).
+- Prior art: No proof found; elementary induction on the subset sums of the first k odd numbers.
+- Draft comment:
+
+  > The conjecture is true: for every n ≥ 1. SO(k) = k². (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A197702). - _<Name>_, <Mon DD YYYY>
 
 ### [A210529](https://oeis.org/A210529): a(n) is defined for every n (Dirichlet)
 
@@ -546,6 +570,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: let q be the smallest prime factor of 1 + n^2 and k = (1 + n^2)!; every prime l <= 1 + n^2 divides k, so l divides 1 + (n+k)^2 iff it divides 1 + n^2, hence 1 + (n+k)^2 also has smallest prime factor q. (A Chinese remainder argument gives smaller such k.) A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A217448.
 
+### [A217876](https://oeis.org/A217876): adjacent transpositions in a random involution are asymptotically Poisson(1)
+
+- Problem: [OEIS-A217876](OEIS/A217876/README.md) (proved, new). Lean: paper proof, [`A217876_mathlib.lean`](OEIS/A217876/A217876_mathlib.lean).
+- Prior art: Only permutation analogues (adjacencies in random permutations) found; nothing on involutions.
+- Draft comment:
+
+  > The conjecture is true: T(n,j)/I(n) → e^{−1}/j! for every j ≥ 0. Also E C(X_n,i) → 1/i!. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A217876). - _<Name>_, <Mon DD YYYY>
+
 ### [A221650](https://oeis.org/A221650): P(n,j,k) = [k | j] p(n-j) counts partitions with at least j/k parts k
 
 - Problem: [OEIS-A221650](OEIS/A221650/README.md) (proved, partly-known). Lean: Lean proof, [`A221650_mathlib.lean`](OEIS/A221650/A221650_mathlib.lean).
@@ -594,8 +626,17 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: for 1/phi the first remainders are z_1 = 2/phi - 1 = phi^(-3) and z_2 = 4*phi^(-3) - 1 = -phi^(-6), giving a(1) = 2, a(2) = round(phi^3) = 4 and a(3) = -18 = -L(6); from there the remainder is governed by the unit phi^6 = 9 + 4*sqrt(5) of norm +1, and G. Artico's lemma for A228931 gives a(n) = a(n-1)^2 - 2 from a(4) = 322 on. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228933.
 
-## Known elsewhere, still labelled a conjecture in OEIS (13): cross-reference only
+### [A228934](https://oeis.org/A228934): the optimal ascending continued fraction of √44 − 6 follows a two-step recurrence
 
+- Problem: [OEIS-A228934](OEIS/A228934/README.md) (proved, new). Lean: Lean proof, [`A228934_mathlib.lean`](OEIS/A228934/A228934_mathlib.lean).
+- Prior art: Artico's A228931 note has the one-step norm-1 unit lemma; the two-step invariant for sqrt 44 - 6 is not written there.
+- Draft comment:
+
+  > The conjecture is true (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228934). - _<Name>_, <Mon DD YYYY>
+
+## Known elsewhere, still labelled a conjecture in OEIS (17): cross-reference only
+
+- [A008578](https://oeis.org/A008578): 1 and the primes are exactly the k with sigma(k) > k·Omega(k). Known from: Already proved in Lean by others before this project: otoi-lab/oeis-lean-proofs, OeisProofs/FC/A8578.lean (Lean 4; 'Solved by Claude (Anthropic) prompted by otoinobuo'), first commit 2026-10-12; marked solved in google-deepmind/formal-conjectures FormalConjectures/OEIS/8578.lean. This project proved it independently; the OEIS entry still says Conjecture. Missed by the 2026-11-04 review, which did not search formal-conjectures. No source found for sigma(k) <= k Omega(k) on composites; elementary proof.
 - [A072901](https://oeis.org/A072901): composites with disc Q(√n) = 4n are squarefree. Known from: Textbook: disc Q(sqrt n) = 4n iff n squarefree and n == 2, 3 (mod 4).
 - [A079665](https://oeis.org/A079665): when is (b^s + 1)/(b^r + 1) an integer. Known from: Classical: b^r + 1 | b^s + 1 iff r | s and s/r odd.
 - [A081199](https://oeis.org/A081199): collinear 4-tuples in the 4^n grid. Known from: Collinear 4-sets in the 4^n grid are the winning lines, counted by Moser's formula ((k+2)^n - k^n)/2.
@@ -605,6 +646,9 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - [A097406](https://oeis.org/A097406): primitive prime factors of 2^n − 1 are ≡ 1 (mod n). Known from: Textbook: ord_p(2) = n divides p - 1. Conjecture (2) is not a precise statement.
 - [A101462](https://oeis.org/A101462): 2^k − 509203 is never prime, so a(42228) does not exist. Known from: That 2^n - 509203 is never prime is stated (Wikipedia, dual Riesel numbers); the link to A101462 (index 42228) is not recorded.
 - [A102613](https://oeis.org/A102613): π(n)/(n − π(n)) → 0. Known from: Immediate from pi(n)/n -> 0 (Chebyshev/Legendre).
+- [A113250](https://oeis.org/A113250): a(m, 2n+1) is a perfect square (m = 4). Known from: Already proved in Lean by others before this project: KitaKen1/oeis-a113249-family-square-terms-lean (Lean 4); marked solved in google-deepmind/formal-conjectures FormalConjectures/OEIS/113250.lean, PR #4963 (2026-08-15). This project proved it independently; the OEIS entry still says Conjecture. Missed by the 2026-11-04 review, which did not search formal-conjectures. The m = 3 (Israel 2017) and m = 8 (Stephan 2026, AI proof) cases are proved in OEIS; Jacob's 2023 closed forms make m = 1, 3, 5, 7 a one-line check. No source proves the family for all m, and the entry for this m still says Conjecture.
+- [A113252](https://oeis.org/A113252): a(m, 2n+1) is a perfect square (m = 6). Known from: Already proved in Lean by others before this project: KitaKen1/oeis-a113249-family-square-terms-lean (Lean 4); marked solved in google-deepmind/formal-conjectures FormalConjectures/OEIS/113252.lean, PR #4963 (2026-08-15). This project proved it independently; the OEIS entry still says Conjecture. Missed by the 2026-11-04 review, which did not search formal-conjectures. The m = 3 (Israel 2017) and m = 8 (Stephan 2026, AI proof) cases are proved in OEIS; Jacob's 2023 closed forms make m = 1, 3, 5, 7 a one-line check. No source proves the family for all m, and the entry for this m still says Conjecture.
+- [A113255](https://oeis.org/A113255): a(m, 2n+1) is a perfect square (m = 9). Known from: Already proved in Lean by others before this project: KitaKen1/oeis-a113249-family-square-terms-lean (Lean 4); marked solved in google-deepmind/formal-conjectures FormalConjectures/OEIS/113255.lean, PR #4963 (2026-08-15). This project proved it independently; the OEIS entry still says Conjecture. Missed by the 2026-11-04 review, which did not search formal-conjectures. The m = 3 (Israel 2017) and m = 8 (Stephan 2026, AI proof) cases are proved in OEIS; Jacob's 2023 closed forms make m = 1, 3, 5, 7 a one-line check. No source proves the family for all m, and the entry for this m still says Conjecture.
 - [A115038](https://oeis.org/A115038): every prime is y^k − x^2. Known from: Triviality; squares count as perfect powers per the entry's own data.
 - [A125148](https://oeis.org/A125148): every x coprime to 10 has a prime x + 10m. Known from: Direct corollary of Dirichlet's theorem.
 - [A176494](https://oeis.org/A176494): an odd prime p with |2^m - p| composite for every m ≥ 1. Known from: 509203 is a known dual Riesel number and is prime, so it refutes the conjecture; OEIS does not record this.
