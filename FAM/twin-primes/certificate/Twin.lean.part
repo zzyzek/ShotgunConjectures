@@ -1,0 +1,1308 @@
+import Mathlib.NumberTheory.Harmonic.Bounds
+import Mathlib.Data.Nat.Periodic
+import Mathlib.Algebra.Field.ZMod
+import Mathlib.Data.Finset.NatDivisors
+import Mathlib.Analysis.PSeries
+import Mathlib.Algebra.Order.Field.GeomSum
+import Mathlib.Analysis.Complex.ExponentialBounds
+
+-- ===== our part: the Selberg sieve applied to n (n + h) =====
+
+noncomputable section
+
+open Finset
+
+/-! ### Local densities
+
+`pairRho h d` is the number of residues `x mod d` with `x (x + h) = 0 mod d`. -/
+
+def pairRho (h d : ℕ) : ℕ := Nat.card {x : ZMod d // x * (x + h) = 0}
+
+theorem pairRho_mul (h : ℕ) {m n : ℕ} (hmn : m.Coprime n) :
+    pairRho h (m * n) = pairRho h m * pairRho h n := by
+  unfold pairRho
+  rw [← Nat.card_prod]
+  apply Nat.card_congr
+  refine (Equiv.subtypeEquiv (p := fun x : ZMod (m * n) => x * (x + h) = 0)
+    (q := fun c : ZMod m × ZMod n => c.1 * (c.1 + h) = 0 ∧ c.2 * (c.2 + h) = 0)
+    (ZMod.chineseRemainder hmn).toEquiv ?_).trans
+    (Equiv.subtypeProdEquivProd (p := fun x : ZMod m => x * (x + h) = 0)
+      (q := fun x : ZMod n => x * (x + h) = 0))
+  intro x
+  have he : (ZMod.chineseRemainder hmn) (x * (x + h)) =
+      (ZMod.chineseRemainder hmn) x * ((ZMod.chineseRemainder hmn) x + h) := by
+    simp [map_mul, map_add, map_natCast]
+  rw [← map_eq_zero_iff _ (ZMod.chineseRemainder hmn).injective, he, Prod.ext_iff]
+  simp
+
+theorem pairRho_eq_card (h d : ℕ) [NeZero d] :
+    pairRho h d = (univ.filter (fun x : ZMod d => x * (x + h) = 0)).card := by
+  unfold pairRho
+  rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
+
+theorem pairRho_pos (h d : ℕ) (hd : d ≠ 0) : 1 ≤ pairRho h d := by
+  have : NeZero d := ⟨hd⟩
+  rw [pairRho_eq_card]
+  exact Finset.card_pos.mpr ⟨0, by simp⟩
+
+theorem pairRho_le (h d : ℕ) (hd : d ≠ 0) : pairRho h d ≤ d := by
+  have : NeZero d := ⟨hd⟩
+  rw [pairRho_eq_card]
+  calc _ ≤ (univ : Finset (ZMod d)).card := card_filter_le _ _
+    _ = d := by rw [Finset.card_univ, ZMod.card]
+
+theorem pairRho_one (h : ℕ) : pairRho h 1 = 1 :=
+  le_antisymm (pairRho_le h 1 one_ne_zero) (pairRho_pos h 1 one_ne_zero)
+
+theorem pairRho_prime_le_two (h : ℕ) {p : ℕ} (hp : p.Prime) : pairRho h p ≤ 2 := by
+  have : Fact p.Prime := ⟨hp⟩
+  rw [pairRho_eq_card]
+  calc _ ≤ ({0, -(h : ZMod p)} : Finset (ZMod p)).card := by
+        apply card_le_card
+        intro x hx
+        simp only [mem_filter, mem_univ, true_and] at hx
+        rcases mul_eq_zero.mp hx with hx | hx
+        · simp [hx]
+        · simp [eq_neg_of_add_eq_zero_left hx]
+    _ ≤ 2 := card_le_two
+
+theorem pairRho_prime_of_dvd {h p : ℕ} (hp : p.Prime) (hph : p ∣ h) : pairRho h p ≤ 1 := by
+  have : Fact p.Prime := ⟨hp⟩
+  rw [pairRho_eq_card]
+  have h0 : ((h : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff h p).mpr hph
+  calc _ ≤ ({0} : Finset (ZMod p)).card := by
+        apply card_le_card
+        intro x hx
+        simp only [mem_filter, mem_univ, true_and, h0, add_zero] at hx
+        simp [mul_self_eq_zero.mp hx]
+    _ = 1 := card_singleton _
+
+theorem pairRho_prime_of_not_dvd {h p : ℕ} (hp : p.Prime) (hph : ¬ p ∣ h) :
+    2 ≤ pairRho h p := by
+  have : Fact p.Prime := ⟨hp⟩
+  rw [pairRho_eq_card]
+  have h0 : ((h : ℕ) : ZMod p) ≠ 0 := fun e => hph ((ZMod.natCast_eq_zero_iff h p).mp e)
+  have hne : (0 : ZMod p) ≠ -(h : ZMod p) := fun e => h0 (neg_eq_zero.mp e.symm)
+  calc 2 = ({0, -(h : ZMod p)} : Finset (ZMod p)).card := (card_pair hne).symm
+    _ ≤ _ := by
+        apply card_le_card
+        intro x hx
+        simp only [mem_insert, mem_singleton] at hx
+        rcases hx with hx | hx <;> simp [hx]
+
+theorem pairRho_lt_prime {h p : ℕ} (hh : 2 ∣ h) (hp : p.Prime) : pairRho h p < p := by
+  by_cases hph : p ∣ h
+  · have := pairRho_prime_of_dvd hp hph
+    have := hp.two_le
+    omega
+  · have hp2 : p ≠ 2 := fun e => hph (e ▸ hh)
+    have := pairRho_prime_le_two h hp
+    have := hp.two_le
+    omega
+
+/-- `nu d = pairRho h d / d`, the density of `{n : d ∣ n (n + h)}`. -/
+def pairNu (h : ℕ) : ArithmeticFunction ℝ := ⟨fun d => (pairRho h d : ℝ) / d, by simp⟩
+
+theorem pairNu_apply (h d : ℕ) : pairNu h d = (pairRho h d : ℝ) / d := rfl
+
+theorem pairNu_mult (h : ℕ) : (pairNu h).IsMultiplicative := by
+  refine ⟨by simp [pairNu_apply, pairRho_one], fun {m n} hmn => ?_⟩
+  simp only [pairNu_apply, pairRho_mul h hmn]
+  push_cast
+  rw [mul_div_mul_comm]
+
+theorem pairNu_pos (h : ℕ) {p : ℕ} (hp : p.Prime) : 0 < pairNu h p := by
+  rw [pairNu_apply]
+  have := pairRho_pos h p hp.ne_zero
+  have := hp.pos
+  positivity
+
+theorem pairNu_lt_one {h p : ℕ} (hh : 2 ∣ h) (hp : p.Prime) : pairNu h p < 1 := by
+  rw [pairNu_apply, div_lt_one (by exact_mod_cast hp.pos)]
+  exact_mod_cast pairRho_lt_prime hh hp
+
+/-! ### The completely multiplicative minorant `f`
+
+`pairF h n = 2 ^ Ω(n) / n` if `n` is coprime to `h`, else `0`. On primes it is at
+most `pairNu h`. -/
+
+def pairF (h : ℕ) : ArithmeticFunction ℝ :=
+  ⟨fun n => if n.Coprime h then (2 : ℝ) ^ (ArithmeticFunction.cardFactors n) / n else 0,
+    by simp⟩
+
+theorem pairF_apply (h n : ℕ) : pairF h n =
+    if n.Coprime h then (2 : ℝ) ^ (ArithmeticFunction.cardFactors n) / n else 0 := rfl
+
+theorem pairF_compMult (h : ℕ) : Sieve.CompletelyMultiplicative (pairF h) := by
+  refine ⟨by simp [pairF_apply], fun a b => ?_⟩
+  by_cases ha : a = 0
+  · simp [pairF_apply, ha]
+  by_cases hb : b = 0
+  · simp [pairF_apply, hb]
+  simp only [pairF_apply, Nat.coprime_mul_iff_left, ArithmeticFunction.cardFactors_mul ha hb]
+  by_cases h1 : a.Coprime h
+  · by_cases h2 : b.Coprime h
+    · rw [ite_eq_left ⟨h1, h2⟩, ite_eq_left h1, ite_eq_left h2]
+      push_cast
+      rw [pow_add, mul_div_mul_comm]
+    · rw [ite_eq_right (fun h' => h2 h'.2), ite_eq_right h2, mul_zero]
+  · rw [ite_eq_right (fun h' => h1 h'.1), ite_eq_right h1, zero_mul]
+
+theorem pairF_nonneg (h n : ℕ) : 0 ≤ pairF h n := by
+  rw [pairF_apply]
+  split_ifs <;> positivity
+
+theorem pairF_prime_lt_one {h p : ℕ} (hh : 2 ∣ h) (hp : p.Prime) : pairF h p < 1 := by
+  rw [pairF_apply, ArithmeticFunction.cardFactors_apply_prime hp]
+  split_ifs with hc
+  · have hp2 : p ≠ 2 := by
+      intro e
+      subst e
+      exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp hc hh
+    have h3 : (3 : ℝ) ≤ p := by
+      have := hp.two_le
+      exact_mod_cast (show 3 ≤ p by omega)
+    rw [div_lt_one (by linarith)]
+    linarith
+  · norm_num
+
+theorem pairF_prime_le_nu {h p : ℕ} (hp : p.Prime) : pairF h p ≤ pairNu h p := by
+  rw [pairF_apply, ArithmeticFunction.cardFactors_apply_prime hp, pairNu_apply]
+  split_ifs with hc
+  · have hnd : ¬ p ∣ h := (Nat.Prime.coprime_iff_not_dvd hp).mp hc
+    have := pairRho_prime_of_not_dvd hp hnd
+    have hp0 : (0 : ℝ) < p := by exact_mod_cast hp.pos
+    rw [pow_one]
+    gcongr
+    exact_mod_cast this
+  · exact div_nonneg (by positivity) (by positivity)
+
+/-! ### Counting a periodic set in `[0, N)` -/
+
+theorem count_shift_periodic (Q : ℕ → Prop) [DecidablePred Q] {d : ℕ}
+    (hQ : Function.Periodic Q d) (q n : ℕ) :
+    Nat.count (fun k => Q (d * q + k)) n = Nat.count Q n := by
+  simp only [Nat.count_eq_card_filter_range]
+  refine congrArg Finset.card (Finset.filter_congr fun k _ => ?_)
+  rw [show d * q + k = k + q * d by ring]
+  exact Iff.of_eq ((hQ.nat_mul q) k)
+
+theorem count_periodic (Q : ℕ → Prop) [DecidablePred Q] {d : ℕ} (hd : 0 < d)
+    (hQ : Function.Periodic Q d) (N : ℕ) : ∃ E, E ≤ Nat.count Q d ∧ Nat.count Q N = Nat.count Q d * (N / d) + E := by
+  have hfull : ∀ q, Nat.count Q (d * q) = Nat.count Q d * q := by
+    intro q
+    induction q with
+    | zero => simp
+    | succ q ih =>
+      rw [Nat.mul_succ, Nat.count_add, ih, count_shift_periodic Q hQ, Nat.mul_succ]
+  refine ⟨Nat.count Q (N % d), ?_, ?_⟩
+  · exact Nat.count_monotone Q (Nat.mod_lt N hd).le
+  · conv_lhs => rw [← Nat.div_add_mod N d]
+    rw [Nat.count_add, hfull, count_shift_periodic Q hQ]
+
+theorem pair_periodic (h d : ℕ) : Function.Periodic (fun n => d ∣ n * (n + h)) d := by
+  intro n
+  simp only
+  have : (n + d) * (n + d + h) = n * (n + h) + d * (2 * n + d + h) := by ring
+  rw [this, Nat.dvd_add_left (dvd_mul_right _ _)]
+
+theorem count_pair_eq_pairRho (h d : ℕ) (hd : d ≠ 0) :
+    Nat.count (fun n => d ∣ n * (n + h)) d = pairRho h d := by
+  have : NeZero d := ⟨hd⟩
+  rw [Nat.count_eq_card_filter_range, pairRho_eq_card]
+  apply Finset.card_bij' (fun (r : ℕ) _ => (r : ZMod d)) (fun (x : ZMod d) _ => x.val)
+  · intro r hr
+    simp only [mem_filter, mem_range] at hr
+    simp only [mem_filter, mem_univ, true_and]
+    have := (ZMod.natCast_eq_zero_iff (r * (r + h)) d).mpr hr.2
+    push_cast at this
+    exact this
+  · intro x hx
+    simp only [mem_filter, mem_univ, true_and] at hx
+    simp only [mem_filter, mem_range]
+    refine ⟨ZMod.val_lt x, (ZMod.natCast_eq_zero_iff _ d).mp ?_⟩
+    push_cast
+    rw [ZMod.natCast_zmod_val]
+    exact hx
+  · intro r hr
+    simp only [mem_filter, mem_range] at hr
+    exact ZMod.val_cast_of_lt hr.1
+  · intro x _
+    exact ZMod.natCast_zmod_val x
+
+theorem abs_count_pair_sub_le (h d N : ℕ) (hd : d ≠ 0) :
+    |(Nat.count (fun n => d ∣ n * (n + h)) N : ℝ) - (pairRho h d : ℝ) / d * N|
+      ≤ pairRho h d := by
+  obtain ⟨E, hE, hc⟩ := count_periodic _ (Nat.pos_of_ne_zero hd) (pair_periodic h d) N
+  rw [count_pair_eq_pairRho h d hd] at hE hc
+  rw [hc]
+  have hd0 : (0 : ℝ) < d := by exact_mod_cast Nat.pos_of_ne_zero hd
+  have hN : (N : ℝ) = d * (N / d : ℕ) + (N % d : ℕ) := by
+    exact_mod_cast (Nat.div_add_mod N d).symm
+  have hr : ((N % d : ℕ) : ℝ) < d := by exact_mod_cast Nat.mod_lt N (Nat.pos_of_ne_zero hd)
+  have hE' : (E : ℝ) ≤ pairRho h d := by exact_mod_cast hE
+  have key : ((pairRho h d * (N / d) + E : ℕ) : ℝ) - (pairRho h d : ℝ) / d * N
+      = E - (pairRho h d : ℝ) * ((N % d : ℕ) / d) := by
+    rw [hN]
+    push_cast
+    field_simp
+    ring
+  rw [key, abs_le]
+  have h1 : (0 : ℝ) ≤ ((N % d : ℕ) : ℝ) / d := by positivity
+  have h2 : ((N % d : ℕ) : ℝ) / d ≤ 1 := by rw [div_le_one hd0]; exact hr.le
+  have h3 : (pairRho h d : ℝ) * ((N % d : ℕ) / d) ≤ pairRho h d := by
+    calc _ ≤ (pairRho h d : ℝ) * 1 := by gcongr
+      _ = _ := mul_one _
+  have h4 : 0 ≤ (pairRho h d : ℝ) * ((N % d : ℕ) / d) := by positivity
+  have h5 : (0 : ℝ) ≤ E := by positivity
+  constructor <;> linarith
+
+/-! ### Lower bound for the Selberg main-term sum
+
+Adapted from `selbergBoundingSum_ge_sum_div` (PrimeNumberTheoremAnd, SelbergBounds.lean).
+There `nu` itself must be completely multiplicative. Here a completely multiplicative
+`f` with `f p ≤ nu p` on the sifting primes suffices, because `x / (1 - x)` increases
+on `[0, 1)`. -/
+
+section BoundingSum
+open BoundingSieve SelbergSieve Sieve
+
+theorem pair_boundingSum_ge (s : SelbergSieve) (f : ArithmeticFunction ℝ)
+    (hP : ∀ p : ℕ, p.Prime → (p : ℝ) ≤ s.level → p ∣ s.prodPrimes)
+    (hf : CompletelyMultiplicative f) (hf_nonneg : ∀ n, 0 ≤ f n)
+    (hf_lt : ∀ p, p.Prime → p ∣ s.prodPrimes → f p < 1)
+    (hf_le : ∀ p, p.Prime → p ∣ s.prodPrimes → f p ≤ s.nu p) :
+    s.selbergBoundingSum ≥ ∑ m ∈ Finset.Icc 1 (Nat.floor <| Real.sqrt s.level), f m := by
+  have hkey : ∀ l, l ∣ s.prodPrimes →
+      f l * ∏ p ∈ l.primeFactors, 1 / (1 - f p) ≤ SelbergSieve.selbergTerms s.toBoundingSieve l := by
+    intro l hl
+    have hsq : Squarefree l := Squarefree.squarefree_of_dvd hl s.prodPrimes_squarefree
+    rw [SelbergSieve.selbergTerms_apply]
+    have e1 : f l = ∏ p ∈ l.primeFactors, f p := by
+      conv_lhs => rw [← Nat.prod_primeFactors_of_squarefree hsq]
+      exact hf.isMultiplicative.map_prod_of_subset_primeFactors _ _ subset_rfl
+    have e2 : s.nu l = ∏ p ∈ l.primeFactors, s.nu p := (BoundingSieve.prod_primeFactors_nu hl).symm
+    rw [e1, e2, ← Finset.prod_mul_distrib, ← Finset.prod_mul_distrib]
+    apply Finset.prod_le_prod₀
+    · intro p hp
+      have hpp := Nat.prime_of_mem_primeFactors hp
+      have hpP := (Nat.dvd_of_mem_primeFactors hp).trans hl
+      have := hf_lt p hpp hpP
+      have := hf_nonneg p
+      apply mul_nonneg this
+      apply div_nonneg zero_le_one
+      linarith
+    · intro p hp
+      have hpp := Nat.prime_of_mem_primeFactors hp
+      have hpP := (Nat.dvd_of_mem_primeFactors hp).trans hl
+      have h1 := hf_lt p hpp hpP
+      have h2 := hf_nonneg p
+      have h3 := hf_le p hpp hpP
+      have h4 := s.nu_lt_one_of_prime p hpp hpP
+      rw [mul_one_div, mul_one_div]
+      apply div_le_div₀ (by linarith) h3 (by linarith) (by linarith)
+  unfold selbergBoundingSum
+  calc ∑ l ∈ s.prodPrimes.divisors, (if l ^ 2 ≤ s.level then selbergTerms _ l else 0)
+     ≥ ∑ l ∈ s.prodPrimes.divisors.filter (fun (l:ℕ) => l^2 ≤ s.level),
+        ∑ m ∈ (l^(Nat.floor s.level)).divisors.filter (l ∣ ·), f m         := ?_
+   _ ≥ ∑ m ∈ Finset.Icc 1 (Nat.floor <| Real.sqrt s.level), f m           := ?_
+  · rw [←Finset.sum_filter]; apply Finset.sum_le_sum; intro l hl
+    rw [Finset.mem_filter, Nat.mem_divisors] at hl
+    have hlsq : Squarefree l := Squarefree.squarefree_of_dvd hl.1.1 s.prodPrimes_squarefree
+    trans (∏ p ∈ l.primeFactors, ∑ n ∈ Finset.Icc 1 (Nat.floor s.level), f (p^n))
+    · rw [prod_factors_sum_pow_compMult (Nat.floor s.level) _ f]
+      · exact hf
+      · exact hlsq
+      · rw [ne_eq, Nat.floor_eq_zero, not_lt]
+        exact s.one_le_level
+    refine le_trans ?_ (hkey l hl.1.1)
+    apply prod_factors_one_div_compMult_ge _ _ hf _ _ hlsq
+    · intro p hpp hpl
+      exact hf_lt p hpp (Trans.trans hpl hl.1.1)
+    · exact hf_nonneg
+
+  rw [←Finset.sum_biUnion]
+  · apply Finset.sum_le_sum_of_subset_of_nonneg ?_ (fun _ _ _ => hf_nonneg _)
+    intro m hm
+    have hprod_pos : 0 < (∏ p ∈ m.primeFactors, p) := by
+      apply Finset.prod_pos;
+      intro p hp; exact Nat.pos_of_mem_primeFactorsList <| List.mem_toFinset.mp hp
+    have hprod_ne_zero :  (∏ p ∈ m.primeFactors, p) ^ ⌊s.level⌋₊ ≠ 0 := by
+      apply pow_ne_zero; apply ne_of_gt; apply hprod_pos
+    rw [Finset.mem_biUnion]; simp_rw [Finset.mem_filter, Nat.mem_divisors]
+    rw [Finset.mem_Icc, Nat.le_floor_iff] at hm
+    · have hm_ne_zero : m ≠ 0 := by
+        exact ne_of_gt <| Nat.succ_le_iff.mp hm.1
+      use ∏ p ∈ m.primeFactors, p
+      constructor; constructor; constructor
+      · apply prod_primes_dvd_of_dvd <;> intro p hp
+        · apply hP p <| Nat.prime_of_mem_primeFactors hp
+          trans (m:ℝ)
+          · exact_mod_cast Nat.le_of_mem_primeFactors hp
+          trans (Real.sqrt s.level)
+          · exact hm.2
+          apply sqrt_le_self s.level s.one_le_level
+        exact Nat.prime_of_mem_primeFactors hp
+      · exact prodPrimes_ne_zero
+      · rw [←Real.sqrt_le_sqrt_iff (by linarith only [s.one_le_level]), Real.sqrt_sq]
+        · trans (m:ℝ)
+          · norm_cast; apply Nat.le_of_dvd (Nat.succ_le_iff.mp hm.1)
+            exact Nat.prod_primeFactors_dvd m
+          exact hm.2
+        apply le_of_lt; norm_cast
+      constructor; constructor
+      · rw [←Nat.factorization_le_iff_dvd _ hprod_ne_zero, Nat.factorization_pow]
+        · intro p
+          have hy_mul_prod_nonneg : 0 ≤ ⌊s.level⌋₊ * (Nat.factorization (∏ p ∈ m.primeFactors, p)) p := by
+            apply mul_nonneg
+            · apply Nat.le_floor; norm_cast; linarith only [s.one_le_level]
+            · norm_num
+          trans (Nat.factorization m) p * 1
+          · rw [mul_one]
+          rw [Finsupp.smul_apply, smul_eq_mul]
+          by_cases hpp : p.Prime
+          swap
+          · rw [Nat.factorization_eq_zero_of_not_prime _ hpp, zero_mul]; exact hy_mul_prod_nonneg
+          by_cases hpdvd : p ∣ m
+          swap
+          · rw [Nat.factorization_eq_zero_of_not_dvd hpdvd, zero_mul]; exact hy_mul_prod_nonneg
+          apply mul_le_mul
+          · trans m
+            · apply le_of_lt <| Nat.factorization_lt _ _
+              apply hm_ne_zero
+            apply Nat.le_floor
+            refine le_trans hm.2 ?_
+            apply sqrt_le_self _ s.one_le_level
+          · rw [←Nat.Prime.pow_dvd_iff_le_factorization hpp <| ne_of_gt hprod_pos, pow_one]
+            apply Finset.dvd_prod_of_mem
+            rw [Nat.mem_primeFactors]
+            exact ⟨hpp, hpdvd, hm_ne_zero⟩
+          · norm_num
+          · norm_num
+        exact hm_ne_zero
+      · exact hprod_ne_zero
+      · exact Nat.prod_primeFactors_dvd m
+    · apply Real.sqrt_nonneg
+  · intro i hi j hj hij t hti htj x hx
+    simp only [Finset.bot_eq_empty, Finset.notMem_empty]
+    specialize hti hx
+    specialize htj hx
+    simp_rw [Finset.mem_coe, Finset.mem_filter, Nat.mem_divisors] at *
+    have h : ∀ i j {n}, i ∣ s.prodPrimes → i ∣ x → x ∣ j ^ n → i ∣ j := by
+      intro i j n hiP hix hij
+      apply Nat.squarefree_dvd_pow i j n (squarefree_of_dvd_prodPrimes hiP)
+      exact Trans.trans hix hij
+    have hidvdj : i ∣ j := by
+      apply h i j hi.1.1 hti.2 htj.1.1
+    have hjdvdi : j ∣ i := by
+      apply h j i hj.1.1 htj.2 hti.1.1
+    exact hij <| Nat.dvd_antisymm hidvdj hjdvdi
+
+
+end BoundingSum
+
+/-! ### Number of divisors -/
+
+open scoped Pointwise in
+theorem card_divisors_le_two_pow (n : ℕ) (hn : n ≠ 0) :
+    n.divisors.card ≤ 2 ^ ArithmeticFunction.cardFactors n := by
+  induction n using Nat.recOnMul with
+  | zero => exact absurd rfl hn
+  | one => simp
+  | prime p hp =>
+    rw [Nat.Prime.divisors hp, ArithmeticFunction.cardFactors_apply_prime hp,
+      card_pair hp.one_lt.ne]
+    norm_num
+  | mul a b iha ihb =>
+    have ha : a ≠ 0 := left_ne_zero_of_mul hn
+    have hb : b ≠ 0 := right_ne_zero_of_mul hn
+    rw [Nat.divisors_mul, ArithmeticFunction.cardFactors_mul ha hb, pow_add]
+    exact Finset.card_mul_le.trans (Nat.mul_le_mul (iha ha) (ihb hb))
+
+/-! ### The main term: `S ≥ (log (M + 1) / h) ^ 2` -/
+
+theorem pairF_ge_divisor_sum (h m : ℕ) (hm : m ≠ 0) (hc : m.Coprime h) :
+    ∑ x ∈ m.divisorsAntidiagonal, ((x.1 : ℝ) * x.2)⁻¹ ≤ pairF h m := by
+  have hconst : ∀ x ∈ m.divisorsAntidiagonal, ((x.1 : ℝ) * x.2)⁻¹ = (m : ℝ)⁻¹ := by
+    intro x hx
+    rw [Nat.mem_divisorsAntidiagonal] at hx
+    rw [← hx.1, Nat.cast_mul]
+  have hcard : m.divisorsAntidiagonal.card = m.divisors.card := by
+    rw [← Nat.map_div_right_divisors, card_map]
+  rw [sum_congr rfl hconst, sum_const, nsmul_eq_mul, pairF_apply, ite_eq_left hc, hcard,
+    div_eq_mul_inv]
+  gcongr
+  exact_mod_cast card_divisors_le_two_pow m hm
+
+theorem sum_pairF_ge (h M : ℕ) (hh : 0 < h) :
+    (∑ i ∈ range M, ((i * h + 1 : ℕ) : ℝ)⁻¹) ^ 2 ≤ ∑ m ∈ Icc 1 ((h * M) ^ 2), pairF h m := by
+  set A := (range M).image (fun i => i * h + 1) with hAdef
+  set S := (Icc 1 ((h * M) ^ 2)).filter (fun m => m.Coprime h) with hSdef
+  have hA : ∑ a ∈ A, ((a : ℕ) : ℝ)⁻¹ = ∑ i ∈ range M, ((i * h + 1 : ℕ) : ℝ)⁻¹ := by
+    rw [hAdef, sum_image]
+    intro i _ j _ e
+    exact Nat.eq_of_mul_eq_mul_right hh (Nat.add_right_cancel e)
+  have hcop : ∀ i, Nat.Coprime (i * h + 1) h := fun i => by
+    rw [mul_comm]
+    exact (Nat.coprime_mul_left_add_left 1 h i).mpr (Nat.coprime_one_left h)
+  have hle : ∀ i, i < M → i * h + 1 ≤ h * M := fun i hi => by nlinarith
+  rw [← hA, sq, sum_mul_sum]
+  calc ∑ a ∈ A, ∑ b ∈ A, ((a : ℕ) : ℝ)⁻¹ * ((b : ℕ) : ℝ)⁻¹
+      = ∑ x ∈ A ×ˢ A, ((x.1 : ℝ) * x.2)⁻¹ := by
+        rw [sum_product]
+        refine sum_congr rfl (fun a _ => sum_congr rfl (fun b _ => ?_))
+        rw [mul_inv]
+    _ ≤ ∑ x ∈ S.biUnion Nat.divisorsAntidiagonal, ((x.1 : ℝ) * x.2)⁻¹ := by
+        apply sum_le_sum_of_subset_of_nonneg
+        · rintro ⟨a, b⟩ hx
+          simp only [hAdef, mem_product, mem_image, mem_range] at hx
+          obtain ⟨⟨i, hi, rfl⟩, ⟨j, hj, rfl⟩⟩ := hx
+          rw [mem_biUnion]
+          refine ⟨(i * h + 1) * (j * h + 1), ?_, ?_⟩
+          · rw [hSdef, mem_filter, mem_Icc]
+            refine ⟨⟨Nat.mul_pos (by omega) (by omega), ?_⟩, Nat.coprime_mul_iff_left.mpr ⟨hcop i, hcop j⟩⟩
+            rw [sq]
+            exact Nat.mul_le_mul (hle i hi) (hle j hj)
+          · rw [Nat.mem_divisorsAntidiagonal]
+            exact ⟨rfl, Nat.mul_ne_zero (by omega) (by omega)⟩
+        · intro _ _ _
+          positivity
+    _ = ∑ m ∈ S, ∑ x ∈ m.divisorsAntidiagonal, ((x.1 : ℝ) * x.2)⁻¹ := by
+        rw [sum_biUnion]
+        intro m _ m' _ hne
+        simp only [Function.onFun]
+        rw [Finset.disjoint_left]
+        intro x hx hx'
+        rw [Nat.mem_divisorsAntidiagonal] at hx hx'
+        exact hne (hx.1.symm.trans hx'.1)
+    _ ≤ ∑ m ∈ S, pairF h m := by
+        apply sum_le_sum
+        intro m hm
+        rw [hSdef, mem_filter, mem_Icc] at hm
+        exact pairF_ge_divisor_sum h m (by omega) hm.2
+    _ ≤ ∑ m ∈ Icc 1 ((h * M) ^ 2), pairF h m :=
+        sum_le_sum_of_subset_of_nonneg (filter_subset _ _) (fun _ _ _ => pairF_nonneg _ _)
+
+theorem log_le_sum_inv_arith (h M : ℕ) (hh : 0 < h) :
+    Real.log ((M : ℝ) + 1) / h ≤ ∑ i ∈ range M, ((i * h + 1 : ℕ) : ℝ)⁻¹ := by
+  have hH := log_add_one_le_harmonic M
+  have hharm : (harmonic M : ℝ) = ∑ i ∈ range M, ((i : ℝ) + 1)⁻¹ := by
+    simp [harmonic]
+  rw [hharm] at hH
+  push_cast at hH
+  have hh' : (1 : ℝ) ≤ h := by exact_mod_cast hh
+  calc Real.log ((M : ℝ) + 1) / h ≤ (∑ i ∈ range M, ((i : ℝ) + 1)⁻¹) / h := by gcongr
+    _ = ∑ i ∈ range M, ((h : ℝ) * ((i : ℝ) + 1))⁻¹ := by
+        rw [sum_div]
+        refine sum_congr rfl fun i _ => ?_
+        rw [mul_inv, div_eq_mul_inv, mul_comm]
+    _ ≤ ∑ i ∈ range M, ((i * h + 1 : ℕ) : ℝ)⁻¹ := by
+        apply sum_le_sum
+        intro i _
+        push_cast
+        apply inv_anti₀ (by positivity)
+        nlinarith
+
+/-! ### The sieve for `n (n + h)`, `n < N`, sifting by the primes `≤ Y` -/
+
+def pairSieve (h N Y : ℕ) (hh : 2 ∣ h) (hY : 1 ≤ Y) : SelbergSieve where
+  support := (range N).image (fun n => n * (n + h))
+  prodPrimes := primorial Y
+  prodPrimes_squarefree := Sieve.primorial_squarefree Y
+  weights := fun _ => 1
+  weights_nonneg := fun _ => zero_le_one
+  totalMass := N
+  nu := pairNu h
+  nu_mult := pairNu_mult h
+  nu_pos_of_prime := fun _ hp _ => pairNu_pos h hp
+  nu_lt_one_of_prime := fun _ hp _ => pairNu_lt_one hh hp
+  level := Y
+  one_le_level := by exact_mod_cast hY
+
+theorem pairMap_injective (h : ℕ) : Function.Injective (fun n : ℕ => n * (n + h)) := by
+  apply StrictMono.injective
+  intro a b hab
+  exact Nat.mul_lt_mul'' hab (by omega)
+
+/-- Number of `n < N` with `n` and `n + h` both prime. -/
+def pairCount (h N : ℕ) : ℕ := ((range N).filter (fun n => n.Prime ∧ (n + h).Prime)).card
+
+theorem pairSieve_siftedSum (h N Y : ℕ) (hh : 2 ∣ h) (hY : 1 ≤ Y) :
+    BoundingSieve.siftedSum (s := (pairSieve h N Y hh hY).toBoundingSieve) =
+      (((range N).filter (fun n => Nat.Coprime (primorial Y) (n * (n + h)))).card : ℝ) := by
+  unfold BoundingSieve.siftedSum
+  change (∑ d ∈ (range N).image (fun n => n * (n + h)),
+    if Nat.Coprime (primorial Y) d then (1 : ℝ) else 0) = _
+  rw [sum_image (fun a _ b _ e => pairMap_injective h e), sum_boole]
+
+theorem pairCount_le_sifted (h N Y : ℕ) :
+    pairCount h N ≤ Y + 1 + ((range N).filter (fun n => Nat.Coprime (primorial Y) (n * (n + h)))).card := by
+  have cop : ∀ q, q.Prime → Y < q → Nat.Coprime (primorial Y) q := fun q hq hqY =>
+    Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd hq).mpr fun hd => by
+      have := (Sieve.prime_dvd_primorial_iff Y q hq).mp hd
+      omega)
+  unfold pairCount
+  calc _ ≤ ((range (Y + 1)) ∪ (range N).filter
+        (fun n => Nat.Coprime (primorial Y) (n * (n + h)))).card := by
+        apply card_le_card
+        intro n hn
+        simp only [mem_filter, mem_range] at hn
+        rw [mem_union]
+        by_cases hnY : n ≤ Y
+        · left
+          rw [mem_range]
+          omega
+        · right
+          rw [mem_filter, mem_range]
+          exact ⟨hn.1, Nat.Coprime.mul_right (cop n hn.2.1 (by omega)) (cop _ hn.2.2 (by omega))⟩
+    _ ≤ (range (Y + 1)).card + _ := card_union_le _ _
+    _ = _ := by rw [card_range]
+
+theorem pairSieve_rem_abs_le (h N Y : ℕ) (hh : 2 ∣ h) (hY : 1 ≤ Y) (d : ℕ) (hd : d ≠ 0) :
+    |BoundingSieve.rem (s := (pairSieve h N Y hh hY).toBoundingSieve) d| ≤ pairRho h d := by
+  have hm : BoundingSieve.multSum (s := (pairSieve h N Y hh hY).toBoundingSieve) d =
+      (Nat.count (fun n => d ∣ n * (n + h)) N : ℝ) := by
+    unfold BoundingSieve.multSum
+    change (∑ n ∈ (range N).image (fun n => n * (n + h)), if d ∣ n then (1 : ℝ) else 0) = _
+    rw [sum_image (fun a _ b _ e => pairMap_injective h e), Nat.count_eq_card_filter_range,
+      sum_boole]
+  rw [BoundingSieve.rem, hm]
+  exact abs_count_pair_sub_le h d N hd
+
+theorem three_pow_omega_le (d : ℕ) (hd : d ≠ 0) :
+    (3 : ℝ) ^ (ArithmeticFunction.cardDistinctFactors d) ≤ (d : ℝ) ^ 2 := by
+  have hω : ArithmeticFunction.cardDistinctFactors d = d.primeFactors.card := by
+    rw [ArithmeticFunction.cardDistinctFactors_apply, ← List.card_toFinset]
+    rfl
+  have key : 3 ^ d.primeFactors.card ≤ d ^ 2 := by
+    calc 3 ^ d.primeFactors.card = ∏ _p ∈ d.primeFactors, 3 := (prod_const 3).symm
+      _ ≤ ∏ p ∈ d.primeFactors, p ^ 2 := by
+          apply prod_le_prod
+          intro p hp
+          have := (Nat.prime_of_mem_primeFactors hp).two_le
+          nlinarith
+      _ = (∏ p ∈ d.primeFactors, p) ^ 2 := prod_pow _ _ _
+      _ ≤ d ^ 2 := Nat.pow_le_pow_left
+          (Nat.le_of_dvd (Nat.pos_of_ne_zero hd) (Nat.prod_primeFactors_dvd d)) 2
+  rw [hω]
+  exact_mod_cast key
+
+theorem pairSieve_errSum_le (h N Y : ℕ) (hh : 2 ∣ h) (hY : 1 ≤ Y) :
+    (∑ d ∈ (pairSieve h N Y hh hY).prodPrimes.divisors,
+      if (d : ℝ) ≤ (pairSieve h N Y hh hY).level then
+        (3 : ℝ) ^ ArithmeticFunction.cardDistinctFactors d *
+          |BoundingSieve.rem (s := (pairSieve h N Y hh hY).toBoundingSieve) d|
+      else 0) ≤ (Y : ℝ) ^ 4 := by
+  set s := pairSieve h N Y hh hY with hs
+  have hlev : s.level = Y := rfl
+  have hY0 : (0 : ℝ) ≤ Y := Nat.cast_nonneg _
+  calc _ ≤ ∑ d ∈ s.prodPrimes.divisors, if (d : ℝ) ≤ s.level then (Y : ℝ) ^ 3 else 0 := by
+        apply sum_le_sum
+        intro d hd
+        have hd0 : d ≠ 0 := Nat.ne_of_gt (Nat.pos_of_mem_divisors hd)
+        split_ifs with hdy
+        · rw [hlev] at hdy
+          have h1 := three_pow_omega_le d hd0
+          have h2 := pairSieve_rem_abs_le h N Y hh hY d hd0
+          have h3 : (pairRho h d : ℝ) ≤ d := by exact_mod_cast pairRho_le h d hd0
+          have h4 : (0 : ℝ) ≤ d := Nat.cast_nonneg _
+          calc (3 : ℝ) ^ ArithmeticFunction.cardDistinctFactors d *
+                |BoundingSieve.rem (s := s.toBoundingSieve) d|
+              ≤ (d : ℝ) ^ 2 * d := mul_le_mul h1 (h2.trans h3) (abs_nonneg _) (by positivity)
+            _ = (d : ℝ) ^ 3 := by ring
+            _ ≤ (Y : ℝ) ^ 3 := pow_le_pow_left₀ h4 hdy 3
+        · exact le_refl _
+    _ = ((s.prodPrimes.divisors.filter (fun d : ℕ => (d : ℝ) ≤ s.level)).card : ℝ) *
+          (Y : ℝ) ^ 3 := by
+        rw [← sum_filter, sum_const, nsmul_eq_mul]
+    _ ≤ (Y : ℝ) * (Y : ℝ) ^ 3 := by
+        gcongr
+        have hsub : (s.prodPrimes.divisors.filter (fun d : ℕ => (d : ℝ) ≤ s.level)) ⊆
+            Icc 1 Y := by
+          intro d hd
+          rw [mem_filter, Nat.mem_divisors, hlev] at hd
+          rw [mem_Icc]
+          have hd0 : d ≠ 0 := ne_zero_of_dvd_ne_zero hd.1.2 hd.1.1
+          exact ⟨Nat.one_le_iff_ne_zero.mpr hd0, by exact_mod_cast hd.2⟩
+        have := card_le_card hsub
+        rw [Nat.card_Icc] at this
+        exact_mod_cast (by omega : _ ≤ Y)
+    _ = (Y : ℝ) ^ 4 := by ring
+
+theorem pairSieve_boundingSum_ge (h N M : ℕ) (hh : 2 ∣ h) (hh0 : 0 < h)
+    (hY : 1 ≤ (h * M) ^ 4) :
+    (Real.log ((M : ℝ) + 1) / h) ^ 2 ≤ (pairSieve h N ((h * M) ^ 4) hh hY).selbergBoundingSum := by
+  set s := pairSieve h N ((h * M) ^ 4) hh hY with hs
+  have hsqrt : Real.sqrt s.level = (((h * M) ^ 2 : ℕ) : ℝ) := by
+    show Real.sqrt (((h * M) ^ 4 : ℕ) : ℝ) = _
+    rw [show (((h * M) ^ 4 : ℕ) : ℝ) = (((h * M) ^ 2 : ℕ) : ℝ) ^ 2 by push_cast; ring]
+    exact Real.sqrt_sq (Nat.cast_nonneg _)
+  have hfloor : Nat.floor (Real.sqrt s.level) = (h * M) ^ 2 := by
+    rw [hsqrt, Nat.floor_natCast]
+  have hP : ∀ p : ℕ, p.Prime → (p : ℝ) ≤ s.level → p ∣ s.prodPrimes := by
+    intro p hp hle
+    have hle' : (p : ℝ) ≤ (((h * M) ^ 4 : ℕ) : ℝ) := hle
+    exact (Sieve.prime_dvd_primorial_iff _ p hp).mpr (by exact_mod_cast hle')
+  have hb := pair_boundingSum_ge s (pairF h) hP (pairF_compMult h) (pairF_nonneg h)
+    (fun p hp _ => pairF_prime_lt_one hh hp) (fun p hp _ => pairF_prime_le_nu hp)
+  rw [hfloor] at hb
+  have hsum := sum_pairF_ge h M hh0
+  have hlog := log_le_sum_inv_arith h M hh0
+  have hlog0 : 0 ≤ Real.log ((M : ℝ) + 1) / h :=
+    div_nonneg (Real.log_nonneg (by linarith [(Nat.cast_nonneg M : (0 : ℝ) ≤ M)]))
+      (Nat.cast_nonneg _)
+  calc (Real.log ((M : ℝ) + 1) / h) ^ 2
+      ≤ (∑ i ∈ range M, ((i * h + 1 : ℕ) : ℝ)⁻¹) ^ 2 := pow_le_pow_left₀ hlog0 hlog 2
+    _ ≤ ∑ m ∈ Icc 1 ((h * M) ^ 2), pairF h m := hsum
+    _ ≤ s.selbergBoundingSum := hb
+
+/-- **Selberg upper bound for prime pairs, uniform in the even shift `h`.**
+For every even `h > 0`, every `N` and every `M ≥ 1`, the number of `n < N` with
+`n` and `n + h` prime is at most
+`(hM)^4 + 1 + h^2 N / log(M+1)^2 + (hM)^16`.
+Choosing `M ≈ N^(1/16) / h` gives `≪ h^2 N / (log N)^2`. -/
+theorem pairCount_le (h N M : ℕ) (hh : 2 ∣ h) (hh0 : 0 < h) (hM : 1 ≤ M) :
+    (pairCount h N : ℝ) ≤ ((h : ℝ) * M) ^ 4 + 1 + (h : ℝ) ^ 2 * N / Real.log ((M : ℝ) + 1) ^ 2
+      + ((h : ℝ) * M) ^ 16 := by
+  have hY : 1 ≤ (h * M) ^ 4 := Nat.one_le_pow _ _ (Nat.mul_pos hh0 hM)
+  set s := pairSieve h N ((h * M) ^ 4) hh hY with hs
+  have h1 := pairCount_le_sifted h N ((h * M) ^ 4)
+  have h1' : (pairCount h N : ℝ) ≤ (((h * M) ^ 4 : ℕ) : ℝ) + 1 +
+      (((range N).filter (fun n => Nat.Coprime (primorial ((h * M) ^ 4)) (n * (n + h)))).card
+        : ℝ) := by exact_mod_cast h1
+  have h2 := SelbergSieve.selberg_bound_simple s
+  rw [hs, pairSieve_siftedSum] at h2
+  have h3 := pairSieve_errSum_le h N ((h * M) ^ 4) hh hY
+  have h4 := pairSieve_boundingSum_ge h N M hh hh0 hY
+  have hM1 : (1 : ℝ) ≤ M := by exact_mod_cast hM
+  have hlogpos : 0 < Real.log ((M : ℝ) + 1) := Real.log_pos (by linarith)
+  have hh1 : (0 : ℝ) < h := by exact_mod_cast hh0
+  have hL : 0 < (Real.log ((M : ℝ) + 1) / h) ^ 2 := by positivity
+  have h5 : (N : ℝ) / (pairSieve h N ((h * M) ^ 4) hh hY).selbergBoundingSum ≤
+      N / (Real.log ((M : ℝ) + 1) / h) ^ 2 :=
+    div_le_div_of_nonneg_left (Nat.cast_nonneg _) hL h4
+  have h6 : (N : ℝ) / (Real.log ((M : ℝ) + 1) / h) ^ 2 =
+      (h : ℝ) ^ 2 * N / Real.log ((M : ℝ) + 1) ^ 2 := by
+    field_simp
+  have hcast : (((h * M) ^ 4 : ℕ) : ℝ) = ((h : ℝ) * M) ^ 4 := by push_cast; ring
+  have hcast' : ((((h * M) ^ 4 : ℕ) : ℝ)) ^ 4 = ((h : ℝ) * M) ^ 16 := by
+    rw [hcast]; ring
+  have h2' : (((range N).filter (fun n => Nat.Coprime (primorial ((h * M) ^ 4)) (n * (n + h)))).card
+        : ℝ) ≤ (N : ℝ) / (pairSieve h N ((h * M) ^ 4) hh hY).selbergBoundingSum +
+          (((h * M) ^ 4 : ℕ) : ℝ) ^ 4 := by
+    refine h2.trans ?_
+    exact add_le_add (le_refl _) h3
+  rw [hcast] at h1'
+  rw [hcast'] at h2'
+  linarith
+
+/-! ### Brun's theorem -/
+
+/-- `1 / p` if `p` and `p + 2` are both prime, else `0`. -/
+def twinTerm (n : ℕ) : ℝ := if n.Prime ∧ (n + 2).Prime then 1 / (n : ℝ) else 0
+
+theorem twinTerm_nonneg (n : ℕ) : 0 ≤ twinTerm n := by
+  unfold twinTerm
+  split_ifs <;> positivity
+
+theorem twinTerm_le_one (n : ℕ) : twinTerm n ≤ 1 := by
+  unfold twinTerm
+  split_ifs with ht
+  · have := ht.1.two_le
+    rw [div_le_one (by positivity)]
+    exact_mod_cast (by omega : 1 ≤ n)
+  · norm_num
+
+theorem twin_block_le (j : ℕ) (hj : 1 ≤ j) :
+    ∑ n ∈ Ico (2 ^ (20 * j)) (2 ^ (20 * j + 20)), twinTerm n ≤ 2 ^ 25 / (j : ℝ) ^ 2 := by
+  set a : ℝ := (2 : ℝ) ^ j with ha
+  have ha1 : 1 ≤ a := one_le_pow₀ (by norm_num)
+  have hja : (j : ℝ) ≤ a := by
+    rw [ha]
+    exact_mod_cast (Nat.lt_two_pow_self).le
+  have hj1 : (1 : ℝ) ≤ j := by exact_mod_cast hj
+  have hA : ((2 ^ (20 * j) : ℕ) : ℝ) = a ^ 20 := by
+    rw [ha]; push_cast; ring
+  have hB : ((2 ^ (20 * j + 20) : ℕ) : ℝ) = a ^ 20 * 2 ^ 20 := by
+    rw [ha]; push_cast; ring
+  have hA0 : (0 : ℝ) < a ^ 20 := by positivity
+  -- Each term is at most `1 / A` times the indicator of a twin pair.
+  have hstep : ∑ n ∈ Ico (2 ^ (20 * j)) (2 ^ (20 * j + 20)), twinTerm n ≤
+      (1 / a ^ 20) * (pairCount 2 (2 ^ (20 * j + 20)) : ℝ) := by
+    calc _ ≤ ∑ n ∈ Ico (2 ^ (20 * j)) (2 ^ (20 * j + 20)),
+          (1 / a ^ 20) * (if n.Prime ∧ (n + 2).Prime then (1 : ℝ) else 0) := by
+          apply sum_le_sum
+          intro n hn
+          rw [mem_Ico] at hn
+          unfold twinTerm
+          split_ifs
+          · rw [mul_one]
+            apply one_div_le_one_div_of_le hA0
+            rw [← hA]
+            exact_mod_cast hn.1
+          · simp
+      _ = (1 / a ^ 20) * (((Ico (2 ^ (20 * j)) (2 ^ (20 * j + 20))).filter
+            (fun n => n.Prime ∧ (n + 2).Prime)).card : ℝ) := by
+          rw [← mul_sum, sum_boole]
+      _ ≤ (1 / a ^ 20) * (pairCount 2 (2 ^ (20 * j + 20)) : ℝ) := by
+          gcongr
+          unfold pairCount
+          apply card_le_card
+          apply filter_subset_filter
+          intro n hn
+          rw [mem_Ico] at hn
+          rw [mem_range]
+          exact hn.2
+  have hc := pairCount_le 2 (2 ^ (20 * j + 20)) (2 ^ j) (dvd_refl 2) (by norm_num)
+    (Nat.one_le_two_pow)
+  have hM : ((2 ^ j : ℕ) : ℝ) = a := by rw [ha]; push_cast; ring
+  rw [hM, hB] at hc
+  push_cast at hc
+  -- log (a + 1) ≥ j log 2 ≥ j / 2
+  have hlog2 : (1 / 2 : ℝ) < Real.log 2 := by
+    have := Real.log_two_gt_d9
+    linarith
+  have hlogj : (j : ℝ) / 2 ≤ Real.log (a + 1) := by
+    have e : Real.log a = j * Real.log 2 := by rw [ha, Real.log_pow]
+    have : Real.log a ≤ Real.log (a + 1) := Real.log_le_log (by linarith) (by linarith)
+    nlinarith
+  have hjpos : (0 : ℝ) < (j : ℝ) / 2 := by linarith
+  have hlogsq : ((j : ℝ) / 2) ^ 2 ≤ Real.log (a + 1) ^ 2 := pow_le_pow_left₀ hjpos.le hlogj 2
+  have hmid : (2 : ℝ) ^ 2 * (a ^ 20 * 2 ^ 20) / Real.log (a + 1) ^ 2 ≤
+      (2 : ℝ) ^ 2 * (a ^ 20 * 2 ^ 20) / ((j : ℝ) / 2) ^ 2 :=
+    div_le_div_of_nonneg_left (by positivity) (by positivity) hlogsq
+  have hmid' : (2 : ℝ) ^ 2 * (a ^ 20 * 2 ^ 20) / ((j : ℝ) / 2) ^ 2 = 2 ^ 24 * a ^ 20 / (j : ℝ) ^ 2 := by
+    field_simp
+  have hcount : (pairCount 2 (2 ^ (20 * j + 20)) : ℝ) ≤
+      16 * a ^ 4 + 1 + 2 ^ 24 * a ^ 20 / (j : ℝ) ^ 2 + 2 ^ 16 * a ^ 16 := by
+    have e1 : ((2 : ℝ) * a) ^ 4 = 16 * a ^ 4 := by ring
+    have e2 : ((2 : ℝ) * a) ^ 16 = 2 ^ 16 * a ^ 16 := by ring
+    rw [e1, e2] at hc
+    linarith
+  -- Compare with `2^25 a^20 / j^2`, using `j ≤ a` and `1 ≤ a`.
+  have hj2 : (0 : ℝ) < (j : ℝ) ^ 2 := by positivity
+  have hja2 : (j : ℝ) ^ 2 ≤ a ^ 2 := pow_le_pow_left₀ (by linarith) hja 2
+  have p6 : a ^ 6 ≤ a ^ 20 := pow_le_pow_right₀ ha1 (by norm_num)
+  have p2 : a ^ 2 ≤ a ^ 20 := pow_le_pow_right₀ ha1 (by norm_num)
+  have p18 : a ^ 18 ≤ a ^ 20 := pow_le_pow_right₀ ha1 (by norm_num)
+  have hbig : 16 * a ^ 4 + 1 + 2 ^ 24 * a ^ 20 / (j : ℝ) ^ 2 + 2 ^ 16 * a ^ 16 ≤
+      2 ^ 25 * a ^ 20 / (j : ℝ) ^ 2 := by
+    rw [le_div_iff₀ hj2]
+    have e3 : (16 * a ^ 4 + 1 + 2 ^ 24 * a ^ 20 / (j : ℝ) ^ 2 + 2 ^ 16 * a ^ 16) * (j : ℝ) ^ 2
+        = 16 * a ^ 4 * (j : ℝ) ^ 2 + (j : ℝ) ^ 2 + 2 ^ 24 * a ^ 20 +
+          2 ^ 16 * a ^ 16 * (j : ℝ) ^ 2 := by
+      field_simp
+    rw [e3]
+    have q1 : 16 * a ^ 4 * (j : ℝ) ^ 2 ≤ 16 * a ^ 6 := by
+      have : a ^ 4 * (j : ℝ) ^ 2 ≤ a ^ 4 * a ^ 2 := by gcongr
+      nlinarith
+    have q2 : 2 ^ 16 * a ^ 16 * (j : ℝ) ^ 2 ≤ 2 ^ 16 * a ^ 18 := by
+      have : a ^ 16 * (j : ℝ) ^ 2 ≤ a ^ 16 * a ^ 2 := by gcongr
+      nlinarith
+    nlinarith
+  calc _ ≤ (1 / a ^ 20) * (pairCount 2 (2 ^ (20 * j + 20)) : ℝ) := hstep
+    _ ≤ (1 / a ^ 20) * (2 ^ 25 * a ^ 20 / (j : ℝ) ^ 2) := by
+        gcongr
+        exact hcount.trans hbig
+    _ = 2 ^ 25 / (j : ℝ) ^ 2 := by
+        field_simp
+
+/-- **Brun's theorem**: the sum of `1/p` over the primes `p` with `p + 2` prime converges. -/
+theorem brun_summable : Summable twinTerm := by
+  have hsq : Summable (fun j : ℕ => 1 / (j : ℝ) ^ 2) :=
+    Real.summable_one_div_nat_pow.mpr one_lt_two
+  have hpart : ∀ J : ℕ, ∑ n ∈ range (2 ^ (20 * (J + 1))), twinTerm n ≤
+      2 ^ 20 + 2 ^ 25 * ∑ j ∈ Ico 1 (J + 1), 1 / (j : ℝ) ^ 2 := by
+    intro J
+    induction J with
+    | zero =>
+      simp only [zero_add, mul_one, Ico_self, sum_empty, mul_zero, add_zero]
+      calc _ ≤ (range (2 ^ 20)).card • (1 : ℝ) :=
+            sum_le_card_nsmul _ _ _ (fun n _ => twinTerm_le_one n)
+        _ = 2 ^ 20 := by simp; norm_num
+    | succ J ih =>
+      have hle : 2 ^ (20 * (J + 1)) ≤ 2 ^ (20 * (J + 1 + 1)) :=
+        Nat.pow_le_pow_right (by norm_num) (by omega)
+      rw [← sum_range_add_sum_Ico _ hle]
+      have hb := twin_block_le (J + 1) (by omega)
+      rw [show 20 * (J + 1) + 20 = 20 * (J + 1 + 1) by ring] at hb
+      rw [sum_Ico_succ_top (by omega : 1 ≤ J + 1)]
+      push_cast at hb ⊢
+      have : (2 : ℝ) ^ 25 / ((J : ℝ) + 1) ^ 2 = 2 ^ 25 * (1 / ((J : ℝ) + 1) ^ 2) := by ring
+      linarith
+  have hT : ∀ J : ℕ, ∑ j ∈ Ico 1 (J + 1), 1 / (j : ℝ) ^ 2 ≤ ∑' j : ℕ, 1 / (j : ℝ) ^ 2 :=
+    fun J => hsq.sum_le_tsum _ (fun j _ => by positivity)
+  refine summable_of_sum_range_le twinTerm_nonneg (c := 2 ^ 20 + 2 ^ 25 * ∑' j : ℕ, 1 / (j : ℝ) ^ 2)
+    fun n => ?_
+  have hn : n ≤ 2 ^ (20 * (n + 1)) :=
+    (Nat.lt_two_pow_self).le.trans (Nat.pow_le_pow_right (by norm_num) (by omega))
+  calc ∑ i ∈ range n, twinTerm i ≤ ∑ i ∈ range (2 ^ (20 * (n + 1))), twinTerm i :=
+        sum_le_sum_of_subset_of_nonneg (Finset.range_mono hn) (fun _ _ _ => twinTerm_nonneg _)
+    _ ≤ _ := hpart n
+    _ ≤ _ := by
+        gcongr
+        exact hT n
+
+/-! ### The twin-prime bound in the usual form -/
+
+/-- **Twin-prime upper bound**: `#{p < N : p, p + 2 prime} ≤ C N / (log N)^2` for all `N ≥ 2`,
+with `C = 2^28`. -/
+theorem twinCount_le (N : ℕ) (hN : 2 ≤ N) :
+    (pairCount 2 N : ℝ) ≤ 2 ^ 28 * N / Real.log N ^ 2 := by
+  have hN0 : N ≠ 0 := by omega
+  have hNr : (2 : ℝ) ≤ N := by exact_mod_cast hN
+  have hlogN : 0 < Real.log N := Real.log_pos (by linarith)
+  have hlog2 : Real.log 2 < 0.7 := by
+    have := Real.log_two_lt_d9
+    linarith
+  have hlog2' : (1 / 2 : ℝ) < Real.log 2 := by
+    have := Real.log_two_gt_d9
+    linarith
+  set L := Nat.log 2 N with hL
+  have hNlt : N < 2 ^ (L + 1) := Nat.lt_pow_succ_log_self (by norm_num) N
+  have hNge : 2 ^ L ≤ N := Nat.pow_log_le_self 2 hN0
+  -- `log N < (L + 1) log 2`
+  have hlogNL : Real.log N < (L + 1) * Real.log 2 := by
+    have : Real.log N < Real.log ((2 : ℝ) ^ (L + 1)) :=
+      Real.log_lt_log (by linarith) (by exact_mod_cast hNlt)
+    rw [Real.log_pow] at this
+    push_cast at this
+    exact this
+  have hcount_le_N : (pairCount 2 N : ℝ) ≤ N := by
+    unfold pairCount
+    have := card_filter_le (range N) (fun n => n.Prime ∧ (n + 2).Prime)
+    rw [card_range] at this
+    exact_mod_cast this
+  by_cases hsmall : L < 40
+  · -- small `N`: the trivial bound, since `log N < 41 log 2 < 2^14`
+    have hlogsq : Real.log N ^ 2 ≤ 2 ^ 28 := by
+      have h1 : Real.log N ≤ 41 * 0.7 := by
+        have : (L : ℝ) + 1 ≤ 41 := by exact_mod_cast (by omega : L + 1 ≤ 41)
+        nlinarith
+      have h2 : Real.log N ^ 2 ≤ (41 * 0.7) ^ 2 := pow_le_pow_left₀ hlogN.le h1 2
+      linarith [show ((41 : ℝ) * 0.7) ^ 2 ≤ 2 ^ 28 by norm_num]
+    rw [le_div_iff₀ (by positivity)]
+    calc (pairCount 2 N : ℝ) * Real.log N ^ 2 ≤ (N : ℝ) * 2 ^ 28 := by
+          apply mul_le_mul hcount_le_N hlogsq (by positivity) (by positivity)
+      _ = 2 ^ 28 * (N : ℝ) := by ring
+  · push Not at hsmall
+    set j := L / 20 with hj
+    have hj2 : 2 ≤ j := by omega
+    have hjL : 20 * j ≤ L := by omega
+    have hLj : L + 1 ≤ 20 * j + 20 := by omega
+    set a : ℝ := (2 : ℝ) ^ j with ha
+    have ha1 : 1 ≤ a := one_le_pow₀ (by norm_num)
+    have hja : (j : ℝ) ≤ a := by
+      rw [ha]
+      exact_mod_cast (Nat.lt_two_pow_self).le
+    have hj1 : (1 : ℝ) ≤ j := by exact_mod_cast (by omega : 1 ≤ j)
+    have ha20 : a ^ 20 ≤ N := by
+      have : (2 : ℕ) ^ (20 * j) ≤ N := (Nat.pow_le_pow_right (by norm_num) hjL).trans hNge
+      rw [ha, ← pow_mul, mul_comm]
+      exact_mod_cast this
+    -- `j ≥ log N / 28`
+    have hjlog : Real.log N ≤ 28 * j := by
+      have : ((L : ℝ) + 1) ≤ 20 * j + 20 := by exact_mod_cast hLj
+      nlinarith
+    have hc := pairCount_le 2 N (2 ^ j) (dvd_refl 2) (by norm_num) Nat.one_le_two_pow
+    have hM : ((2 ^ j : ℕ) : ℝ) = a := by rw [ha]; push_cast; ring
+    rw [hM] at hc
+    push_cast at hc
+    have hlogj : (j : ℝ) / 2 ≤ Real.log (a + 1) := by
+      have e : Real.log a = j * Real.log 2 := by rw [ha, Real.log_pow]
+      have : Real.log a ≤ Real.log (a + 1) := Real.log_le_log (by linarith) (by linarith)
+      nlinarith
+    have hjpos : (0 : ℝ) < (j : ℝ) / 2 := by linarith
+    have hlogsq : ((j : ℝ) / 2) ^ 2 ≤ Real.log (a + 1) ^ 2 := pow_le_pow_left₀ hjpos.le hlogj 2
+    have hmid : (2 : ℝ) ^ 2 * N / Real.log (a + 1) ^ 2 ≤ (2 : ℝ) ^ 2 * N / ((j : ℝ) / 2) ^ 2 :=
+      div_le_div_of_nonneg_left (by positivity) (by positivity) hlogsq
+    have hmid' : (2 : ℝ) ^ 2 * N / ((j : ℝ) / 2) ^ 2 = 16 * N / (j : ℝ) ^ 2 := by
+      field_simp
+      ring
+    have hj2pos : (0 : ℝ) < (j : ℝ) ^ 2 := by positivity
+    have hja2 : (j : ℝ) ^ 2 ≤ a ^ 2 := pow_le_pow_left₀ (by linarith) hja 2
+    have hja4 : (j : ℝ) ^ 2 ≤ a ^ 4 := hja2.trans (pow_le_pow_right₀ ha1 (by norm_num))
+    -- the three small terms are at most `2^17 a^16 ≤ 2^17 a^20 / j^2 ≤ 2^17 N / j^2`
+    have hsmallterms : ((2 : ℝ) * a) ^ 4 + 1 + ((2 : ℝ) * a) ^ 16 ≤ 2 ^ 17 * N / (j : ℝ) ^ 2 := by
+      rw [le_div_iff₀ hj2pos]
+      have p4 : a ^ 4 ≤ a ^ 16 := pow_le_pow_right₀ ha1 (by norm_num)
+      have p0 : (1 : ℝ) ≤ a ^ 16 := one_le_pow₀ ha1
+      have e : ((2 : ℝ) * a) ^ 4 + 1 + ((2 : ℝ) * a) ^ 16 = 16 * a ^ 4 + 1 + 2 ^ 16 * a ^ 16 := by
+        ring
+      rw [e]
+      have q : (16 * a ^ 4 + 1 + 2 ^ 16 * a ^ 16) ≤ 2 ^ 17 * a ^ 16 := by nlinarith
+      have q' : a ^ 16 * (j : ℝ) ^ 2 ≤ a ^ 16 * a ^ 4 := by gcongr
+      have q'' : a ^ 16 * a ^ 4 = a ^ 20 := by ring
+      have hj2nn : (0 : ℝ) ≤ (j : ℝ) ^ 2 := hj2pos.le
+      nlinarith
+    have hsum : (pairCount 2 N : ℝ) ≤ (2 ^ 17 + 16) * N / (j : ℝ) ^ 2 := by
+      have : (2 ^ 17 + 16) * (N : ℝ) / (j : ℝ) ^ 2 = 2 ^ 17 * N / (j : ℝ) ^ 2 + 16 * N / (j : ℝ) ^ 2 := by
+        ring
+      rw [this]
+      linarith
+    -- `1 / j^2 ≤ 784 / (log N)^2`
+    have hjsq : Real.log N ^ 2 ≤ 784 * (j : ℝ) ^ 2 := by
+      have := pow_le_pow_left₀ hlogN.le hjlog 2
+      nlinarith
+    calc (pairCount 2 N : ℝ) ≤ (2 ^ 17 + 16) * N / (j : ℝ) ^ 2 := hsum
+      _ ≤ (2 ^ 17 + 16) * N / (Real.log N ^ 2 / 784) := by
+          apply div_le_div_of_nonneg_left (by positivity) (by positivity)
+          linarith
+      _ = (2 ^ 17 + 16) * 784 * N / Real.log N ^ 2 := by
+          field_simp
+      _ ≤ 2 ^ 28 * N / Real.log N ^ 2 := by
+          gcongr
+          norm_num
+
+/-! ### Uniform version with the factor `K(h) = ∏_{p ∣ h} p / (p - 1)`
+
+`H(w) = ∑_{a ≤ w} 1/a ≤ K(h) · ∑_{a ≤ w, (a, h) = 1} 1/a`, by removing one prime at a
+time (`a = p^e b` with `p ∤ b`). -/
+
+theorem sum_image_le_real {ι : Type*} [DecidableEq ι] (s : Finset ι) (g : ι → ℕ) (f : ℕ → ℝ)
+    (hf : ∀ u ∈ s.image g, 0 ≤ f u) : ∑ u ∈ s.image g, f u ≤ ∑ x ∈ s, f (g x) := by
+  rw [Finset.sum_comp f g]
+  refine sum_le_sum fun u hu => ?_
+  obtain ⟨i, hi, hig⟩ := mem_image.mp hu
+  have hc : 1 ≤ (s.filter (fun x => g x = u)).card := card_pos.mpr ⟨i, mem_filter.mpr ⟨hi, hig⟩⟩
+  have hc' : (1 : ℝ) ≤ (s.filter (fun x => g x = u)).card := by exact_mod_cast hc
+  rw [nsmul_eq_mul]
+  nlinarith [hf u hu]
+
+/-- `∑ 1/a` over `1 ≤ a ≤ w` with no prime factor in `S`. -/
+def coprimeHarm (S : Finset ℕ) (w : ℕ) : ℝ :=
+  ∑ a ∈ (Icc 1 w).filter (fun a => ∀ p ∈ S, ¬ p ∣ a), ((a : ℕ) : ℝ)⁻¹
+
+theorem coprimeHarm_step (S : Finset ℕ) {p : ℕ} (hp : p.Prime) (w : ℕ) :
+    coprimeHarm S w ≤ (1 - (p : ℝ)⁻¹)⁻¹ * coprimeHarm (insert p S) w := by
+  unfold coprimeHarm
+  set A := (Icc 1 w).filter (fun a => ∀ q ∈ S, ¬ q ∣ a) with hA
+  set B := (Icc 1 w).filter (fun a => ∀ q ∈ insert p S, ¬ q ∣ a) with hB
+  have hsub : A ⊆ ((range w) ×ˢ B).image (fun x => p ^ x.1 * x.2) := by
+    intro a ha
+    rw [hA, mem_filter, mem_Icc] at ha
+    obtain ⟨e, b, hpb, rfl⟩ := Nat.exists_eq_pow_mul_and_not_dvd (n := a) (by have := ha.1.1; omega) p hp.ne_one
+    have hb0 : b ≠ 0 := by
+      rintro rfl
+      simp at ha
+    have hpe : 1 ≤ p ^ e := Nat.one_le_pow _ _ hp.pos
+    have hle1 : p ^ e ≤ p ^ e * b := Nat.le_mul_of_pos_right _ (Nat.pos_of_ne_zero hb0)
+    have hle2 : b ≤ p ^ e * b := Nat.le_mul_of_pos_left _ hpe
+    rw [mem_image]
+    refine ⟨(e, b), ?_, rfl⟩
+    rw [mem_product, mem_range, hB, mem_filter, mem_Icc]
+    refine ⟨?_, ⟨by omega, by omega⟩, ?_⟩
+    · have := Nat.lt_pow_self (n := e) hp.one_lt
+      omega
+    · intro q hq hqb
+      rw [mem_insert] at hq
+      rcases hq with rfl | hq
+      · exact hpb hqb
+      · exact ha.2 q hq (Dvd.dvd.mul_left hqb _)
+  have hx1 : (p : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ (by exact_mod_cast hp.one_lt)
+  calc ∑ a ∈ A, ((a : ℕ) : ℝ)⁻¹
+      ≤ ∑ a ∈ ((range w) ×ˢ B).image (fun x => p ^ x.1 * x.2), ((a : ℕ) : ℝ)⁻¹ :=
+        sum_le_sum_of_subset_of_nonneg hsub (fun _ _ _ => by positivity)
+    _ ≤ ∑ x ∈ (range w) ×ˢ B, ((p ^ x.1 * x.2 : ℕ) : ℝ)⁻¹ :=
+        sum_image_le_real _ _ _ (fun _ _ => by positivity)
+    _ = (∑ e ∈ range w, ((p : ℝ)⁻¹) ^ e) * ∑ b ∈ B, ((b : ℕ) : ℝ)⁻¹ := by
+        rw [sum_product, sum_mul_sum]
+        refine sum_congr rfl (fun e _ => sum_congr rfl (fun b _ => ?_))
+        push_cast
+        rw [mul_inv, inv_pow]
+    _ ≤ (1 - (p : ℝ)⁻¹)⁻¹ * ∑ b ∈ B, ((b : ℕ) : ℝ)⁻¹ := by
+        have hg := geom_sum_Ico_le_of_lt_one (m := 0) (n := w) (inv_nonneg.mpr (Nat.cast_nonneg p)) hx1
+        rw [← range_eq_Ico, pow_zero, one_div] at hg
+        apply mul_le_mul_of_nonneg_right hg
+        exact sum_nonneg (fun _ _ => by positivity)
+
+theorem harm_le_coprimeHarm (S : Finset ℕ) (hS : ∀ p ∈ S, p.Prime) (w : ℕ) :
+    ∑ a ∈ Icc 1 w, ((a : ℕ) : ℝ)⁻¹ ≤ (∏ p ∈ S, (1 - (p : ℝ)⁻¹)⁻¹) * coprimeHarm S w := by
+  induction S using Finset.induction_on with
+  | empty =>
+    simp [coprimeHarm]
+  | insert p S hpS ih =>
+    have hp : p.Prime := hS p (mem_insert_self p S)
+    have ih' := ih (fun q hq => hS q (mem_insert_of_mem hq))
+    have hstep := coprimeHarm_step S hp w
+    have hprod : 0 ≤ ∏ q ∈ S, (1 - (q : ℝ)⁻¹)⁻¹ := by
+      apply prod_nonneg
+      intro q hq
+      have hq := hS q (mem_insert_of_mem hq)
+      have : (q : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ (by exact_mod_cast hq.one_lt)
+      have : 0 < 1 - (q : ℝ)⁻¹ := by linarith
+      positivity
+    rw [prod_insert hpS]
+    calc _ ≤ (∏ q ∈ S, (1 - (q : ℝ)⁻¹)⁻¹) * coprimeHarm S w := ih'
+      _ ≤ (∏ q ∈ S, (1 - (q : ℝ)⁻¹)⁻¹) * ((1 - (p : ℝ)⁻¹)⁻¹ * coprimeHarm (insert p S) w) :=
+          mul_le_mul_of_nonneg_left hstep hprod
+      _ = _ := by ring
+
+/-- `K h = ∏_{p ∣ h} (1 - 1/p)⁻¹ = h / φ(h)`. -/
+def pairK (h : ℕ) : ℝ := ∏ p ∈ h.primeFactors, (1 - (p : ℝ)⁻¹)⁻¹
+
+theorem pairK_pos (h : ℕ) : 0 < pairK h := by
+  unfold pairK
+  apply prod_pos
+  intro q hq
+  have hq := Nat.prime_of_mem_primeFactors hq
+  have : (q : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ (by exact_mod_cast hq.one_lt)
+  have : 0 < 1 - (q : ℝ)⁻¹ := by linarith
+  positivity
+
+theorem coprimeHarm_primeFactors (h w : ℕ) (hh : h ≠ 0) :
+    coprimeHarm h.primeFactors w =
+      ∑ a ∈ (Icc 1 w).filter (fun a => a.Coprime h), ((a : ℕ) : ℝ)⁻¹ := by
+  unfold coprimeHarm
+  refine sum_congr (Finset.filter_congr fun a _ => ?_) (fun _ _ => rfl)
+  constructor
+  · intro H
+    exact Nat.coprime_of_dvd fun k hk hka hkh =>
+      H k (Nat.mem_primeFactors.mpr ⟨hk, hkh, hh⟩) hka
+  · intro hc q hq hqa
+    have hq' := Nat.mem_primeFactors.mp hq
+    exact (Nat.Prime.coprime_iff_not_dvd hq'.1).mp (Nat.Coprime.coprime_dvd_left hqa hc) hq'.2.1
+
+theorem log_le_K_mul_coprimeHarm (h w : ℕ) (hh : h ≠ 0) :
+    Real.log ((w : ℝ) + 1) / pairK h ≤
+      ∑ a ∈ (Icc 1 w).filter (fun a => a.Coprime h), ((a : ℕ) : ℝ)⁻¹ := by
+  have hH := log_add_one_le_harmonic w
+  rw [harmonic_eq_sum_Icc] at hH
+  push_cast at hH
+  have h1 := harm_le_coprimeHarm h.primeFactors (fun p hp => Nat.prime_of_mem_primeFactors hp) w
+  rw [coprimeHarm_primeFactors h w hh] at h1
+  rw [div_le_iff₀ (pairK_pos h), mul_comm]
+  exact hH.trans h1
+
+theorem sum_pairF_ge' (h w : ℕ) :
+    (∑ a ∈ (Icc 1 w).filter (fun a => a.Coprime h), ((a : ℕ) : ℝ)⁻¹) ^ 2 ≤
+      ∑ m ∈ Icc 1 (w ^ 2), pairF h m := by
+  set A := (Icc 1 w).filter (fun a => a.Coprime h) with hAdef
+  set S := (Icc 1 (w ^ 2)).filter (fun m => m.Coprime h) with hSdef
+  rw [sq, sum_mul_sum]
+  calc ∑ a ∈ A, ∑ b ∈ A, ((a : ℕ) : ℝ)⁻¹ * ((b : ℕ) : ℝ)⁻¹
+      = ∑ x ∈ A ×ˢ A, ((x.1 : ℝ) * x.2)⁻¹ := by
+        rw [sum_product]
+        refine sum_congr rfl (fun a _ => sum_congr rfl (fun b _ => ?_))
+        rw [mul_inv]
+    _ ≤ ∑ x ∈ S.biUnion Nat.divisorsAntidiagonal, ((x.1 : ℝ) * x.2)⁻¹ := by
+        apply sum_le_sum_of_subset_of_nonneg
+        · rintro ⟨a, b⟩ hx
+          simp only [hAdef, mem_product, mem_filter, mem_Icc] at hx
+          obtain ⟨⟨⟨ha1, ha2⟩, hac⟩, ⟨⟨hb1, hb2⟩, hbc⟩⟩ := hx
+          rw [mem_biUnion]
+          refine ⟨a * b, ?_, ?_⟩
+          · rw [hSdef, mem_filter, mem_Icc]
+            refine ⟨⟨Nat.mul_pos (by omega) (by omega), ?_⟩, Nat.coprime_mul_iff_left.mpr ⟨hac, hbc⟩⟩
+            rw [sq]
+            exact Nat.mul_le_mul ha2 hb2
+          · rw [Nat.mem_divisorsAntidiagonal]
+            exact ⟨rfl, Nat.mul_ne_zero (by omega) (by omega)⟩
+        · intro _ _ _
+          positivity
+    _ = ∑ m ∈ S, ∑ x ∈ m.divisorsAntidiagonal, ((x.1 : ℝ) * x.2)⁻¹ := by
+        rw [sum_biUnion]
+        intro m _ m' _ hne
+        simp only [Function.onFun]
+        rw [Finset.disjoint_left]
+        intro x hx hx'
+        rw [Nat.mem_divisorsAntidiagonal] at hx hx'
+        exact hne (hx.1.symm.trans hx'.1)
+    _ ≤ ∑ m ∈ S, pairF h m := by
+        apply sum_le_sum
+        intro m hm
+        rw [hSdef, mem_filter, mem_Icc] at hm
+        exact pairF_ge_divisor_sum h m (by omega) hm.2
+    _ ≤ ∑ m ∈ Icc 1 (w ^ 2), pairF h m :=
+        sum_le_sum_of_subset_of_nonneg (filter_subset _ _) (fun _ _ _ => pairF_nonneg _ _)
+
+theorem pairSieve_boundingSum_ge' (h N w : ℕ) (hh : 2 ∣ h) (hh0 : 0 < h) (hY : 1 ≤ w ^ 4) :
+    (Real.log ((w : ℝ) + 1) / pairK h) ^ 2 ≤ (pairSieve h N (w ^ 4) hh hY).selbergBoundingSum := by
+  set s := pairSieve h N (w ^ 4) hh hY with hs
+  have hsqrt : Real.sqrt s.level = ((w ^ 2 : ℕ) : ℝ) := by
+    show Real.sqrt ((w ^ 4 : ℕ) : ℝ) = _
+    rw [show ((w ^ 4 : ℕ) : ℝ) = ((w ^ 2 : ℕ) : ℝ) ^ 2 by push_cast; ring]
+    exact Real.sqrt_sq (Nat.cast_nonneg _)
+  have hfloor : Nat.floor (Real.sqrt s.level) = w ^ 2 := by
+    rw [hsqrt, Nat.floor_natCast]
+  have hP : ∀ p : ℕ, p.Prime → (p : ℝ) ≤ s.level → p ∣ s.prodPrimes := by
+    intro p hp hle
+    have hle' : (p : ℝ) ≤ ((w ^ 4 : ℕ) : ℝ) := hle
+    exact (Sieve.prime_dvd_primorial_iff _ p hp).mpr (by exact_mod_cast hle')
+  have hb := pair_boundingSum_ge s (pairF h) hP (pairF_compMult h) (pairF_nonneg h)
+    (fun p hp _ => pairF_prime_lt_one hh hp) (fun p hp _ => pairF_prime_le_nu hp)
+  rw [hfloor] at hb
+  have hsum := sum_pairF_ge' h w
+  have hlog := log_le_K_mul_coprimeHarm h w (by omega)
+  have hlog0 : 0 ≤ Real.log ((w : ℝ) + 1) / pairK h :=
+    div_nonneg (Real.log_nonneg (by linarith [(Nat.cast_nonneg w : (0 : ℝ) ≤ w)]))
+      (pairK_pos h).le
+  calc (Real.log ((w : ℝ) + 1) / pairK h) ^ 2
+      ≤ (∑ a ∈ (Icc 1 w).filter (fun a => a.Coprime h), ((a : ℕ) : ℝ)⁻¹) ^ 2 :=
+        pow_le_pow_left₀ hlog0 hlog 2
+    _ ≤ ∑ m ∈ Icc 1 (w ^ 2), pairF h m := hsum
+    _ ≤ s.selbergBoundingSum := hb
+
+/-- **Selberg upper bound for prime pairs, uniform in the even shift `h`, with the factor
+`K(h)^2`, `K(h) = ∏_{p ∣ h} p / (p - 1) = h / φ(h)`.** For every even `h > 0`, every `N`
+and every `w ≥ 1`, the number of `n < N` with `n` and `n + h` prime is at most
+`w^4 + 1 + K(h)^2 N / log(w+1)^2 + w^16`. With `w ≈ N^(1/16)` this is
+`≪ (h/φ(h))^2 N / (log N)^2`, uniformly in `h`. -/
+theorem pairCount_le_uniform (h N w : ℕ) (hh : 2 ∣ h) (hh0 : 0 < h) (hw : 1 ≤ w) :
+    (pairCount h N : ℝ) ≤ (w : ℝ) ^ 4 + 1 + pairK h ^ 2 * N / Real.log ((w : ℝ) + 1) ^ 2
+      + (w : ℝ) ^ 16 := by
+  have hY : 1 ≤ w ^ 4 := Nat.one_le_pow _ _ hw
+  set s := pairSieve h N (w ^ 4) hh hY with hs
+  have h1 := pairCount_le_sifted h N (w ^ 4)
+  have h1' : (pairCount h N : ℝ) ≤ ((w ^ 4 : ℕ) : ℝ) + 1 +
+      (((range N).filter (fun n => Nat.Coprime (primorial (w ^ 4)) (n * (n + h)))).card
+        : ℝ) := by exact_mod_cast h1
+  have h2 := SelbergSieve.selberg_bound_simple s
+  rw [hs, pairSieve_siftedSum] at h2
+  have h3 := pairSieve_errSum_le h N (w ^ 4) hh hY
+  have h4 := pairSieve_boundingSum_ge' h N w hh hh0 hY
+  have hw1 : (1 : ℝ) ≤ w := by exact_mod_cast hw
+  have hlogpos : 0 < Real.log ((w : ℝ) + 1) := Real.log_pos (by linarith)
+  have hK := pairK_pos h
+  have hL : 0 < (Real.log ((w : ℝ) + 1) / pairK h) ^ 2 := by positivity
+  have h5 : (N : ℝ) / (pairSieve h N (w ^ 4) hh hY).selbergBoundingSum ≤
+      N / (Real.log ((w : ℝ) + 1) / pairK h) ^ 2 :=
+    div_le_div_of_nonneg_left (Nat.cast_nonneg _) hL h4
+  have h6 : (N : ℝ) / (Real.log ((w : ℝ) + 1) / pairK h) ^ 2 =
+      pairK h ^ 2 * N / Real.log ((w : ℝ) + 1) ^ 2 := by
+    field_simp
+  have hcast : ((w ^ 4 : ℕ) : ℝ) = (w : ℝ) ^ 4 := by push_cast; ring
+  have hcast' : (((w ^ 4 : ℕ) : ℝ)) ^ 4 = (w : ℝ) ^ 16 := by
+    rw [hcast]; ring
+  have h2' : (((range N).filter (fun n => Nat.Coprime (primorial (w ^ 4)) (n * (n + h)))).card
+        : ℝ) ≤ (N : ℝ) / (pairSieve h N (w ^ 4) hh hY).selbergBoundingSum +
+          ((w ^ 4 : ℕ) : ℝ) ^ 4 := by
+    refine h2.trans ?_
+    exact add_le_add (le_refl _) h3
+  rw [hcast] at h1'
+  rw [hcast'] at h2'
+  linarith
+
+theorem pairK_one_le (h : ℕ) : 1 ≤ pairK h := by
+  unfold pairK
+  calc (1 : ℝ) = ∏ _q ∈ h.primeFactors, (1 : ℝ) := by simp
+    _ ≤ _ := by
+      apply prod_le_prod₀ (fun _ _ => zero_le_one)
+      intro q hq
+      have hq := Nat.prime_of_mem_primeFactors hq
+      have h1 : (q : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ (by exact_mod_cast hq.one_lt)
+      have h2 : 0 < (q : ℝ)⁻¹ := by
+        have : (0 : ℝ) < q := by exact_mod_cast hq.pos
+        positivity
+      rw [one_le_inv₀ (by linarith)]
+      linarith
+
+/-- **Uniform prime-pair bound in the usual form**: for every even `h > 0` and `N ≥ 2`,
+`#{p < N : p, p + h prime} ≤ 2^13 K(h)^2 N / (log N)^2`, `K(h) = ∏_{p ∣ h} p/(p-1)`. -/
+theorem pairCount_le_log (h N : ℕ) (hh : 2 ∣ h) (hh0 : 0 < h) (hN : 2 ≤ N) :
+    (pairCount h N : ℝ) ≤ 2 ^ 13 * pairK h ^ 2 * N / Real.log N ^ 2 := by
+  have hN0 : N ≠ 0 := by omega
+  have hNr : (2 : ℝ) ≤ N := by exact_mod_cast hN
+  have hlogN : 0 < Real.log N := Real.log_pos (by linarith)
+  have hK1 := pairK_one_le h
+  have hK2 : 1 ≤ pairK h ^ 2 := one_le_pow₀ hK1
+  have hlog2 : Real.log 2 < 0.7 := by
+    have := Real.log_two_lt_d9
+    linarith
+  have hlog2' : (1 / 2 : ℝ) < Real.log 2 := by
+    have := Real.log_two_gt_d9
+    linarith
+  set L := Nat.log 2 N with hL
+  have hNlt : N < 2 ^ (L + 1) := Nat.lt_pow_succ_log_self (by norm_num) N
+  have hNge : 2 ^ L ≤ N := Nat.pow_log_le_self 2 hN0
+  have hlogNL : Real.log N < (L + 1) * Real.log 2 := by
+    have : Real.log N < Real.log ((2 : ℝ) ^ (L + 1)) :=
+      Real.log_lt_log (by linarith) (by exact_mod_cast hNlt)
+    rw [Real.log_pow] at this
+    push_cast at this
+    exact this
+  have hcount_le_N : (pairCount h N : ℝ) ≤ N := by
+    unfold pairCount
+    have := card_filter_le (range N) (fun n => n.Prime ∧ (n + h).Prime)
+    rw [card_range] at this
+    exact_mod_cast this
+  have hN0r : (0 : ℝ) ≤ N := Nat.cast_nonneg N
+  by_cases hsmall : L < 40
+  · have hlogsq : Real.log N ^ 2 ≤ 2 ^ 13 := by
+      have h1 : Real.log N ≤ 41 * 0.7 := by
+        have : (L : ℝ) + 1 ≤ 41 := by exact_mod_cast (by omega : L + 1 ≤ 41)
+        nlinarith
+      have h2 : Real.log N ^ 2 ≤ (41 * 0.7) ^ 2 := pow_le_pow_left₀ hlogN.le h1 2
+      linarith [show ((41 : ℝ) * 0.7) ^ 2 ≤ 2 ^ 13 by norm_num]
+    rw [le_div_iff₀ (by positivity)]
+    calc (pairCount h N : ℝ) * Real.log N ^ 2 ≤ (N : ℝ) * 2 ^ 13 := by
+          apply mul_le_mul hcount_le_N hlogsq (by positivity) (by positivity)
+      _ ≤ (N : ℝ) * 2 ^ 13 * pairK h ^ 2 := le_mul_of_one_le_right (by positivity) hK2
+      _ = 2 ^ 13 * pairK h ^ 2 * (N : ℝ) := by ring
+  · push Not at hsmall
+    set j := L / 20 with hj
+    have hj2 : 2 ≤ j := by omega
+    have hjL : 20 * j ≤ L := by omega
+    have hLj : L + 1 ≤ 20 * j + 20 := by omega
+    set a : ℝ := (2 : ℝ) ^ j with ha
+    have ha1 : 1 ≤ a := one_le_pow₀ (by norm_num)
+    have hja : (j : ℝ) ≤ a := by
+      rw [ha]
+      exact_mod_cast (Nat.lt_two_pow_self).le
+    have hj1 : (1 : ℝ) ≤ j := by exact_mod_cast (by omega : 1 ≤ j)
+    have ha20 : a ^ 20 ≤ N := by
+      have : (2 : ℕ) ^ (20 * j) ≤ N := (Nat.pow_le_pow_right (by norm_num) hjL).trans hNge
+      rw [ha, ← pow_mul, mul_comm]
+      exact_mod_cast this
+    have hjlog : Real.log N ≤ 28 * j := by
+      have : ((L : ℝ) + 1) ≤ 20 * j + 20 := by exact_mod_cast hLj
+      nlinarith
+    have hc := pairCount_le_uniform h N (2 ^ j) hh hh0 Nat.one_le_two_pow
+    have hM : ((2 ^ j : ℕ) : ℝ) = a := by rw [ha]; push_cast; ring
+    rw [hM] at hc
+    have hlogj : (j : ℝ) / 2 ≤ Real.log (a + 1) := by
+      have e : Real.log a = j * Real.log 2 := by rw [ha, Real.log_pow]
+      have : Real.log a ≤ Real.log (a + 1) := Real.log_le_log (by linarith) (by linarith)
+      nlinarith
+    have hjpos : (0 : ℝ) < (j : ℝ) / 2 := by linarith
+    have hlogsq : ((j : ℝ) / 2) ^ 2 ≤ Real.log (a + 1) ^ 2 := pow_le_pow_left₀ hjpos.le hlogj 2
+    have hmid : pairK h ^ 2 * N / Real.log (a + 1) ^ 2 ≤ pairK h ^ 2 * N / ((j : ℝ) / 2) ^ 2 :=
+      div_le_div_of_nonneg_left (by positivity) (by positivity) hlogsq
+    have hmid' : pairK h ^ 2 * N / ((j : ℝ) / 2) ^ 2 = 4 * pairK h ^ 2 * N / (j : ℝ) ^ 2 := by
+      field_simp
+      ring
+    have hj2pos : (0 : ℝ) < (j : ℝ) ^ 2 := by positivity
+    have hja2 : (j : ℝ) ^ 2 ≤ a ^ 2 := pow_le_pow_left₀ (by linarith) hja 2
+    have hja4 : (j : ℝ) ^ 2 ≤ a ^ 4 := hja2.trans (pow_le_pow_right₀ ha1 (by norm_num))
+    have hsmallterms : a ^ 4 + 1 + a ^ 16 ≤ 3 * N / (j : ℝ) ^ 2 := by
+      rw [le_div_iff₀ hj2pos]
+      have p4 : a ^ 4 ≤ a ^ 16 := pow_le_pow_right₀ ha1 (by norm_num)
+      have p0 : (1 : ℝ) ≤ a ^ 16 := one_le_pow₀ ha1
+      have q : (a ^ 4 + 1 + a ^ 16) ≤ 3 * a ^ 16 := by linarith
+      have q' : a ^ 16 * (j : ℝ) ^ 2 ≤ a ^ 16 * a ^ 4 := by gcongr
+      have q'' : a ^ 16 * a ^ 4 = a ^ 20 := by ring
+      have hj2nn : (0 : ℝ) ≤ (j : ℝ) ^ 2 := hj2pos.le
+      nlinarith
+    have h3K : 3 * (N : ℝ) / (j : ℝ) ^ 2 ≤ 3 * pairK h ^ 2 * N / (j : ℝ) ^ 2 := by
+      apply div_le_div_of_nonneg_right _ hj2pos.le
+      nlinarith
+    have hsum : (pairCount h N : ℝ) ≤ 7 * pairK h ^ 2 * N / (j : ℝ) ^ 2 := by
+      have : 7 * pairK h ^ 2 * (N : ℝ) / (j : ℝ) ^ 2 =
+          3 * pairK h ^ 2 * N / (j : ℝ) ^ 2 + 4 * pairK h ^ 2 * N / (j : ℝ) ^ 2 := by
+        ring
+      rw [this]
+      linarith
+    have hjsq : Real.log N ^ 2 ≤ 784 * (j : ℝ) ^ 2 := by
+      have := pow_le_pow_left₀ hlogN.le hjlog 2
+      nlinarith
+    calc (pairCount h N : ℝ) ≤ 7 * pairK h ^ 2 * N / (j : ℝ) ^ 2 := hsum
+      _ ≤ 7 * pairK h ^ 2 * N / (Real.log N ^ 2 / 784) := by
+          apply div_le_div_of_nonneg_left (by positivity) (by positivity)
+          linarith
+      _ = 7 * 784 * pairK h ^ 2 * N / Real.log N ^ 2 := by
+          field_simp
+      _ ≤ 2 ^ 13 * pairK h ^ 2 * N / Real.log N ^ 2 := by
+          gcongr
+          norm_num
+
+end

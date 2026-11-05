@@ -18,6 +18,7 @@ SOURCES = {
   'GEO':  ('Croft, Falconer, Guy, Unsolved Problems in Geometry (Springer 1991)', 'cfg-geometry'),
   'COM':  ('Coman, Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes (2013)', 'coman-psp'),
   'OEIS': ('OEIS, https://oeis.org/ (conjecture comment; list at OEIS wiki Talk:Conjectures/List)', 'oeis'),
+  'FAM':  ('Famous open problems (Wikipedia list of unsolved problems, MathWorld, Guy); weaker results only', 'famous'),
 }
 
 def paths(rid):

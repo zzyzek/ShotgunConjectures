@@ -3,4 +3,5 @@
 data
 __pycache__/
 lib/build/
-work/
+work/*
+!work/cores/

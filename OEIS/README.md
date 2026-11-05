@@ -2,9 +2,9 @@
 
 Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS wiki, Talk:Conjectures/List). OEIS text is quoted under CC BY-SA 4.0 with the A-number as attribution.
 
-149 entries: 133 resolved by this project, 14 answered elsewhere, 1 disputed or partial.
+151 entries: 133 resolved by this project, 15 answered elsewhere, 2 disputed or partial.
 
-Of the 133 resolutions: 122 proved in full in Lean, 5 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 6 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
+Of the 133 resolutions: 124 proved in full in Lean, 4 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 5 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -110,7 +110,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A182416](A182416/) | proved | (60k+13)(180k+37)(300k+61) is Carmichael whenever its factors are prime | [full proof](A182416/A182416_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A182515](A182515/) | proved | Carmichael numbers divisible by 23 and 67 are 23·67·(66n+23) | [full proof](A182515/A182515_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A182532](A182532/) | proved | Carmichael numbers divisible by 7 and 17: the four residue classes mod 120 | [full proof](A182532/A182532_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
-| [A187011](A187011/) | proved | det(\|p\_i − p\_j\|) over the first n primes | [checked](A187011/A187011_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A187011](A187011/) | proved | det(\|p\_i − p\_j\|) over the first n primes | [full proof](A187011/A187011_growth_mathlib.lean) | partly-known | [selberg-sieve-polynomial](../methods/selberg-sieve-polynomial/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A188644](A188644/) | proved | (k^n + k^(-n))/2 is an integer for k = (√(x²-1) + x)² | [full proof](A188644/A188644_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A188645](A188645/) | proved | (k^n + k^(-n))/2 is an integer for k = (√(x²+1) + x)² | [full proof](A188645/A188645_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A188646](A188646/) | proved | a(n) = k a(n-1) - (k-1)/k^n is an integer sequence | [full proof](A188646/A188646_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
@@ -132,7 +132,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A214900](A214900/) | proved | every n is a sum of three squares and a fourth power | [witness](A214900/A214900.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A214970](A214970/) | proved | L(2k-1) and L(2k)+1 divide their base-φ → base-φ² images | [full proof](A214970/A214970_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A215461](A215461/) | proved | 2n is a prime plus an odd nonprime for every n > 5 | [full proof](A215461/A215461.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
-| [A215462](A215462/) | proved | 2n is a sum of two odd nonprimes for n > 19; eventual ordering | [witness](A215462/A215462_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A215462](A215462/) | proved | 2n is a sum of two odd nonprimes for n > 19; eventual ordering | [full proof](A215462/A215462_conj2_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [selberg-sieve-polynomial](../methods/selberg-sieve-polynomial/README.md) |
 | [A217448](A217448/) | proved | a(n) exists for every n (CRT) | [full proof](A217448/A217448_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A217876](A217876/) | proved | adjacent transpositions in a random involution are asymptotically Poisson(1) | [checked](A217876/A217876_mathlib.lean) | new (immediate) | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A221650](A221650/) | proved | P(n,j,k) = [k \| j] p(n-j) counts partitions with at least j/k parts k | [full proof](A221650/A221650_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
@@ -157,6 +157,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A088982](A088982/) | trivial or misstated | a prime between consecutive prime-indexed primes | — | — | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A088987](A088987/) | trivial or misstated | the number of primes between consecutive prime-indexed primes is odd | — | — | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A113599](A113599/) | proved | no term is zero (pigeonhole) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A118990](A118990/) | proved | A118990(n) = 2^n A086906(n-1) | [full proof](A118990/A118990_mathlib.lean) | known | [finite-identity](../methods/finite-identity/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A121627](A121627/) | proved | divisibility of the "complex factorial" real parts | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A145878](A145878/) | proved | polynomial formulas for T(r+k, k), r = 3..7 (previous conjectures) | [witness](A145878/A145878.lean) | — | [finite-identity](../methods/finite-identity/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A209260](A209260/) | proved | Jeffery's two conjectures (both proved in the entry's references) | — | — | [known-theorem](../methods/known-theorem/README.md) |
@@ -170,6 +171,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [A029766](A029766/) | partial | a(n) = n!·A040039(n−1) holds on the data; the entry's name does not determine the sequence | [full proof](A029766/A029766_mathlib.lean) | new (immediate) | [reading-the-statement](../methods/reading-the-statement/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [A123365](A123365/) | partial | cubes mod n, partial result (two prime factors) | [checked](A123365/A123365_mathlib.lean) | new | [multiplicative-local-bounds](../methods/multiplicative-local-bounds/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 
 ## Bounds improved (the problem stays open)
 
@@ -1865,11 +1867,12 @@ of the n X n matrix with (i,j)-entry equal to |p_i-p_j|, where p_k denotes the k
 (-1)^(n-1)*a(n) > 0 for all n > 1, and |a(n)|^{1/n} tends to the infinity." (OEIS text, CC BY-SA 4.0; still stated
 on 2026-11-05, revision #19 of Aug 16 2026.)
 
-**Result.** Both parts are true. For n ≥ 2,
+**Result.** Both parts are true, and both are proved in Lean 4 + Mathlib. For n ≥ 2,
 
 a(n) = (−1)^(n−1) · 2^(n−2) · (p_n − 2) · ∏_{i<n} (p_{i+1} − p_i),
 
-so the sign part is immediate. The growth part follows from this formula and a sieve upper bound for prime pairs.
+so the sign part is immediate. The growth part follows from this formula, a Selberg-sieve upper bound for prime
+pairs uniform in the shift, and Chebyshev's lower bound for π(x).
 
 **Argument.** 1. *Distance matrix of a path.* For x_1 < … < x_n (n ≥ 2) in an ordered commutative ring, let D = (|x_i − x_j|) and
    d_i = x_{i+1} − x_i. Subtract row i+1 from row i (i < n), then column j+1 from column j (j < n). That is U D Uᵀ with
@@ -1880,20 +1883,25 @@ so the sign part is immediate. The growth part follows from this formula and a s
    det D = (−1)^(n−1) 2^(n−2) (x_n − x_1) ∏ d_i. This is the path case of the Bapat–Kirkland–Neumann formula for
    weighted trees.
 2. *Sign.* With x_i = p_i every factor x_n − x_1 = p_n − 2 and d_i is positive, so (−1)^(n−1) a(n) > 0 for n ≥ 2.
-3. *Growth.* Let g_i = p_{i+1} − p_i. By step 1,
-   log|a(n)| / n = ((n−2) log 2 + log(p_n − 2) + Σ_{i<n} log g_i) / n, so |a(n)|^(1/n) → ∞ iff the mean of log g_i over
-   i < n tends to infinity. Fix H. A gap g_i ≤ H means p_i and p_i + h are both prime for some even h ≤ H (or i = 1).
-   The Selberg (or Brun) upper bound #{p ≤ x : p + h prime} ≤ C ∏_{q | h}(1 + 1/q) · x / log² x, uniform in even
-   h ≥ 2 (Halberstam–Richert, *Sieve Methods*, Thm 3.11), with ∏_{q|h}(1 + 1/q) ≤ σ(h)/h ≤ 1 + log h and
-   p_n ≤ 2 n log n (Chebyshev-type bound), gives #{i < n : g_i ≤ H} ≤ C' H (1 + log H) n / log n = o(n). So at least
-   (1 − o(1)) n gaps exceed H and liminf (1/n) Σ log g_i ≥ log H. H is arbitrary.
+3. *Growth.* Let g_i = p_{i+1} − p_i. By step 1, |a(n)| ≥ ∏_{i<n} g_i (the factors 2^(n−2) and p_n − 2 are ≥ 1),
+   so it suffices that (1/n) Σ_{i<n} log g_i → ∞. Fix H and let m ≥ 1, N = p_{m+1}.
+   - *Small gaps give prime pairs.* If i ≥ 2 and g_i ≤ H, then h = g_i is even, 0 < h ≤ H, and q = p_i < N with q,
+     q + h prime. The map i ↦ p_i is injective, so #{i ≤ m : g_i ≤ H} ≤ 1 + Σ_{h ≤ H even} #{q < N : q, q + h prime}.
+   - *Sieve.* For even h > 0 and N ≥ 2, #{q < N : q, q + h prime} ≤ 2^13 K(h)^2 N / (log N)^2 with
+     K(h) = ∏_{p | h} p/(p−1) (Selberg's Λ² sieve, proved in FAM/twin-primes). So the count is ≤ 1 + C_H N/(log N)^2
+     with C_H = Σ_{h ≤ H even} 2^13 K(h)^2.
+   - *Chebyshev.* m + 1 = π(N) ≥ (N log 2 − log(N+1)) / log N (Mathlib `Chebyshev.pi_ge`). For N large,
+     4 log N + 1 + 2 C_H N / log N ≤ N/2, and with log(N+1) ≤ log 2 + log N and log 2 > 1/2 this gives
+     #{i ≤ m : g_i ≤ H} ≤ m/2. Since N = p_{m+1} → ∞, this holds for all large m.
+   - *Mean.* Gaps are ≥ 1, so Σ_{i ≤ m} log g_i ≥ log H · #{i ≤ m : g_i > H} ≥ (m/2) log H. With m = n − 1 ≥ n/2,
+     log|a(n)|/n ≥ (log H)/4 for all large n. H is arbitrary, so log|a(n)|/n → ∞ and |a(n)|^(1/n) → ∞.
 
    Why a sieve is needed: Chebyshev bounds alone do not suffice. A set with π(x) ≍ x/log x in which a fraction
    1 − 1/log log n of the first n gaps equal 2 and the rest have size about log n · log log n has bounded mean log gap.
    AM–GM bounds the geometric mean of the gaps from above (by (p_n − 2)/(n − 1)), not from below. Excluding such
    clustering is exactly a Brun-type statement that p, p + h are rarely both prime.
 
-Lean: [checked](A187011/A187011_mathlib.lean).
+Lean: [full proof](A187011/A187011_growth_mathlib.lean).
 
 ### [A188644](A188644/): (k^n + k^(-n))/2 is an integer for k = (√(x²-1) + x)²
 
@@ -2345,19 +2353,34 @@ Lean: [full proof](A215461/A215461.lean).
 two odd nonprimes (1 counts as nonprime). Conjectures: "a(n) is never zero for n > 19, verified to
 10^9" and "a(n) > A215461(n) > A002372(n) for sufficiently large n." (OEIS text, CC BY-SA 4.0.)
 
-**Result.** Both true.
+**Result.** Both true; both proved in Lean 4 + Mathlib. Conjecture 2 holds for every n ≥ 2^(10^9)
+(Lean bound, far from optimal); numerically the last failure below 10^6 is n = 1546.
 
 **Argument.** - Conjecture 1. 9, 25, 35 are odd nonprimes with residues 0, 1, 2 mod 3, so for one of them c,
   d = 2n - c is divisible by 3; d is odd, and for n ≥ 22, d ≥ 9, so d is nonprime. n = 20: 40 =
   25 + 15; n = 21: 42 = 15 + 27.
-- Conjecture 2. The n ordered pairs (2i+1, 2j+1) with i + j = n - 1 split as
-  A002372(n) + A215461(n) + a(n) = n (stated in the entry). Let π' be the number of odd primes
-  below 2n and G = A002372(n) (ordered prime pairs). Each odd prime p < 2n pairs with 2n - p, so
-  A215461(n) = 2(π' - G) and a(n) = n - 2π' + G. Hence a(n) > A215461(n) iff n + 3G > 4π', true
-  for large n since π' ~ 2n/log(2n) = o(n); and A215461(n) > G iff 2π' > 3G, true for large n
-  since G ≪ n/log^2 n (Brun–Selberg sieve upper bound) while π' ≫ n/log n (Chebyshev).
+- Conjecture 2, counting. The n ordered pairs (2i+1, 2j+1) with i + j = n - 1 split as
+  g + b + a = n with g = A002372(n) (both prime), b = A215461(n) (exactly one), a = a(n) (neither).
+  With P = #{i < n : 2i+1 prime} and π = π(2n): P ≤ π ≤ P + 1, the right entries are also prime
+  for at most π indices, so a ≥ n - 2π, b ≤ 2π and b ≥ P - g ≥ π - 1 - g. Hence b < a once
+  4π < n, and g < b once 2g + 1 < π. Also g ≤ G(n) = #{m < 2n : m, 2n - m prime}.
+- Chebyshev (Mathlib `Chebyshev.pi_ge`, `Chebyshev.pi_le_log4_mul_div`): for 2^(20j) ≤ n < 2^(20j+20),
+  j ≥ 5·10^7, n ≤ 21 j π and 4π < n.
+- Sieve. Let Y = w^4, Q = primorial(Y), h' = 2n(Q - 1). For m < 2n and a prime q ∣ Q,
+  m + h' + (2n - m) = 2nQ, so q ∣ m(m + h') iff q ∣ m(2n - m). Every m < 2n with m, 2n - m prime
+  and both > Y survives the FAM-twin-primes Selberg sieve on m(m + h') with sifting primes ≤ Y,
+  so G(n) ≤ 2(Y + 1) + (sifted count). Selberg's bound gives sifted ≤ 2n/S + Y^4. For the main term
+  S use the completely multiplicative f with f(p) = 2/p for p ∤ 2n and f(p) = 1/p for p ∣ 2n
+  (f(p) ≤ ν(p) because the local root count of m(m + h') is 2 for p ∤ 2n and at least 1 always).
+  The number of factorisations m = ab with a coprime to 2n is at most m f(m), so
+  S ≥ (∑_{a ≤ w, (a,2n)=1} 1/a)(∑_{b ≤ w} 1/b) ≥ log(w+1)^2 / K(2n), K(c) = ∏_{p∣c} p/(p-1).
+  Result: G(n) ≤ 2(w^4 + 1) + K(2n)·2n/log(w+1)^2 + w^16. Only one factor K appears.
+- K bound. (p/(p-1))^2 ≤ p/(p-2) for odd p, and ∏ p/(p-2) over any k distinct odd numbers ≥ 3 is at
+  most 2k + 1 (the worst case 3, 5, …, 2k+1 telescopes). So K(c)^2 ≤ 4(2ω(c) + 1) with
+  2^ω(c) ≤ c, i.e. K(2n) = O((log n)^(1/2)) = o(log n); explicitly K(2n) ≤ j/500.
+- With w = 2^j: G(n) ≤ n/(50 j), so 2g + 1 ≤ n/(25 j) + 1 < n/(21 j) ≤ π.
 
-Lean: [witness](A215462/A215462_mathlib.lean).
+Lean: [full proof](A215462/A215462_conj2_mathlib.lean).
 
 ### [A217448](A217448/): a(n) exists for every n (CRT)
 
@@ -2688,6 +2711,39 @@ step); n = 1, 2, 3 have the terms 1, 20, 102.
 
 Lean: —.
 
+### [A118990](A118990/): A118990(n) = 2^n A086906(n-1)
+
+**Source.** OEIS [A118990](https://oeis.org/A118990), number of symmetric singular n X n
+(+1,-1) matrices over the reals (0, 4, 32, 512, 15872, ...; offset 1), and OEIS
+[A086906](https://oeis.org/A086906), number of symmetric singular n X n (0,1) matrices over
+the reals (1, 4, 32, 496, 14172, ...; offset 1). Each entry lists the other under Cf.; neither
+states a formula between them (both entries read 2026-11-05). The idea comes from OpenAI
+manuscript family 239, "The sharp exponential rate of singularity for symmetric Bernoulli
+matrices" (OpenAI, October 3, 2026), Lemma 2.1: for n >= 2 a uniform symmetric sign matrix
+A_n and a uniform symmetric 0/1 matrix B_(n-1) are singular with the same probability.
+
+**Result.** For n >= 2, A118990(n) = 2^n A086906(n-1). Proved in Lean (all n).
+
+**Argument.** Fix n >= 0 and write matrices of size n+1 with indices 0..n.
+Given a sign vector s (length n+1) and a symmetric 0/1 matrix B of size n, put
+e = (1, s_1, ..., s_n), let N be the matrix with first row and first column all 1 and
+N_ab = 1 - 2 B_ab for a, b >= 1, and set M = s_0 diag(e) N diag(e), that is
+M_00 = s_0, M_0b = M_b0 = s_0 s_b, M_ab = s_0 s_a s_b (1 - 2 B_ab).
+M is symmetric with entries +1/-1.
+Conversely, a symmetric sign matrix M gives back s_0 = M_00, s_k = M_00 M_0k and
+B_ab = (1 - M_00 M_0a M_0b M_ab)/2 in {0, 1}, and the two maps are inverse to each other
+(this uses s_i^2 = 1 and M_0k = M_k0). So (s, B) <-> M is a bijection between
+{+1,-1}^(n+1) x {symmetric 0/1 matrices of size n} and symmetric sign matrices of size n+1.
+The case M_00 = -1 needs no special treatment: it is absorbed in s_0 = -1.
+Determinant: det M = s_0^(n+1) (prod e_i)^2 det N, and subtracting row 0 from every other row
+of N leaves first column (1, 0, ..., 0) and lower block -2B, so det N = (-2)^n det B.
+Hence M is singular iff B is, and the singular sign matrices number 2^(n+1) times the
+singular 0/1 matrices. With n+1 = the OEIS index this is A118990(n) = 2^n A086906(n-1).
+The count form of OpenAI's Lemma 2.1 is the same statement: multiplying the equal
+probabilities by 2^(n(n+1)/2) and 2^((n-1)n/2) gives the factor 2^n.
+
+Lean: [full proof](A118990/A118990_mathlib.lean).
+
 ### [A121627](A121627/): divisibility of the "complex factorial" real parts
 
 **Source.** [A121627](https://oeis.org/A121627) (a(n) = Re(∏_{k≤n} k(1+i))), comment: "Conjecture (1): Current nonzero
@@ -2834,6 +2890,27 @@ A040039(n−1) by the A033485 recurrence. (The entry of A040039 already lists th
 G. Wiseman, "using offset 1".)
 
 Lean: [full proof](A029766/A029766_mathlib.lean).
+
+### [A123365](A123365/): cubes mod n, partial result (two prime factors)
+
+**Source.** OEIS [A123365](https://oeis.org/A123365): numbers k with A046530(k) = (k+2)/3, where
+A046530(k) is the number of distinct cubes mod k (offset 1). Conjecture: apart from a(1) = 1 these are
+exactly the primes p = 1 (mod 6). (OEIS text, CC BY-SA 4.0.)
+
+**Result (partial; the conjecture stays open).** Write c(n) for the number of cubes mod n.
+- If n has at most two distinct prime factors and 3c(n) = n + 2, then n = 1 or n is a prime = 1 (mod 6)
+  (`three_c_eq_one_factor`, `three_c_ne_of_two_factors`).
+- For primes p = 1 (mod 6), q = 2 (mod 3) and e >= 1, (p + 2) c(q^e) != p q^e + 2 (`cq_equation_no_solution`).
+  This is the prime-power case of the second equation left by the local bounds.
+
+**Argument.** Local bounds (method multiplicative-local-bounds) reduce every other term to the two exact
+equations 3c(n) = n + 2 (all prime factors = 2 mod 3) and (p + 2) c(B) = pB + 2 (B built from such primes).
+For two prime factors the cases split by residues mod 3: both 1 mod 3 fails by a ratio bound, both
+2 mod 3 fails since 3(x-1)(y-1) >= xy + 2, and the mixed case reduces to the second equation with B a
+prime power. There, (p + 2) s1 = p G with G = 1 + q + ... + q^(e-1) = 1 (mod q), and s1 mod q is 0, 1 or
+q by e mod 3; this forces q = 2, e = 3t + 1 and (8^t - 1)(3p - 8) = 7, impossible.
+
+Lean: [checked](A123365/A123365_mathlib.lean).
 
 ### [A010101](A010101/): a(10) ≤ 116 (upper bound improved from 117)
 

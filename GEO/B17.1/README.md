@@ -17,6 +17,9 @@ state that Eckhoff proved unimodality for simplicial d ≤ 19 and that 20 is the
 with simplicial counterexamples. Eckhoff's paper itself was not retrieved
 (J. Eckhoff, Combinatorial properties of f-vectors of convex polytopes, Normat 54 (2006),
 title from memory). No Lean.
+Tier 3 literature check 2026-11-05: G. M. Ziegler, *Convex polytopes: extremal constructions and f-vector
+shapes* (arXiv:math/0411400), Theorem 2.10, states the simplicial answer (unimodal for d ≤ 19, fails for
+d ≥ 20).
 
 **Review level.** `agent`. Partial: general polytopes not addressed.
 **Prior art.** As above. 2026-11-01.

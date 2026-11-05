@@ -1,0 +1,267 @@
+/-! ## Growth: |a(n)|^(1/n) → ∞ (second half of the conjecture)
+
+For fixed `H`, a gap `p (i+1) - p i ≤ H` with `i ≥ 1` gives a prime pair
+`q, q + h` with `q < p m` and `h ≤ H` even, so (`smallGap_card_le`) at most
+`1 + Σ_h pairCount h (p m)` of the first `m` gaps are `≤ H`.  By
+`pairCount_le_log` this is `≤ 1 + C_H N / (log N)^2` with `N = p m`, while
+Chebyshev's `pi_ge` gives `m + 1 = π N ≥ (N log 2 - log (N+1)) / log N`.
+Hence eventually at most `m/2` of the first `m` gaps are `≤ H`, the sum of
+the logarithms of the first `m` gaps is `≥ (m/2) log H`, and with
+`A187011_formula` (all other factors are `≥ 1`) `log |a n| / n → ∞`.
+-/
+
+section Growth
+
+open Filter Topology
+
+/-- The `i`-th prime gap `p (i+1) - p i` (in ℕ, `p 0 = 2`). -/
+noncomputable def primeGap (i : ℕ) : ℕ := Nat.nth Nat.Prime (i + 1) - Nat.nth Nat.Prime i
+
+lemma nthPrime_lt {i j : ℕ} (h : i < j) : Nat.nth Nat.Prime i < Nat.nth Nat.Prime j :=
+  Nat.nth_strictMono Nat.infinite_setOfPred_prime h
+
+lemma primeGap_pos (i : ℕ) : 0 < primeGap i := by
+  have := nthPrime_lt (show i < i + 1 by omega)
+  unfold primeGap
+  omega
+
+lemma primeGap_cast (i : ℕ) : ((primeGap i : ℕ) : ℤ) = p (i + 1) - p i := by
+  have := nthPrime_lt (show i < i + 1 by omega)
+  unfold primeGap p
+  rw [Nat.cast_sub this.le]
+
+lemma nthPrime_odd {i : ℕ} (hi : 1 ≤ i) : Odd (Nat.nth Nat.Prime i) := by
+  have h2 : Nat.nth Nat.Prime 0 < Nat.nth Nat.Prime i := nthPrime_lt (by omega)
+  rw [Nat.nth_prime_zero_eq_two] at h2
+  exact (Nat.prime_nth_prime i).odd_of_ne_two (by omega)
+
+lemma primeGap_even {i : ℕ} (hi : 1 ≤ i) : 2 ∣ primeGap i := by
+  obtain ⟨k, hk⟩ := nthPrime_odd (show 1 ≤ i + 1 by omega)
+  obtain ⟨l, hl⟩ := nthPrime_odd hi
+  have := nthPrime_lt (show i < i + 1 by omega)
+  unfold primeGap
+  omega
+
+/-- `π (p m) = m + 1`: the primes `≤ p m` are `p 0, ..., p m`. -/
+lemma primeCounting_nthPrime (m : ℕ) : Nat.primeCounting (Nat.nth Nat.Prime m) = m + 1 := by
+  simp [Nat.primeCounting, Nat.primeCounting', Nat.count_succ,
+    Nat.count_nth_of_infinite Nat.infinite_setOfPred_prime, Nat.prime_nth_prime]
+
+/-- Among the first `m` prime gaps, those `≤ H` number at most
+`1 + Σ_{h ≤ H, h even, h > 0} pairCount h (p m)`. -/
+theorem smallGap_card_le (H m : ℕ) :
+    ((Finset.range m).filter (fun i => primeGap i ≤ H)).card ≤
+      1 + ∑ h ∈ (Finset.range (H + 1)).filter (fun h => 2 ∣ h ∧ 0 < h),
+        pairCount h (Nat.nth Nat.Prime m) := by
+  set S := (Finset.range (H + 1)).filter (fun h => 2 ∣ h ∧ 0 < h) with hS
+  set N := Nat.nth Nat.Prime m with hN
+  have hsub : (Finset.range m).filter (fun i => primeGap i ≤ H) ⊆
+      insert 0 ((Finset.range m).filter (fun i => primeGap i ≤ H ∧ 1 ≤ i)) := by
+    intro i hi
+    rw [Finset.mem_filter] at hi
+    rcases Nat.eq_zero_or_pos i with h0 | h0
+    · rw [h0]
+      exact Finset.mem_insert_self _ _
+    · exact Finset.mem_insert_of_mem (Finset.mem_filter.2 ⟨hi.1, hi.2, h0⟩)
+  have hinj : ((Finset.range m).filter (fun i => primeGap i ≤ H ∧ 1 ≤ i)).card ≤
+      (S.biUnion (fun h => (Finset.range N).filter (fun n => n.Prime ∧ (n + h).Prime))).card := by
+    apply Finset.card_le_card_of_injOn (fun i => Nat.nth Nat.Prime i)
+    · intro i hi
+      have hi' := Finset.mem_coe.1 hi
+      rw [Finset.mem_filter, Finset.mem_range] at hi'
+      apply Finset.mem_coe.2
+      have hlt := nthPrime_lt (show i < i + 1 by omega)
+      have hsum : Nat.nth Nat.Prime i + primeGap i = Nat.nth Nat.Prime (i + 1) := by
+        unfold primeGap
+        omega
+      refine Finset.mem_biUnion.2 ⟨primeGap i, ?_, ?_⟩
+      · rw [hS, Finset.mem_filter, Finset.mem_range]
+        exact ⟨by omega, primeGap_even hi'.2.2, primeGap_pos i⟩
+      · rw [Finset.mem_filter, Finset.mem_range, hsum]
+        exact ⟨nthPrime_lt hi'.1, Nat.prime_nth_prime i, Nat.prime_nth_prime (i + 1)⟩
+    · intro i _ j _ hij
+      exact Nat.nth_injective Nat.infinite_setOfPred_prime hij
+  have hU := Finset.card_biUnion_le (s := S)
+    (t := fun h => (Finset.range N).filter (fun n => n.Prime ∧ (n + h).Prime))
+  have hI := Finset.card_insert_le 0
+    ((Finset.range m).filter (fun i => primeGap i ≤ H ∧ 1 ≤ i))
+  have hC := Finset.card_le_card hsub
+  unfold pairCount
+  omega
+
+/-- The same count with `pairCount_le_log` applied to each shift. -/
+theorem smallGap_card_le_real (H m : ℕ) :
+    (((Finset.range m).filter (fun i => primeGap i ≤ H)).card : ℝ) ≤
+      1 + (∑ h ∈ (Finset.range (H + 1)).filter (fun h => 2 ∣ h ∧ 0 < h), 2 ^ 13 * pairK h ^ 2) *
+        (Nat.nth Nat.Prime m : ℝ) / Real.log (Nat.nth Nat.Prime m) ^ 2 := by
+  have hN : 2 ≤ Nat.nth Nat.Prime m := (Nat.prime_nth_prime m).two_le
+  have h1 : (((Finset.range m).filter (fun i => primeGap i ≤ H)).card : ℝ) ≤
+      1 + ∑ h ∈ (Finset.range (H + 1)).filter (fun h => 2 ∣ h ∧ 0 < h),
+        (pairCount h (Nat.nth Nat.Prime m) : ℝ) := by
+    exact_mod_cast smallGap_card_le H m
+  rw [Finset.sum_mul, Finset.sum_div]
+  refine h1.trans (add_le_add_right (Finset.sum_le_sum fun h hh => ?_) 1)
+  rw [Finset.mem_filter] at hh
+  exact pairCount_le_log h _ hh.2.1 hh.2.2 hN
+
+/-- The real inequality behind `smallGap_eventually`: for large `x`,
+`4 log x + 1 + 2 C x / log x ≤ x / 2`. -/
+theorem eventually_sieve_vs_chebyshev (C : ℝ) (hC : 0 ≤ C) : ∀ᶠ x : ℝ in atTop,
+    4 * Real.log x + 1 + 2 * (C * x / Real.log x) ≤ x / 2 := by
+  have h1 : Tendsto (fun x : ℝ => Real.log x / x) atTop (𝓝 0) := by
+    simpa using Real.tendsto_pow_log_div_mul_add_atTop 1 0 1 one_ne_zero
+  have e1 := h1.eventually (eventually_le_nhds (by norm_num : (0 : ℝ) < 1 / 16))
+  have e2 := Real.tendsto_log_atTop.eventually_ge_atTop (16 * C + 1)
+  filter_upwards [e1, e2, eventually_ge_atTop (8 : ℝ)] with x hx1 hx2 hx3
+  have hx0 : 0 < x := by linarith
+  have hL : 0 < Real.log x := by linarith
+  have hA : Real.log x ≤ x / 16 := by
+    rw [div_le_iff₀ hx0] at hx1
+    linarith
+  have hB : C * x / Real.log x ≤ x / 16 := by
+    rw [div_le_iff₀ hL]
+    nlinarith [mul_le_mul_of_nonneg_left hx2 hx0.le]
+  linarith
+
+/-- For each `H`, eventually at most half of the first `m` prime gaps are `≤ H`. -/
+theorem smallGap_eventually (H : ℕ) : ∀ᶠ m : ℕ in atTop,
+    (((Finset.range m).filter (fun i => primeGap i ≤ H)).card : ℝ) ≤ m / 2 := by
+  obtain ⟨C, hCdef⟩ : ∃ C : ℝ, C = ∑ h ∈ (Finset.range (H + 1)).filter (fun h => 2 ∣ h ∧ 0 < h),
+      2 ^ 13 * pairK h ^ 2 := ⟨_, rfl⟩
+  have hC : 0 ≤ C := by
+    rw [hCdef]
+    exact Finset.sum_nonneg fun h _ => by positivity
+  have hT : Tendsto (fun m : ℕ => (Nat.nth Nat.Prime m : ℝ)) atTop atTop :=
+    tendsto_natCast_atTop_atTop.comp
+      (Nat.nth_strictMono Nat.infinite_setOfPred_prime).tendsto_atTop
+  filter_upwards [hT.eventually (eventually_sieve_vs_chebyshev C hC)] with m hm
+  have hA := smallGap_card_le_real H m
+  rw [← hCdef] at hA
+  have hπ := primeCounting_nthPrime m
+  have hN2' : 2 ≤ Nat.nth Nat.Prime m := (Nat.prime_nth_prime m).two_le
+  generalize Nat.nth Nat.Prime m = N at hA hπ hN2' hm
+  have hN2 : (2 : ℝ) ≤ N := by exact_mod_cast hN2'
+  have hL : 0 < Real.log (N : ℝ) := Real.log_pos (by linarith)
+  have hpi := Chebyshev.pi_ge N
+  rw [hπ, div_le_iff₀ hL] at hpi
+  push_cast at hpi
+  have hlog1 : Real.log ((N : ℝ) + 1) ≤ Real.log 2 + Real.log (N : ℝ) := by
+    rw [← Real.log_mul (by norm_num) (by linarith)]
+    exact Real.log_le_log (by linarith) (by linarith)
+  have hlog2 := Real.log_two_gt_d9
+  have hlog3 : Real.log 2 < 1 := by
+    have := Real.log_two_lt_d9
+    linarith
+  have hNl : (N : ℝ) / 2 ≤ N * Real.log 2 := by nlinarith
+  have hA' : (((Finset.range m).filter (fun i => primeGap i ≤ H)).card : ℝ) * Real.log N ≤
+      Real.log N + C * N / Real.log N := by
+    calc (((Finset.range m).filter (fun i => primeGap i ≤ H)).card : ℝ) * Real.log N
+        ≤ (1 + C * N / Real.log N ^ 2) * Real.log N := mul_le_mul_of_nonneg_right hA hL.le
+      _ = Real.log N + C * N / Real.log N := by
+        rw [add_mul, one_mul, div_mul_eq_mul_div, pow_two, mul_div_mul_right _ _ hL.ne']
+  have key : (((Finset.range m).filter (fun i => primeGap i ≤ H)).card : ℝ) * Real.log N ≤
+      (m / 2) * Real.log N := by
+    nlinarith
+  exact le_of_mul_le_mul_right key hL
+
+/-- Every prime gap is at least 1, so their product is at least 1. -/
+lemma one_le_prod_gap (k : ℕ) : (1 : ℝ) ≤ ∏ i ∈ Finset.range k, (primeGap i : ℝ) :=
+  Finset.one_le_prod₀ fun i _ => by exact_mod_cast primeGap_pos i
+
+/-- The product of the first `n - 1` prime gaps is at most `|a n|`
+(the other factors of `A187011_formula` are at least 1 in absolute value). -/
+theorem prod_gap_le_abs_a (n : ℕ) (hn : 2 ≤ n) :
+    ∏ i ∈ Finset.range (n - 1), (primeGap i : ℝ) ≤ |(a n : ℝ)| := by
+  have hprod : ∏ i ∈ Finset.range (n - 1), (p (i + 1) - p i) =
+      ∏ i ∈ Finset.range (n - 1), (primeGap i : ℤ) :=
+    Finset.prod_congr rfl fun i _ => (primeGap_cast i).symm
+  have hG : 0 ≤ ∏ i ∈ Finset.range (n - 1), (primeGap i : ℤ) :=
+    Finset.prod_nonneg fun i _ => by positivity
+  have hB : 1 ≤ p (n - 1) - p 0 := by
+    have := p_strictMono (show 0 < n - 1 by omega)
+    omega
+  have hA : (1 : ℤ) ≤ 2 ^ (n - 2) := one_le_pow₀ (by norm_num)
+  have hZ : ∏ i ∈ Finset.range (n - 1), (primeGap i : ℤ) ≤ |a n| := by
+    rw [A187011_formula n hn, hprod, abs_mul, abs_mul, abs_mul, abs_pow, abs_neg, abs_one,
+      one_pow, one_mul, abs_of_nonneg hG, abs_of_pos (by positivity : (0 : ℤ) < 2 ^ (n - 2)),
+      abs_of_pos (by omega : (0 : ℤ) < p (n - 1) - p 0)]
+    exact le_mul_of_one_le_left hG (by nlinarith)
+  have hR := (Int.cast_le (R := ℝ)).2 hZ
+  push_cast at hR
+  exact hR
+
+/-- Sum of the logarithms of the first `m` gaps is at least
+`log H` times the number of gaps `> H`. -/
+theorem sum_log_gap_ge (H m : ℕ) (hH : 1 ≤ H) :
+    Real.log H * ((m : ℝ) - ((Finset.range m).filter (fun i => primeGap i ≤ H)).card) ≤
+      ∑ i ∈ Finset.range m, Real.log (primeGap i) := by
+  have hsplit := Finset.card_filter_add_card_filter_not (s := Finset.range m)
+    (fun i => primeGap i ≤ H)
+  rw [Finset.card_range] at hsplit
+  have hcast : (m : ℝ) - ((Finset.range m).filter (fun i => primeGap i ≤ H)).card =
+      ((Finset.range m).filter (fun i => ¬ primeGap i ≤ H)).card := by
+    have : (m : ℝ) = (((Finset.range m).filter (fun i => primeGap i ≤ H)).card : ℝ) +
+        ((Finset.range m).filter (fun i => ¬ primeGap i ≤ H)).card := by
+      exact_mod_cast hsplit.symm
+    linarith
+  rw [hcast]
+  calc Real.log H * ((Finset.range m).filter (fun i => ¬ primeGap i ≤ H)).card
+      = ∑ i ∈ (Finset.range m).filter (fun i => ¬ primeGap i ≤ H), Real.log H := by
+        rw [Finset.sum_const, nsmul_eq_mul]
+        ring
+    _ ≤ ∑ i ∈ (Finset.range m).filter (fun i => ¬ primeGap i ≤ H), Real.log (primeGap i) := by
+        apply Finset.sum_le_sum
+        intro i hi
+        rw [Finset.mem_filter] at hi
+        have h1 : (H : ℝ) ≤ primeGap i := by exact_mod_cast (not_le.1 hi.2).le
+        exact Real.log_le_log (by exact_mod_cast hH) h1
+    _ ≤ ∑ i ∈ Finset.range m, Real.log (primeGap i) := by
+        apply Finset.sum_le_sum_of_subset_of_nonneg (Finset.filter_subset _ _)
+        intro i _ _
+        exact Real.log_nonneg (by exact_mod_cast primeGap_pos i)
+
+/-- `log |a n| / n → ∞`. -/
+theorem A187011_log_growth :
+    Tendsto (fun n : ℕ => Real.log |(a n : ℝ)| / n) atTop atTop := by
+  rw [tendsto_atTop]
+  intro B
+  obtain ⟨H, hH⟩ : ∃ H : ℕ, Real.exp (4 * B) ≤ H := exists_nat_ge _
+  have hH1 : 1 ≤ H + 1 := by omega
+  have hlogH : 4 * B ≤ Real.log ((H + 1 : ℕ) : ℝ) := by
+    rw [← Real.log_exp (4 * B)]
+    exact Real.log_le_log (Real.exp_pos _) (by push_cast; linarith)
+  have hlog0 : 0 ≤ Real.log ((H + 1 : ℕ) : ℝ) := Real.log_nonneg (by push_cast; linarith)
+  filter_upwards [(tendsto_sub_atTop_nat 1).eventually (smallGap_eventually (H + 1)),
+    eventually_ge_atTop 2] with n hn hn2
+  have hm : ((n - 1 : ℕ) : ℝ) = (n : ℝ) - 1 := by
+    rw [Nat.cast_sub (by omega)]
+    simp
+  have hn2' : (2 : ℝ) ≤ n := by exact_mod_cast hn2
+  have h1 := sum_log_gap_ge (H + 1) (n - 1) hH1
+  have h2 := hn
+  rw [hm] at h1 h2
+  have hP := prod_gap_le_abs_a n hn2
+  have hP1 := one_le_prod_gap (n - 1)
+  have h3 : ∑ i ∈ Finset.range (n - 1), Real.log (primeGap i) ≤ Real.log |(a n : ℝ)| := by
+    rw [← Real.log_prod fun i _ => by exact_mod_cast (primeGap_pos i).ne']
+    exact Real.log_le_log (by linarith) hP
+  rw [le_div_iff₀ (by linarith)]
+  nlinarith [mul_le_mul_of_nonneg_left h2 hlog0, mul_le_mul_of_nonneg_right hlogH
+    (by linarith : (0 : ℝ) ≤ n), mul_le_mul_of_nonneg_left hn2' hlog0]
+
+/-- **A187011, second half of the conjecture**: `|a(n)|^(1/n) → ∞`. -/
+theorem A187011_growth :
+    Tendsto (fun n : ℕ => |(a n : ℝ)| ^ (1 / (n : ℝ))) atTop atTop := by
+  refine (Real.tendsto_exp_atTop.comp A187011_log_growth).congr' ?_
+  filter_upwards [eventually_ge_atTop 2] with n hn
+  have hpos : 0 < |(a n : ℝ)| :=
+    lt_of_lt_of_le one_pos ((one_le_prod_gap (n - 1)).trans (prod_gap_le_abs_a n hn))
+  rw [Function.comp_apply, Real.rpow_def_of_pos hpos, mul_one_div]
+
+/-- **A187011, both halves**: for `n ≥ 2`, `(-1)^(n-1) a(n) > 0`, and `|a(n)|^(1/n) → ∞`. -/
+theorem A187011_conjecture :
+    (∀ n, 2 ≤ n → 0 < (-1) ^ (n - 1) * a n) ∧
+      Tendsto (fun n : ℕ => |(a n : ℝ)| ^ (1 / (n : ℝ))) atTop atTop :=
+  ⟨A187011_sign, A187011_growth⟩
+
+end Growth

@@ -572,11 +572,11 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A187011](https://oeis.org/A187011): det(|p_i − p_j|) over the first n primes
 
-- Problem: [OEIS-A187011](OEIS/A187011/README.md) (proved, partly-known). Lean: paper proof, [`A187011_mathlib.lean`](OEIS/A187011/A187011_mathlib.lean).
+- Problem: [OEIS-A187011](OEIS/A187011/README.md) (proved, partly-known). Lean: Lean proof, [`A187011_growth_mathlib.lean`](OEIS/A187011/A187011_growth_mathlib.lean).
 - Prior art: Sign part is the weighted-path case of the Bapat-Kirkland-Neumann tree formula; growth part a routine sieve corollary; no prior proof of the A187011 conjecture found.
 - Draft comment:
 
-  > The conjecture is true: Both parts are true. For n ≥ 2, a(n) = (−1)^(n−1) · 2^(n−2) · (p_n − 2) · ∏_{i<n} (p_{i+1} − p_i), so the sign part is immediate. The growth part follows from this formula and a sieve upper bound for prime pairs. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A187011). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: Both parts are true, and both are proved in Lean 4 + Mathlib. For n ≥ 2, a(n) = (−1)^(n−1) · 2^(n−2) · (p_n − 2) · ∏_{i<n} (p_{i+1} − p_i), so the sign part is immediate. The growth part follows from this formula, a Selberg-sieve upper bound for prime pairs uniform in the shift, and Chebyshev's lower bound for π(x). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A187011). - _<Name>_, <Mon DD YYYY>
 
 ### [A192205](https://oeis.org/A192205): a(n)^(1/n) → 16√3/9 for the coefficient sum of (1-x-x^2+x^3)^n
 
@@ -652,7 +652,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A215462](https://oeis.org/A215462): 2n is a sum of two odd nonprimes for n > 19; eventual ordering
 
-- Problem: [OEIS-A215462](OEIS/A215462/README.md) (proved, partly-known). Lean: Lean (partial), [`A215462_mathlib.lean`](OEIS/A215462/A215462_mathlib.lean).
+- Problem: [OEIS-A215462](OEIS/A215462/README.md) (proved, partly-known). Lean: Lean proof, [`A215462_conj2_mathlib.lean`](OEIS/A215462/A215462_conj2_mathlib.lean).
 - Prior art: Conjecture 1 is the classical 1984 AIME Problem 14 fact. Conjecture 2 (eventual ordering) follows from Chebyshev plus the Brun-Selberg upper bound for Goldbach representations; no source states it for these sequences.
 - Draft comment:
 

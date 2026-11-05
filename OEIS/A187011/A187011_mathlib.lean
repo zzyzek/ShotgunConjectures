@@ -21,11 +21,10 @@ d_i = x (i+1) - x i.  Multiplying on the right by an upper triangular V
 with det V = 2 makes it lower triangular with diagonal
 -2 d_0, ..., -2 d_{n-2}, x (n-1) - x 0.
 
-Not checked in Lean: the second half of the conjecture, |a(n)|^(1/n) → ∞.
-By `A187011_formula` it is equivalent to the geometric mean of the first
-n-1 prime gaps tending to infinity, which we derive (README) from a Brun or
-Selberg upper bound for prime pairs p, p + h uniform in h; that sieve bound
-is not in Mathlib.
+Not checked in this file: the second half of the conjecture,
+|a(n)|^(1/n) → ∞.  It is checked in A187011_growth_mathlib.lean
+(`A187011_growth`), which contains this file together with a Selberg-sieve
+upper bound for prime pairs p, p + h uniform in h.
 -/
 import Mathlib
 

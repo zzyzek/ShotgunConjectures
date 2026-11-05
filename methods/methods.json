@@ -136,5 +136,92 @@
   "name": "Invariant for greedy sequences",
   "role": "proof",
   "cue": "Sequences defined greedily (\"smallest unused m such that ...\") with a conjectured rule for passing from a(n) to a(n+1)."
+ },
+ {
+  "id": "finite-witness-counterexample",
+  "name": "Finite witness for a continuous or asymptotic conjecture",
+  "role": "disproof",
+  "cue": "A conjecture about all sets, tilings, hypergraphs, Boolean functions or norms, where a counterexample would be one finite (or finitely described) object: \"every hypergraph has tau <= ...\", \"every tile tiles periodically\", \"every set can be covered by d+1 smaller pieces\".",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "seed-and-amplify",
+  "name": "Finite seed plus composition or tensor-power amplification",
+  "role": "both",
+  "cue": "A separation or ratio that must grow without bound (\"bs(f) > s(f)^2 infinitely often\", \"variance exceeds degree by any factor\", \"O(n log n) can be beaten\") where composing or tensoring objects multiplies the relevant measures.",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "finite-field-geometry-construction",
+  "name": "Finite-field and finite-geometry constructions",
+  "role": "disproof",
+  "cue": "Extremal or Ramsey-type questions where random constructions are too weak or the extremal object should be highly symmetric: covering numbers of intersecting hypergraphs, graph homomorphism densities, colourings avoiding progressions, separated sets.",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "minimal-counterexample-reduction",
+  "name": "Minimal counterexample with strict local inequalities",
+  "role": "proof",
+  "cue": "\"Every graph/digraph/group with property P has Q\", with no obvious induction; small cases verified by computer.",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "analytic-reduction-exact-certificate",
+  "name": "Analytic reduction to a compact region plus rigorous computation",
+  "role": "proof",
+  "cue": "A sharp inequality or threshold depending on a few real parameters, where theory handles the asymptotic or generic range and a bounded leftover range remains.",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "lp-sdp-duality-certificate",
+  "name": "LP / SDP / SOS dual certificates",
+  "role": "certification",
+  "cue": "Optimal packings, energies, design or code nonexistence, sharp functional inequalities where an extremal configuration is conjectured.",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "discrepancy-rounding",
+  "name": "Relax then round by discrepancy",
+  "role": "proof",
+  "cue": "Find signs (or 0/1 values) for a sequence so that a family of linear functionals stays small: flat Littlewood polynomials, merit factor, Steinitz/prefix sums, balancing.",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "approximate-superadditivity-limit",
+  "name": "Limits from approximate superadditivity at dyadic sizes",
+  "role": "proof",
+  "cue": "\"lim a(n)/n exists\", \"the threshold converges\", growth constants of combinatorial sequences when exact superadditivity fails by a small error.",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "probabilistic-alteration",
+  "name": "Random construction with alteration and union bounds",
+  "role": "both",
+  "cue": "Existence of sets, colourings or graphs with many local constraints (hitting sets, avoiding configurations, Hadwiger-small graphs).",
+  "origin": "openai-scan"
+ },
+ {
+  "id": "selberg-sieve-polynomial",
+  "name": "Selberg sieve for polynomial values in Lean",
+  "role": "proof",
+  "cue": "Upper bounds for primes in pairs or tuples of linear forms (p and p + h prime, Goldbach-type m and 2n - m), Brun-type convergence, prime-gap growth claims."
+ },
+ {
+  "id": "ordered-prime-gap-bound",
+  "name": "Ordered prime gap bound for exact multiplicative targets",
+  "role": "proof",
+  "cue": "Exact equations f(n) = n r (or phi(n) | n - 1, sigma(n) = 2n) with f multiplicative and local factors tending to 1: bound n for a fixed number of prime factors."
+ },
+ {
+  "id": "cofactor-exponent",
+  "name": "Cofactor exponent for Wieferich-type congruences",
+  "role": "disproof",
+  "cue": "Congruences a^(c-1) = 1 mod c^2 (or mod c^k) over composite c: Wieferich pseudoprimes, Fermat-quotient questions."
+ },
+ {
+  "id": "macaulay-ideal-membership",
+  "name": "Macaulay-matrix ideal membership certificate",
+  "role": "proof",
+  "cue": "Fixed-degree polynomial elimination: show a polynomial system forces some coefficients to vanish (Casas-Alvero in fixed degree, geometric configurations with polynomial constraints)."
  }
 ]

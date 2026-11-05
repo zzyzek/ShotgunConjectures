@@ -93,3 +93,12 @@ beside any core file (keep the core file). Build the shared library first
 A header comment line must not start with `theorem` in column 0 (the check
 script greps declarations). Record the result in `updates/z-*.jsonl` (the
 `z-` prefix makes it sort after the older update files).
+
+## Core questions
+
+When an attempt fails, check `methods/cores.jsonl` and `methods/attempts.jsonl` for the same obstacle. If two
+or more attempts share it, draft a core question: a smaller, sharper question (not a broader framework) whose
+answer settles or reduces all of them. It must pass three tests: leverage (at least two problems), strictly
+easier (a bounded or finite version, or a known method reaches it), checkable (a numerical test, run and
+recorded in `check`). Record it with status `proposed`; list it in your report. A core that is only a
+generalisation of the problems fails the "easier" test.
