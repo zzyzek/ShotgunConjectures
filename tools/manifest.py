@@ -82,6 +82,20 @@ def main():
           e['summary'] = old[r['id']]['summary_override']
       out.append(e)
       os.makedirs(os.path.join(HERE, pdir), exist_ok=True)
+  # Entries that come from outside the scan (updates with "standalone": true).
+  #
+  have = { e['id'] for e in out }
+  for rid, u in old.items():
+    if u.get('standalone') and (rid not in have):
+      src, pdir, lean = paths(rid)
+      e = { 'id': rid, 'source': SOURCES[src][0], 'section': u.get('section', ''),
+            'category': u['category'], 'title': u.get('title', ''), 'result': u.get('result', ''),
+            'summary': u.get('summary', ''), 'dir': pdir, 'lean': u.get('lean'),
+            'lean_status': u.get('lean_status', 'none'), 'review': u.get('review', 'agent'),
+            'status_checked_online': True, 'prior_art_search': u.get('prior_art_search', False) }
+      for k in ('certificate', 'depends_on', 'notes', 'methods', 'prior_art'):
+        if k in u: e[k] = u[k]
+      out.append(e)
   with open(idx, 'w', encoding='utf-8') as f:
     for e in sorted(out, key=lambda e: e['id']):
       f.write(json.dumps(e, ensure_ascii=False) + '\n')

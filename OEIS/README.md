@@ -2,7 +2,7 @@
 
 Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS wiki, Talk:Conjectures/List). OEIS text is quoted under CC BY-SA 4.0 with the A-number as attribution.
 
-124 entries: 110 resolved by this project, 14 answered elsewhere, 0 disputed or partial.
+125 entries: 110 resolved by this project, 14 answered elsewhere, 0 disputed or partial.
 
 Of the 110 resolutions: 102 proved in full in Lean, 5 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
@@ -141,6 +141,12 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A213258](A213258/) | proved | terms are the positions of 2 in a morphic word (n = 2^(3t+2)·odd) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A226160](A226160/) | proved | a(n+1)/a(n) → exp(1/φ) = 1.855276958... (harmonic-number threshold) | [full proof](A226160/A226160_mathlib.lean) | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A226188](A226188/) | proved | a(n+1)/a(n) → exp(2/3) = 1.947734... (harmonic-number threshold) | [full proof](A226188/A226188_mathlib.lean) | — | [elementary-proof](../methods/elementary-proof/README.md) |
+
+## Bounds improved (the problem stays open)
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [A010101](A010101/) | bound improved | a(10) ≤ 116 (upper bound improved from 117) | — | new | [interval-layer-lp](../methods/interval-layer-lp/README.md) |
 
 ## Short proofs
 
@@ -2182,4 +2188,44 @@ H_(a-1) ≤ c n < H_a for a = a(n), so log(a - 1) + γ < c n < log a + γ + 1/(2
 log a(n) = c n - γ + o(1), and a(n+1)/a(n) = exp(c + o(1)) → exp(c).
 
 Lean: [full proof](A226188/A226188_mathlib.lean).
+
+### [A010101](A010101/): a(10) ≤ 116 (upper bound improved from 117)
+
+**Source.** OEIS [A010101](https://oeis.org/A010101), "Maximal size of binary code of length n and
+asymmetric distance 2" (size of an optimal code correcting one error on the Z-channel). The entry
+comment says the next three terms are known to lie in 112–117, 198–210 and 379–410. The same three
+problems are N. J. A. Sloane's challenge graphs 1zc.1024, 1zc.2048, 1zc.4096
+(<https://oeis.org/A265032/a265032.html>). (OEIS text, CC BY-SA 4.0.)
+
+**Result.** a(10) ≤ 116, so a(10) ∈ [112, 116]. The upper bound 117 (Etzion–Östergård 1998, as quoted)
+is improved by one. a(11) and a(12) are not improved (the same method gives exactly 210 and 410).
+
+**Argument.** Let C be a length-10 code, a_w its number of words of weight w. Two words conflict when
+max(N(x,y), N(y,x)) ≤ 1, N(x,y) = #{i : x_i = 1, y_i = 0}. Nine inequalities, each a double count of C
+against cliques or subcubes, hold for every code:
+
+| # | inequality | reason | multiplier |
+|---|---|---|---|
+| 1 | a_9 + 2 a_8 ≤ 10 | a weight-9 word and the 9 weight-8 words below it pairwise conflict; sum over the 10 weight-9 words | 1/10 |
+| 2 | a_2 ≤ 5 | weight-2 words of C are disjoint pairs | 2/5 |
+| 3 | a_8 ≤ 5 | complement of 2 | 4/5 |
+| 4 | a_2 + a_3 ≤ 17 | fact F1 | 1/5 |
+| 5 | a_3 + a_4 ≤ 35 | fact F2 | 1/5 |
+| 6 | a_6 + a_7 ≤ 35 | complement of 5 | 1 |
+| 7 | 45 a_0 + 36 a_1 ≤ 45 | in each of the 45 subcubes of dimension 8 through 0, words of weight ≤ 1 pairwise conflict | 1/45 |
+| 8 | Σ_{w=1..5} w a_w ≤ 310 | for each coordinate i, words with x_i = 1 form a 9-cube in which weights 1..5 become 0..4; fact F3 there; sum over i | 1/5 |
+| 9 | 9 a_9 + 10 a_10 ≤ 10 | in those 9-cubes, words of global weight 9, 10 pairwise conflict | 1/10 |
+
+With the multipliers every a_w has total coefficient exactly 1 and the right-hand sides sum to
+582/5 = 116.4, so |C| ≤ 116.
+
+Facts (all at the stated length, for every code):
+- **F1:** weights 2..3 at length 10 hold at most 17 words. Hand proof: weight-2 words form a matching M,
+  weight-3 words a triangle packing of K_10 avoiding M; a packing has at most 13 triangles, and a
+  13-triangle packing leaves 6 edges with odd degree everywhere, hence a vertex of degree 3, impossible
+  if the leave contains a perfect matching; so |M| = 5 forces ≤ 12 triangles.
+- **F2:** weights 3..4 at length 10 hold at most 35 words.
+- **F3:** weights 0..4 at length 9 hold at most 31 words.
+
+Lean: —.
 

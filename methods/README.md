@@ -43,4 +43,5 @@ reproduces known results with it: `python3 -I methods/tests/run.py`.
 | [Direct elementary argument](elementary-proof/README.md) | both | Anything settled by a short algebraic, combinatorial or number-theoretic argument not covered by another method. | 102 |
 | [Restatement, triviality, misstatement](restatement-or-misstatement/README.md) | reading | The item restates another one, is trivially true or false, or is misstated (OCR, wrong index). | 53 |
 | [Lean certificates in core Lean](lean-certificate/README.md) | certification | Any result whose evidence is a finite object or a finite computation, plus "for every n" claims reducible to finitely many facts and a periodicity lemma. | 244 |
+| [Layer LP with interval constraints](interval-layer-lp/README.md) | proof | Upper bounds for codes in hypercube-like graphs invariant under coordinate permutations, conflicts between nearby weights (Z-channel codes). | 1 |
 <!-- end generated -->

@@ -94,5 +94,11 @@
   "name": "Lean certificates in core Lean",
   "role": "certification",
   "cue": "Any result whose evidence is a finite object or a finite computation, plus \"for every n\" claims reducible to finitely many facts and a periodicity lemma."
+ },
+ {
+  "id": "interval-layer-lp",
+  "name": "Layer LP with interval constraints",
+  "role": "proof",
+  "cue": "Upper bounds for codes in hypercube-like graphs invariant under coordinate permutations, conflicts between nearby weights (Z-channel codes)."
  }
 ]
