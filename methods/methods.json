@@ -112,5 +112,29 @@
   "name": "Creative telescoping certificate",
   "role": "proof",
   "cue": "OEIS \"Conjecture: (n+1)*a(n) - ... = 0\" (P-recursive recurrence) for a(n) given as a finite sum of binomial or hypergeometric terms."
+ },
+ {
+  "id": "multiplicative-local-bounds",
+  "name": "Local bounds for multiplicative counts",
+  "role": "proof",
+  "cue": "OEIS \"values of n with f(n) = n/k + 1\" (or similar target) for a multiplicative counting function f such as the number of squares mod n; conjectures that such n are k*prime."
+ },
+ {
+  "id": "gf-coefficient-extraction",
+  "name": "Generating-function coefficient extraction",
+  "role": "proof",
+  "cue": "OEIS conjectures that a binomial sum, a binomial or Motzkin transform, or a difference of two sequences equals another sequence, where the generating functions are rational or algebraic."
+ },
+ {
+  "id": "nth-enumeration",
+  "name": "Identify Nat.nth of a Diophantine set",
+  "role": "proof",
+  "cue": "A sequence defined as \"numbers m such that a quadratic form is a square\" (or similar Diophantine set) has to be matched with an explicit recurrence or closed form."
+ },
+ {
+  "id": "greedy-invariant",
+  "name": "Invariant for greedy sequences",
+  "role": "proof",
+  "cue": "Sequences defined greedily (\"smallest unused m such that ...\") with a conjectured rule for passing from a(n) to a(n+1)."
  }
 ]

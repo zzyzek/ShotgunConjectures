@@ -1,17 +1,17 @@
-Subject: Settled conjectures in 92 OEIS entries (list and proofs)
+Subject: Settled conjectures in 106 OEIS entries (list and proofs)
 
 Dear OEIS editors,
 
-The attached list covers 92 OEIS entries whose comments state a conjecture
-that is now settled: 70 true, 15 false, 7 trivial or misstated as
-written. For 17 of them the answer is already in the literature and the
-entry only needs a cross-reference; for the other 75 no source we found
+The attached list covers 106 OEIS entries whose comments state a conjecture
+that is now settled: 81 true, 15 false, 10 trivial or misstated as
+written. For 19 of them the answer is already in the literature and the
+entry only needs a cross-reference; for the other 87 no source we found
 states the full answer
 (entry, cross-referenced entries, edit history, web, arXiv; checked
 2026-11-04).
 
 The results come from an AI-assisted scan (Claude agents) of open problems.
-Each was re-derived by a second agent, and 82 are proved in full in
+Each was re-derived by a second agent, and 96 are proved in full in
 Lean 4 (core Lean or Mathlib), checked by the Lean kernel; 4 are partly
 formalised (the remaining step is named) and 6 have written proofs
 only. Every proof, its Lean file and the scripts are in

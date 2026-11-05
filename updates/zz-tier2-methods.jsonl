@@ -1,0 +1,8 @@
+{"id": "OEIS-A123722", "methods": ["multiplicative-local-bounds", "elementary-proof", "lean-certificate"]}
+{"id": "OEIS-A123723", "methods": ["multiplicative-local-bounds", "elementary-proof", "lean-certificate"]}
+{"id": "OEIS-A005430", "methods": ["gf-coefficient-extraction", "finite-identity", "elementary-proof"]}
+{"id": "OEIS-A025191", "methods": ["gf-coefficient-extraction", "elementary-proof", "finite-identity"]}
+{"id": "OEIS-A108863", "methods": ["gf-coefficient-extraction", "elementary-proof", "finite-identity"]}
+{"id": "OEIS-A195538", "methods": ["units-pell", "nth-enumeration", "elementary-proof", "lean-certificate"]}
+{"id": "OEIS-A195539", "methods": ["units-pell", "nth-enumeration", "elementary-proof", "lean-certificate"]}
+{"id": "OEIS-A165300", "methods": ["greedy-invariant", "elementary-proof", "lean-certificate"]}

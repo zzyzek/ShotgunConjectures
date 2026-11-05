@@ -29,7 +29,8 @@ def lean_level(e):
 
 
 def draft(anum, e, res):
-  verdict = { 'proved': 'The conjecture is true', 'disproved': 'The conjecture is false' }.get(e['result'], 'Remark')
+  verdict = { 'proved': 'The conjecture is true', 'disproved': 'The conjecture is false',
+              'corrected-and-proved': 'The conjecture is misstated as written; the corrected form is true' }.get(e['result'], 'Remark')
   where = ( 'proof verified in Lean 4' + ( ' + Mathlib' if (e.get('lean') or '').endswith('_mathlib.lean') else '' )
             if e['review'] == 'lean-proof' else 'proof' )
   res = re.sub(r'^(True|False)[.:;,]?\s*', '', re.sub(r'\s+', ' ', res)).strip()
@@ -39,7 +40,7 @@ def draft(anum, e, res):
 def rec(anum, e, settled_by, comment):
   return {
     'anum': anum, 'oeis_url': 'https://oeis.org/' + anum, 'settled_by': settled_by,
-    'verdict': { 'proved': 'true', 'disproved': 'false' }.get(e['result'], e['result']),
+    'verdict': { 'proved': 'true', 'disproved': 'false', 'corrected-and-proved': 'trivial or misstated' }.get(e['result'], e['result']),
     'lean': { 'lean-proof': 'full', 'lean-witness': 'partial' }.get(e['review'], 'none'),
     'path': e['dir'], 'proof_url': REPO + '/' + e['dir'],
     'comment': comment,
