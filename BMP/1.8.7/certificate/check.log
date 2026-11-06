@@ -1,0 +1,6 @@
+d=3  copies per side m=1  log f/d in [0.000, 0.713]
+d=10  copies per side m=1  log f/d in [0.000, 1.737]
+d=100  copies per side m=5  log f/d in [1.609, 3.961]
+d=400  copies per side m=10  log f/d in [2.303, 5.340]
+max orthonormality/edge error over d<=400: 5.12e-14
+OK

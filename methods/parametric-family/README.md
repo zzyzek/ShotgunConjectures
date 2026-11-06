@@ -36,4 +36,10 @@ fitting to computed small representations; then check exhaustively below the thr
 - [OEIS-A226661](../../OEIS/A226661/README.md): 3x+k cycles with exactly n odd elements exist for every n
 - [OEIS-A226676](../../OEIS/A226676/README.md): 3x-k cycles of every length N ≥ 3 exist
 - [OEIS-A226677](../../OEIS/A226677/README.md): 3x-k cycles with exactly n odd elements exist for every n
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- OEIS-A080572, parametric-family (partial; goal: a(n) <= lcs(n) for all n): Bean's 2026 critical sets settle n <= 33 except 27, 28, 30. Products of critical sets are uniquely completable but not minimal for odd bases; necessity checks at n >= 26 exceed 3e5 nodes. Next: A recursive construction matching a(2m+1)=a(m)+2a(m+1)+m^2-1, or a SAT solver to push Bean's n = 28 set past 559.
 <!-- end generated -->

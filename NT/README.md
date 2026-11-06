@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-25 entries: 17 resolved by this project, 8 answered elsewhere, 0 disputed or partial.
+26 entries: 17 resolved by this project, 8 answered elsewhere, 0 disputed or partial.
 
 Of the 17 resolutions: 15 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -42,6 +42,12 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [E25.1](E25.1/) | proved | the 20th term of Levine's sequence has been computed | — | — | [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [F23.2](F23.2/) | trivial or misstated | n! = 2^a + 2^b only for n = 2, 3, 4 | [full proof](F23.2/F23_2_mathlib.lean) | — | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [F31.2](F31.2/) | proved | Coppersmith's 247 — no m with m and 247m both zero-free in balanced ternary | [full proof](F31.2/F31_2.lean) | — | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+
+## Weaker results on open problems (the problem stays open)
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [D16.1](D16.1/) | partial | least common product of m triples with one sum and one product, m = 2..11 | [witness](D16.1/D16_1.lean) | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 
 ## Short proofs
 
@@ -575,4 +581,48 @@ a ±1 digit (c → (c − f)/3), so no carry in T is such a value. And 247m cann
 does, since |c| ≤ 124 < 247 ≤ |247·(nonzero)|.
 
 Lean: [full proof](F31.2/F31_2.lean).
+
+### [D16.1](D16.1/): least common product of m triples with one sum and one product, m = 2..11
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section D16.
+Schinzel showed that arbitrarily many triples of positive integers can share both their sum and
+their product. Guy suggests asking, for each multiplicity m, for the least common sum and the least
+common product, and quotes (via Mauldon) sum 118 and product 25200 for m = 4.
+
+**Reading.** A triple is (a, b, c) with 1 ≤ a ≤ b ≤ c. For each m, p(m) is the least P such that
+some m distinct triples all have product P and one common sum. This is the "at least m" reading
+(P may carry more than m triples with that sum). The least-sum question is OEIS
+[A103277](https://oeis.org/A103277) (computed there for m ≤ 18, "exactly m" reading); this entry
+does the product question, which is not in OEIS.
+
+**Result.** For m = 2..11 the least common product p(m), with the common sum S of the extremal
+triples:
+
+| m | p(m) | S |
+|---|---|---|
+| 2 | 36 | 13 |
+| 3 | 1200 | 39 |
+| 4 | 25200 | 137 |
+| 5 | 83160 | 185 |
+| 6 | 776160 | 485 |
+| 7 | 1965600 | 511 |
+| 8 | 15724800 | 1022 |
+| 9 | 34927200 | 1287 |
+| 10 | 279417600 | 2574 |
+| 11 | 1437836400 | 4279 |
+
+No P ≤ 1.5·10^9 has 12 triples with one sum, so 1.5·10^9 < p(12) ≤ 11502691200 (the product
+attached to the least sum 8558 in [A103278](https://oeis.org/A103278)). In this range the
+"exactly m" reading gives the same values: the least P carrying a sum class of exactly m triples
+is p(m) for every m ≤ 11. The extremal sum agrees with A103277 except at m = 4 and m = 6, where
+the least-sum solutions (sums 118 and 400) have the larger products 37800 and 846720. So the
+product sequence starts 36, 1200, 25200, 83160, 776160, and is not A103278.
+
+**Argument.** Exhaustive search. For every P ≤ 1.5·10^9, factor P by a segmented sieve, list all
+triples a ≤ b ≤ c with abc = P (a over divisors with a³ ≤ P, b over divisors of P/a with
+a ≤ b ≤ √(P/a)), sort them by a + b + c and take the longest run. P is skipped only when the
+upper bound (τ₃(P) + 3τ(P) + 2)/6 on its number of triples is below every multiplicity still
+unrecorded, so no record can be missed.
+
+Lean: [witness](D16.1/D16_1.lean).
 

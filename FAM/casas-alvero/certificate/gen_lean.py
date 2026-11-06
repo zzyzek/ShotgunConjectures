@@ -62,10 +62,12 @@ def gp_solve(nr, nc, entries, rhs):
     lines.append('if(#sp == 0, print("NONE"), s = matinverseimage(M, v); if(#s == 0, print("NONE"), for(i = 1, #s, print(s[i]))));')
     with tempfile.NamedTemporaryFile('w', suffix='.gp', delete=False) as f:
         f.write('\n'.join(lines) + '\nquit;\n'); fn = f.name
-    r = subprocess.run(['gp', '-q', '-s', '100000000', fn], capture_output=True, text=True,
+    r = subprocess.run(['gp', '-q', '-D', 'recover=0', '-s', '100000000', fn], capture_output=True, text=True,
                        timeout=3000, stdin=subprocess.DEVNULL)
     out = r.stdout.strip()
-    if 'error' in r.stderr or '***' in r.stdout:
+    # gp exits 0 after an error unless recover=0; check the code and both streams.
+    #
+    if (r.returncode != 0) or ('***' in r.stderr) or ('***' in r.stdout):
         raise RuntimeError('gp error: ' + r.stderr[:500] + r.stdout[:500])
     if out.startswith('NONE'):
         os.unlink(fn); return None

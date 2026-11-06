@@ -1,0 +1,5 @@
+A063289 N=16: corrected formula = mfdim for k=2..80: OK; weight-1 mfdim = 0, OEIS a(2) = -1; printed formula agrees at 0 OEIS indices and 0 weights in range
+A063305 N=32: corrected formula = mfdim for k=2..80: OK; weight-1 mfdim = 0, OEIS a(2) = -1; printed formula agrees at 0 OEIS indices and 0 weights in range
+A063321 N=48: corrected formula = mfdim for k=2..80: OK; weight-1 mfdim = 0, OEIS a(2) = -1; printed formula agrees at 0 OEIS indices and 0 weights in range
+A063337 N=64: corrected formula = mfdim for k=2..80: OK; weight-1 mfdim = 0, OEIS a(2) = -1; printed formula agrees at 0 OEIS indices and 0 weights in range
+exit 0

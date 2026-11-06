@@ -223,5 +223,17 @@
   "name": "Macaulay-matrix ideal membership certificate",
   "role": "proof",
   "cue": "Fixed-degree polynomial elimination: show a polynomial system forces some coefficients to vanish (Casas-Alvero in fixed degree, geometric configurations with polynomial constraints)."
+ },
+ {
+  "id": "flat-orthogonal-basis",
+  "name": "Flat orthogonal basis (Fourier, Hartley, Hadamard)",
+  "role": "construction",
+  "cue": "A regular simplex, cross-polytope or orthonormal frame must fit in a small box or have small coordinates (simplices in cubes, packings of congruent copies, delocalised frames)."
+ },
+ {
+  "id": "reflective-poly-identity",
+  "name": "Reflective polynomial identity checker (kernel-evaluated certificates)",
+  "role": "certification",
+  "cue": "A Lean proof needs large explicit polynomial identities (ideal-membership or elimination certificates with long or big-integer cofactors) that linear_combination / ring cannot normalise within the memory or time limit."
  }
 ]

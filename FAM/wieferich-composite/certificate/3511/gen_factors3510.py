@@ -14,9 +14,14 @@ from pratt_cert import steps, lean_list
 hints = [int(l) for l in open("data/hints.txt") if l.strip()]
 
 def gp_factor(n):
-  out = subprocess.run(["gp", "-q", "-D", "parisize=100000000", "-D", "nbthreads=1"],
-                       input="default(factor_proven, 1); f = factor(%d); for(i = 1, #f~, print(f[i,1], \" \", f[i,2]))\n" % n,
-                       capture_output=True, text=True, timeout=250).stdout
+  r = subprocess.run(["gp", "-q", "-D", "recover=0", "-D", "parisize=100000000", "-D", "nbthreads=1"],
+                     input="default(factor_proven, 1); f = factor(%d); for(i = 1, #f~, print(f[i,1], \" \", f[i,2]))\n" % n,
+                     capture_output=True, text=True, timeout=250)
+  # gp exits 0 after an error unless recover=0; check the code and both streams.
+  #
+  if (r.returncode != 0) or ('***' in r.stdout) or ('***' in r.stderr):
+    raise RuntimeError('gp error: ' + r.stderr[-500:])
+  out = r.stdout
   return {int(a): int(b) for a, b in (l.split() for l in out.split("\n") if l.strip())}
 
 def factorint(n):

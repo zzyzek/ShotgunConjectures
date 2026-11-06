@@ -2,9 +2,9 @@
 
 M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes*, 2013. C = conjecture (part one), P = open problem (part four). Statements are paraphrased.
 
-111 entries: 111 resolved by this project, 0 answered elsewhere, 0 disputed or partial.
+112 entries: 112 resolved by this project, 0 answered elsewhere, 0 disputed or partial.
 
-Of the 111 resolutions: 107 proved in full in Lean, 4 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
+Of the 112 resolutions: 107 proved in full in Lean, 5 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -62,6 +62,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [C123](C123/) | disproved | Carmichael numbers pq + q - p: fails for 1024651 | [full proof](C123/C123_mathlib.lean) | new | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [C124](C124/) | proved | 3-Carmichael numbers divisible by 5: p(q - 2^n) holds | [full proof](C124/C124_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [reduction-to-constant](../methods/reduction-to-constant/README.md) |
 | [C125](C125/) | disproved | 5p + 2^n is not always prime infinitely often | [full proof](C125/C125_mathlib.lean) | partly-known | [covering-congruences](../methods/covering-congruences/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [C127](C127/) | disproved | (P + 5^m)/30 is composite or non-integral for every m, for infinitely many Poulet P with 5 \| P, 3 ∤ P | [witness](C127/C127.lean) | partly-known | [covering-congruences](../methods/covering-congruences/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [C128](C128/) | disproved | (P + 5^m)/10 is composite for every m, for infinitely many Poulet P with 15 \| P | [witness](C128/C128.lean) | partly-known | [covering-congruences](../methods/covering-congruences/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [C136](C136/) | disproved | Primes (n + d^k)/d: none for P = 561, d = 3 | [full proof](C136/C136.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [C137](C137/) | disproved | Primes (P + n)/(n + 1) are bounded | [full proof](C137/C137.lean) | new (immediate) | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
@@ -702,6 +703,31 @@ q | 5p + 2^n on one class of n mod ord_q(2); the classes cover every residue mod
 Since 5p + 2^n > 241, each value has a proper factor.
 
 Lean: [full proof](C125/C125_mathlib.lean).
+
+### [C127](C127/): (P + 5^m)/30 is composite or non-integral for every m, for infinitely many Poulet P with 5 | P, 3 ∤ P
+
+**Source.** M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat
+Pseudoprimes* (2013), Part one, conjecture 127. Paraphrase: every Poulet number P divisible by 5 and
+not by 3 has some m >= 1 with (P + 5^m)/30 prime.
+
+**Result.** False, non-constructively, if Larsen's preprint theorem holds. Every P = 19664845
+(mod 50862630) makes (P + 5^m)/30 a non-integer for even m and composite for odd m, and this
+progression contains infinitely many Carmichael numbers by D. Larsen, arXiv:2504.09056 (2025,
+preprint, not refereed). No explicit P is known: no base-2 pseudoprime below 10^13 lies in the class.
+
+**Argument.** The class is P = 0 (mod 5), 1 (mod 6), -5 (mod 31), -5^3 (mod 13), -5^5 (mod 7),
+-5^9 (mod 601); M = 30 * 7 * 13 * 31 * 601 = 50862630.
+- Even m: P = 1 and 5^m = 1 (mod 3), so 3 ∤ P + 5^m and (P + 5^m)/30 is not an integer.
+- Odd m: 2, 3 and 5 divide P + 5^m. The orders of 5 are 3 mod 31, 4 mod 13, 6 mod 7 and 12 mod 601,
+  so q | P + 5^m on m = 1 (mod 3) for 31, 3 (mod 4) for 13, 5 (mod 6) for 7, 9 (mod 12) for 601.
+  The odd residues mod 12 are 1, 7 (31), 3, 11 (13), 5 (7) and 9 (601), so every odd m is covered.
+  Each q is coprime to 30, so q divides (P + 5^m)/30, which is at least (19664845 + 5)/30 > 601.
+- Poulet numbers in the class: gcd(19664845, M) = 5, lambda(5) = 4, h = gcd(4, M) = 2 divides
+  19664845 - 1, gcd(5, 2 phi(5)) = 1, and 36 ∤ M, so the progression is Carmichael compatible in
+  Larsen's sense (definition before his Theorem 1). His Theorem 1 gives infinitely many Carmichael
+  numbers in it; Carmichael numbers are Poulet numbers, and these are divisible by 5 and not by 3.
+
+Lean: [witness](C127/C127.lean).
 
 ### [C128](C128/): (P + 5^m)/10 is composite for every m, for infinitely many Poulet P with 15 | P
 

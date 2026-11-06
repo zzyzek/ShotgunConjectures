@@ -2,9 +2,9 @@
 
 Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS wiki, Talk:Conjectures/List). OEIS text is quoted under CC BY-SA 4.0 with the A-number as attribution.
 
-151 entries: 133 resolved by this project, 15 answered elsewhere, 2 disputed or partial.
+173 entries: 134 resolved by this project, 36 answered elsewhere, 2 disputed or partial.
 
-Of the 133 resolutions: 124 proved in full in Lean, 4 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 5 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
+Of the 134 resolutions: 125 proved in full in Lean, 4 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 5 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -91,6 +91,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A139043](A139043/) | proved | sum of composites ≤ 10^n versus 10^n(10^n+1)/2 - 1 - (10^n)^2/(2 log 10^n - 1) | [witness](A139043/A139043_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md) |
 | [A140869](A140869/) | proved | if h is not a term, then 4h + 5 is prime | [full proof](A140869/A140869.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A144652](A144652/) | proved | if h is not a term, then 4h + 1 is prime (h ≥ 1) | [full proof](A144652/A144652.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A164754](A164754/) | proved | a(n) = 4n^2 - 11n + 5 for n >= 3 | [full proof](A164754/A164754_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A165300](A165300/) | proved | Layman's four rules for the 1,2-path sequence | [full proof](A165300/A165300_mathlib.lean) | new (immediate) | [greedy-invariant](../methods/greedy-invariant/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A165640](A165640/) | proved | a(n) = floor(4(n+4)/5) - floor(2(n+4)/3) | [full proof](A165640/A165640_mathlib.lean) | new (immediate) | [finite-identity](../methods/finite-identity/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A167230](A167230/) | proved | entries of exp(Sierpiński triangle)/e are Bell numbers | [full proof](A167230/A167230_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
@@ -151,20 +152,41 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [A024812](A024812/) | proved | A024812(k) = (A024813(k) + k − 1)/2 | [full proof](A024812/A024812_mathlib.lean) | — | [exact-arithmetic](../methods/exact-arithmetic/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A030210](A030210/) | proved | coefficients of (η(q)η(q^5))^4 satisfy \|a(p)\| < 2p^(3/2) | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [A063289b](A063289b/) | trivial or misstated | newform dimension formula for Gamma\_1(16) (9n/4 is a typo for 9n/2) | — | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A063305](A063305/) | trivial or misstated | newform dimension formula for Gamma\_1(32) (18n is missing the constant -41) | — | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A063321](A063321/) | trivial or misstated | newform dimension formula for Gamma\_1(48) (the constant -72 was dropped) | — | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A063337](A063337/) | trivial or misstated | newform dimension formula for Gamma\_1(64) (72n is missing the constant -155) | — | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A071010](A071010/) | proved | if n is not a sum of two squares then 4 \| sigma(n) | [full proof](A071010/A071010_mathlib.lean) | — | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A085765b](A085765b/) | proved | a(n) mod 2 has period 7 | [witness](A085765b/A085765b.lean) | — | [elementary-proof](../methods/elementary-proof/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A086449](A086449/) | proved | parity of a(n) and a(2^k − 2) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A088982](A088982/) | trivial or misstated | a prime between consecutive prime-indexed primes | — | — | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A088987](A088987/) | trivial or misstated | the number of primes between consecutive prime-indexed primes is odd | — | — | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
+| [A094913](A094913/) | proved | maximal number of distinct nonempty factors of a binary word of length n equals A006697(n) − 1 | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [A095380](A095380/) | proved | the proportion of non-values of σ up to 2^n tends to 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [A098021](A098021/) | proved | former and current definitions agree | [full proof](A098021/A098021_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A113599](A113599/) | proved | no term is zero (pigeonhole) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A115509](A115509/) | proved | a(n) = 0 for 2^(k+1) ≤ n < 3·2^k | [full proof](A115509/A115509_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [A117414](A117414/) | trivial or misstated | an Euler triangle without a definition (row sums, columns 1 and 2) | needs Mathlib | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
 | [A118990](A118990/) | proved | A118990(n) = 2^n A086906(n-1) | [full proof](A118990/A118990_mathlib.lean) | known | [finite-identity](../methods/finite-identity/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A121627](A121627/) | proved | divisibility of the "complex factorial" real parts | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A131439](A131439/) | proved | 1, 7, then 4k + 14, and its inverse binomial transform | [full proof](A131439/A131439_mathlib.lean) | known | [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A138904](A138904/) | proved | rotational symmetries of a binary expansion | [full proof](A138904/A138904.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A145878](A145878/) | proved | polynomial formulas for T(r+k, k), r = 3..7 (previous conjectures) | [witness](A145878/A145878.lean) | — | [finite-identity](../methods/finite-identity/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A164848](A164848/) | proved | a(n) = A026741(n)/A051712(n+1) has period 24 | [full proof](A164848/A164848.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A168295](A168295/) | trivial or misstated | "Conjecture: Worpitzky forms" states no claim | — | misstated | [reading-the-statement](../methods/reading-the-statement/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
+| [A173989](A173989/) | proved | 2-adic valuations of A173300 follow A, A, A+1, A with A odd | [full proof](A173989/A173989_mathlib.lean) | known | [exact-arithmetic](../methods/exact-arithmetic/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A192023](A192023/) | trivial or misstated | the determinant-2n matrix count does not match; a linear count does | [full proof](A192023/A192023_mathlib.lean) | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [A206912](A206912/) | proved | the differences of A206912 are 1s and 2s | [full proof](A206912/A206912_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A209260](A209260/) | proved | Jeffery's two conjectures (both proved in the entry's references) | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [A212916](A212916/) | proved | standard Young tableaux of height ≤ 10, a(n) ~ 10^n π^(−5) (10/n)^(45/2) ∏ Γ(j/2) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A213257](A213257/) | proved | the excluded integers are the positions of 2 in a morphic word | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A213258](A213258/) | proved | terms are the positions of 2 in a morphic word (n = 2^(3t+2)·odd) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A225003](A225003/) | proved | a(n) = A047332(n) for n ≥ 2 | [full proof](A225003/A225003_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A226160](A226160/) | proved | a(n+1)/a(n) → exp(1/φ) = 1.855276958... (harmonic-number threshold) | [full proof](A226160/A226160_mathlib.lean) | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A226187](A226187/) | proved | a(n+1)/a(n) → exp(1/3) | [full proof](A226187/A226187_mathlib.lean) | known | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A226188](A226188/) | proved | a(n+1)/a(n) → exp(2/3) = 1.947734... (harmonic-number threshold) | [full proof](A226188/A226188_mathlib.lean) | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A229068](A229068/) | proved | standard Young tableaux of height ≤ 12, a(n) ~ 12^n π^(−6) (12/n)^33 ∏ Γ(j/2) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 
 ## Disputed or only partly answered (not counted as resolutions)
 
@@ -1555,6 +1577,63 @@ a, b ≥ 1 and 4ab + 2a + 2b + 1 = 4h + 1, so a + b is even and h = ab + (a+b)/2
 
 Lean: [full proof](A144652/A144652.lean).
 
+### [A164754](A164754/): a(n) = 4n^2 - 11n + 5 for n >= 3
+
+**Source.** [A164754](https://oeis.org/A164754) (offset 2), R. H. Hardin, Aug 24 2009: number of n X 2 arrays with
+entries 1..4, each value's cells connected, 1, 2, 3, 4 in the upper left, upper right, lower left and lower right
+corners, "and with no element having more than 2 neighbors with the same value". Formulas in the entry, all marked
+empirical: a(n) = 3a(n-1) - 3a(n-2) + a(n-3) for n >= 6, the g.f. x^2(1 + 5x + 4x^2 - 2x^3)/(1 - x)^3 (Colin
+Barker, 2018), and a(n) = 4(n-2)^2 + 5(n-2) - 1 for n >= 3 (Bill McEachen, 2020). The scan record quotes an older
+form, "Except for the first term, a(n)=4*n^2+13*n+8" (Vincenzo Librandi, May 26 2010), which is the same polynomial
+with n shifted by 3. (OEIS text, CC BY-SA 4.0, revision #35 of Sep 01 2020, checked 2026-11-05.)
+
+**Reading.** Rows 1..n, columns L (left) and R (right); neighbours are the 4-neighbours (same row other column, or
+same column adjacent row), so a cell has at most 3 neighbours. "Connected" means connected under this adjacency.
+Corners: (1,L) = 1, (1,R) = 2, (n,L) = 3, (n,R) = 4. This reading reproduces a(2..7) = 1, 8, 25, 50, 83, 124 by
+brute force over all arrays (certificate/brute.py). Librandi's 4n^2 + 13n + 8 is the formula in the variable n - 3;
+in the entry's indexing the claim is a(n) = 4n^2 - 11n + 5 = 4(n-2)^2 + 5(n-2) - 1 for n >= 3 (a(2) = 1 differs).
+
+**Result.** True: a(n) = 4n^2 - 11n + 5 for every n >= 3. The recurrence and the g.f. follow.
+
+**Argument.** Write c-cell for a cell of value c and c-path for a path of c-cells.
+
+1. *Each value fills an interval in each column.* Let (i,j) and (k,j) be c-cells, i < r < k, and suppose (r,j) has
+   value d != c. A c-path from (i,j) to (k,j) changes row by at most 1 per step, so it meets every row s with
+   i < s < k in a c-cell. Hence in every such row whose cell in column j is not a c-cell, the other cell is a
+   c-cell. Now follow d-paths from (r,j): from a cell (s,j) with i < s < k and value d, the other cell of row s is
+   a c-cell, and (i,j), (k,j) are c-cells, so every d-cell reachable from (r,j) lies in column j strictly between
+   rows i and k. Every value sits in a corner, in row 1 or row n, which is outside that range: the d-cells are not
+   connected. Contradiction.
+2. *Crossing values.* Say c crosses if it has cells in both columns, with row intervals I_L and I_R. (a) A c-path
+   from a cell in L to a cell in R has a horizontal step, so I_L and I_R share a row. (b) If a shared row s is not
+   an end of I_L, the cell (s,L) has three c-neighbours (above, below, beside), which is forbidden; the same for
+   I_R. So every shared row is an end of both intervals.
+3. *Converse.* An array with the corner values, interval columns and (a), (b) is counted: each value is one or two
+   vertical segments joined in a shared row; a cell with three equal neighbours would have both vertical
+   neighbours equal (interior of its interval) and the horizontal one equal (a shared row), against (b).
+4. *Column words.* Reading top-down, column L is a block of 1s, then blocks of some of 2, 4, then a block of 3s;
+   column R is 2s, some of 1, 3, then 4s. The middle values of either column cross. If c, c' both cross with shared
+   rows s, s', then in each column the block of c lies above the block of c' iff s < s', so crossing values appear
+   in the same order in both columns. This leaves nine word pairs (L word, R word): (13,24); (123,24), (143,24),
+   (13,214), (13,234); (123,234), (143,214); (1243,24), (13,2134). (For example 1423 puts 4 above 2 in L, while R
+   starts with 2 and ends with 4; and 2 in L together with 1 in R puts 1 above 2 in L and 2 above 1 in R.)
+5. *Counting.* Let blocks have lengths as written, all >= 1.
+   - (13,24): L = 1^a 3^(n-a), R = 2^b 4^(n-b), a, b in [1, n-1], nothing crosses: (n-1)^2.
+   - (123,24): L = 1^a 2^c 3^d, R = 2^b 4^e. Value 2 has I_L = [a+1, a+c], I_R = [1, b]; a shared row is >= a+1 >= 2,
+     so by (b) it is b, and then (a) and (b) hold exactly when b = a+1. Free: a + c + d = n, C(n-1,2) arrays.
+     (143,24), (13,214), (13,234) are its images under the left-right and top-bottom mirrors (value maps 1<->2,
+     3<->4 and 1<->3, 2<->4): C(n-1,2) each.
+   - (123,234): L = 1^a 2^c 3^d, R = 2^b 3^e 4^f. Value 2 forces b = a+1 as above. Value 3 has I_L = [a+c+1, n],
+     I_R = [b+1, b+e] with b+e <= n-1, so the shared row is a+c+1 = b+e, i.e. e = c, and then f = d-1 >= 1. Free:
+     a + c + d = n with d >= 2, C(n-2,2) arrays. (143,214) is the left-right mirror: C(n-2,2).
+   - (1243,24): L = 1^a 2^c 4^g 3^d, R = 2^b 4^e. Value 2 forces b = a+1; value 4 has I_L = [a+c+1, a+c+g],
+     I_R = [b+1, n]. Row n is not in I_L, so by (b) the only shared row is b+1 = a+2; the shared rows are
+     [max(a+c+1, a+2), a+c+g], and this equals {a+2} only for c = g = 1. Free: a + d = n-2, n-3 arrays.
+     (13,2134) is the left-right mirror: n-3.
+   Sum: (n-1)^2 + 4 C(n-1,2) + 2 C(n-2,2) + 2(n-3) = 4n^2 - 11n + 5 for n >= 3.
+
+Lean: [full proof](A164754/A164754_mathlib.lean).
+
 ### [A165300](A165300/): Layman's four rules for the 1,2-path sequence
 
 **Source.** OEIS [A165300](https://oeis.org/A165300) (offset 1): "a(n) is the smallest number not already
@@ -2623,6 +2702,143 @@ n = A024812(k) is taken once, at m = A024813(k), then the positions 1..m hold f(
 
 Lean: [full proof](A024812/A024812_mathlib.lean).
 
+### [A030210](A030210/): coefficients of (η(q)η(q^5))^4 satisfy |a(p)| < 2p^(3/2)
+
+**Source.** OEIS [A030210](https://oeis.org/A030210) (offset 1): expansion of (eta(q) * eta(q^5))^4 in powers
+of q. Conjecture (M. Somos, Oct 31 2005): "|a(p)| < 2*p^(3/2) for p prime." (OEIS text, CC BY-SA 4.0;
+revision #45.)
+
+**Result.** True for every prime p.
+
+**Argument.** f(τ) = η(τ)^4 η(5τ)^4 is a cusp form of weight 4 on Γ_0(5) with trivial character (an
+eta-quotient with Σ δr_δ = 24, Σ (5/δ)r_δ = 24, character from 5^4, a square; per the entry it is no. 13 in Martin's list of
+multiplicative eta-quotients, Trans. AMS 348 (1996), Table I). S_4(Γ_0(5)) is 1-dimensional and has no old
+forms (S_4(SL_2(ℤ)) = 0), so f is the normalised newform LMFDB
+[5.4.a.a](https://www.lmfdb.org/ModularForm/GL2/Q/holomorphic/5/4/a/a/) (q-expansion 1, −4, 2, 8, −5, −8, 6, 0,
+−23, ..., eta-quotient η(z)^4η(5z)^4, Atkin–Lehner sign +1 at 5, not CM).
+
+- p ≠ 5. P. Deligne, La conjecture de Weil I, Publ. Math. IHÉS 43 (1974), Théorème 8.2: for a primitive
+  (new) holomorphic cusp form on Γ_0(N) of weight k ≥ 2 with character, and p ∤ N, |a_p| ≤ 2p^{(k−1)/2}. With
+  N = 5, k = 4: |a(p)| ≤ 2p^{3/2}. Equality would give a(p)^2 = 4p^3, impossible for an integer since p^3 is
+  not a square. So |a(p)| < 2p^{3/2}.
+- p = 5. For a newform with trivial character and p ∥ N, a_p = −w_p p^{k/2−1} with w_p the Atkin–Lehner
+  eigenvalue (Atkin–Lehner 1970; standard, not re-read here). Here w_5 = +1, so a(5) = −5, matching the printed term and
+  the entry's formula a(5^e) = (−5)^e. |a(5)| = 5 < 2·5^{3/2} ≈ 22.36.
+
+Lean: needs Mathlib.
+
+### [A063289b](A063289b/): newform dimension formula for Gamma_1(16) (9n/4 is a typo for 9n/2)
+
+**Source.** OEIS wiki, Talk:Conjectures/List, line for A063289: "Conjecture: a(n) = 9*n/4+(-1)^n/4-45/4, n>=3 with first differences in A010710".
+[A063289](https://oeis.org/A063289) is "Dimension of the space of weight n cuspidal newforms for Gamma_1(16)",
+offset 2, data -1, 2, 7, 11, 16, 20, 25, ... The entry itself now states: a(n) = 9*n/2 + (-1)^n/4 - 45/4 for n >= 3, with first differences in A010710 (R. J. Mathar, Dec 06 2010).
+
+**Reading.** The OEIS data are shifted by one weight: term a(n) is the dimension in weight n - 1
+(a(3) is the weight-2 dimension; a(2) = -1 is not a dimension, the true weight-1 dimension is 0).
+Below, n is the OEIS index and k = n - 1 the weight.
+
+**Result.** Misstated. At n = 3 the printed formula gives 27/4 - 1/4 - 45/4 = -19/4, not an integer, and its slope 9/4 is half the true growth 9/2 per weight, so it fails in every indexing (the PARI run finds no agreement for n = 3..81 or k = 2..80). It is a transcription of Mathar's formula with 9n/2 written as 9n/4. The first differences of Mathar's formula alternate 4, 5, which is A010710.
+The corrected formula is true: a(n) = 9n/2 + (-1)^n/4 - 45/4 for n >= 3 in the OEIS indexing, that is
+dim S_k^new(Gamma_1(16)) = 9k/2 - (-1)^k/4 - 27/4 for k >= 2.
+
+**Argument.** The newspace dimension is a fixed finite combination of cusp-space dimensions:
+from S_k(Gamma_1(N)) = sum over M | N and d | N/M of the images of S_k^new(Gamma_1(M)) under q -> q^d,
+Moebius inversion gives dim S_k^new(Gamma_1(N)) = sum over M | N of beta(N/M) dim S_k(Gamma_1(M)),
+with beta = mu * mu. For k >= 3 each dim S_k(Gamma_1(M)) (Cohen-Oesterle) is (k - 1)/12 times a
+constant plus a term that depends only on k mod 12 (elliptic and irregular-cusp terms, present only
+for M <= 4); the k = 2 term has an extra Eisenstein correction. G. Martin, J. Number Theory 112 (2005)
+298-331, Theorem 13 (Gamma_1, k >= 2; Theorem 1 for Gamma_0) writes this out explicitly.
+So for k >= 3, on each residue class of k mod 12, the true dimension is linear in k; the corrected
+formula has the same shape. Two such functions agree for all k >= 3 once they agree for 24
+consecutive k (two values per class). PARI/GP `mfdim([16, k, -1], 0)` agrees with the formula for
+k = 2..80, which covers k = 2 and the 24 values k = 3..26.
+
+Lean: —.
+
+### [A063305](A063305/): newform dimension formula for Gamma_1(32) (18n is missing the constant -41)
+
+**Source.** OEIS wiki, Talk:Conjectures/List, line for A063305: "Conjecture: a(n) = 18n".
+[A063305](https://oeis.org/A063305) is "Dimension of the space of weight n cuspidal newforms for Gamma_1(32)",
+offset 2, data -1, 13, 31, 49, 67, ... The entry itself now states: a(n) = 18*n - 41 for n > 2 (P. Luschny, Mar 04 2012).
+
+**Reading.** The OEIS data are shifted by one weight: term a(n) is the dimension in weight n - 1
+(a(3) is the weight-2 dimension; a(2) = -1 is not a dimension, the true weight-1 dimension is 0).
+Below, n is the OEIS index and k = n - 1 the weight.
+
+**Result.** Misstated. 18n differs from 18n - 41 by 41 at every n (e.g. a(3) = 13), and from the weight form by 23, so the printed formula is false for every n in either indexing. The constant -41 was dropped.
+The corrected formula is true: a(n) = 18n - 41 for n >= 3 in the OEIS indexing, that is
+dim S_k^new(Gamma_1(32)) = 18k - 23 for k >= 2.
+
+**Argument.** The newspace dimension is a fixed finite combination of cusp-space dimensions:
+from S_k(Gamma_1(N)) = sum over M | N and d | N/M of the images of S_k^new(Gamma_1(M)) under q -> q^d,
+Moebius inversion gives dim S_k^new(Gamma_1(N)) = sum over M | N of beta(N/M) dim S_k(Gamma_1(M)),
+with beta = mu * mu. For k >= 3 each dim S_k(Gamma_1(M)) (Cohen-Oesterle) is (k - 1)/12 times a
+constant plus a term that depends only on k mod 12 (elliptic and irregular-cusp terms, present only
+for M <= 4); the k = 2 term has an extra Eisenstein correction. G. Martin, J. Number Theory 112 (2005)
+298-331, Theorem 13 (Gamma_1, k >= 2; Theorem 1 for Gamma_0) writes this out explicitly.
+So for k >= 3, on each residue class of k mod 12, the true dimension is linear in k; the corrected
+formula has the same shape. Two such functions agree for all k >= 3 once they agree for 24
+consecutive k (two values per class). PARI/GP `mfdim([32, k, -1], 0)` agrees with the formula for
+k = 2..80, which covers k = 2 and the 24 values k = 3..26.
+
+Lean: —.
+
+### [A063321](A063321/): newform dimension formula for Gamma_1(48) (the constant -72 was dropped)
+
+**Source.** OEIS wiki, Talk:Conjectures/List, line for A063321: "Conjecture: a(n) = 13*(n + (n-1) mod 2) + 14*(n + n mod 2)".
+[A063321](https://oeis.org/A063321) is "Dimension of the space of weight n cuspidal newforms for Gamma_1(48)",
+offset 2, data -1, 23, 49, 77, 103, ... The entry itself now states: a(n) = 13*(n + (n-1) mod 2) + 14*(n + n mod 2) - 72 for n > 2 (P. Luschny, Mar 05 2012); a(n) = (54n - 117 - (-1)^n)/2 for n > 2 (C. Barker, Sep 28 2012).
+
+**Reading.** The OEIS data are shifted by one weight: term a(n) is the dimension in weight n - 1
+(a(3) is the weight-2 dimension; a(2) = -1 is not a dimension, the true weight-1 dimension is 0).
+Below, n is the OEIS index and k = n - 1 the weight.
+
+**Result.** Misstated. The printed expression exceeds the entry's formula by exactly 72 at every n (a(3): 95 against 49), and exceeds the weight form by 44 (k even) or 46 (k odd), so it is false for every n in either indexing. The constant -72 was dropped.
+The corrected formula is true: a(n) = 13(n + (n-1) mod 2) + 14(n + n mod 2) - 72 = (54n - 117 - (-1)^n)/2 for n >= 3 in the OEIS indexing, that is
+dim S_k^new(Gamma_1(48)) = (54k - 63 + (-1)^k)/2 for k >= 2.
+
+**Argument.** The newspace dimension is a fixed finite combination of cusp-space dimensions:
+from S_k(Gamma_1(N)) = sum over M | N and d | N/M of the images of S_k^new(Gamma_1(M)) under q -> q^d,
+Moebius inversion gives dim S_k^new(Gamma_1(N)) = sum over M | N of beta(N/M) dim S_k(Gamma_1(M)),
+with beta = mu * mu. For k >= 3 each dim S_k(Gamma_1(M)) (Cohen-Oesterle) is (k - 1)/12 times a
+constant plus a term that depends only on k mod 12 (elliptic and irregular-cusp terms, present only
+for M <= 4); the k = 2 term has an extra Eisenstein correction. G. Martin, J. Number Theory 112 (2005)
+298-331, Theorem 13 (Gamma_1, k >= 2; Theorem 1 for Gamma_0) writes this out explicitly.
+So for k >= 3, on each residue class of k mod 12, the true dimension is linear in k; the corrected
+formula has the same shape. Two such functions agree for all k >= 3 once they agree for 24
+consecutive k (two values per class). PARI/GP `mfdim([48, k, -1], 0)` agrees with the formula for
+k = 2..80, which covers k = 2 and the 24 values k = 3..26.
+
+Lean: —.
+
+### [A063337](A063337/): newform dimension formula for Gamma_1(64) (72n is missing the constant -155)
+
+**Source.** OEIS wiki, Talk:Conjectures/List, line for A063337: "Conjecture: a(n) = 72*n".
+[A063337](https://oeis.org/A063337) is "Dimension of the space of weight n cuspidal newforms for Gamma_1(64)",
+offset 2, data -1, 61, 133, 205, 277, ... The entry itself now states: comment 'Conjecture: a(n) = 72*n - 155 for n > 2' (P. Luschny, Mar 05 2012).
+
+**Reading.** The OEIS data are shifted by one weight: term a(n) is the dimension in weight n - 1
+(a(3) is the weight-2 dimension; a(2) = -1 is not a dimension, the true weight-1 dimension is 0).
+Below, n is the OEIS index and k = n - 1 the weight.
+
+**Result.** Misstated. 72n differs from 72n - 155 by 155 at every n (a(3) = 61), and from the weight form by 83, so the printed formula is false for every n in either indexing. The constant -155 was dropped. The entry still carries 72n - 155 as a conjecture; it is true (below).
+The corrected formula is true: a(n) = 72n - 155 for n >= 3 in the OEIS indexing, that is
+dim S_k^new(Gamma_1(64)) = 72k - 83 for k >= 2.
+
+**Argument.** The newspace dimension is a fixed finite combination of cusp-space dimensions:
+from S_k(Gamma_1(N)) = sum over M | N and d | N/M of the images of S_k^new(Gamma_1(M)) under q -> q^d,
+Moebius inversion gives dim S_k^new(Gamma_1(N)) = sum over M | N of beta(N/M) dim S_k(Gamma_1(M)),
+with beta = mu * mu. For k >= 3 each dim S_k(Gamma_1(M)) (Cohen-Oesterle) is (k - 1)/12 times a
+constant plus a term that depends only on k mod 12 (elliptic and irregular-cusp terms, present only
+for M <= 4); the k = 2 term has an extra Eisenstein correction. G. Martin, J. Number Theory 112 (2005)
+298-331, Theorem 13 (Gamma_1, k >= 2; Theorem 1 for Gamma_0) writes this out explicitly.
+So for k >= 3, on each residue class of k mod 12, the true dimension is linear in k; the corrected
+formula has the same shape. Two such functions agree for all k >= 3 once they agree for 24
+consecutive k (two values per class). PARI/GP `mfdim([64, k, -1], 0)` agrees with the formula for
+k = 2..80, which covers k = 2 and the 24 values k = 3..26.
+
+Lean: —.
+
 ### [A071010](A071010/): if n is not a sum of two squares then 4 | sigma(n)
 
 **Source.** [A071010](https://oeis.org/A071010) (sigma(k)/4 for k not a sum of 2 squares), comment:
@@ -2696,6 +2912,82 @@ a = p_x, b = p_{x+1} with x ≥ 2 both are odd, so b − a − 1 is odd. For x =
 
 Lean: —.
 
+### [A094913](A094913/): maximal number of distinct nonempty factors of a binary word of length n equals A006697(n) − 1
+
+**Source.** OEIS [A094913](https://oeis.org/A094913) (offset 0): maximal number of distinct nonempty
+substrings (factors) of a binary string of length n. Conjecture (V. Jovovic, Sep 19 2005):
+"a(n) = A006697(n)-1." (OEIS text, CC BY-SA 4.0; revision #33.) A006697 is the subword complexity ρ_z(n)
+(number of distinct factors of length n) of z, the fixed point of a → aab, b → b.
+
+**Result.** True.
+
+**Argument.** Write M(n) = Σ_{i=0..n} min(2^i, n − i + 1).
+- A. Flaxman, A. W. Harrow, G. B. Sorkin, Strings with maximally many distinct subsequences and substrings,
+  Electron. J. Combin. 11 (2004) R8, Theorem 8, bullets 1–2: a word of length n over d letters has at most
+  min(d^m, n − m + 1) distinct factors of length m, and a modified de Bruijn word attains all these bounds at
+  once. With d = 2 and m ≥ 1 summed, a(n) = M(n) − 1 (the m = 0 term is the empty word).
+- J.-P. Allouche, J. Shallit, On the subword complexity of the fixed point of a → aab, b → b, and
+  generalizations, arXiv:1605.02361, Theorem 1: ρ_z(n) = M(n) for n ≥ 0, so A006697(n) = M(n).
+  Remark 3 there notes that M(n) is the maximal number of factors of all lengths (empty word included) of a
+  binary word of length n, citing Iványi 1987, Shallit 1993 and FHS 2004, and Remark 16 states that this
+  confirms Jovovic's conjecture A006697(n) = A094913(n) + 1.
+
+Hence a(n) = M(n) − 1 = A006697(n) − 1.
+
+FHS Theorem 8 bullet 3 also gives a closed form (d^{k+1} − 1)/(d − 1) + C(n − k + 1, 2) with k = ⌊log_d n⌋.
+For d = 2 it is wrong at n = 4, 8, 9, 16, 17, 18, 32, ... (n = 4 gives 10, while M(4) = 9); the correct split
+point is the largest k with 2^k ≤ n − k + 1, as in Hasler's LambertW formula (AS 2016, Remark 16). The
+argument above uses only bullets 1–2.
+
+Lean: —.
+
+### [A095380](A095380/): the proportion of non-values of σ up to 2^n tends to 1
+
+**Source.** OEIS [A095380](https://oeis.org/A095380) (offset 1): number of integers not exceeding 2^n that are
+not a value of σ (the sum-of-divisors function), i.e. terms of A007369 up to 2^n. Conjecture: "ratio of
+non-sigma numbers tends to one. Increasing majority of numbers is impossible as a sum of divisors." (OEIS text,
+CC BY-SA 4.0.)
+
+**Reading.** "Ratio" is a(n)/2^n.
+
+**Result.** True: a(n)/2^n → 1.
+
+**Argument.** Let V_σ(x) = #{m ≤ x : m = σ(k) for some k}. Then a(n) = 2^n − V_σ(2^n). K. Ford, The
+distribution of totients, Ramanujan J. 2 (1998) 67–151 (arXiv:1104.3264), Theorem 1 gives
+V(x) = (x/log x) exp{C(log_3 x − log_4 x)^2 + D log_3 x − (D + 1/2 − 2C) log_4 x + O(1)} for totient values,
+and Theorem 14 extends Theorem 1 to multiplicative f : ℕ → ℕ with {f(p) − p} finite and not containing 0 and
+Σ_{h square-full} h^δ/f(h) ≪ 1 for some δ > 0; Ford names σ as satisfying these (f(p) − p = 1, and σ(h) ≥ h
+makes the square-full sum converge for δ < 1/2). Hence V_σ(x) = x/(log x)^{1+o(1)} = o(x), and
+a(n)/2^n = 1 − V_σ(2^n)/2^n → 1.
+
+Lean: needs Mathlib.
+
+### [A098021](A098021/): former and current definitions agree
+
+**Source.** OEIS [A098021](https://oeis.org/A098021), current name (C. Kimberling, adopted by
+N. J. A. Sloane 2016-01-30, rev. #25): "Positions of 0's in the zero-one sequence
+[n*r+2*r]-[n*r]-[2*r], where r=sqrt(2) and [ ]=floor; see A187967." Former definition
+(R. L. Bagula 2004, [history](https://oeis.org/history?seq=A098021)): f(n) = n·√2 mod 1,
+g(x) = −1 on [0,1/3], 0 on (1/3,2/3], 1 on (2/3,1]; n is a term when
+f(n+2) − 2f(n+1) + f(n) − g(f(n+1)) = 0. Kimberling's 2011 comment was the conjecture that the two
+agree. (OEIS text, CC BY-SA 4.0.)
+
+**Reading.** The former FORMULA line wrote "g(x)=1 if 1/3<x<=1", an evident typo for 2/3 (the
+Mathematica program uses 2/3); with the cases tested in order both give the same g.
+
+**Result.** The definitions agree for every integer n; proved in Lean 4 + Mathlib.
+
+**Argument.** Let x = frac((n+1)√2) and α = √2 − 1 ≈ 0.414. Then frac(n√2) = x − α + [x < α] and
+frac((n+2)√2) = x + α − [x ≥ 1 − α], so the second difference is [x < α] − [x ≥ 1 − α].
+- x < α: difference 1, but g(x) ∈ {−1, 0}.
+- x ≥ 1 − α ≈ 0.586: difference −1, but g(x) ∈ {0, 1}.
+- α ≤ x < 1 − α: difference 0 = g(x).
+So the old condition holds iff α ≤ x < 1 − α, i.e. iff frac(n√2) < 1 − 2α = 3 − 2√2. The new
+condition [n√2 + 2√2] − [n√2] − 2 = 0 holds iff frac(n√2) + 2√2 < 3, the same inequality.
+Irrationality of √2 is not used.
+
+Lean: [full proof](A098021/A098021_mathlib.lean).
+
 ### [A113599](A113599/): no term is zero (pigeonhole)
 
 **Source.** [A113599](https://oeis.org/A113599) (least n-digit multiple of n whose digit permutations give at least
@@ -2710,6 +3002,60 @@ are digit permutations of one another. The bound is ≥ n for every n ≥ 4 (it 
 step); n = 1, 2, 3 have the terms 1, 20, 102.
 
 Lean: —.
+
+### [A115509](A115509/): a(n) = 0 for 2^(k+1) ≤ n < 3·2^k
+
+**Source.** OEIS [A115509](https://oeis.org/A115509) (Max Alekseyev, 2006): "Number of circular
+permutations of {1, 2, ..., n} such that in every pair of adjacent elements each element in binary
+notation has ones at the same or adjacent positions to those of the other element." The statement
+"If 2^(k+1) <= n < 3*2^k for k >= 1, then a(n) = 0" was a conjecture on the OEIS wiki list
+(Talk:Conjectures/List) and became a plain FORMULA line in rev. #6 (2023-03-18) with no proof
+recorded. (OEIS text, CC BY-SA 4.0.)
+
+**Reading.** x and y may be adjacent when every 1-bit of x has a 1-bit of y at the same or a
+neighbouring position, and vice versa. Circular permutations are counted up to rotation only (the
+data has a(3) = 2, so the two orientations count separately); we count arrangements that start with 1.
+
+**Result.** True for every k ≥ 1; proved in Lean 4 + Mathlib.
+
+**Argument.** Let m = 2^(k+1) ≤ n < 3·2^k, so n ≥ 4. A neighbour y of m has all its 1-bits at
+positions k, k+1 or k+2, so 2^k divides y; 1 ≤ y < 3·2^k leaves y = 2^k or y = 2^(k+1) = m.
+On a circle of n ≥ 4 distinct numbers, m has two distinct neighbours, both different from m,
+so both would equal 2^k. Hence no arrangement exists and a(n) = 0.
+
+Lean: [full proof](A115509/A115509_mathlib.lean).
+
+### [A117414](A117414/): an Euler triangle without a definition (row sums, columns 1 and 2)
+
+**Source.** OEIS wiki, Talk:Conjectures/List, line for A117414. [A117414](https://oeis.org/A117414)
+(P. Barry, 2006), name "An Euler triangle.", data only:
+"Conjecture: row sums are the Euler numbers A000364. Second column is A024255. Third column is A117415."
+
+**Reading.** The entry has had no definition since revision #1 (2006): name, data and the conjecture
+only. A claim about a triangle given by 45 numbers is ill-posed. The only rule for all rows in the
+entry is G. Critzer's g.f. (Apr 2023):
+Sum_{n,k} T(n,k) u^k z^n / B(n) = E((u-1)z)/E(-z), with B(n) = (2n)!/2^n = A000680(n) and
+E(z) = Sum_n z^n/B(n). It reproduces all 45 data terms. We take it as the definition.
+Columns are numbered from 0, so "second column" is k = 1 and "third column" is k = 2.
+(Critzer's comment that T(n,k) counts alternating permutations of [2n] with k cyclically alternating
+components is a separate conjecture, not addressed here.)
+
+**Result.** Misstated (no definition). With Critzer's g.f. as the definition all three claims are
+true: row sums = A000364 (Euler secant numbers), column 1 = A024255 (n times the tangent number
+t(2n-1)), column 2 = A117415 (e.g.f. (x tan x - x^2)/8, even powers).
+
+**Argument.** Put t = sqrt(2z). Then z^n/B(n) = t^(2n)/(2n)!, so a series Sum c_n z^n/B(n) is the
+even e.g.f. Sum c_n t^(2n)/(2n)!, and T(n,k) is (2n)! times the coefficient of u^k t^(2n). Also
+E(z) = cosh(sqrt(2z)), so E(-z) = cos t.
+- u = 1: the g.f. is E(0)/E(-z) = 1/cos t = sec t = Sum A000364(n) t^(2n)/(2n)!.
+- Coefficient of u: z E'(-z)/E(-z). From E(w) = cosh s with s = sqrt(2w), E'(w) = sinh(s)/s, and at
+  w = -z, s = i t, so E'(-z) = sin(t)/t. The coefficient is (t^2/2)(sin t/t)/cos t = (t tan t)/2,
+  the e.g.f. of A024255 (even part of x tan(x)/2), i.e. T(n,1) = n t(2n-1).
+- Coefficient of u^2: z^2 E''(-z)/(2 E(-z)), with E''(w) = cosh(s)/s^2 - sinh(s)/s^3, so
+  E''(-z) = -cos(t)/t^2 + sin(t)/t^3 and the coefficient is (t^4/8)(tan(t)/t^3 - 1/t^2)
+  = (t tan t - t^2)/8, the e.g.f. of A117415.
+
+Lean: needs Mathlib.
 
 ### [A118990](A118990/): A118990(n) = 2^n A086906(n-1)
 
@@ -2758,6 +3104,65 @@ an integer divisible by n.
 
 Lean: —.
 
+### [A131439](A131439/): 1, 7, then 4k + 14, and its inverse binomial transform
+
+**Source.** [A131439](https://oeis.org/A131439) (offset 1), Gary W. Adamson, Jul 11 2007: "Inverse binomial
+transform of A131438 (assuming zero offset in both sequences)". Comments: "Conjecture: The sequence appears to be
+(1, 7, ...) followed by 4k + 14; k=0,1,2,..." and "Inverse binomial transform of this sequence = (1, 6, 1, -4, 7,
+-10, 13, -16, 19, -22, ...)". [A131438](https://oeis.org/A131438) is defined by a(n) = (2+n)·2^n − 2 − 3n
+(offset 1; definition replaced by this formula by R. J. Mathar, 2011). (OEIS text, CC BY-SA 4.0, A131439
+revision #21 of Mar 23 2026, A131438 revision #14 of Oct 17 2025, checked 2026-11-06.)
+
+**Reading.** With zero offset, b(k) = A131438(k+1) for k ≥ 0 and A131439(m+1) = Σ_{k=0..m} (−1)^(m−k) C(m,k) b(k).
+The entry's example (1,3,3,1)·(1,7,14,18) = 82 = A131438(4) confirms this. The second comment is read the same way
+(zero offset). The example in A131438, "a(3) = 19 = ... (7 + 9 + 13)", disagrees with its data and formula
+(a(3) = 29); it does not affect A131439, which uses the formula.
+
+**Result.** True. A131439 = 1, 7, then A131439(n) = 4n + 2 for n ≥ 3 (that is 4k + 14 with k = n − 3). Its
+inverse binomial transform is 1, 6, then (−1)^m (3m − 5) for m ≥ 2.
+
+**Argument.** 1. The inverse binomial transform of f at m is the m-th forward difference Δ^m f(0).
+2. b(k) = (k+3)·2^(k+1) − 2 − 3(k+1) = (2k+6)·2^k − 3k − 5. Then Δb(k) = (2k+10)·2^k − 3 and
+   Δ²b(k) = (2k+14)·2^k. For g_A(k) = (2k+A)·2^k, Δg_A = g_{A+4}. So Δ^m b = g_{4m+6} for m ≥ 2 and
+   A131439(m+1) = Δ^m b(0) = 4m + 6; directly, A131439(1) = 1 and A131439(2) = 7.
+3. So c(m) = A131439(m+1) = (4m+6) − 3·[m = 1] − 5·[m = 0]. The inverse binomial transform is linear; it sends
+   4m+6 to 0 for m ≥ 2 (second difference of a linear function) and the point mass v·[k = i] to
+   (−1)^(m−i) C(m,i) v. For m ≥ 2 this gives −3·(−1)^(m−1) m − 5·(−1)^m = (−1)^m (3m − 5); m = 0, 1 give 1, 6.
+
+Lean: [full proof](A131439/A131439_mathlib.lean).
+
+### [A138904](A138904/): rotational symmetries of a binary expansion
+
+**Source.** OEIS [A138904](https://oeis.org/A138904) (Max Sills, 2008), a(m) = number of rotational
+symmetries of the binary expansion of m. Two conjectures in the comments (OEIS text, CC BY-SA 4.0):
+"For binary expansions of length n, there are d(n) distinct values that will show up as symmetries
+... precisely the divisors of n", and, for n whose proper divisors are all coprime, "only one number
+of length n with n symmetries ... 2^n - 1"; for each proper divisor d > 1 the numbers with n/d
+symmetries are (2^0 + 2^d + ... + 2^(n-d))·a with 2^(d-1) <= a < 2^d - 1; "the rest ... only the
+trivial symmetry".
+
+**Reading.** a(m) counts the rotations k in {0, ..., L-1} of the L-bit word of m (L = binary length,
+m = 0 is "0") that give the same word; a(0..98) agree with the data. "Proper divisors all coprime" is
+read as: the divisors of L strictly between 1 and L are pairwise coprime (L = 1, p, p^2 or pq).
+
+**Result.** Both conjectures hold.
+1. For m of length L, a(m) divides L, and every divisor of L is a(m) for some m of length L.
+2. a(m) = L only for m = 2^L - 1. For every prime d dividing L with d < L (any L, not only the
+   coprime-divisor case), a(m) = L/d exactly when m = R·a, R = 1 + 2^d + ... + 2^(L-d),
+   2^(d-1) <= a < 2^d - 1. If the divisors of L strictly between 1 and L are pairwise coprime, every
+   such divisor is prime, so all other m of length L have a(m) = 1.
+
+**Argument.** Let S = {k : rotation by k fixes the word}. S is closed under addition and under
+k, j -> j - k (indices mod L), so with p the least positive element, S = {multiples of p} and p | L;
+hence a(m) = L/p divides L. The word with a single 1 at the top of each block of length q = L/e has
+least period q, so a = e. a(m) = L means period 1, so all bits equal the top bit 1. Period d means
+the word is its low d-bit block a repeated, i.e. m = R·a, with top bit of a set (a >= 2^(d-1)); the
+least period then divides d, and for prime d it is 1 or d, and 1 only for a = 2^d - 1. If proper
+divisors are pairwise coprime, a composite proper divisor d would share its prime factor r < d with
+itself as a divisor pair (r, d), so every proper divisor is prime.
+
+Lean: [full proof](A138904/A138904.lean).
+
 ### [A145878](A145878/): polynomial formulas for T(r+k, k), r = 3..7 (previous conjectures)
 
 **Source.** OEIS [A145878](https://oeis.org/A145878): T(n,k) = number of permutations of [n] with
@@ -2778,6 +3183,133 @@ T = 14(k+1) + C(k+1,2) = (k+1)(k+28)/2.)
 
 Lean: [witness](A145878/A145878.lean).
 
+### [A164848](A164848/): a(n) = A026741(n)/A051712(n+1) has period 24
+
+**Source.** OEIS [A164848](https://oeis.org/A164848) (Paul Curtz, 2009), a(n) = A026741(n)/A051712(n+1):
+"Conjecture (checked for the first 3000 entries): periodic with a(n+24)=a(n)." (OEIS text, CC BY-SA 4.0.)
+
+**Reading.** A026741(n) = n for odd n, n/2 for even n. A051712(n) is the numerator of
+b(n) - b(n+1) with b(n) = n/((n+1)(n+2)) (offset 1). Offset of A164848 is 1; a(1..105) agree with the data.
+
+**Result.** True: a(n) = gcd(n, 24) for odd n and gcd(n, 24)/2 for even n, so a(n+24) = a(n) for all n >= 1.
+This also gives Howroyd's formula a(n) = gcd(12, n/gcd(2, n)) listed in the entry.
+
+**Argument.** b(n+1) - b(n+2) = n(n+3)/((n+2)(n+3)^2(n+4)). Since (n+2)(n+3)(n+4) = 24 + n(n^2 + 9n + 26),
+gcd(n(n+3), (n+2)(n+3)^2(n+4)) = (n+3)·gcd(n, 24), so A051712(n+1) = n/g with g = gcd(n, 24). Then
+a(n) = n/(n/g) = g for odd n and (n/2)/(n/g) = g/2 for even n (g is even). Both depend only on n mod 24.
+
+Lean: [full proof](A164848/A164848.lean).
+
+### [A168295](A168295/): "Conjecture: Worpitzky forms" states no claim
+
+**Source.** OEIS wiki, Talk:Conjectures/List, line for A168295: "Conjecture: \"Worpitzky forms\"".
+[A168295](https://oeis.org/A168295) (R. L. Bagula, 2009): triangle of coefficients of
+p(x, n) = (n-1)! Sum_{j=1..n} A142458(n, j) binomial(x + j - 1, n - 1).
+
+**Result.** Misstated: nothing to prove. The 2009 comment, after the word "Conjecture", only names a
+family: for a "general Pascal recursion" triangle Pascal[n,k,m],
+p[x,n,m] = Sum_k Pascal[n,k,m] binomial(x+k-1, n-1), "where p[x,n,m] are the inverse z transform
+polynomials". No equation or property is asserted. G. C. Greubel removed the comment in revision #3
+(2022-03-17, approved by N. J. A. Sloane in #5); the current entry has no conjecture.
+
+**Argument.** The one reading that turns the comment into a statement is: the ordinary g.f. in x of
+p(x) is Sum_k Pascal[n,k,m] z^(n-k)/(1-z)^n. This holds for any coefficient array, since
+Sum_{x>=0} binomial(x+k-1, n-1) z^x = z^(n-k)/(1-z)^n (substitute x = n - k + j). So under that
+reading it is a tautology, and under any other it has no content.
+
+Lean: —.
+
+### [A173989](A173989/): 2-adic valuations of A173300 follow A, A, A+1, A with A odd
+
+**Source.** [A173989](https://oeis.org/A173989) (offset 1), J. Lowell, Mar 04 2010: a(n) is the 2-adic valuation of
+A173300(n), the denominator of x^n + y^n with x = (1+√3)/2, y = (1−√3)/2 (Maple and PARI programs in the entry).
+Comment: "Conjecture: always follows the pattern A, A, A+1, A, where A is an odd number." Data: 0, 0, 1, 1, 2, 1,
+3, 3, 4, 3, … (OEIS text, CC BY-SA 4.0, revision of Mar 23 2026, checked 2026-11-05.)
+
+**Reading.** The pattern starts at n = 3: (a(4j+3), a(4j+4), a(4j+5), a(4j+6)) = (A, A, A+1, A) with A = 2j+1.
+a(1) = a(2) = 0 precede it.
+
+**Result.** True: for every j ≥ 0, a(4j+3) = a(4j+4) = a(4j+6) = 2j+1 and a(4j+5) = 2j+2.
+
+**Argument.** 1. s_n = (1+√3)^n + (1−√3)^n satisfies s_0 = s_1 = 2, s_{n+2} = 2 s_{n+1} + 2 s_n (both roots satisfy
+   t² = 2t + 2), so s_n ∈ ℤ and x^n + y^n = s_n / 2^n.
+2. (1+√3)² = 2(2+√3), so s_{2m} = 2^m T_m, s_{2m+1} = 2^m U_m with T_0 = U_0 = 2, T_{m+1} = T_m + U_m,
+   U_{m+1} = 2T_m + 3U_m.
+3. Induction on m: T_{2m} ≡ 2 (mod 4), T_{2m+1} ≡ 4 (mod 8), U_m ≡ 2 (mod 4). (From T_{2m+1} ≡ 4 (mod 8),
+   U_{2m+1} ≡ 2 (mod 4): T_{2m+2} = T + U ≡ 2, U_{2m+2} = 2T + 3U ≡ 2 (mod 4), T_{2m+3} = 3T + 4U ≡ 4 (mod 8),
+   U_{2m+3} = 8T + 11U ≡ 2 (mod 4), with T, U at index 2m+1.)
+4. So v2(s_{4j+3}) = 2j+2, v2(s_{4j+4}) = 2j+3, v2(s_{4j+5}) = 2j+3, v2(s_{4j+6}) = 2j+5. If s_n = 2^e u with u odd and
+   e ≤ n, then s_n / 2^n = u / 2^(n−e) in lowest terms, so a(n) = n − e, which gives 2j+1, 2j+1, 2j+2, 2j+1.
+
+Lean: [full proof](A173989/A173989_mathlib.lean).
+
+### [A192023](A192023/): the determinant-2n matrix count does not match; a linear count does
+
+**Source.** OEIS [A192023](https://oeis.org/A192023) (Wiener index of the comb graph with 2n
+nodes, a(n) = n(2n² + 6n − 5)/3), comment by Clark Kimberling (Mar 31 2012): "Conjecture: for
+n>2, A192023(n-2) is the number of 2 X 2 matrices with all terms in {1,2,...,n} and
+determinant 2n." (OEIS text, CC BY-SA 4.0.)
+
+**Reading.** Literal: count matrices [[w, x], [y, z]] with w, x, y, z ∈ {1, …, n} and
+wz − xy = 2n. Allowing |det| = 2n only doubles the count and does not help.
+
+**Result.** False as stated, already at n = 3: the matrices with entries in {1, 2, 3} and
+determinant 6 are [[3, 1], [3, 3]] and [[3, 3], [1, 3]], two of them, while A192023(1) = 1.
+The two sides differ for every 3 ≤ n ≤ 120 (count 2, 9, 16, 33, 42, 69, … against
+1, 10, 31, 68, 125, 206, …). The determinant count is not even monotone (228 at n = 12, 180 at n = 13).
+
+The comment is a misattribution. Kimberling's own guide in [A211795](https://oeis.org/A211795)
+pairs A192023 with the linear relation w = −x + y + z + 2, and that version holds:
+
+  #{(w, x, y, z) ∈ {1, …, n}⁴ : w + x = y + z + 2} = A192023(n − 1) for all n ≥ 2,
+
+with A192023(m) the Wiener index of the comb graph with 2m nodes (the entry's definition).
+This is proved in Lean for all n, together with the entry's formula a(m) = m(2m² + 6m − 5)/3.
+
+equivalently A192023(n − 2) counts 4-tuples in {1, …, n − 1} with w + x = y + z + 2 (n ≥ 3).
+A search over 2268 readings (entry ranges {0..k}, {1..k}, {−k..k} with k = n − 3, …, n + 3;
+determinant, |determinant| or permanent equal to αn + β, 0 ≤ α ≤ 3, −4 ≤ β ≤ 4;
+`certificate/search2.py`) finds no determinant or permanent reading that matches for
+3 ≤ n ≤ 10.
+
+**Argument.** Counterexample: wz − xy = 6 with entries ≤ 3 forces wz = 9 (w = z = 3) and
+xy = 3, so (x, y) ∈ {(1, 3), (3, 1)}.
+Corrected statement: with r(s) = #{(w, x) ∈ {1..n}² : w + x = s} = n − |s − n − 1| for
+2 ≤ s ≤ 2n, the count is Σ_s r(s) r(s − 2). For n ≥ 2 and m = n − 2 the terms
+s = 4..n + 1 give Σ_{t=1}^{m} t(t + 2), s = n + 2 gives (n − 1)², and s = n + 3..2n give
+Σ_{u=1}^{m} u(u + 2) again. With Σ_{t=1}^{m} t(t + 2) = m(m + 1)(2m + 7)/6 the total is
+(m + 1)(2m² + 10m + 3)/3 = a(m + 1) = a(n − 1). For n = 1 both sides are 0.
+Wiener index: with spine vertices (i, 0) and teeth (i, 1), the distance is |i − j| + s + t for
+i ≠ j and [s ≠ t] for i = j. Summing over the four (s, t) gives 4|i − j| + 4 (i ≠ j) or 2
+(i = j), and Σ_{i,j<m} |i − j| = (m³ − m)/3, so half the ordered sum is
+m + 2(m³ − m)/3 + 2(m² − m) = a(m).
+
+Lean: [full proof](A192023/A192023_mathlib.lean).
+
+### [A206912](A206912/): the differences of A206912 are 1s and 2s
+
+**Source.** [A206912](https://oeis.org/A206912) (offset 1), Clark Kimberling, Feb 13 2012: position of log(n+1)
+when the partial sums of the harmonic series are jointly ranked with {log(k+1)}; complement of A206911. Comment:
+"Conjecture: the difference sequence of A206912 consists of 1s and 2s; see Comments at A206911." (OEIS text,
+CC BY-SA 4.0, checked 2026-11-05.)
+
+**Reading.** Write H_k = 1 + 1/2 + … + 1/k. Below log(n+1) in the joint ranking lie log 2, …, log n and the H_k
+(k ≥ 1) with H_k < log(n+1), so A206912(n) = n + #{k ≥ 1 : H_k < log(n+1)}. This matches the Mathematica program
+of A206911 and the data (A206912 = 1, 3, 4, 6, 7, 9, …). A tie H_k = log(n+1) cannot occur (log(n+1) is irrational
+for n ≥ 1), but the proof does not need this: it holds for the definition that counts H_k strictly below.
+
+**Result.** True. A206912(n+1) − A206912(n) ∈ {1, 2} for every n.
+
+**Argument.** 1. *Key lemma.* For m ≥ 1 there is no k with log m ≤ H_k and H_{k+1} < log(m+1). Otherwise
+   1/(k+1) = H_{k+1} − H_k < log(m+1) − log m = log(1 + 1/m) ≤ 1/m, so m ≤ k, and then
+   log(m+1) ≤ log(k+1) ≤ H_k ≤ H_{k+1} < log(m+1) (using H_k ≥ log(k+1)), a contradiction.
+2. *Finiteness.* H_k < log(n+1) forces k < n, since H_k ≥ log(k+1).
+3. *Differences.* A206912(n+1) − A206912(n) = 1 + #{k ≥ 1 : log(n+1) ≤ H_k < log(n+2)}. H is increasing, so two
+   such indices k < k' give log(n+1) ≤ H_k and H_{k+1} ≤ H_{k'} < log(n+2), which step 1 (m = n+1) excludes. So the
+   count is 0 or 1.
+
+Lean: [full proof](A206912/A206912_mathlib.lean).
+
 ### [A209260](A209260/): Jeffery's two conjectures (both proved in the entry's references)
 
 **Source.** OEIS [A209260](https://oeis.org/A209260) (irregular triangle; a permutation of the
@@ -2794,6 +3326,38 @@ minimum of d + (h-1)/2 over such divisor pairs.
 **Argument.** Not re-derived here; the record rests on the cited proofs. (The scan recorded only
 Conjecture 1 as proved; the entry fetched 2026-11-01 for this write-up also cites Hoft's proof of
 Conjecture 2.)
+
+Lean: —.
+
+### [A212916](A212916/): standard Young tableaux of height ≤ 10, a(n) ~ 10^n π^(−5) (10/n)^(45/2) ∏ Γ(j/2)
+
+**Source.** OEIS [A212916](https://oeis.org/A212916) (offset 0): number of standard Young tableaux with n
+cells and at most 10 rows. Conjecture (V. Kotesovec, Sep 12 2013): "generally (for tableaux with height
+<= k), a(n) ~ k^n/Pi^(k/2) * (k/n)^(k*(k-1)/4) * prod(j=1..k,Gamma(j/2)); set k=10 for this sequence."
+(OEIS text, CC BY-SA 4.0; revision #32.) The same general conjecture is in A229068 (k = 12), see
+[`../A229068/README.md`](A229068/README.md).
+
+**Result.** True for every k ≥ 1, by a theorem of Regev (1981).
+
+**Argument.** Let S_k(n) = Σ f^λ over partitions λ ⊢ n with at most k rows. A. Regev, Asymptotic values for
+degrees associated with strips of Young diagrams, Adv. Math. 41 (1981) 115–136, Corollary 4.4, restated with
+d = α = 1 as Theorem 3.5 of A. Regev, Asymptotics of Young tableaux in the strip, the d-sums,
+arXiv:1004.4476 (there T_{1,s}(m) = S_s(m), Definition 1.1), gives
+
+S_k(n) ~ (√k)^{k(k−1)/2} · (1/k!) · n^{−k(k−1)/4} · k^n · Γ(3/2)^{−k} · ∏_{j=1..k} Γ(1 + j/2).
+
+The 2010 paper corrects Corollary 4.4 only for d > 1 and states that the d = 1 formula is unchanged and
+agrees with (F.4.5.1) of the 1981 paper.
+
+Regev's constant equals Kotesovec's. By Γ(1 + x) = xΓ(x),
+∏_{j=1..k} Γ(1 + j/2) = ∏_{j=1..k} (j/2) Γ(j/2) = (k!/2^k) ∏_{j=1..k} Γ(j/2),
+and Γ(3/2) = √π/2 gives Γ(3/2)^{−k} = 2^k π^{−k/2}. The factors k! and 2^k cancel, and
+(√k)^{k(k−1)/2} n^{−k(k−1)/4} = (k/n)^{k(k−1)/4}, so
+
+S_k(n) ~ k^n π^{−k/2} (k/n)^{k(k−1)/4} ∏_{j=1..k} Γ(j/2),
+
+which is the conjectured formula. For k = 10, ∏_{j=1..10} Γ(j/2) = (42525/32) π^{5/2}, which gives the
+entry's %F line a(n) ~ 42525/32 · 10^{n+45/2} / (π^{5/2} n^{45/2}).
 
 Lean: —.
 
@@ -2835,6 +3399,28 @@ letter 2 at position n.
 
 Lean: —.
 
+### [A225003](A225003/): a(n) = A047332(n) for n ≥ 2
+
+**Source.** OEIS [A225003](https://oeis.org/history?seq=A225003) (T. D. Noe, 2013, from
+M. B. Nathanson, On the fractional parts of roots of positive real numbers, Amer. Math. Monthly 120
+(2013) 409–429): "Floor(1/f(x^(1/n))) for x = e^(5/7), where f computes the fractional part",
+offset 1, data 23, 2, 3, 5, 6, 7, .... Comment: "Conjecture: a(n) = A047332(n), n>1. - R. J. Mathar,
+Apr 28 2013". Since 2017 the entry is "Duplicate of A047332" (dead, A. Zabolotskiy).
+[A047332](https://oeis.org/A047332): numbers congruent to {0, 2, 3, 5, 6} mod 7, offset 1, with
+FORMULA a(n) = floor((7n−3)/5). (OEIS text, CC BY-SA 4.0.)
+
+**Result.** True: a(n) = floor((7n−3)/5) = A047332(n) for every n ≥ 2 (a(1) = 23); proved in
+Lean 4 + Mathlib.
+
+**Argument.** Let t = 5/(7n) ≤ 5/14 and q = floor((7n−3)/5), so 5q + 3 ≤ 7n ≤ 5q + 7, i.e.
+qt ≤ 1 − 3t/5 and (q+1)t ≥ 1 − 2t/5. Taylor bounds give
+1 + t + t²/2 ≤ e^t ≤ 1 + t + t²/2 + 2t³/9, so 1 < e^t < 2 and frac(e^t) = d = e^t − 1. Then
+q·d ≤ (1 − 3t/5)(1 + t/2 + 2t²/9) ≤ 1 and (q+1)·d ≥ (1 − 2t/5)(1 + t/2) = 1 + t/10 − t²/5 > 1,
+so q ≤ 1/d < q + 1. The values of floor((7n−3)/5) for n ≥ 1 are strictly increasing and are exactly
+the numbers ≡ 0, 2, 3, 5, 6 mod 7, so they enumerate A047332.
+
+Lean: [full proof](A225003/A225003_mathlib.lean).
+
 ### [A226160](A226160/): a(n+1)/a(n) → exp(1/φ) = 1.855276958... (harmonic-number threshold)
 
 **Source.** OEIS [A226160](https://oeis.org/A226160): least positive integer k with 1 + 1/2 + ... + 1/k > n/φ, φ the golden ratio.
@@ -2849,6 +3435,23 @@ log a(n) = c n - γ + o(1), and a(n+1)/a(n) = exp(c + o(1)) → exp(c).
 
 Lean: [full proof](A226160/A226160_mathlib.lean).
 
+### [A226187](A226187/): a(n+1)/a(n) → exp(1/3)
+
+**Source.** [A226187](https://oeis.org/A226187) (offset 1), Clark Kimberling, May 30 2013: least positive integer k
+such that 1 + 1/2 + … + 1/k > n/3. Comment: conjecture that a(n+1)/a(n) converges to 1.39…, probably exp(1/3).
+(OEIS text, CC BY-SA 4.0, checked 2026-11-05.)
+
+**Result.** True: a(n+1)/a(n) → exp(1/3) = 1.39561…
+
+**Argument.** Let H_k = 1 + … + 1/k and a = a(n).
+1. Since H_0 = 0 ≤ n/3, a ≥ 1, and by minimality H_{a−1} ≤ n/3 < H_a, so 0 < H_a − n/3 ≤ 1/a.
+2. a(n) → ∞: H is increasing, so a(n) < N gives n/3 < H_N, i.e. n < 3 H_N.
+3. H_k − log k → γ (Euler's constant). So log a(n) − n/3 = (H_a − n/3) − (H_a − log a) → 0 − γ.
+4. Hence log a(n+1) − log a(n) = [log a(n+1) − (n+1)/3] − [log a(n) − n/3] + 1/3 → 1/3, and the ratio
+   a(n+1)/a(n) = exp(log a(n+1) − log a(n)) → exp(1/3).
+
+Lean: [full proof](A226187/A226187_mathlib.lean).
+
 ### [A226188](A226188/): a(n+1)/a(n) → exp(2/3) = 1.947734... (harmonic-number threshold)
 
 **Source.** OEIS [A226188](https://oeis.org/A226188): least positive integer k with 1 + 1/2 + ... + 1/k > 2n/3.
@@ -2862,6 +3465,25 @@ H_(a-1) ≤ c n < H_a for a = a(n), so log(a - 1) + γ < c n < log a + γ + 1/(2
 log a(n) = c n - γ + o(1), and a(n+1)/a(n) = exp(c + o(1)) → exp(c).
 
 Lean: [full proof](A226188/A226188_mathlib.lean).
+
+### [A229068](A229068/): standard Young tableaux of height ≤ 12, a(n) ~ 12^n π^(−6) (12/n)^33 ∏ Γ(j/2)
+
+**Source.** OEIS [A229068](https://oeis.org/A229068) (offset 0): number of standard Young tableaux with n
+cells and at most 12 rows. Conjecture (V. Kotesovec, Sep 2013): "generally (for tableaux with height <= k),
+a(n) ~ k^n/Pi^(k/2) * (k/n)^(k*(k-1)/4) * Product_{j=1..k} Gamma(j/2); set k=12 for this sequence."
+(OEIS text, CC BY-SA 4.0; revision #18.) The same general conjecture is in A212916 (k = 10).
+
+**Result.** True for every k ≥ 1, by a theorem of Regev (1981).
+
+**Argument.** Identical to [`../A212916/README.md`](A212916/README.md): A. Regev, Adv. Math. 41 (1981)
+115–136, Corollary 4.4, restated as Theorem 3.5 of arXiv:1004.4476, gives
+S_k(n) ~ (√k)^{k(k−1)/2} (1/k!) n^{−k(k−1)/4} k^n Γ(3/2)^{−k} ∏_{j=1..k} Γ(1 + j/2) for the number S_k(n)
+of standard Young tableaux with n cells and at most k rows. With
+∏_{j=1..k} Γ(1 + j/2) = (k!/2^k) ∏_{j=1..k} Γ(j/2) and Γ(3/2)^{−k} = 2^k π^{−k/2} this is
+k^n π^{−k/2} (k/n)^{k(k−1)/4} ∏_{j=1..k} Γ(j/2). For k = 12, ∏_{j=1..12} Γ(j/2) = (602791875/128) π^3,
+which gives the entry's %F line a(n) ~ 602791875/128 · 12^{n+33} / (π^3 n^33).
+
+Lean: —.
 
 ### [A029766](A029766/): a(n) = n!·A040039(n−1) holds on the data; the entry's name does not determine the sequence
 

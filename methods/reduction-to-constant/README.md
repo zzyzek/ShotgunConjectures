@@ -40,4 +40,10 @@ divisibility of the constant f(1).
 - [COM-C179](../../COM/C179/README.md): Carmichael numbers p^4 + 60p (duplicate of C116)
 - [COM-P055](../../COM/P055/README.md): Carmichael numbers p^4 + 60p (restates C116)
 - [COM-P128](../../COM/P128/README.md): C versus d^4; Carmichael numbers p^4 + 60p (contains C116)
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- OEIS-A225538, reduction-to-constant (partial; goal: The least n with a(n) = 0 are the six listed): All six n reach 8877 in one step; every other n <= 3983 reaches a palindrome (checked). Remaining claim: the orbit of 8877 never hits a palindrome, a base-10 Lychrel statement like 196 (no palindrome in 1e6 steps). No proof technique known. Next: Look for a self-similar digit pattern in the 8877 orbit (as in base-2 Lychrel proofs).
 <!-- end generated -->

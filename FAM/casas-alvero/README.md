@@ -81,6 +81,24 @@ All cofactors were found by exact weighted-homogeneous linear algebra (Macaulay 
 
 Outside Lean: nothing for the stated theorems (the generator is untrusted and not needed).
 
+## Reflective version (2026-11-05)
+
+`casas_alvero6_reflective_mathlib.lean` (784 KB) proves the same degree-6 theorems with the
+certificate identities checked by the reflective checker `RPI.check` (`decide +kernel`; soundness
+`RPI.check_zero`, proved in the file; method
+[reflective-poly-identity](../../methods/reflective-poly-identity/README.md)). tools/leancheck-mathlib.sh:
+OK in 72 s (linear_combination file: about 210 s); axioms propext, Classical.choice, Quot.sound.
+Rebuild in `certificate/`: `python3 gen_reflect_degree.py 6 > ../casas_alvero6_reflective_mathlib.lean`
+(about 1 min with PARI/gp; `--msolve` uses the numpy + `matsolve` solver of `msolve.py`). With the
+reflective checker the unsplit 2.5 MB certificate (`--nosplit 6`) also checks within 6 GB (60 s).
+
+Degree 7 is not done. In the main case (all S_i = 0) b_1^12 is not in the ideal (the earlier
+"solvable mod p at 1932 x 2572" was a swallowed PARI stack-overflow error). The socle weight of the
+weighted complete intersection (S_1, …, S_5) is 94, so the targets need weight 90–96 (systems up to
+7308 x 14474). Measured at weight 72: 3945-digit denominators (1.5 digits per row, as for d = 6),
+mod-p echelon 150 s, exact minor solve 270 s. Extrapolated: about 11 000-digit coefficients,
+about 80 MB per main-case identity (about 0.4 GB for the main case), 15–30 CPU hours of solving.
+
 ## Obstacles
 
 * **Certificate size, unsplit route (d = 6).** Stage 2 without case split needs b_4^36 and

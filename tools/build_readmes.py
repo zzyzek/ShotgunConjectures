@@ -16,6 +16,8 @@ GROUPS = [
   ('OEIS', 'OEIS conjectures', 'Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS wiki, Talk:Conjectures/List). OEIS text is quoted under CC BY-SA 4.0 with the A-number as attribution.'),
   ('NT',   'Guy, Unsolved Problems in Number Theory', 'R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.'),
   ('GEO',  'Croft, Falconer, Guy, Unsolved Problems in Geometry', 'H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.'),
+  ('BMP',  'Brass, Moser, Pach: Research Problems in Discrete Geometry', 'Problems from P. Brass, W. Moser, J. Pach, Research Problems in Discrete Geometry (Springer 2005), numbered by section and problem; statements paraphrased.'),
+  ('AMR',  'Problem lists linked from amathr.org', 'Open-problem lists linked from https://amathr.org/problems/ (Cooper, TOPP, Egres Open, Froberg et al. and others); ids AMR-<list>-<k>, statements paraphrased with the list named in each README.'),
   ('FAM',  'Famous open problems: weaker results', 'Well-known open problems (from the Wikipedia list of unsolved problems, MathWorld and Guy). The problems stay open; each entry is a weaker result (special case, bound, or formalisation of a known partial result) and the obstacle the attempt hit.'),
   ('COM',  'Coman, Conjectures on Fermat Pseudoprimes', 'M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes*, 2013. C = conjecture (part one), P = open problem (part four). Statements are paraphrased.'),
 ]

@@ -5,6 +5,9 @@ import sys
 from sympy import symbols, binomial, expand, diff, factorial, Integer
 import gen_lean
 
+# Optional hook d -> (core text, stats); None uses the linear_combination cores.
+CORE = None
+
 def L(e): return gen_lean.lean(expand(e))
 
 def section(d):
@@ -24,7 +27,11 @@ def section(d):
     if d >= 3:
         import os
         cache = f'core{d}.lean.in'
-        if d >= 6:
+        if CORE is not None:
+            # reflective certificates (gen_reflect_degree.py sets this hook)
+            core_txt, stats = CORE(d)
+            out.append(core_txt + '\n')
+        elif d >= 6:
             import gen_cases
             core_txt, stats = gen_cases.core_cases(d)
             out.append(core_txt + '\n')
@@ -32,7 +39,7 @@ def section(d):
             core_txt, stats = open(cache).read().rstrip('\n'), 'cached'
         else:
             core_txt, stats = gen_lean.core(d)
-        if d < 6:
+        if d < 6 and CORE is None:
             import split_core
             out.append(split_core.split_core(core_txt, d) + '\n')
     # root version

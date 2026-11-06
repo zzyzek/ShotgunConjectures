@@ -1,0 +1,5 @@
+compatible: True g = 5 lambda = 4 h = 2
+direct check m < 2000 for 3 members: OK
+psp2 < 1e13 in class: []
+C127 covering OK
+exit 0

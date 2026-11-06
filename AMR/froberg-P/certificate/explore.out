@@ -1,0 +1,26 @@
+3 cp=mp:1 degs:[[1, 1], [2, 1]] det:Mod(2, 3) tr:Mod(0, 3)
+   lin roots:[Mod(1, 3)]
+5 cp=mp:1 degs:[[1, 1], [1, 1], [3, 1]] det:Mod(3, 5) tr:Mod(4, 5)
+   lin roots:[Mod(4, 5), Mod(1, 5)]
+7 cp=mp:1 degs:[[1, 1], [1, 1], [2, 1], [3, 1]] det:Mod(6, 7) tr:Mod(6, 7)
+   lin roots:[Mod(2, 7), Mod(1, 7)]
+11 cp=mp:1 degs:[[1, 1], [2, 1], [3, 1], [5, 1]] det:Mod(1, 11) tr:Mod(4, 11)
+   lin roots:[Mod(1, 11)]
+13 cp=mp:1 degs:[[1, 1], [12, 1]] det:Mod(8, 13) tr:Mod(12, 13)
+   lin roots:[Mod(1, 13)]
+17 cp=mp:1 degs:[[1, 1], [1, 1], [6, 1], [9, 1]] det:Mod(13, 17) tr:Mod(1, 17)
+   lin roots:[Mod(16, 17), Mod(1, 17)]
+19 cp=mp:1 degs:[[1, 1], [1, 1], [3, 1], [3, 1], [5, 1], [6, 1]] det:Mod(1, 19) tr:Mod(1, 19)
+   lin roots:[Mod(5, 19), Mod(1, 19)]
+23 cp=mp:1 degs:[[1, 1], [3, 1], [7, 1], [12, 1]] det:Mod(1, 23) tr:Mod(11, 23)
+   lin roots:[Mod(1, 23)]
+29 cp=mp:1 degs:[[1, 2], [2, 1], [12, 1], [13, 1]] det:Mod(17, 29) tr:Mod(22, 29)
+   lin roots:[Mod(1, 29)]
+31 cp=mp:1 degs:[[1, 1], [2, 1], [3, 1], [3, 1], [3, 1], [6, 1], [6, 1], [7, 1]] det:Mod(1, 31) tr:Mod(19, 31)
+   lin roots:[Mod(1, 31)]
+37 cp=mp:1 degs:[[1, 1], [1, 1], [1, 1], [2, 1], [13, 1], [19, 1]] det:Mod(6, 37) tr:Mod(32, 37)
+   lin roots:[Mod(17, 37), Mod(10, 37), Mod(1, 37)]
+41 cp=mp:1 degs:[[1, 1], [1, 1], [2, 1], [4, 1], [9, 1], [10, 1], [14, 1]] det:Mod(9, 41) tr:Mod(7, 41)
+   lin roots:[Mod(24, 41), Mod(1, 41)]
+43 cp=mp:1 degs:[[1, 1], [1, 1], [4, 1], [37, 1]] det:Mod(1, 43) tr:Mod(35, 43)
+   lin roots:[Mod(15, 43), Mod(1, 43)]

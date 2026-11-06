@@ -18,6 +18,22 @@ exceeded 6 GB; splitting cases on how each resultant factors (b_i^m S_i, so b_i 
 0.79 MB. About 1 MB of ring certificate per file is the practical limit (memory is per file). d = 7 overflowed
 the exact solve (1932 x 2572 system).
 
+## Packed certificates
+
+The identities can be checked by the reflective checker of
+[reflective-poly-identity](../reflective-poly-identity/README.md) instead of `linear_combination`:
+cofactors become `RPI.Poly` definitions entered through the `rpi%` elaborator (raw `Nat` literals),
+and each identity is one `decide +kernel` call on `RPI.check`, with soundness theorem
+`RPI.check_zero`. Casas-Alvero d = 6 then checks in about 1 min within 6 GB both with the case split
+(784 KB) and without it (2.5 MB, which failed with `linear_combination`). Generator:
+`FAM/casas-alvero/certificate/gen_reflect_degree.py`; exact solver for large systems
+(mod-p echelon in numpy, then PARI `matsolve` on a nonsingular minor):
+`certificate/msolve.py`. The Lean side is no longer the first limit; for d = 7 the exact solve is
+(socle weight 94, systems up to about 7300 x 14500, coefficients of about 11 000 digits expected).
+Pitfall: a gp script continues after a stack-overflow error, so a mod-p feasibility test must
+check stderr for `***` lines; the earlier d = 7 "solvable mod p at 1932 x 2572" came from such a
+swallowed error.
+
 **Worked example.** [FAM/casas-alvero](../../FAM/casas-alvero/README.md). Possible further use: GEO-A33.1
 (parabola subcase blocked for lack of a Groebner tool; untried).
 
