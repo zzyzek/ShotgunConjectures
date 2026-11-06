@@ -4,9 +4,17 @@ OEIS entries whose conjecture this project settled and which OEIS does not yet r
 (prior-art review 2026-11-04: current entry, entries citing it, edit history, web, arXiv).
 Each draft comment is a starting point: shorten it to OEIS style and sign it. "Partly known" means a source covers part of it; the note says which part.
 
-87 entries.
+106 entries.
 
-## Substantive (not an immediate consequence of a known theorem) (18)
+## Substantive (not an immediate consequence of a known theorem) (29)
+
+### [A026002](https://oeis.org/A026002): Bergot's array with borders n(n−1)+1 has diagonal A026002
+
+- Problem: [OEIS-A026002](OEIS/A026002/README.md) (proved, new). Lean: Lean proof, [`A026002_mathlib.lean`](OEIS/A026002/A026002_mathlib.lean).
+- Prior art: No proof found; closed form 2m(i,j) = D(i-1,j+1) + D(i+1,j-1) and Lean proof new as far as found. Argument short.
+- Draft comment:
+
+  > The conjecture is true: with the closed form 2·m(i,j) = D(i−1, j+1) + D(i+1, j−1) for all i, j ≥ 1. On the diagonal the two terms are equal (D is symmetric), so m(n,n) = D(n−1, n+1) = a(n). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A026002). - _<Name>_, <Mon DD YYYY>
 
 ### [A045764](https://oeis.org/A045764): Meeussen's numbers are not values of W(n) = n − d(n) − φ(n) + 1
 
@@ -15,6 +23,38 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true for every odd term below 1000: none of them is a value of W(n) = n - d(n) - phi(n) + 1, and the odd non-values below 1000 are exactly 86 numbers 13, 67, 93, 123, ..., 973, 997. For n >= 3, W(n) is odd only if n is an odd square or an even nonsquare, and the bounds phi(n) <= n/2, d(n) <= 2*sqrt(n) (n even) and phi(k^2) <= k^2*(1 - 1/p) with p the least prime factor of k (k odd composite) show that W(n) < 1000 forces n <= 1001^2, which a sieve covers. The even term 2 is not covered by this argument. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B10.3.
+
+### [A056142](https://oeis.org/A056142): a(n) palindrome only if all digits of n are equal
+
+- Problem: [OEIS-A056142](OEIS/A056142/README.md) (corrected-and-proved, new). Lean: Lean proof, [`A056142_mathlib.lean`](OEIS/A056142/A056142_mathlib.lean).
+- Prior art: Literal statement refuted by the entry's own 3-digit comment; the 4-or-more-digit version is new here.
+- Draft comment:
+
+  > The conjecture is misstated as written; the corrected form is true: As stated the conjecture is false: n = 101 has 3 digits and a(101) = 101101 is a palindrome (every 3-digit palindrome n is a counterexample, as Wasserman's comment already implies). For 4 or more digits it is true: if n has d >= 4 digits, a(n) is a palindrome iff all digits of n are equal. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A056142). - _<Name>_, <Mon DD YYYY>
+
+### [A082981](https://oeis.org/A082981): the six section conjectures
+
+- Problem: [OEIS-A082981](OEIS/A082981/README.md) (proved, new). Lean: Lean proof, [`A082981_mathlib.lean`](OEIS/A082981/A082981_mathlib.lean).
+- Prior art: No proof found. The block structure follows from locality of the insertion and the leftmost live pair.
+- Draft comment:
+
+  > The conjecture is true: All six are true. Moreover a(4j+t) = 4c_j + t d_j (t = 1..4, with 4c_{j+1} = 4c_j + 4d_j for t = 4), where (c_0, d_0) = (0, 1) and (c, d) -> (c + d, 4c + 5d); this gives a(n) = 6a(n-4) - a(n-8) and the g.f. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A082981). - _<Name>_, <Mon DD YYYY>
+
+### [A083219](https://oeis.org/A083219): roots of x^n - x^(n-1) - ... - 1 in the left half-plane
+
+- Problem: [OEIS-A083219](OEIS/A083219/README.md) (proved, new). Lean: Lean proof, [`A129756_mathlib.lean`](OEIS/A129756/A129756_mathlib.lean).
+- Prior art: Same proof settles the A083219 comment (left half-plane), with the same index shift; A083219 has its own triage record (not recorded here).
+- Draft comment:
+
+  > The conjecture is true: with the index shift. For every n, x^(n+1) − x^n − … − x − 1 has n − 2⌊n/4⌋ roots with Re < 0. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083219). - _<Name>_, <Mon DD YYYY>
+
+### [A087726](https://oeis.org/A087726): a(n) = n^2 if and only if n is squarefree
+
+- Problem: [OEIS-A087726](OEIS/A087726/README.md) (proved, partly-known). Lean: Lean proof, [`A087726_mathlib.lean`](OEIS/A087726/A087726_mathlib.lean).
+- Prior art: Squarefree direction known (Schmidt/Scheucher); the converse (a(p^k) > p^(2k) for k >= 2) and the proof of Israel's exact formula are new as far as found.
+- Draft comment:
+
+  > The conjecture is true: for n >= 1, a(n) = n^2 iff n is squarefree. Moreover a(n) >= n^2 for all n >= 1, and a(p^k) > p^(2k) for every prime p and k >= 2. Israel's formula is also true: for every prime p and k >= 1, a(p^k) = p^(4 floor(k/2)) + ceil(k/2) p^(2k-2) (p^2 - 1) = (1+3p^2+2k(p^2-1)+(-1)^k(p^2-1)) p^(2k-2)/4. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A087726). - _<Name>_, <Mon DD YYYY>
 
 ### [A094787](https://oeis.org/A094787): every prime is a least prime p with p + n a perfect power
 
@@ -31,6 +71,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > Reading the formula as floor(binomial(n,4)^(1/4)) = floor((n - 3/2)/24^(1/4)), the reading that reproduces the listed exceptions 6, 17, 2403, 5318, the conjecture is false: n = 634027531 (index 634027528 of this sequence) is a further exception, with floor(binomial(n,4)^(1/4)) = 286454272 but floor((n - 3/2)/24^(1/4)) = 286454273. Further exceptions in the same reading are 1705327318, 55292025086, ..., near continued-fraction convergents of 384^(1/4). A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A100682.
+
+### [A103990](https://oeis.org/A103990): sqrt(pi) I(n,0) = (2/3)(n^3 - n^2 + 2n + 1)/(2n + 1)
+
+- Problem: [OEIS-A103990](OEIS/A103990/README.md) (proved, new). Lean: Lean proof, [`A103990_mathlib.lean`](OEIS/A103990/A103990_mathlib.lean).
+- Prior art: No proof found. The result depends on reading Trott's unpublished algorithm as the canonical integration-by-parts reduction; that reading reproduces all published integrands and terms.
+- Draft comment:
+
+  > The conjecture is true: under this reading: sqrt(pi) I(n,0) = (2/3)(n^3 - n^2 + 2n + 1)/(2n + 1) for every n >= 1. Equivalently sqrt(pi) I(n,0) = (4n^2 - 6n + 11)/12 - 1/(4(2n+1)). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A103990). - _<Name>_, <Mon DD YYYY>
 
 ### [A108863](https://oeis.org/A108863): Motzkin transform of 0, 0, 0, A001651
 
@@ -80,6 +128,22 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true for every integer m, in particular for m = 10: a(m,2n+1) = y(m,n)^2 with y(m,n) = 4*y(m,n-1) - m^2*y(m,n-2), y(m,0) = 2, y(m,1) = 8 - m^2. The characteristic polynomial of a(m,n) is (x^2 - m^2)(x^2 + 4x + m^2), so a(m,2n+1) and y(m,n)^2 both satisfy the order-4 recurrence with characteristic polynomial (X - m^2)^2*(X^2 + (2m^2 - 16)X + m^4), and their first four values agree as polynomials in m. This extends the m = 3 case proved in A113249 and the m = 8 case proved in A113254. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A113256.
 
+### [A129756](https://oeis.org/A129756): roots of x^n − x^(n−1) − … − x − 1 in the right half-plane
+
+- Problem: [OEIS-A129756](OEIS/A129756/README.md) (proved, new). Lean: Lean proof, [`A129756_mathlib.lean`](OEIS/A129756/A129756_mathlib.lean).
+- Prior art: Same proof settles the A083219 comment (left half-plane), with the same index shift; A083219 has its own triage record (not recorded here).
+- Draft comment:
+
+  > The conjecture is true: with that index: for n ≥ 1, x^n − x^(n−1) − … − 1 has exactly 1 + 2⌊(n−1)/4⌋ roots with positive real part and n − 1 − 2⌊(n−1)/4⌋ with negative real part (the A083219 comment, same shift). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A129756). - _<Name>_, <Mon DD YYYY>
+
+### [A132827](https://oeis.org/A132827): the array is the dispersion of floor(n*phi + n + 1); the entry's FORMULA is wrong from row 4
+
+- Problem: [OEIS-A132827](OEIS/A132827/README.md) (proved, new). Lean: Lean proof, [`A132827_mathlib.lean`](OEIS/A132827/A132827_mathlib.lean).
+- Prior art: No proof found; standard Beatty-complement argument. The FORMULA line error (A005206 should be i - floor(i/phi)) is new.
+- Draft comment:
+
+  > The conjecture is true: - True. The dispersion D of f satisfies D(i,j) = (b(i)+1) F(2j) + (i - b(i)) F(2j+1) for all i >= 0, j >= 1, with b(i) = 2i - floor(i*phi) = i - floor(i/phi) (0, 1, 1, 2, 2, 2, 3, 3, 4, ...), and its first 36 antidiagonal terms are the entry's data. - The entry's FORMULA with b = A005206 is wrong for every row i >= 4: it gives A(4,1) = 6, the data have 7. With b(i) = i - floor(i/phi) in place of A005206 it is correct. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A132827). - _<Name>_, <Mon DD YYYY>
+
 ### [A134002](https://oeis.org/A134002): n(n+5) = a(a+5) + b(b+5) is solvable iff n^2 + (n+5)^2 is composite
 
 - Problem: [OEIS-A134002](OEIS/A134002/README.md) (proved, partly-known). Lean: Lean proof, [`A134002_mathlib.lean`](OEIS/A134002/A134002_mathlib.lean).
@@ -95,6 +159,30 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true for positive a, b, the reading matching A134002, but false as literally worded ("in integers"), since a = n, b = 0 is always a solution. If M = n^2 + (n+5)^2 is prime, then 2M = (2n+5)^2 + 5^2 is the only representation of 2M as a sum of two squares (by uniqueness for the prime M), and a positive solution would give another one, 2M = (2a+5)^2 + (2b+5)^2. See A134002 for the converse. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A134003.
+
+### [A152718](https://oeis.org/A152718): inverse Motzkin transform of A054393
+
+- Problem: [OEIS-A152718](OEIS/A152718/README.md) (proved, new). Lean: Lean proof, [`A152718_mathlib.lean`](OEIS/A152718/A152718_mathlib.lean).
+- Prior art: No statement of the transform found; the excursion decomposition and Lean proof are ours. Barcucci et al. 2000 not read.
+- Draft comment:
+
+  > The conjecture is true: A054393(x) = A152718(x M(x)) as formal power series, so A152718 is the inverse Motzkin transform of A054393. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A152718). - _<Name>_, <Mon DD YYYY>
+
+### [A164754](https://oeis.org/A164754): a(n) = 4n^2 - 11n + 5 for n >= 3
+
+- Problem: [OEIS-A164754](OEIS/A164754/README.md) (proved, new). Lean: Lean proof, [`A164754_mathlib.lean`](OEIS/A164754/A164754_mathlib.lean).
+- Prior art: No proof found; the interval characterisation and family count are ours.
+- Draft comment:
+
+  > The conjecture is true: a(n) = 4n^2 - 11n + 5 for every n >= 3. The recurrence and the g.f. follow. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A164754). - _<Name>_, <Mon DD YYYY>
+
+### [A170941](https://oeis.org/A170941): involutions without adjacent transpositions, proportion → 1/e
+
+- Problem: [OEIS-A170941](OEIS/A170941/README.md) (proved, new). Lean: Lean proof, [`A170941_mathlib.lean`](OEIS/A170941/A170941_mathlib.lean).
+- Prior art: Companion conjecture A217876 (Poisson(1) limit of adjacent transpositions in involutions) open; same method likely applies.
+- Draft comment:
+
+  > The conjecture is true: a(n)/I(n) → e^(−1), where I(n) = A000085(n) is the number of involutions of [n]. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A170941). - _<Name>_, <Mon DD YYYY>
 
 ### [A195608](https://oeis.org/A195608): first differences 1, 4, 6, runs of length 1 or 3, and A(m+1) − A(m−1) = 5 at run starts
 
@@ -160,7 +248,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjectured terms a(3) = 12 and a(4) = 30 are correct: the numbers whose trajectory under n -> phi(n) + 1 ends at 5 are exactly 5, 8, 10, 12, and those ending at 7 are exactly 7, 9, 14, 15, 16, 18, 20, 24, 30. The set reaching a prime q is built from q by repeatedly solving phi(n) = m - 1; the inverse totient sets needed are phi^(-1)(4) = {5, 8, 10, 12}, phi^(-1)(6) = {7, 9, 14, 18} and phi^(-1)(8) = {15, 16, 20, 24, 30}, while 7, 9, 11, 13, 14, 15, 17, 19, 23, 29 are not totients. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B41.5.
 
-## Immediate from a known theorem or short argument, still open in OEIS (69)
+## Immediate from a known theorem or short argument, still open in OEIS (77)
 
 ### [A004050](https://oeis.org/A004050): only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways
 
@@ -169,6 +257,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways (see A085634). If 2^a + 3^b = 2^c + 3^d with a > c, lifting the exponent gives b < d <= a and |2^a - 3^d| <= 4a, and Ellison's 1971 bound |2^x - 3^y| > 2^x*e^(-x/10) (x >= 12, x not in {13, 14, 16, 19, 27}) forces a <= 27, leaving a finite search. The cases with b, c >= 1 (giving 11, 35, 259) also follow from the solution of Pillai's equation by Stroeker and Tijdeman (1982), in the form of M. A. Bennett (2003), Thm. 1.1. A partial Lean 4 verification (Ellison's 1971 bound outside Lean) and the full argument are at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A004050.
+
+### [A005329](https://oeis.org/A005329): Product (2^i − 1) is the inverse binomial transform of A075272
+
+- Problem: [OEIS-A005329](OEIS/A005329/README.md) (proved, new). Lean: Lean proof, [`A005329_mathlib.lean`](OEIS/A005329/A005329_mathlib.lean).
+- Prior art: A075272 states the binomial-transform form as an unproved comment (Reshetnikov 2015); no proof found.
+- Draft comment:
+
+  > The conjecture is true (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A005329). - _<Name>_, <Mon DD YYYY>
 
 ### [A005408](https://oeis.org/A005408): one-coach primes and the first q odd numbers
 
@@ -193,6 +289,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true for all n >= 0: by the g.f., a(n) = a(n-3) + a(n-5) - a(n-8) for n >= 8, and the floor formula satisfies the same recurrence (it increases by 1 when n increases by 15) and agrees with a(n) for n = 0..7. It equals T. Akinari's formula a(n) = floor((2n+5)/5) - floor((n+2)/3) above by elementary floor identities. A proof formally verified in Lean 4 (starting from the recurrence implied by the g.f.) is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A008676.
+
+### [A008749](https://oeis.org/A008749): a(n+2) is the first index where the minimal polyiamond perimeter reaches n + 4
+
+- Problem: [OEIS-A008749](OEIS/A008749/README.md) (proved, new). Lean: Lean proof, [`A008749_mathlib.lean`](OEIS/A008749/A008749_mathlib.lean).
+- Prior art: Immediate from the Harary-Harborth formula; no written proof found.
+- Draft comment:
+
+  > The conjecture is true: for every n >= 1, given the Harary-Harborth formula. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A008749). - _<Name>_, <Mon DD YYYY>
 
 ### [A025060](https://oeis.org/A025060): with signs allowed, i·j + j·k + k·i takes every integer
 
@@ -225,6 +329,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The "if" part is true (Wolstenholme's theorem for p >= 5, and a(3) = 14), but the conjecture is false: n = 16843^2 = 283686649 is composite and a(n) == n + 2 (mod n^2). Since a(n)*(2n-1) = binomial(2n-1,n-1)*(3n-2), a(n) == n + 2 (mod n^2) iff binomial(2n-1,n-1) == 1 (mod n^2), and for n = p^2 this reduces to binomial(2p-1,p-1) == 1 (mod p^4), i.e., p is a Wolstenholme prime; McIntosh (1995) showed that n = 16843^2 satisfies binomial(2n-1,n-1) == 1 (mod n^2). A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A051924.
+
+### [A054096](https://oeis.org/A054096): column 2 of A054090 is A006183 shifted right
+
+- Problem: [OEIS-A054096](OEIS/A054096/README.md) (proved, partly-known). Lean: Lean proof, [`A054096_mathlib.lean`](OEIS/A054096/A054096_mathlib.lean).
+- Prior art: Row-sum recurrence stated in A054091 without proof; with it the conjecture is two lines. No written proof or Lean proof found.
+- Draft comment:
+
+  > The conjecture is true: A054096(n) = A006183(n-1) for every n >= 2. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A054096). - _<Name>_, <Mon DD YYYY>
 
 ### [A054120b](https://oeis.org/A054120b): T(n,k) = A081577(n,k) − A081577(n−2,k−1)
 
@@ -490,6 +602,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true for h >= 1 (h = 0 is not a term and 4h + 1 = 1): if 4h + 1 = (2a+1)(2b+1) with a, b >= 1, then a + b is even and h = ab + (a+b)/2 = T(max(a,b), min(a,b)), so every h >= 1 with 4h + 1 composite is a term (a Sundaram-type argument). A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A144652.
 
+### [A158233](https://oeis.org/A158233): the terms are only 0, 3, 4, 6
+
+- Problem: [OEIS-A158233](OEIS/A158233/README.md) (proved, new). Lean: Lean proof, [`A158233_mathlib.lean`](OEIS/A158233/A158233_mathlib.lean).
+- Prior art: Immediate residue check mod 9; no proof found.
+- Draft comment:
+
+  > The conjecture is true: a(n) is 0, 3, 4 or 6 for every n >= 1, and all four values occur. Moreover a(n) = 4 exactly when 3 does not divide the product. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A158233). - _<Name>_, <Mon DD YYYY>
+
 ### [A165300](https://oeis.org/A165300): Layman's four rules for the 1,2-path sequence
 
 - Problem: [OEIS-A165300](OEIS/A165300/README.md) (proved, new). Lean: Lean proof, [`A165300_mathlib.lean`](OEIS/A165300/A165300_mathlib.lean).
@@ -513,6 +633,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: entry (n,k) is Bell(j) = A000110(j) if the binary 1's of k are among those of n, with j = A000120(n) - A000120(k), and 0 otherwise. By Lucas's theorem the Sierpinski triangle S is the Kronecker power of [[1,0],[1,1]], so S^m has entries m^j or 0, and exp(S)(n,k) = Sum_{m>=0} m^j/m! = e*Bell(j) by Dobinski's formula. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A167230.
+
+### [A179902](https://oeis.org/A179902): the parity pattern 1, 0, 1, 1 (period 4) holds
+
+- Problem: [OEIS-A179902](OEIS/A179902/README.md) (proved, partly-known). Lean: Lean proof, [`A179902_mathlib.lean`](OEIS/A179902/A179902_mathlib.lean).
+- Prior art: Parity is immediate from Howroyd's closed form, which the entry states without proof; closed form and parity proved in Lean here.
+- Draft comment:
+
+  > The conjecture is true: for every n >= 1: a(n) is even iff n = 2 (mod 4). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A179902). - _<Name>_, <Mon DD YYYY>
 
 ### [A182132](https://oeis.org/A182132): (30n-7)(90n-23)(300n-79) is Carmichael when all factors are prime
 
@@ -602,6 +730,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: (recurrence and both bisection formulas, the odd one for n ≥ 0 and the even one for n ≥ 1). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A195539). - _<Name>_, <Mon DD YYYY>
 
+### [A195673](https://oeis.org/A195673): p(n,x,p+1,q+1) - p(n,x,p,q) = S(n,x)
+
+- Problem: [OEIS-A195673](OEIS/A195673/README.md) (proved, new). Lean: Lean proof, [`A195673_mathlib.lean`](OEIS/A195673/A195673_mathlib.lean).
+- Prior art: Immediate from linearity of the recurrence in the initial values.
+- Draft comment:
+
+  > The conjecture is true: for all integers p, q and all n >= 0. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A195673). - _<Name>_, <Mon DD YYYY>
+
 ### [A197521](https://oeis.org/A197521): the constant 3.52133782... is 3 plus the constant of A197383
 
 - Problem: [OEIS-A197521](OEIS/A197521/README.md) (proved, new). Lean: Lean proof, [`A197521_mathlib.lean`](OEIS/A197521/A197521_mathlib.lean).
@@ -658,6 +794,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > Both conjectures are true. For n > 19, one of 9, 25, 35 (residues 0, 1, 2 mod 3) leaves 2n - c an odd multiple of 3 that is >= 9 when n >= 22, and 40 = 25 + 15, 42 = 15 + 27 (the classical fact that every even number > 38 is a sum of two odd composites). For the second, A002372(n) + A215461(n) + a(n) = n gives A215461(n) = 2(P - G) and a(n) = n - 2P + G, with P the number of odd primes below 2n and G = A002372(n), and both inequalities follow from n/log n << P = o(n) (Chebyshev) and G << n/log^2 n (Brun-Selberg sieve). A partial Lean 4 verification (the first conjecture; the second outside Lean) and the full argument are at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A215462.
 
+### [A216971](https://oeis.org/A216971): every entry of row n is divisible by n
+
+- Problem: [OEIS-A216971](OEIS/A216971/README.md) (proved, new). Lean: Lean proof, [`A216971_mathlib.lean`](OEIS/A216971/A216971_mathlib.lean).
+- Prior art: No proof found; elementary: C(n,r) r! = n!/(n-r)! is a multiple of n for r >= 1.
+- Draft comment:
+
+  > The conjecture is true: n divides T(n,k) for all n >= 1 and all k. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A216971). - _<Name>_, <Mon DD YYYY>
+
 ### [A217448](https://oeis.org/A217448): a(n) exists for every n (CRT)
 
 - Problem: [OEIS-A217448](OEIS/A217448/README.md) (proved, new). Lean: Lean proof, [`A217448_mathlib.lean`](OEIS/A217448/A217448_mathlib.lean).
@@ -705,6 +849,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: for n = 1 take k = 1 and the fixed point 1 of x -> (3x-1)/2, and for n >= 2 put k = 3^n - 2^(n+1); then x_j = k + 3^j*2^(n-j), 0 <= j <= n, form a cycle of x -> x/2 (x even), (3x-k)/2 (x odd) with exactly n odd elements x_0, ..., x_(n-1), primitive since gcd(3^n - 2^n, k) = gcd(3^n - 2^n, 2^n) = 1. Existence also follows from Lagarias (1990), Thm. 2.1; the construction bounds a(n) but does not give its value. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A226677.
+
+### [A227500](https://oeis.org/A227500): (b(n) - a(n))/c(n) is 0, 0 followed by the Fibonacci numbers
+
+- Problem: [OEIS-A227500](OEIS/A227500/README.md) (proved, new). Lean: Lean proof, [`A227500_mathlib.lean`](OEIS/A227500/A227500_mathlib.lean).
+- Prior art: No proof found; it follows at once from linearity of the transform and B2 - B1 = [n=1].
+- Draft comment:
+
+  > The conjecture is true: for all n >= 2, r2(n) - r1(n) = F(n-2) (Fibonacci, F(0) = 0), and r2(0) - r1(0) = r2(1) - r1(1) = 0. Since the difference is an integer, both fractions have the same reduced denominator c(n), and (b(n) - a(n))/c(n) = F(n-2) for n >= 2 and 0 for n < 2. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A227500). - _<Name>_, <Mon DD YYYY>
 
 ### [A227553](https://oeis.org/A227553): number of solutions of x^2 - y^2 - z^2 ≡ 1 (mod p^s)
 
