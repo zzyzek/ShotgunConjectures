@@ -2,9 +2,9 @@
 
 Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS wiki, Talk:Conjectures/List). OEIS text is quoted under CC BY-SA 4.0 with the A-number as attribution.
 
-173 entries: 134 resolved by this project, 36 answered elsewhere, 2 disputed or partial.
+184 entries: 141 resolved by this project, 40 answered elsewhere, 2 disputed or partial.
 
-Of the 134 resolutions: 125 proved in full in Lean, 4 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 5 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
+Of the 141 resolutions: 132 proved in full in Lean, 4 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 5 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -15,6 +15,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A000040](A000040/) | trivial or misstated | prime(n) = (6f + (-1)^f - 3)/2 with f = floor(prime(n)/3) + 1 | [full proof](A000040/A000040.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A000120](A000120/) | trivial or misstated | columns of the base-b digit-sum triangle are constant | [full proof](A000120/A000120.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A004050](A004050/) | proved | only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways | [witness](A004050/A004050_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A005329](A005329/) | proved | Product (2^i − 1) is the inverse binomial transform of A075272 | [full proof](A005329/A005329_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A005408](A005408/) | proved | one-coach primes and the first q odd numbers | [full proof](A005408/A005408_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A005430](A005430/) | proved | the inverse binomial transform of n·C(2n,n) is 2·A132894(n) | [full proof](A005430/A005430_mathlib.lean) | partly-known | [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A008578](A008578/) | proved | 1 and the primes are exactly the k with sigma(k) > k·Omega(k) | [full proof](A008578/A008578_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md) |
@@ -23,6 +24,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A024187](A024187/) | proved | e\_n(3, 4, ..., n+3) is A001711 | [full proof](A024187/A024187_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A025060](A025060/) | trivial or misstated | with signs allowed, i·j + j·k + k·i takes every integer | [full proof](A025060/A025060.lean) | new (immediate) | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A025191](A025191/) | proved | row half-sums of A025177 are first differences of A027914 and of A081673/2 | [full proof](A025191/A025191_mathlib.lean) | new (immediate) | [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A026002](A026002/) | proved | Bergot's array with borders n(n−1)+1 has diagonal A026002 | [full proof](A026002/A026002_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A029795](A029795/) | disproved | k and k^3 with the same digits are not eventually all integers | [full proof](A029795/A029795_mathlib.lean) | partly-known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A047926](A047926/) | trivial or misstated | sorted three-square representations of 3^(2n) (misindexed; reduced to r\_3(9^n)) | [full proof](A047926/A047926_mathlib.lean) | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A051451](A051451/) | disproved | the "next twin pair above a(n)" form fails at n = 35 | [full proof](A051451/A051451_mathlib.lean) | new | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
@@ -38,6 +40,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A081201](A081201/) | proved | collinear 6-tuples in the 6^n grid | [full proof](A081201/A081201_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A081320](A081320/) | proved | 3-smooth part of Fibonacci numbers | [full proof](A081320/A081320_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A081532](A081532/) | disproved | T(n,3) and A023402 differ at n = 4 | [full proof](A081532/A081532_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [A083219](A083219/) | proved | roots of x^n - x^(n-1) - ... - 1 in the left half-plane | [full proof](A129756/A129756_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A083452](A083452/) | trivial or misstated | n written n times exceeds n^n | [full proof](A083452/A083452.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A087324](A087324/) | disproved | no term has a perfect-square prime signature | [full proof](A087324/A087324_mathlib.lean) | partly-known | [modular-obstruction](../methods/modular-obstruction/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A088104](A088104/) | proved | an n-digit prime beginning with prime(n) always exists | needs Mathlib | new (immediate) | [known-theorem](../methods/known-theorem/README.md) |
@@ -81,6 +84,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A125148](A125148/) | proved | every x coprime to 10 has a prime x + 10m | [full proof](A125148/A125148_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md) |
 | [A126142](A126142/) | trivial or misstated | squares of the terms are 6k+1 (trivial) | [full proof](A126142/A126142_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A129454](A129454/) | proved | p-adic valuation of a triple gcd product (true after an index shift) | [full proof](A129454/A129454_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
+| [A129756](A129756/) | proved | roots of x^n − x^(n−1) − … − x − 1 in the right half-plane | [full proof](A129756/A129756_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A133212](A133212/) | proved | a(n) = 2\*A038503(n+3) for n > 0 | [full proof](A133212/A133212_mathlib.lean) | new (immediate) | [finite-identity](../methods/finite-identity/README.md) |
 | [A134002](A134002/) | proved | n(n+5) = a(a+5) + b(b+5) is solvable iff n^2 + (n+5)^2 is composite | [full proof](A134002/A134002_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A134003](A134003/) | proved | n(n+5) = a(a+5) + b(b+5) has no positive solution when n^2 + (n+5)^2 is prime | [full proof](A134003/A134003_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
@@ -91,10 +95,12 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A139043](A139043/) | proved | sum of composites ≤ 10^n versus 10^n(10^n+1)/2 - 1 - (10^n)^2/(2 log 10^n - 1) | [witness](A139043/A139043_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md) |
 | [A140869](A140869/) | proved | if h is not a term, then 4h + 5 is prime | [full proof](A140869/A140869.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A144652](A144652/) | proved | if h is not a term, then 4h + 1 is prime (h ≥ 1) | [full proof](A144652/A144652.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A152718](A152718/) | proved | inverse Motzkin transform of A054393 | [full proof](A152718/A152718_mathlib.lean) | new | [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A164754](A164754/) | proved | a(n) = 4n^2 - 11n + 5 for n >= 3 | [full proof](A164754/A164754_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A165300](A165300/) | proved | Layman's four rules for the 1,2-path sequence | [full proof](A165300/A165300_mathlib.lean) | new (immediate) | [greedy-invariant](../methods/greedy-invariant/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A165640](A165640/) | proved | a(n) = floor(4(n+4)/5) - floor(2(n+4)/3) | [full proof](A165640/A165640_mathlib.lean) | new (immediate) | [finite-identity](../methods/finite-identity/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A167230](A167230/) | proved | entries of exp(Sierpiński triangle)/e are Bell numbers | [full proof](A167230/A167230_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A170941](A170941/) | proved | involutions without adjacent transpositions, proportion → 1/e | [full proof](A170941/A170941_mathlib.lean) | new | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [creative-telescoping](../methods/creative-telescoping/README.md) |
 | [A176494](A176494/) | disproved | an odd prime p with \|2^m - p\| composite for every m ≥ 1 | [full proof](A176494/A176494.lean) | known | [covering-congruences](../methods/covering-congruences/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A182085](A182085/) | proved | (30k+7)(60k+13)(150k+31) is Carmichael whenever its factors are prime | [full proof](A182085/A182085_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A182088](A182088/) | proved | (30n-29)(60n-59)(90n-89)(180n-179) is Carmichael whenever its factors are prime | [full proof](A182088/A182088_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [finite-identity](../methods/finite-identity/README.md) |
@@ -141,6 +147,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A226661](A226661/) | proved | 3x+k cycles with exactly n odd elements exist for every n | [full proof](A226661/A226661_mathlib.lean) | partly-known | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A226676](A226676/) | proved | 3x-k cycles of every length N ≥ 3 exist | [full proof](A226676/A226676_mathlib.lean) | partly-known | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A226677](A226677/) | proved | 3x-k cycles with exactly n odd elements exist for every n | [full proof](A226677/A226677_mathlib.lean) | partly-known | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A227500](A227500/) | proved | (b(n) - a(n))/c(n) is 0, 0 followed by the Fibonacci numbers | [full proof](A227500/A227500_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A227553](A227553/) | proved | number of solutions of x^2 - y^2 - z^2 ≡ 1 (mod p^s) | [full proof](A227553/A227553_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A228931](A228931/) | proved | the optimal ascending continued fraction of √2 - 1 follows a(k+1) = a(k)^2 - 2 | [full proof](A228931/A228931_mathlib.lean) | known | [units-pell](../methods/units-pell/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A228933](A228933/) | proved | the optimal ascending continued fraction of 1/φ follows a(n) = a(n-1)^2 - 2 from the fourth term | [full proof](A228933/A228933_mathlib.lean) | partly-known | [units-pell](../methods/units-pell/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
@@ -164,6 +171,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A088987](A088987/) | trivial or misstated | the number of primes between consecutive prime-indexed primes is odd | — | — | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A094913](A094913/) | proved | maximal number of distinct nonempty factors of a binary word of length n equals A006697(n) − 1 | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A095380](A095380/) | proved | the proportion of non-values of σ up to 2^n tends to 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [A097602](A097602/) | proved | the squares hit are exactly m² with 3 ∤ m | [full proof](A097602/A097602_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A098021](A098021/) | proved | former and current definitions agree | [full proof](A098021/A098021_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A113599](A113599/) | proved | no term is zero (pigeonhole) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A115509](A115509/) | proved | a(n) = 0 for 2^(k+1) ≤ n < 3·2^k | [full proof](A115509/A115509_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
@@ -182,6 +190,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A212916](A212916/) | proved | standard Young tableaux of height ≤ 10, a(n) ~ 10^n π^(−5) (10/n)^(45/2) ∏ Γ(j/2) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A213257](A213257/) | proved | the excluded integers are the positions of 2 in a morphic word | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A213258](A213258/) | proved | terms are the positions of 2 in a morphic word (n = 2^(3t+2)·odd) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A217319](A217319/) | proved | the P-positions of Mark-4 are 0 and the numbers with odd 4-adic valuation | [full proof](A217319/A217319.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A223577](A223577/) | proved | A223578(n) = 2·A223577(n) − n + 1 | [full proof](A223577/A223577_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [nth-enumeration](../methods/nth-enumeration/README.md) |
+| [A223578](A223578/) | proved | A223578(k) = 2·A223577(k) − k + 1 | [full proof](A223577/A223577_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [nth-enumeration](../methods/nth-enumeration/README.md) |
 | [A225003](A225003/) | proved | a(n) = A047332(n) for n ≥ 2 | [full proof](A225003/A225003_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A226160](A226160/) | proved | a(n+1)/a(n) → exp(1/φ) = 1.855276958... (harmonic-number threshold) | [full proof](A226160/A226160_mathlib.lean) | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A226187](A226187/) | proved | a(n+1)/a(n) → exp(1/3) | [full proof](A226187/A226187_mathlib.lean) | known | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [known-theorem](../methods/known-theorem/README.md) |
@@ -257,6 +268,29 @@ Ellison (1971): |2^x − 3^y| > 2^x e^(−x/10) for x ≥ 12, x ∉ {13, 14, 16,
 five values.
 
 Lean: [witness](A004050/A004050_mathlib.lean).
+
+### [A005329](A005329/): Product (2^i − 1) is the inverse binomial transform of A075272
+
+**Source.** OEIS [A005329](https://oeis.org/A005329), a(n) = Product_{i=1..n} (2^i − 1). Comment
+(J. W. Layman, Sep 2002): "Conjecture: this sequence is the inverse binomial transform of A075272 or,
+equivalently, the inverse binomial transform of the BinomialMean transform of A075271." (OEIS text,
+CC BY-SA 4.0; still a conjecture on 2026-11-06.) [A075271](https://oeis.org/A075271): a(0) = 1 and
+(BM a)(n) = 2 a(n−1) for n ≥ 1, with (BM a)(n) = 2^(−n) Sum_{k=0..n} C(n,k) a(k).
+[A075272](https://oeis.org/A075272) = BM(A075271).
+
+**Result.** True.
+
+**Argument.** Let c = A005329, so c(j+1) = (2^(j+1) − 1) c(j), and b(n) = Sum_k C(n,k) c(k). By Pascal's rule
+b(k+1) = Sum_j C(k,j) (c(j) + c(j+1)) = Sum_j C(k,j) 2^(j+1) c(j). Applying the binomial transform twice,
+Sum_k C(n,k) Sum_j C(k,j) d(j) = Sum_j C(n,j) 2^(n−j) d(j), so
+Sum_k C(n,k) b(k+1) = Sum_j C(n,j) 2^(n−j) 2^(j+1) c(j) = 2^(n+1) b(n).
+Hence a'(n) = b(n+1)/2 satisfies a'(0) = (c(0)+c(1))/2 = 1 and (BM a')(n+1) = b(n+1) = 2 a'(n). The
+recurrence of A075271 determines each a(n+1) from a(0..n) (it enters with coefficient 1), so A075271 = a'
+and A075272(n) = (BM a')(n) = b(n) for all n (n = 0: both are 1). So A075272 is the binomial transform
+of A005329, and by binomial inversion A005329 is its inverse binomial transform. In egf terms the key
+step is C(x) + C'(x) = 2 C(2x) for the egf C of c.
+
+Lean: [full proof](A005329/A005329_mathlib.lean).
 
 ### [A005408](A005408/): one-coach primes and the first q odd numbers
 
@@ -402,6 +436,29 @@ writing 1+x+x² = x + (1+x²) gives A027907(n,n) = Σ_{m even} C(n,m) C(m,m/2); 
 A081673(n) = 3^n − 1 + Σ_{m even} C(n,m) C(m,m/2). Hence A081673(n) = 2·A027914(n) − 1.
 
 Lean: [full proof](A025191/A025191_mathlib.lean).
+
+### [A026002](A026002/): Bergot's array with borders n(n−1)+1 has diagonal A026002
+
+**Source.** [A026002](https://oeis.org/A026002) (offset 1), Clark Kimberling: "a(n) = T(n,n+2), where T = Delannoy
+triangle (A008288)", data 1, 7, 41, 231, 1289, ... Comment by J. M. Bergot (Apr 24 2013): "Conjecture: define an
+infinite array to have m(n,1) = m(1,n) = n*(n-1)+1 in the first row and column, and
+m(i,j) = m(i,j-1) + m(i-1,j-1) + m(i-1,j); then m(n,n) = a(n)." (OEIS text, CC BY-SA 4.0, revision #77 of
+Sep 22 2025, checked 2026-11-06.)
+
+**Reading.** D(i, j) (i, j ≥ 0) is the square Delannoy array of A008288: D(i,0) = D(0,j) = 1,
+D(i,j) = D(i−1,j) + D(i−1,j−1) + D(i,j−1). With offset 1 the data are a(n) = D(n−1, n+1) (D(0,2) = 1, D(1,3) = 7,
+D(2,4) = 41; Deutsch's formula a(n) = (1/n) Σ_k k C(n,k) C(n+k,k+1) agrees). The recurrence in the conjecture
+applies for i, j ≥ 2.
+
+**Result.** True, with the closed form 2·m(i,j) = D(i−1, j+1) + D(i+1, j−1) for all i, j ≥ 1. On the diagonal the
+two terms are equal (D is symmetric), so m(n,n) = D(n−1, n+1) = a(n).
+
+**Argument.** Both F(i,j) = D(i−1, j+1) and G(i,j) = D(i+1, j−1) satisfy the recurrence at every i, j ≥ 2 (all
+indices stay in the range where the Delannoy recurrence holds). On the border j = 1: D(i−1, 2) = 2(i−1)² + 2(i−1) + 1
+= 2i² − 2i + 1 and D(i+1, 0) = 1, sum 2(i(i−1) + 1); the border i = 1 is symmetric. So F + G and 2m agree on the
+borders and satisfy the same recurrence, hence agree everywhere (induction on i, then j).
+
+Lean: [full proof](A026002/A026002_mathlib.lean).
 
 ### [A029795](A029795/): k and k^3 with the same digits are not eventually all integers
 
@@ -661,6 +718,20 @@ two-digit endings drawn from {3, 4} are 33, 34, 43, 44; 33 and 43 are odd, and 3
 at n = 3: A023402(1) = 4 = T(3,3).)
 
 Lean: [full proof](A081532/A081532_mathlib.lean).
+
+### [A083219](A083219/): roots of x^n - x^(n-1) - ... - 1 in the left half-plane
+
+**Source.** [A083219](https://oeis.org/A083219), a(n) = n − 2⌊n/4⌋. The conjecture says a(n) counts the roots of
+x^n − x^(n−1) − … − x − 1 in the left half-plane.
+
+**Reading.** As written, the claim is off by one in its indexing. The count for degree n+1 equals a(n).
+
+**Result.** True with the index shift. For every n, x^(n+1) − x^n − … − x − 1 has n − 2⌊n/4⌋ roots with Re < 0.
+
+**Argument and evidence.** Proved together with A129756: see [OEIS/A129756](A129756/README.md). The Lean
+theorem is `A129756.A083219_roots` in `OEIS/A129756/A129756_mathlib.lean`.
+
+Lean: [full proof](A129756/A129756_mathlib.lean).
 
 ### [A083452](A083452/): n written n times exceeds n^n
 
@@ -1394,6 +1465,41 @@ with N = n - 1.
 
 Lean: [full proof](A129454/A129454_mathlib.lean).
 
+### [A129756](A129756/): roots of x^n − x^(n−1) − … − x − 1 in the right half-plane
+
+**Source.** [A129756](https://oeis.org/A129756) (offset 0), "Repetitions of odd numbers four times",
+a(n) = 1 + 2⌊n/4⌋. Comment (Michel Lagneau, Apr 09 2013): "Conjecture: number of roots of P(x) = x^n - x^(n-1) -
+x^(n-2) - ... - x - 1 in the right half-plane." (OEIS text, CC BY-SA 4.0; revision #54, checked 2026-11-06.)
+The companion entry [A083219](https://oeis.org/A083219) (a(n) = n − 2⌊n/4⌋) carries the same conjecture for the
+left half-plane.
+
+**Reading.** With the entry's offset 0 the index is shifted by one: the polynomial of degree n has 1 root with
+positive real part for n = 1..4 and 3 for n = 5..8, i.e. a(n−1), not a(n) (a(4) = 3). So the statement holds as
+"a(n) = number of roots of x^(n+1) − x^n − … − x − 1 with Re > 0" (counted with multiplicity; the roots are simple
+anyway). No root lies on the imaginary axis, so "right half-plane" open or closed gives the same count.
+
+**Result.** True with that index: for n ≥ 1, x^n − x^(n−1) − … − 1 has exactly 1 + 2⌊(n−1)/4⌋ roots with positive
+real part and n − 1 − 2⌊(n−1)/4⌋ with negative real part (the A083219 comment, same shift).
+
+**Argument.** Let P(z) = z^n − Σ_{j<n} z^j and Q(z) = (z − 1)P(z) = z^(n+1) − 2z^n + 1; Q has one more root (z = 1)
+with positive real part than P.
+1. *Q on the imaginary axis.* For real y, i^n(iy − 2) is iy − 2, −y − 2i, 2 − iy, y + 2i for n ≡ 0, 1, 2, 3 (mod 4),
+   so Im Q(iy) = y^(n+1), −2y^n, −y^(n+1), 2y^n and Re Q(iy) = 1 − 2y^n, 1 − y^(n+1), 1 + 2y^n, 1 + y^(n+1).
+   Hence Q(iy) is real only at y = 0, where Q(0) = 1. So Q has no imaginary root, and Q(iy) never meets (−∞, 0];
+   arg Q(iy) (principal value) is continuous in y, and arg Q(−iy) = −arg Q(iy) (real coefficients).
+2. *Argument through the roots.* Q(iy) = Π_r (iy − r) over the n + 1 roots r = a + bi (a ≠ 0). A continuous argument
+   of iy − r = −a + i(y − b) is θ_r(y) = arctan((y − b)/(−a)), plus π when a > 0. The difference
+   arg Q(iy) − Σ_r θ_r(y) is continuous with values in 2πℤ, so it is constant. Comparing y = Y and y = −Y:
+   2 arg Q(iY) = Σ_r [θ_r(Y) − θ_r(−Y)].
+3. *Y → ∞.* θ_r(Y) − θ_r(−Y) → π if a < 0 and → −π if a > 0. So 2 arg Q(iY) → π(N_L − N_R), where N_L + N_R = n + 1.
+4. *Quadrant.* For Y > 1 the signs in step 1 put 2 arg Q(iY) in [π, 2π], [−2π, −π], [−π, 0], [0, π] for
+   n ≡ 0, 1, 2, 3 (mod 4). So N_L − N_R lies in [1, 2], [−2, −1], [−1, 0], [0, 1], and its parity is that of n + 1.
+   Hence N_L − N_R = 1, −2, −1, 0, i.e. N_R(Q) = 2m, 2m + 2, 2m + 2, 2m + 2 for n = 4m, 4m + 1, 4m + 2, 4m + 3.
+   Subtracting the root z = 1: N_R(P) = 1 + 2⌊(n − 1)/4⌋.
+This is the argument principle along the imaginary axis, done factor by factor so that only arctan limits are needed.
+
+Lean: [full proof](A129756/A129756_mathlib.lean).
+
 ### [A133212](A133212/): a(n) = 2*A038503(n+3) for n > 0
 
 **Source.** OEIS [A133212](https://oeis.org/A133212): a(n) = 4a(n-1) - 6a(n-2) + 4a(n-3)
@@ -1577,6 +1683,49 @@ a, b ≥ 1 and 4ab + 2a + 2b + 1 = 4h + 1, so a + b is even and h = ab + (a+b)/2
 
 Lean: [full proof](A144652/A144652.lean).
 
+### [A152718](A152718/): inverse Motzkin transform of A054393
+
+**Source.** [A152718](https://oeis.org/A152718) (offset 0), R. J. Mathar, Dec 11 2008: a(n) = 2a(n-1) - a(n-2) +
+2a(n-3) - a(n-4) + a(n-5) for n > 5, with a(0..5) = 1, 1, 1, 1, 2, 4. Comment: "Conjecture: this is the inverse
+Motzkin transform of A054393." G.f. 1 + x(-1 + x + x^3)/(-1 + 2x - x^2 + 2x^3 - x^4 + x^5) (Mathar, 2016).
+[A054393](https://oeis.org/A054393) (Sloane and Pergola, 2000) counts permutations with certain forbidden
+subsequences (Barcucci et al., "From Motzkin to Catalan permutations", Discrete Math. 217 (2000) 33-49); its
+Mathematica program (Alcover, 2018) gives a(n) = (M^n)[1,1] for the n x n 0/1 matrix with M[i,j] = 1 iff j < i,
+or i = j <= 5, or j = i+1. (OEIS text, CC BY-SA 4.0, revisions #21 of A152718 and #29 of A054393, checked
+2026-11-06.)
+
+**Reading.** Mathar uses "inverse Motzkin transform" for the substitution x -> x/(1+x+x^2) in the g.f. (see his
+comments in A097861, A109196, A147691); equivalently A054393(x) = A152718(z) with z = x M(x), M the Motzkin
+series, so z = x(1 + z + z^2). In coefficients: A054393(n) = sum_{k=0..n} A152718(k) [x^n] z^k. The matrix power
+counts walks of length n on levels 1, 2, ... from level 1 back to level 1; a step goes up one level, drops to any
+lower level, or stays put, staying only at levels 1..5 (levels 0..4 below). A walk of length n never goes above
+level n/2 + 1, so the n x n truncation loses nothing.
+
+**Result.** True: A054393(x) = A152718(x M(x)) as formal power series, so A152718 is the inverse Motzkin transform
+of A054393.
+
+**Argument.** Number the levels 0, 1, 2, ... and let E_h(x) count excursions at level h (walks from h back to h
+that never go below h), G_h(x) count walks from h staying at or above h and ending anywhere.
+
+1. *Decomposition.* An excursion at h is a sequence of loops at h (allowed iff h <= 4) and of arches: an up step to
+   h+1, a walk counted by G_{h+1}, and one drop back to h. So E_h = 1/(1 - [h <= 4] x - x^2 G_{h+1}). Cutting a walk
+   from h at its last visit to h gives G_h = E_h (1 + x G_{h+1}).
+2. *Top levels.* For h >= 5 there are no loops, so E_h = E, G_h = G for all h >= 5. With no loops at all levels but
+   one loop allowed at the base, the excursion series is the Motzkin series: 1/(1 - x - x^2 G) = M, which gives
+   x^2 G = 1 - x - 1/M = x^2 M (from M = 1 + xM + x^2 M^2), i.e. G = M = z/x.
+3. *Levels 4..0.* With x = z/(1+z+z^2): E_4 = 1/(1 - x - x^2 M) = M = 1+z+z^2, G_4 = M(1+z);
+   E_3 = 1/(1-z); E_2 = (1-z)(1+z+z^2)/(1-z-z^3); E_1 = (1-z-z^3)/(1-2z+z^2-z^3); and
+   E_0 = (1+z+z^2)(1-2z+z^2-z^3)/(1-2z+z^2-2z^3+z^4-z^5) = (1-z-2z^3-z^5)/(1-2z+z^2-2z^3+z^4-z^5).
+4. *Comparison.* The last expression is Mathar's g.f. of A152718 evaluated at z, and E_0 is the g.f. of A054393.
+
+The Lean proof runs the argument backwards, which avoids infinite sums of series: it defines candidate series
+V_j (walks from 0 ending at level j: V_j = X^j U_j with U_j explicit rational expressions in z, and
+U_{j+1}/U_j = (1+z+z^2)/(1+z) for j >= 4) and tails T_j (= sum_{i>j} V_i), checks that they satisfy the
+dynamic-programming equations of the walk count (polynomial identities in z, u^{-1}, (1+z)^{-1}, Q(z)^{-1} with
+explicit cofactors), and concludes by induction on the length that their coefficients are the walk counts.
+
+Lean: [full proof](A152718/A152718_mathlib.lean).
+
 ### [A164754](A164754/): a(n) = 4n^2 - 11n + 5 for n >= 3
 
 **Source.** [A164754](https://oeis.org/A164754) (offset 2), R. H. Hardin, Aug 24 2009: number of n X 2 arrays with
@@ -1693,6 +1842,34 @@ of M^m = [[1,0],[m,1]], so S^m(n,k) = m^j if k ⊆ n bitwise (j = number of bits
 in k), else 0. Then exp(S)(n,k) = sum_m m^j/m! = e·Bell(j) by Dobinski's formula.
 
 Lean: [full proof](A167230/A167230_mathlib.lean).
+
+### [A170941](A170941/): involutions without adjacent transpositions, proportion → 1/e
+
+**Source.** [A170941](https://oeis.org/A170941) (offset 0), a(n+1) = a(n) + n·a(n−1) − a(n−2) + a(n−3),
+a(0..3) = 1, 1, 1, 2. Comment (David Callan, Nov 11 2012): a(n) is the number of involutions on [n] that contain no
+adjacent transposition, and "Conjecture: a(n)/A000085(n) -> 1/e as n -> inf." (OEIS text, CC BY-SA 4.0; still a
+conjecture in revision #52, May 30 2026, checked 2026-11-06.)
+
+**Result.** True: a(n)/I(n) → e^(−1), where I(n) = A000085(n) is the number of involutions of [n].
+
+**Argument.** Write I(0) = I(1) = 1, I(m+2) = I(m+1) + (m+1) I(m).
+1. *Inclusion–exclusion.* Let b(n) = Σ_k (−1)^k C(n−k, k) I(n−2k). C(n−k, k) counts sets of k pairwise disjoint
+   adjacent pairs {i, i+1} in [n]; the involutions containing all of them as 2-cycles are the involutions of the other
+   n − 2k points. So b(n) counts involutions of [n] with no adjacent transposition (this is Callan's comment).
+2. *b satisfies the A170941 recurrence.* With K(n) = Σ_k k (−1)^k C(n−k, k) I(n−2k):
+   - k·C(m−k, k) = (m−k)·C(m−k−1, k−1) and a shift k → k+1 give K(m+2) = K(m) − (m+1) b(m);
+   - Pascal's rule C(n+2−k, k) = C(n+1−k, k) + C(n+1−k, k−1), the recurrence of I, and
+     (n+1−2k) C(n+1−k, k) = (n+1−k) C(n−k, k) give b(n+2) = b(n+1) + n b(n) − K(n).
+   Eliminating K: b(n+4) = b(n+3) + (n+3) b(n+2) − b(n+1) + b(n). Since b(0..3) = 1, 1, 1, 2, a = b.
+3. *Domination.* I(m+2) ≥ (m+1) I(m), so by induction on k,
+   (n−k)(n−k−1)⋯(n−2k+1) · I(n−2k) ≤ I(n). Hence the k-th term of b(n)/I(n), namely
+   (−1)^k/k! · (n−k)_k I(n−2k)/I(n), has absolute value ≤ 1/k!.
+4. *Termwise limit.* (m+1) I(m)² ≤ I(m+1)² (two-step induction), hence I(m+1)² ≤ 2(m+1) I(m)², so
+   q(m) = I(m+1)/((m+1) I(m)) ≤ √(2/(m+1)) → 0. Then (m+1−k) I(m)/I(m+2) = (1 − k/(m+1))/(1 + q(m)) → 1, and by
+   induction on k, (n−k)_k I(n−2k)/I(n) → 1 for each fixed k.
+5. *Tannery.* By dominated convergence for series, b(n)/I(n) → Σ_k (−1)^k/k! = e^(−1).
+
+Lean: [full proof](A170941/A170941_mathlib.lean).
 
 ### [A176494](A176494/): an odd prime p with |2^m - p| composite for every m ≥ 1
 
@@ -2576,6 +2753,30 @@ elements is 1.
 
 Lean: [full proof](A226677/A226677_mathlib.lean).
 
+### [A227500](A227500/): (b(n) - a(n))/c(n) is 0, 0 followed by the Fibonacci numbers
+
+**Source.** [A227500](https://oeis.org/A227500) (offset 0), P. Curtz, Jul 13 2013: a(0) = a(1) = 0 and, for n > 1,
+a(n) = numerator(r(n)) with r(n) = r(n-1) + r(n-2) + A027641(n-2)/A027642(n-2), r(0) = r(1) = 0. A comment applies the
+same transform to the second Bernoulli numbers A164555(n)/A027642(n), giving b(n)/c(n), and states: "Conjecture:
+(b(n)-a(n))/c(n) = 0, 0, 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ..., that is two 0 followed by A000045." Alcover
+confirmed 100 terms (Jul 19 2013). (OEIS text, CC BY-SA 4.0, revision #20 of Jul 21 2013, checked 2026-11-06.)
+
+**Reading.** A027641/A027642 are the Bernoulli numbers with B(1) = -1/2; A164555/A027642 are the same numbers with
+B(1) = +1/2 (they agree at every other index). c(n) is the reduced denominator, which the comment takes to be shared
+by both fractions; this is part of what is proved.
+
+**Result.** True: for all n >= 2, r2(n) - r1(n) = F(n-2) (Fibonacci, F(0) = 0), and r2(0) - r1(0) = r2(1) - r1(1)
+= 0. Since the difference is an integer, both fractions have the same reduced denominator c(n), and
+(b(n) - a(n))/c(n) = F(n-2) for n >= 2 and 0 for n < 2.
+
+**Argument.** The two transforms are linear with the same recurrence, so d(n) = r2(n) - r1(n) satisfies
+d(0) = d(1) = 0 and d(n) = d(n-1) + d(n-2) + (B2(n-2) - B1(n-2)), where the last term is 1 for n = 3 and 0 otherwise.
+Hence d(2) = 0, d(3) = 1, d(4) = 1, and from then on d follows the Fibonacci recurrence, so d(n) = F(n-2) for
+n >= 2. Adding an integer to a rational number does not change its reduced denominator, so r1(n) and r2(n) share
+c(n), and b(n) - a(n) = d(n) c(n).
+
+Lean: [full proof](A227500/A227500_mathlib.lean).
+
 ### [A227553](A227553/): number of solutions of x^2 - y^2 - z^2 ≡ 1 (mod p^s)
 
 **Source.** OEIS [A227553](https://oeis.org/A227553): number of solutions of x^2 - y^2 - z^2 ≡ 1
@@ -2961,6 +3162,32 @@ makes the square-full sum converge for δ < 1/2). Hence V_σ(x) = x/(log x)^{1+o
 a(n)/2^n = 1 − V_σ(2^n)/2^n → 1.
 
 Lean: needs Mathlib.
+
+### [A097602](A097602/): the squares hit are exactly m² with 3 ∤ m
+
+**Source.** [A097602](https://oeis.org/A097602) (offset 1), Reinhard Zumkeller, Aug 30 2004: "a(n+1) = a(n) +
+number of squares so far; a(1) = 1." Comment: "Conjecture: a(n) = m^2 iff m mod 3 > 0." The entry also carries,
+credited to Vladeta Jovovic (2004, added in revision #16, May 10 2013), "a(n) is a square iff n is congruent to
+{1, 4} mod 9", the formulas a(9n+1) = (3n+1)², a(9n+4) = (3n+2)² and a rational g.f., all without proof.
+(OEIS text, CC BY-SA 4.0, revision #22 of Sep 22 2025, checked 2026-11-06.)
+
+**Reading.** "Squares so far" counts the squares among a(1), ..., a(n), including a(n) (the entry's example
+a(2) = 1 + 1 confirms this). The conjecture reads: m² is a term of the sequence iff m mod 3 ≠ 0 (m = 0 included:
+0 is not a term).
+
+**Result.** True. For every k ≥ 0, with c the running count of squares,
+a(9k+1) = (3k+1)² (c = 2k+1), a(9k+2), a(9k+3) = (3k+1)² + (2k+1), + 2(2k+1),
+a(9k+4) = (3k+2)² (c = 2k+2), a(9k+5), a(9k+6) = (3k+2)² + (2k+2), + 2(2k+2),
+a(9k+7) = (3k+3)² + 1, a(9k+8), a(9k+9) = (3k+3)² + 1 + (2k+2), + 2(2k+2).
+So a(n) is a square iff n ≡ 1, 4 (mod 9) (Jovovic's claims), and the squares hit are (3k+1)², (3k+2)².
+
+**Argument.** Induction on k. At a(9k+1) = (3k+1)² the count is 2k+1 (the squares (3j+1)², (3j+2)² for j < k and
+(3k+1)²). Since (3k+2)² − (3k+1)² = 6k+3 = 3(2k+1), three steps reach (3k+2)², and the two intermediate values lie
+strictly between consecutive squares. Now c = 2k+2 and (3k+3)² − (3k+2)² = 6k+5 = 3(2k+2) − 1, so the third
+step lands on (3k+3)² + 1, skipping (3k+3)²; again nothing in between is square. Then (3k+4)² − ((3k+3)² + 1) =
+6k+6 = 3(2k+2), so three more steps reach (3k+4)², with count 2k+3 = 2(k+1)+1. The base case is a(1) = 1, c = 1.
+
+Lean: [full proof](A097602/A097602_mathlib.lean).
 
 ### [A098021](A098021/): former and current definitions agree
 
@@ -3398,6 +3625,67 @@ letter 2 at position n.
   v_2(n) ≡ 2 (mod 3), v_2(n) ≥ 2.
 
 Lean: —.
+
+### [A217319](A217319/): the P-positions of Mark-4 are 0 and the numbers with odd 4-adic valuation
+
+**Source.** OEIS [A217319](https://oeis.org/A217319), numbers whose binary representation ends in
+4k+2 or 4k+3 zeros. Formula line: "Conjecture. For n>=1, a(n) = A171949(n+1)." OEIS
+[A171949](https://oeis.org/A171949), P-positions of the game Mark-4, carries the same conjecture
+(V. Shevelev, Mar 2013). (OEIS text, CC BY-SA 4.0; both still conjectures on 2026-11-06.)
+
+**Reading.** Mark-t (A. S. Fraenkel): from n a player moves to n−1, ..., n−(t−1) (staying ≥ 0) or to
+⌊n/t⌋; the player unable to move loses (definition as in Guo, arXiv:1108.1239, Sec. 1). For t = 4, 0 is
+the first P-position (A171949(1) = 0) and A217319 is the set of n ≥ 1 with odd 4-adic valuation (binary
+trailing-zero count ≡ 2, 3 mod 4), so the conjecture says: P-positions = {0} ∪ {n ≥ 1 : v_4(n) odd}.
+
+**Result.** True; known (Fraenkel 2012, for every t: the P-positions of Mark-t are the numbers with an odd
+number of trailing zeros in base t). Reproved here in core Lean.
+
+**Argument.** Let D = {0} ∪ {n : v_4(n) odd}. No move joins two members of D: for n ∈ D, n > 0, 4 | n and
+n/4 ∉ D; the moves n−1, n−2, n−3 are positive and not divisible by 4, so not in D, and ⌊n/4⌋ = n/4 ∉ D.
+Every n ∉ D (so n > 0) has a move into D: if 4 | n then n/4 ∈ D; if r = n mod 4 ≠ 0, either n − r ∈ D, or
+n − r = 4q with q ≥ 1 and q ∈ D, and then ⌊n/4⌋ = q. Since moves decrease n, these two facts give
+P-positions = D by strong induction.
+
+Lean: [full proof](A217319/A217319.lean).
+
+### [A223577](A223577/): A223578(n) = 2·A223577(n) − n + 1
+
+**Source.** [A223577](https://oeis.org/A223577) and [A223578](https://oeis.org/A223578), both by L. Edson Jeffery,
+Mar 22 2013, offset 1. With f(m) = ⌊cot(π/(2m))⌋: A223577 lists the positive integers k for which exactly one
+negative integer m has −k = f(m); A223578 lists the positive integers k with f(−k−1) < f(−k) < f(−k+1).
+Comments: "Conjecture: a(n) = (A223578(n) + n - 1)/2" (A223577) and "Conjecture: a(n) = 2*A223577(n) - n + 1"
+(A223578). (OEIS text, CC BY-SA 4.0, checked 2026-11-06.) Scan ids OEIS-A223577 and OEIS-A223578 (one shared
+claim; the scan record of A223578 writes "A223568" for A223578, a typo).
+
+**Reading.** f(0) is undefined, so k = 1 is not in A223578 (its data starts at 2); the Lean predicate states
+k ≥ 2 explicitly. Offsets: OEIS index n is `n − 1` in `Nat.nth`.
+
+**Result.** True for all n. Proved by Sela Fried (2025); this directory adds a Lean (Mathlib) proof.
+
+**Argument.** 1. Let c(j) = cot(π/(2j)) and g(j) = ⌈c(j)⌉ for j ≥ 1. Since cot is odd and ⌊−x⌋ = −⌈x⌉, f(−j) = −g(j).
+   So A223577 = values v ≥ 1 taken by g exactly once, A223578 = {j ≥ 2 : g(j−1) < g(j) < g(j+1)}.
+2. For j ≥ 2, with a = π/(2(j+1)) and b = π/(2j): c(j+1) − c(j) = sin(b−a)/(sin a · sin b) and
+   b − a = (2/π)·ab. From x − x³/6 < sin x < x, b ≤ π/4 and b − a ≤ π/12 this gives
+   3/5 ≤ c(j+1) − c(j) ≤ 1; also c(1) = 0, c(2) = 1. Hence g steps by 0 or 1, g(j+2) ≥ g(j) + 1 (no value
+   taken three times), g(1) = 0, g(2) = 1, and g(j) ≥ (3/5)(j − 1).
+3. Counting. Let N(j) = #{i ≤ j : i ∈ A223578}. By induction on j ≥ 1,
+   N(j) + j + [g(j+1) = g(j)] = 2g(j) + 1, and #{v ≤ g(j) : v ∈ A223577} = N(j).
+   At j = A223578(n): g(j+1) ≠ g(j), N(j) = n and g(j) = A223577(n), so j = 2·A223577(n) − n + 1.
+4. Both sets are infinite, since N(j) ≥ 2g(j) − j ≥ (j − 6)/5.
+
+Lean: [full proof](A223577/A223577_mathlib.lean).
+
+### [A223578](A223578/): A223578(k) = 2·A223577(k) − k + 1
+
+**Source.** [A223578](https://oeis.org/A223578), with the linear relation to A223577 stated as a conjecture.
+
+**Result.** True. Proved by Sela Fried (J. Integer Sequences 29 (2026), Art. 26.1.8), and reproved in Lean here.
+
+**Argument and evidence.** See [OEIS/A223577](A223577/README.md) (Lean: `A223578_eq` in
+`OEIS/A223577/A223577_mathlib.lean`).
+
+Lean: [full proof](A223577/A223577_mathlib.lean).
 
 ### [A225003](A225003/): a(n) = A047332(n) for n ≥ 2
 
