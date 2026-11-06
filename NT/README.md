@@ -2,9 +2,9 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-28 entries: 17 resolved by this project, 9 answered elsewhere, 0 disputed or partial.
+34 entries: 19 resolved by this project, 11 answered elsewhere, 0 disputed or partial.
 
-Of the 17 resolutions: 15 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
+Of the 19 resolutions: 16 proved in full in Lean, 2 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -25,7 +25,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [B40.3](B40.3/) | trivial or misstated | totatives of large n contain k-term arithmetic progressions | [full proof](B40.3/B40_3_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [B41.5](B41.5/) | proved | Finucane's lists for the iteration n → φ(n) + 1 are complete | [full proof](B41.5/B41_5_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md) |
 | [D2.2](D2.2/) | disproved | x^n + y^n = n!·z^n has a solution with n = 3 | [full proof](D2.2/D2_2.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+| [D24.3](D24.3/) | disproved | the weighted count of a primitive set is not x²/6 + O(x) | [full proof](D24.3/D24_3.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [parametric-family](../methods/parametric-family/README.md) |
 | [E4.3](E4.3/) | disproved | Erdős's last question on primitive sets — the x²/6 guess is too small | — | new | [elementary-proof](../methods/elementary-proof/README.md) |
+| [E20.2](E20.2/) | partial | N\_5(7) = 37 | [witness](E20.2/E20_2.lean) | new | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
 | [E29.1](E29.1/) | proved | Graham's {x, y, x+y, xy} colouring threshold starting at 3 is 3150 | [witness](E29.1/E29_1.lean) | new | [sat-threshold](../methods/sat-threshold/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [F6.2](F6.2/) | proved | Q(1,6,7) = ∞ and the other four-residue subpatterns of (1,6,7,10) | [full proof](F6.2/F6_2_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md) |
 | [F19.1](F19.1/) | proved | every n ≥ 23 has two 3-part partitions with equal product | [full proof](F19.1/F19_1_mathlib.lean) | known | [parametric-family](../methods/parametric-family/README.md) |
@@ -38,6 +40,8 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [B2.3](B2.3/) | disproved | Kravitz's "no odd-square abundance" conjecture is false (already in the book) | [witness](B2.3/B2_3.lean) | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B31.5](B31.5/) | disproved | the gcd of two binomial coefficients can have all prime factors ≤ r (already in the book) | [full proof](B31.5/B31_5.lean) | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B36.7](B36.7/) | proved | infinitely many noncototients (already in the book) | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [D19.3](D19.3/) | proved | every attainable integer ratio base/height occurs for infinitely many primitive triangles | needs Mathlib | partly-known | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+| [D20.4](D20.4/) | proved | a lattice 7-cluster exists | [full proof](D20.4/D20_4.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [E10.3](E10.3/) | proved | Moser's base-3 collinearity question follows from density Hales–Jewett | needs Mathlib | — | [known-theorem](../methods/known-theorem/README.md) |
 | [E25.1](E25.1/) | proved | the 20th term of Levine's sequence has been computed | — | — | [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [F10.2](F10.2/) | proved | a solution of 2^n ≡ 4 (mod n) with n ≡ 9 (mod 10) | [witness](F10.2/F10_2.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
@@ -48,7 +52,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [A3.12](A3.12/) | partial | primes (p^p−1)/(p−1) and (p^p+1)/(p+1) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [B4.5](B4.5/) | partial | unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair) | [full proof](B4.5/B4_5_mathlib.lean) | known | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
+| [C20.4](C20.4/) | partial | three hexagonal (pentagonal) numbers of positive rank | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [D16.1](D16.1/) | partial | least common product of m triples with one sum and one product, m = 2..11 | [witness](D16.1/D16_1.lean) | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 
 ## Short proofs
@@ -357,6 +363,21 @@ are all even and descent applies). The cases n ≥ 5 are not addressed.
 
 Lean: [full proof](D2.2/D2_2.lean).
 
+### [D24.3](D24.3/): the weighted count of a primitive set is not x²/6 + O(x)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section D24 (end). Paraphrased: for A = {a_1 < … < a_k} ⊆ [1, x] with no a_i dividing another, let f(A; n) count the a_i below n. How large can Σ_{n=1}^{x} f(A; n) be; is the maximum x²/6 + O(x), attained perhaps by the integers in (x/3, 2x/3)?
+
+**Reading.** Σ_{n=1}^{x} f(A; n) = Σ_{a ∈ A} (x + 1 − a) when f counts a_i ≤ n; Guy's "a_i < n" lowers it by |A| ≤ x, which is inside O(x).
+
+**Result.** No. The maximum is at least (14/81)x² − O(x) > x²/6 + Cx for every C and all large x; a refinement gives (3/14)x² − O(x), and exact maxima for x ≤ 300 are about 0.227x².
+
+**Argument.** Let x = 18N and A_N = {odd a : 6N < a < 18N} ∪ {a ≡ 2 (mod 4) : 4N < a < 12N}.
+A_N is primitive: if a | b, a ≠ b, then b ≥ 2a. Two odd elements have b ≥ 3a > 18N. Two elements ≡ 2 (mod 4) have b/a odd, so b ≥ 3a > 12N. An odd a and b ≡ 2 (mod 4) give b ≥ 2a > 12N. An even a cannot divide an odd b.
+The weights x + 1 − a are 12N, 12N − 2, …, 2 on the odd part (sum 36N² + 6N) and 14N − 1, 14N − 5, …, 6N + 3 on the other (sum 20N² + 2N). Total 56N² + 8N = (14/81)x² + (4/9)x, against x²/6 = 54N².
+Refinement (not in Lean): with odd m ∈ (x/3^{l+1}, x/3^l] and a = 2^l m for l = 0, 1, 2, … the set is primitive (m | m', m ≠ m' forces m' ≥ 3m, hence a lower l for m') and has weight x²/2 · Σ_l [(2/3)3^{−l} − (4/9)(2/9)^l] + O(x log x) = (3/14)x² + O(x log x).
+
+Lean: [full proof](D24.3/D24_3.lean).
+
 ### [E4.3](E4.3/): Erdős's last question on primitive sets — the x²/6 guess is too small
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section E4 (p. 314). From an email Erdős sent a month before he died: for a
@@ -378,6 +399,17 @@ force a = 2b, which is even; two odd elements of (x/2, 3x/4] have ratio < 2. Its
 (x/4)(5x/8) + (x/8)(3x/8) + O(x) = (10/64 + 3/64)x² + O(x).
 
 Lean: —.
+
+### [E20.2](E20.2/): N_5(7) = 37
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section E20 (Davenport–Schinzel sequences, Table 8). N_d(n) is the greatest length of a sequence on n letters with no two equal adjacent terms and no alternating subsequence a b a b … of length d + 1. Guy asks to extend the table; OEIS A005280 (N_5) and A005281 (N_6) stop at n = 6.
+
+**Result.** N_5(7) = 37 (new term of A005280; Peterkin's bound 7n − 13 gives 36). A maximal sequence:
+1 2 3 2 4 2 5 2 6 2 6 5 6 4 6 3 6 7 6 7 3 7 4 7 5 7 1 7 1 5 1 4 1 3 1 2 1
+
+**Argument.** Lower bound: the sequence above. Upper bound: exhaustive memoised search. The future of a sequence depends only on its letters ordered by last occurrence and, for every pair, the number of blocks of its restriction to that pair; appending the letter of recency rank i adds one block to its pairs with every more recent letter and none to the others. So the maximum remaining length is a function of this state, and a memoised search over all reachable states (25 613 680 for d = 5, n = 7, letters relabelled by recency) gives the exact maximum.
+
+Lean: [witness](E20.2/E20_2.lean).
 
 ### [E29.1](E29.1/): Graham's {x, y, x+y, xy} colouring threshold starting at 3 is 3150
 
@@ -504,6 +536,35 @@ citation of the book, not a new resolution.
 
 Lean: —.
 
+### [D19.3](D19.3/): every attainable integer ratio base/height occurs for infinitely many primitive triangles
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section D19 (Evans's remarks after Bergum's problem). Paraphrased: which integers n occur as base/height of an integer-sided triangle, and (dually) as height/base? If a ratio can occur, are there infinitely many primitive triangles for which it occurs?
+
+**Reading.** Evans's ratios are integers n (base/height) or 1/n (height/base = n). Triangles may be acute or obtuse (Guy's sign of n).
+
+**Result.** Yes, for every ratio r = base/height with r² + 4 not a rational square, in particular for every integer ratio n and every 1/n. For rational ratios the answer can be no: base/height = 3/2 is attained only by the triangle (5, 5, 6) up to similarity.
+
+**Argument.** Put the base on the x-axis, height 1, apex (u, 1); the sides √(u²+1), √((r−u)²+1) are rational iff u = (s − 1/s)/2 and r − u = (t − 1/t)/2 with s, t ∈ Q×. So triangles of ratio r correspond to rational points of the cubic C_r: (s + t)(st − 1) = 2r·st with s, t ∉ {0, ∞}; each shape gives at most 8 points. C_r always has 4 trivial points: (0, 0) and the three points at infinity. C_r is isomorphic (PARI `ellfromeqn`) to E_r: y² = x(x² + (r² + 2)x + 1), discriminant 16r²(r² + 4), whose rational torsion contains Z/4 = {O, (0,0), (−1, ±r)} (these are the trivial points).
+- No other 2-torsion: x² + (r²+2)x + 1 has discriminant r²(r²+4), not a square by assumption (for r = n or 1/n, r² + 4 = □ forces n = 0).
+- No point of order 8: 2P = (−1, ±r) means x(2P) = (x²−1)²/(4x(x²+Ax+1)) = −1, i.e. (x + 1/x)² + 4(x + 1/x) + 4r² + 4 = 0, whose discriminant is −16r² < 0.
+- No point of order 3: on the 3-division curve 3x⁴ + 4Ax³ + 6x² − 1 = 0 one gets r² = −(x+1)³(3x−1)/(4x³) and y² = (x²−1)²/(4x), so x = s² and w² = (1 − 3s²)(1 + s²). This quartic is an elliptic curve of conductor 48 with rank 0 (2-descent upper bound 0) and torsion Z/2, so its only rational points are (0, ±1), giving x = 0, which is not on the division curve.
+By Mazur's theorem the torsion groups containing Z/4 are Z/4, Z/8, Z/12, Z/2×Z/4, Z/2×Z/8; all but Z/4 are excluded. So E_r(Q)_tors = Z/4 consists of the trivial points, and any triangle gives a point of infinite order, hence infinitely many rational points, hence infinitely many shapes, each scaling to one primitive integer triangle.
+For r = 3/2 (r² + 4 = 25/4) the torsion is Z/2×Z/4 and the rank is 0 (2-descent upper bound 0). The 4 nontrivial points (2, 2), (2, −1/2), (−1/2, 2), (−1/2, −1/2) all give u = 3/4: the triangle 5, 5, 6. Likewise r = 8/3 gives only (5, 5, 8).
+
+Lean: needs Mathlib.
+
+### [D20.4](D20.4/): a lattice 7-cluster exists
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section D20 (six general points at rational distances). Paraphrased: Noll and Bell found many 6-clusters (lattice points, no three collinear, no four concyclic, all distances integral); is there a 7-cluster?
+
+**Result.** Yes. The seven lattice points
+(0, 0), (374400, −2230800), (1081600, −1488240), (−453024, −1630200), (426725, −1630200), (569088, −1291680), (−439040, −1308720)
+have all 21 mutual distances integral (largest 2262000), no three on a line and no four on a circle. This is the smallest 7-cluster (by diameter) of Kurz, Noll, Rathbun and Simmons (2014).
+
+**Argument.** Direct computation: each squared distance is a perfect square (the distance table is in the Lean file), each of the 35 triples has nonzero cross product, and each of the 35 quadruples has nonzero determinant det[x²+y², x, y, 1]. If four points satisfied A(x²+y²)+Dx+Ey+F = 0 with A ≠ 0, the Cramer identity A·det = 0 would force det = 0.
+
+Lean: [full proof](D20.4/D20_4.lean).
+
 ### [E10.3](E10.3/): Moser's base-3 collinearity question follows from density Hales–Jewett
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section E10. Moser maps n = Σ a_i 3^i to the lattice point (a₀, a₁, …) and
@@ -600,6 +661,16 @@ does, since |c| ≤ 124 < 247 ≤ |247·(nonzero)|.
 
 Lean: [full proof](F31.2/F31_2.lean).
 
+### [A3.12](A3.12/): primes (p^p−1)/(p−1) and (p^p+1)/(p+1)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section A3. Paraphrased: (p^p−1)/(p−1) is prime for p = 2, 3, 19, 31 and (p^p+1)/(p+1) for p = 3, 5, 17, 157; are there more primes p of either kind?
+
+**Result.** Partly answered elsewhere. Minus case: p = 7547 gives a probable prime of 29262 digits (H. Lifchitz; OEIS A088790), so a fifth value exists if that PRP is prime; no further p up to 230000 (Aggarwal, 2026, in A088790). Plus case: no further prime p is known; A088817 (Cyclotomic(2k,k) prime) lists k = 3977 = 41·97 as the next term, not prime, and reports no others below 4700. Both cases remain open in the strict sense (primality of the 7547 number is not proved; infinitude is open).
+
+**Argument.** None of ours; recomputation only.
+
+Lean: —.
+
 ### [B4.5](B4.5/): unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair)
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B4 (paraphrased): a unitary amicable
@@ -617,6 +688,16 @@ the twin question) and the coprime conjecture remain open.
 σ*(n) = 4·6·8·18·72·4760 = 1184440320.
 
 Lean: [full proof](B4.5/B4_5_mathlib.lean).
+
+### [C20.4](C20.4/): three hexagonal (pentagonal) numbers of positive rank
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section D3 (cross-referenced from C20). Paraphrased: is every sufficiently large number a sum of three hexagonal numbers r(2r−1), r > 0 (equivalently 8k+3 a sum of three squares of positive numbers 4r−1)? Same for pentagonal numbers r(3r−1)/2, r > 0 (24k+3 as three squares of positive numbers 6r−1).
+
+**Result.** Hexagonal: yes, known (Duke–Schulze-Pillot 1990, ineffective bound). Pentagonal: open; Z.-W. Sun conjectured (2019) that every n > 33066 is such a sum; no proof found.
+
+**Argument.** Hexagonal: 8n + 3 = x² + y² + z² with x, y, z ≡ 3 (mod 4) and x, y, z > 0. Duke and Schulze-Pillot prove that representations of large integers by a positive ternary form, with congruence conditions, are equidistributed on the ellipsoid, so some lie in the positive octant; they state the hexagonal application. The same route for pentagonal numbers needs the classes x ≡ 5 (mod 6) together with positivity; we found no source that carries it out.
+
+Lean: —.
 
 ### [D16.1](D16.1/): least common product of m triples with one sum and one product, m = 2..11
 

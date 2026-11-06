@@ -7,3 +7,7 @@ import OpenProblemsLib.SquaredRect
 import OpenProblemsLib.ArithFactor
 import OpenProblemsLib.D_CombLine
 import OpenProblemsLib.R5_Quadratic
+import OpenProblemsLib.Dwork
+import OpenProblemsLib.DworkEuler
+import OpenProblemsLib.DworkMultinomial
+import OpenProblemsLib.ShevelevFactorial

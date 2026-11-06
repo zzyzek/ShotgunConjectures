@@ -2,9 +2,9 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-13 entries: 5 resolved by this project, 4 answered elsewhere, 3 disputed or partial.
+16 entries: 6 resolved by this project, 5 answered elsewhere, 3 disputed or partial.
 
-Of the 5 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 2 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
+Of the 6 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -15,6 +15,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [C2.1](C2.1/) | disproved | a perfect squared rectangle with only one square surrounded by larger ones | [full proof](C2.1/C2_1_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [C2.2](C2.2/) | disproved | a coprime perfect squared rectangle with no square of square side | [full proof](C2.2/C2_2_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [C2.3](C2.3/) | proved | a rectangle with two perfect squarings sharing no square size | [full proof](C2.3/C2_3_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [C5.2](C5.2/) | disproved | incomparable tilings cannot have all tiles close to squares | — | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [E4.4](E4.4/) | proved | Birch's 8-point question holds for points in general position | needs Mathlib | new | [elementary-proof](../methods/elementary-proof/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [F3.5](F3.5/) | trivial or misstated | order of magnitude of g\_d(n), the largest n-distance set in R^d | needs Mathlib | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 
@@ -22,6 +23,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [A12.2](A12.2/) | disproved | Fickett's cosecant bound for congruent triangles is false | [witness](A12.2/A12_2.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A19.1](A19.1/) | trivial or misstated | minimal perimeter of a plane convex set of given diameter and width | — | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [B18.2](B18.2/) | proved | every polyhedron has a realization with all edges tangent to a sphere | — | — | [known-theorem](../methods/known-theorem/README.md) |
 | [F5.1](F5.1/) | proved | lim f\_3(n)/n^(1/3), minimum diameter of n points in R^3 with minimum distance 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [density-bound](../methods/density-bound/README.md) |
@@ -40,6 +42,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [C8.2](C8.2/) | partial | more than 120 congruent "non-thin" triangles on the sphere? | — | partly-known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [F15.2](F15.2/) | partial | worst-case shortest path through 4 points of the unit square is 3 | — | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 
 ## Short proofs
 
@@ -93,6 +96,57 @@ size.
 
 Lean: [full proof](C2.3/C2_3_mathlib.lean).
 
+### [C5.2](C5.2/): incomparable tilings cannot have all tiles close to squares
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991,
+section C5 (Tiling with incomparable rectangles and cuboids). Two rectangles are incomparable if
+neither fits inside the other with sides parallel: with dimensions a1 x a2 and b1 x b2 suitably
+labelled, a1 < b1 <= b2 < a2. Paraphrase of the question: for tilings of a rectangle with many
+pairwise incomparable rectangles, can every tile have aspect ratio arbitrarily close to 1?
+
+**Reading.** "Fit inside" allows rotation (the book's labelling with sorted sides). The answer
+below holds also if rotation is not allowed (with constant sqrt 2 in place of 2).
+
+**Result.** No. In every tiling of a rectangle by at least two pairwise incomparable rectangles,
+some tile has aspect ratio (long side / short side) at least 2.
+
+**Argument.** Write each tile with short side s and long side l, and let rho be the largest
+aspect ratio. Suppose rho < 2.
+
+1. *All sides lie in [m, rho m) for m the least short side.* Two tiles with equal short side are
+   comparable, and if s_i < s_j then incomparability forces l_i > l_j. So the tile with the
+   least short side m has the largest long side, which is at most rho m. Hence every side
+   (width or height) of every tile lies in [m, rho m], and any side is less than twice any other
+   side (rho m < 2m).
+2. *Equal sides make tiles comparable.* If two tiles share a width (or a height, or a width of one
+   equals a height of the other), the one with the shorter other side fits in the other.
+3. *Two tiles share a side length.* Let A = [0,w] x [0,h] be the tile at the lower left corner of
+   the tiled rectangle [0,W] x [0,H]. Since there are at least two tiles, w < W or h < H.
+   - If w = W: the tiles meeting the segment y = h + (small), 0 < x < W, partition [0,W] into widths
+     each at least m > W/2 (W = w <= rho m < 2m), so there is one such tile and its width is
+     w. Symmetrically if h = H.
+   - Otherwise let T be the tile just right of A's right side near its top corner (it contains
+     points (w + d, h - d) for small d > 0), with vertical extent [y_b, y_t], y_b < h <= y_t.
+     - If y_t = h: below T on the vertical line x = w + d lie tiles filling [0, y_b], each of
+       height at least m. But y_b = h - height(T) <= rho m - m < m, so y_b = 0 and
+       height(T) = h = height(A).
+     - If y_t > h: T contains points (w + d, h + d). Let U be the tile just above A near A's
+       right end (containing (w - d, h + d)). U and T have disjoint interiors, so U's right side
+       is x = w. Its left side x_l = w - width(U) <= rho m - m < m, while the tiles left of U on
+       the line y = h + d fill [0, x_l] with widths at least m; so x_l = 0 and width(U) = w =
+       width(A).
+   In every case two distinct tiles have a common side length, so by step 2 they are comparable,
+   a contradiction.
+
+Without rotation (incomparable meaning w_i < w_j forces h_i > h_j, and conversely), step 1 gives
+(h_max / h_min)(w_max / w_min) <= rho^2, and step 3 needs only h_max < 2 h_min and
+w_max < 2 w_min, so rho >= sqrt 2 for every such tiling.
+
+The bound is about the existence question only; we did not determine the least possible maximum
+aspect ratio (the 13 x 22 tiling of Yao, Reingold and Sands has a 1 x 18 tile).
+
+Lean: —.
+
 ### [E4.4](E4.4/): Birch's 8-point question holds for points in general position
 
 **Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section E4. Birch asks whether every set of 8 points in the plane can be
@@ -136,6 +190,29 @@ bound: the 0/1 vectors of length d + 1 with exactly n ones lie in the hyperplane
 g_d(n) ≍ d^n / n! for fixed n.
 
 Lean: needs Mathlib.
+
+### [A12.2](A12.2/): Fickett's cosecant bound for congruent triangles is false
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991,
+section A12 (Overlapping convex bodies), after J. W. Fickett, Amer. Math. Monthly 87 (1980) 814-815.
+For overlapping congruent convex sets K, K' with boundaries C, C', consider
+L1/L2 = length(C ∩ K') / length(C' ∩ K). For congruent triangles with least angle psi the book asks
+whether the maximum is cosec(psi/2) (the formula is garbled in our copy; the form
+sin(psi/2) <= L1/L2 <= 1/sin(psi/2) is the one quoted by Rasskazova 2012 from the book and
+Fickett).
+
+**Result.** No. K = triangle (-5,0), (5,0), (0,12) (sides 10, 13, 13, least angle psi at the apex,
+sin(psi/2) = 5/13, psi ≈ 45.24°) and K' = K rotated by (cos, sin) = (-5/13, -12/13) and translated by
+(-3.1, 4.6) give L1 = 687563/26910 ≈ 25.551, L2 = 2363/414 ≈ 5.708, L1/L2 ≈ 4.476 > 13/5 = 1/sin(psi/2).
+This agrees with N. V. Rasskazova (2012), who states that the bound fails for isosceles triangles
+with apex angle psi in (2 arcsin(1/4), pi/3) and proves the sharp-looking bound
+Q = 3 + 4 sin(psi/2) there (Q = 4.538 for psi here; our hill climbing reaches 4.532).
+
+**Argument.** All coordinates are rational and all side directions have rational length, so the
+part of each side inside the other triangle is a rational fraction of the side (clip the segment
+against the three half-planes). Summing gives the exact values above.
+
+Lean: [witness](A12.2/A12_2.lean).
 
 ### [A19.1](A19.1/): minimal perimeter of a plane convex set of given diameter and width
 
@@ -321,6 +398,36 @@ base < π/2 for n ≥ 4); (π/2, (n−1)π/2n, π/n) with F = 8n (its hypotenuse
 F = 4 triangles have area π and a side > π/3 (a triangle with sides ≤ π/3 lies in the cap of radius π/3 about a vertex, of area π, and is a proper part of it). So every tiling with F > 120 uses a triangle from an infinite
 family, with a side > π/3 and smallest angle ≤ 2π/n ≤ 8π/F, and the sporadic maximum is F = 120. Item 1 is the
 F = 4n and F = 8n families with the side computations above.
+
+Lean: —.
+
+### [F15.2](F15.2/): worst-case shortest path through 4 points of the unit square is 3
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991,
+section F15. Paraphrase: for n points in the unit square let L(n) be the largest possible length of
+the shortest polygonal path through all of them. The book asks for L(n) for small n and notes
+L(2) = sqrt 2, L(3) = (2 + sqrt 5)/2.
+
+**Result (partial).** L(4) = 3, attained by the four corners. Numerically L(5) = 2 + sqrt 2
+(corners and centre); not proved here. L(n) for n >= 5 remains open in this repository.
+
+**Argument for n = 4.** Lower bound: through the four corners every path has three edges of
+length at least 1. Upper bound, for points A, B, C, D in [0,1]^2:
+- *Collinear points:* the path along the line has length at most sqrt 2.
+- *Convex position (hull a quadrilateral):* the hull boundary is a closed tour of length p, and
+  p <= 4 because a convex polygon inside the square has perimeter at most that of the square
+  (standard: cut the square along the lines of the polygon's sides; each cut shortens the
+  perimeter by the triangle inequality). Deleting the longest of the four tour edges leaves a path
+  of length at most 3p/4 <= 3.
+- *One point inside the triangle of the others:* let D lie in triangle XYZ with sides
+  a <= b <= c and perimeter P. For each side UV of the triangle take the path U-D-V-W or V-D-U-W
+  (W the third vertex, ending with the shorter of |UW|, |VW|). Its length is |DU| + |DV| plus the
+  shorter remaining side. Summing over the three sides gives 2S + (a + a + b), where
+  S = |DX| + |DY| + |DZ|. S is convex in D, so on the triangle it is at most its value at a vertex,
+  at most b + c. The shortest of the three paths is therefore at most
+  (2(b + c) + 2a + b)/3 = (2P + b)/3. The perimeter of a triangle in the square is convex in each
+  vertex, so P <= 2 + sqrt 2 (three corners), and b <= sqrt 2. Hence the path is at most
+  (4 + 3 sqrt 2)/3 < 2.75 < 3.
 
 Lean: —.
 

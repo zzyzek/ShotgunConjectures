@@ -1,0 +1,6 @@
+row 30 non-integral columns [0]
+row 31 non-integral columns [0]
+done k 1 N 31 rows with non-integral entries: 2
+done k 2 N 36 rows with non-integral entries: 0
+row 30 non-integral columns [0]
+done k 3 N 31 rows with non-integral entries: 1

@@ -21,8 +21,8 @@ The Gauss congruences give integers e(d) with b(n) = Σ_{d|n} d e(d), so the ser
   `A181316_conjecture (q : ℤ) (hq : 2 ≤ q) (n : ℕ) : ∃ z : ℤ, expCoeff (bq q) n = z`, with
   `bq q n = (q-1) * ((q^n-1)/(q-1))^(n-1)` (the entry's formula) and `expCoeff` the coefficients of
   exp(Σ b(n) x^n/n) via the recurrence (n+1) A(n+1) = Σ b(j+1) A(n-j); `A181316_int` is q = 3. Route: `LG_b` (steps
-  1-3, with `pow_gauss`, `c_split`, `c_sub_self_dvd`), then `dwork` and `expCoeff_int_of_euler`, copied from
-  [`../A207969/A207969_mathlib.lean`](../A207969/A207969_mathlib.lean). Check: `tools/leancheck-mathlib.sh`, exit
+  1-3, with `pow_gauss`, `c_split`, `c_sub_self_dvd`), then `dwork` and `expCoeff_int_of_euler` from the
+  library module [`lib/OpenProblemsLib/Dwork.lean`](../../lib/OpenProblemsLib/Dwork.lean). Check: `tools/leancheck-mathlib.sh`, exit
   0, no warnings; axioms at most propext, Classical.choice, Quot.sound. No `sorry`, no `native_decide`.
 - [`certificate/check.py`](certificate/check.py): exact rational series for q = 2..8 up to x^40 are integral, the
   Gauss congruences hold on a grid, and the q = 3 series reproduces the data.
