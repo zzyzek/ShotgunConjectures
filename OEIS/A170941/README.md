@@ -36,8 +36,8 @@ conjecture in revision #52, May 30 2026, checked 2026-11-06.)
 - [`certificate/check.py`](certificate/check.py): brute-force count of involutions without adjacent transpositions
   for n ≤ 10 equals the recurrence; recurrence = inclusion–exclusion sum for n ≤ 500; recurrence = entry data
   a(0..27); a(n)/I(n) = 0.4029 at n = 100 and 0.3840 at n = 500 (slow approach, error of order n^(−1/2)).
-- Outside Lean: step 1 (that b(n), equivalently A170941, counts involutions without adjacent transpositions). The
-  Lean theorem is about the sequence defined by the entry's recurrence, which is the entry's definition.
+- Outside Lean: none. Reading: "contains no adjacent transposition" is formalised as "no i with σ i = i + 1",
+  which for an involution is the same as not having the 2-cycle (i i+1).
 
 **Review level.** `lean-proof`.
 
