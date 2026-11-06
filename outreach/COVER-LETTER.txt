@@ -1,19 +1,19 @@
-Subject: Settled conjectures in 137 OEIS entries (list and proofs)
+Subject: Settled conjectures in 193 OEIS entries (list and proofs)
 
 Dear OEIS editors,
 
-The attached list covers 137 OEIS entries whose comments state a conjecture
-that is now settled: 111 true, 15 false, 11 trivial or misstated as
+The attached list covers 193 OEIS entries whose comments state a conjecture
+that is now settled: 166 true, 16 false, 11 trivial or misstated as
 written. For 19 of them the answer is already in the literature and the
-entry only needs a cross-reference; for the other 118 no source we found
+entry only needs a cross-reference; for the other 174 no source we found
 states the full answer
 (entry, cross-referenced entries, edit history, web, arXiv; checked
 2026-11-04).
 
 The results come from an AI-assisted scan (Claude agents) of open problems.
-Each was re-derived by a second agent, and 127 are proved in full in
-Lean 4 (core Lean or Mathlib), checked by the Lean kernel; 5 are partly
-formalised (the remaining step is named) and 5 have written proofs
+Each was re-derived by a second agent, and 170 are proved in full in
+Lean 4 (core Lean or Mathlib), checked by the Lean kernel; 7 are partly
+formalised (the remaining step is named) and 16 have written proofs
 only. Every proof, its Lean file and the scripts are in
 
   https://github.com/zzyzek/ShotgunConjectures

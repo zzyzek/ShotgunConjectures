@@ -2,7 +2,7 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-12 entries: 5 resolved by this project, 4 answered elsewhere, 3 disputed or partial.
+13 entries: 5 resolved by this project, 4 answered elsewhere, 3 disputed or partial.
 
 Of the 5 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 2 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
@@ -34,6 +34,12 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [B15.1](B15.1/) | proved | counting polyhedra by vertices and faces — not a resolution | — | — | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [B17.1](B17.1/) | proved | smallest dimension of a simplicial polytope with non-unimodal f-vector is 20 | — | — | [known-theorem](../methods/known-theorem/README.md) |
 | [D5.4](D5.4/) | proved | rectangles of total area 1 and side ≤ 1 pack into a square of area 2 | — | — | [known-theorem](../methods/known-theorem/README.md) |
+
+## Weaker results on open problems (the problem stays open)
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [C8.2](C8.2/) | partial | more than 120 congruent "non-thin" triangles on the sphere? | — | partly-known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 
 ## Short proofs
 
@@ -278,6 +284,43 @@ and cites an earlier reference that was not identified. Covering question: not c
 Literature, partial.
 
 **Argument.** None.
+
+Lean: —.
+
+### [C8.2](C8.2/): more than 120 congruent "non-thin" triangles on the sphere?
+
+**Source.** Croft, Falconer, Guy, *Unsolved Problems in Geometry* (1991), §C8 (dissecting the sphere
+into small congruent pieces), paraphrased: the spherical icosidodecahedron gives a nontrivial dissection of the
+sphere into 120 congruent triangles; can this number be increased without the triangles becoming "too thin",
+the book suggesting a bound on the side lengths (the bound is illegible in our scan, "less than in", most likely
+π/2); Sommerville and Davies treated the case where no vertex lies inside an edge of another triangle.
+
+**Reading.** "Tiling" = covering the sphere by congruent copies (reflections allowed) with disjoint interiors.
+Edge-to-edge = no vertex of a tile in the interior of an edge of another (the Sommerville-Davies setting).
+"Not too thin" is not defined in the book; we treat (i) the side bound π/2, (ii) a side bound b ≤ π/3, and
+(iii) a lower bound on the angles.
+
+**Result (partial).**
+1. With the side bound π/2 the answer is yes, and trivially so: the edge-to-edge tilings with F = 4n tiles by the
+   isosceles triangle with angles ((n−1)π/2n, (n−1)π/2n, 2π/n) (n ≥ 4) and with F = 8n tiles by its half, the
+   right triangle (π/2, (n−1)π/2n, π/n), have all sides < π/2 (longest side decreasing to π/3). Their smallest
+   angle tends to 0, so the side bound π/2 does not prevent thin tiles.
+2. Edge-to-edge, with all sides < b for a bound 37.38° < b ≤ 60°: the maximum number of tiles is exactly 120
+   (attained by the (π/2, π/3, π/5) triangle, sides 20.91°, 31.72°, 37.38°).
+3. Edge-to-edge, more than 120 tiles forces a smallest angle ≤ 8π/F < π/15.
+4. Non-edge-to-edge tilings: open here. Their classification is complete only for triangles with an irrational
+   angle (Chen, Liang, Wang 2025) and for right and isosceles triangles (Dawson; Dawson and Doyle); the all-rational
+   case is not finished.
+
+**Argument.** Ueno and Agaoka (2002, Theorem 1 and Corollary 3) classify all edge-to-edge monohedral triangle
+tilings of the sphere. The triangles that tile are: the F = 4 family (angle sum 2π), five rigid sporadic
+triangles with F = 24, 48, 60, 60, 120, and four infinite families: (π/2, π/2, 2π/n) with F = 2n (two sides
+π/2); ((n−1)π/2n, (n−1)π/2n, 2π/n) with F = 4n (legs a with cos a = (1 − tan²(π/2n))/2 < 1/2, so π/3 < a < π/2,
+base < π/2 for n ≥ 4); (π/2, (n−1)π/2n, π/n) with F = 8n (its hypotenuse is a leg of the previous triangle,
+> π/3); and α + β = π, γ = π/n with F = 4n (then the opposite sides satisfy a + b = π, so one side ≥ π/2).
+F = 4 triangles have area π and a side > π/3 (a triangle with sides ≤ π/3 lies in the cap of radius π/3 about a vertex, of area π, and is a proper part of it). So every tiling with F > 120 uses a triangle from an infinite
+family, with a side > π/3 and smallest angle ≤ 2π/n ≤ 8π/F, and the sporadic maximum is F = 120. Item 1 is the
+F = 4n and F = 8n families with the side computations above.
 
 Lean: —.
 

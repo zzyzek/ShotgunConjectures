@@ -1,0 +1,11 @@
+data match: True
+2 penultimate 2 A199923(n-1) 2 A199923(n) 8
+3 penultimate 8 A199923(n-1) 8 A199923(n) 30
+4 penultimate 30 A199923(n-1) 30 A199923(n) 108
+5 penultimate 108 A199923(n-1) 108 A199923(n) 378
+6 penultimate 378 A199923(n-1) 378 A199923(n) 1296
+7 penultimate 1296 A199923(n-1) 1296 A199923(n) 4374
+8 penultimate 4374 A199923(n-1) 4374 A199923(n) 14580
+9 penultimate 14580 A199923(n-1) 14580 A199923(n) 48114
+10 penultimate 48114 A199923(n-1) 48114 A199923(n) 157464
+11 penultimate 157464 A199923(n-1) 157464 A199923(n) 511758

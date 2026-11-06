@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-26 entries: 17 resolved by this project, 8 answered elsewhere, 0 disputed or partial.
+28 entries: 17 resolved by this project, 9 answered elsewhere, 0 disputed or partial.
 
 Of the 17 resolutions: 15 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -40,6 +40,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [B36.7](B36.7/) | proved | infinitely many noncototients (already in the book) | — | — | [known-theorem](../methods/known-theorem/README.md) |
 | [E10.3](E10.3/) | proved | Moser's base-3 collinearity question follows from density Hales–Jewett | needs Mathlib | — | [known-theorem](../methods/known-theorem/README.md) |
 | [E25.1](E25.1/) | proved | the 20th term of Levine's sequence has been computed | — | — | [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [F10.2](F10.2/) | proved | a solution of 2^n ≡ 4 (mod n) with n ≡ 9 (mod 10) | [witness](F10.2/F10_2.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [F23.2](F23.2/) | trivial or misstated | n! = 2^a + 2^b only for n = 2, 3, 4 | [full proof](F23.2/F23_2_mathlib.lean) | — | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [F31.2](F31.2/) | proved | Coppersmith's 247 — no m with m and 247m both zero-free in balanced ternary | [full proof](F31.2/F31_2.lean) | — | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 
@@ -47,6 +48,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [B4.5](B4.5/) | partial | unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair) | [full proof](B4.5/B4_5_mathlib.lean) | known | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
 | [D16.1](D16.1/) | partial | least common product of m triples with one sum and one product, m = 2..11 | [witness](D16.1/D16_1.lean) | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 
 ## Short proofs
@@ -536,6 +538,22 @@ Levine sequences", arXiv:2602.10992 (2026). Literature answer, not a scan resolu
 
 Lean: —.
 
+### [F10.2](F10.2/): a solution of 2^n ≡ 4 (mod n) with n ≡ 9 (mod 10)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, F10 (residues of powers of two).
+Paraphrase: Benkoski asked for a solution of 2^n ≡ 4 (mod n) whose last decimal digit is not 7; Zhang Ming-Zhi
+(Sichuan Daxue Xuebao 27 (1990) 130-131) gave solutions with n ≡ 1 and 3 (mod 10) and asked whether there is one with
+n ≡ 9 (mod 10).
+
+**Result.** Yes. n = 1210344599 = 73 · 337 · 49199 has n ≡ 9 (mod 10) and 2^n ≡ 4 (mod n), and it is the smallest
+such n. It is term number 26 of Max Alekseyev's complete list of odd solutions below 10^14 (OEIS
+[A173572](https://oeis.org/A173572), b-file of 2012), which contains 35 solutions ≡ 9 (mod 10).
+
+**Argument.** Direct computation: 2^1210344599 mod 1210344599 = 4. Minimality: exhaustive search over
+n ≡ 9 (mod 10), n ≤ 1210344599.
+
+Lean: [witness](F10.2/F10_2.lean).
+
 ### [F23.2](F23.2/): n! = 2^a + 2^b only for n = 2, 3, 4
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section F23. Erdős "observes that n! = 2^a + 2^b only when n = 1, 2, 3, 4
@@ -581,6 +599,24 @@ a ±1 digit (c → (c − f)/3), so no carry in T is such a value. And 247m cann
 does, since |c| ≤ 124 < 247 ≤ |247·(nonzero)|.
 
 Lean: [full proof](F31.2/F31_2.lean).
+
+### [B4.5](B4.5/): unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B4 (paraphrased): a unitary amicable
+pair (m, n) has σ*(m) = σ*(n) = m + n, where σ* sums the unitary divisors (d | N with gcd(d, N/d) = 1). Hagis asked
+whether there are infinitely many (and infinitely many "twin" pairs with equal sums), conjectured that no coprime
+pair exists, and asked for an odd pair that is not squarefree (such a pair would not be an ordinary amicable pair).
+
+**Result.** Partial. The third question has an answer in published data: (m, n) = (581308455, 603131865) with
+m = 3·5·7·13²·17·41·47 and n = 3·5·7·17·71·4759 is an odd unitary amicable pair and m is not squarefree. It is the
+smallest such pair in J. M. Pedersen's table (OEIS A002952/A002953, all 7896 pairs with smaller member below
+2·10^12); that table has 295 odd pairs, 56 of them not squarefree. The table has no coprime pair. Infinitude (and
+the twin question) and the coprime conjecture remain open.
+
+**Argument.** σ* is multiplicative with σ*(p^e) = 1 + p^e, so σ*(m) = 4·6·8·170·18·42·48 = 1184440320 = m + n and
+σ*(n) = 4·6·8·18·72·4760 = 1184440320.
+
+Lean: [full proof](B4.5/B4_5_mathlib.lean).
 
 ### [D16.1](D16.1/): least common product of m triples with one sum and one product, m = 2..11
 

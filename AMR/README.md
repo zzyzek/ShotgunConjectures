@@ -2,7 +2,7 @@
 
 Open-problem lists linked from https://amathr.org/problems/ (Cooper, TOPP, Egres Open, Froberg et al. and others); ids AMR-<list>-<k>, statements paraphrased with the list named in each README.
 
-3 entries: 1 resolved by this project, 1 answered elsewhere, 0 disputed or partial.
+5 entries: 1 resolved by this project, 3 answered elsewhere, 0 disputed or partial.
 
 Of the 1 resolutions: 1 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -18,6 +18,8 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [aimmatrix-en1](aimmatrix-en1/) | proved | E(G) = E(G - e) + 2 only for G = K2 | — | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [aimmatrix-en2](aimmatrix-en2/) | disproved | edge deletion changes the energy by exactly 2 | [full proof](aimmatrix-en2/aimmatrix_en2_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [froberg-M](froberg-M/) | proved | finiteness of B\_{n,m} and B'\_{n,m} | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 
 ## Weaker results on open problems (the problem stays open)
@@ -69,6 +71,36 @@ of 1, 3, 5, 6; 0 adjacent to 1, 3).
   minimum rank 1. Not needed for the counterexample and not in Lean.
 
 Lean: [full proof](aimmatrix-mr8/aimmatrix_mr8_mathlib.lean).
+
+### [aimmatrix-en1](aimmatrix-en1/): E(G) = E(G - e) + 2 only for G = K2
+
+Lean: —.
+
+### [aimmatrix-en2](aimmatrix-en2/): edge deletion changes the energy by exactly 2
+
+**Source.** AIM workshop "Spectra of families of matrices described by graphs, digraphs and sign patterns" (Oct
+2006), report "Open Questions" by I.-J. Kim and A. W. Wehe, section 3 (Energy of graphs). E(G) is the sum of the
+absolute values of the adjacency eigenvalues. Q1: if e is an edge of a connected graph G with E(G) = E(G \ e) + 2,
+must G = K2? Q2: is there a graph G with E(G \ e) = E(G) + 2 for some edge e?
+
+**Result.** Q1: yes (known: Day and So 2007). Q2: no; for every graph G and edge e, E(G \ e) < E(G) + 2, and in fact
+E(G \ e) = E(G) + 2 would force E(G \ e) <= E(G).
+
+**Argument.** For a real symmetric X, E(X) = sum |lambda_i(X)| = max tr(W X) over symmetric W with operator norm
+<= 1, attained at W = sign(X) (write X = sum lambda_i v_i v_i^T; then tr(W X) = sum lambda_i <v_i, W v_i> and
+|<v_i, W v_i>| <= 1). Let A = A(G), e = uv, B = e_u e_v^T + e_v e_u^T, so A(G \ e) = A - B and E(B) = 2.
+
+- *Q2.* Take W = sign(A - B). Then E(G \ e) = tr(W A) - 2 W_uv <= E(G) - 2 W_uv <= E(G) + 2. Equality needs
+  W_uv = -1. Since (W^2)_uu = sum_j W_uj^2 <= 1, row u of W (and likewise row v) is zero except W_uv = W_vu = -1.
+  Then in tr(W (A - B)) every term touching u or v vanishes (the only nonzero W entries there sit on the deleted
+  edge), so E(G \ e) = tr(W_R A_R) with R = V \ {u, v}, A_R the adjacency matrix of the induced subgraph G[R] and
+  W_R a contraction: E(G \ e) <= E(G[R]). Extending sign(A_R) by zeros gives a contraction W' with
+  tr(W' A) = E(G[R]), so E(G[R]) <= E(G). Hence E(G \ e) <= E(G) < E(G) + 2, a contradiction.
+- *Q1.* The same computation with W = sign(A) gives E(G) <= E(G \ e) + 2 with equality only if W_uv = 1 and rows u, v
+  of W vanish elsewhere; Day and So (ELA 16, 2007) show that equality holds iff e is a component of G, so for
+  connected G, G = K2.
+
+Lean: [full proof](aimmatrix-en2/aimmatrix_en2_mathlib.lean).
 
 ### [froberg-M](froberg-M/): finiteness of B_{n,m} and B'_{n,m}
 

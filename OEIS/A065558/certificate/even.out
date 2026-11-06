@@ -1,0 +1,30 @@
+even 2 a=2 2psi=4 ok=false rc=0
+even 4 a=6 2psi=6 ok=true rc=0
+even 6 a=8 2psi=8 ok=true rc=0
+even 8 a=12 2psi=12 ok=true rc=0
+even 10 a=12 2psi=12 ok=true rc=0
+even 12 a=24 2psi=24 ok=true rc=0
+even 14 a=16 2psi=16 ok=true rc=0
+even 16 a=24 2psi=24 ok=true rc=0
+even 18 a=24 2psi=24 ok=true rc=0
+even 20 a=36 2psi=36 ok=true rc=0
+even 22 a=24 2psi=24 ok=true rc=0
+even 24 a=48 2psi=48 ok=true rc=0
+even 26 a=28 2psi=28 ok=true rc=0
+even 28 a=48 2psi=48 ok=true rc=0
+even 30 a=48 2psi=48 ok=true rc=0
+even 32 a=48 2psi=48 ok=true rc=0
+ rc=124
+even 36 a=72 2psi=72 ok=true rc=0
+ rc=124
+ rc=124
+ rc=124
+ rc=124
+ rc=124
+even 48 a=96 2psi=96 ok=true rc=0
+ rc=124
+ rc=124
+even 54 a=72 2psi=72 ok=true rc=0
+ rc=124
+ rc=124
+ rc=124
