@@ -1,0 +1,10 @@
+default(realprecision, 60);
+f = x^3 - x + 8;
+K = bnfinit(f, 1);
+print("sig ", K.sign, " h ", K.no, " disc ", K.disc, " index ", K.index);
+print("fu ", lift(K.fu), " tu ", K.tu);
+P = idealprimedec(K, 2); print("primes over 2: ", #P, " ", [pr.f | pr <- P]);
+R = polrootspadic(f, 2, 40); print("2-adic roots ", R);
+print("valuations of differences ", [valuation(R[i]-R[j],2) | i<-[1..3]; j<-[1..3], i<j]);
+for(i=1,3, g = bnfisprincipal(K, P[i]); print("P", i, " gen ", lift(nfbasistoalg(K, g[2])), " class ", g[1]));
+print(polroots(f));

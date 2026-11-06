@@ -1,0 +1,43 @@
+psp below 10000000000000 divisible by a smaller psp: 56782
+failing the strict reading, not 5461(42k-13): 4042
+3048841 [61, 151, 331] NOT representable even broadly
+4072729 [67, 89, 683] NOT representable even broadly
+4877641 [73, 109, 613] NOT representable even broadly
+7455709 [73, 109, 937] NOT representable even broadly
+10545991 [151, 211, 331] NOT representable even broadly
+10606681 [31, 43, 73, 109] NOT representable even broadly
+12096613 [89, 199, 683] NOT representable even broadly
+15732721 [97, 241, 673] NOT representable even broadly
+21042001 [151, 331, 421] NOT representable even broadly
+24356377 [73, 109, 3061] NOT representable even broadly
+31794241 [193, 257, 641] NOT representable even broadly
+51030601 [151, 331, 1021] NOT representable even broadly
+52142221 [73, 109, 6553] NOT representable even broadly
+59589973 [73, 109, 7489] NOT representable even broadly
+66024901 [151, 331, 1321] NOT representable even broadly
+70147561 [11, 127, 149, 337] NOT representable even broadly
+73522051 [151, 331, 1471] NOT representable even broadly
+74658629 [89, 397, 2113] NOT representable even broadly
+74945953 [193, 577, 673] NOT representable even broadly
+93677761 [61, 73, 109, 193] NOT representable even broadly
+95053249 [257, 577, 641] NOT representable even broadly
+100359337 [13, 89, 127, 683] NOT representable even broadly
+102696901 [101, 251, 4051] NOT representable even broadly
+119743537 [89, 397, 3389] NOT representable even broadly
+126619741 [73, 109, 15913] NOT representable even broadly
+126682753 [257, 641, 769] NOT representable even broadly
+129357061 [277, 461, 1013] NOT representable even broadly
+131938561 [157, 521, 1613] NOT representable even broadly
+133302781 [137, 953, 1021] NOT representable even broadly
+149762017 [193, 673, 1153] NOT representable even broadly
+152991841 [151, 331, 3061] NOT representable even broadly
+158544401 [251, 601, 1051] NOT representable even broadly
+163849393 [43, 97, 163, 241] NOT representable even broadly
+167582377 [73, 109, 21061] NOT representable even broadly
+178482151 [151, 331, 3571] NOT representable even broadly
+189941761 [257, 641, 1153] NOT representable even broadly
+209404369 [73, 109, 26317] NOT representable even broadly
+223846129 [13, 67, 233, 1103] NOT representable even broadly
+231927781 [127, 337, 5419] NOT representable even broadly
+232114433 [257, 641, 1409] NOT representable even broadly
+not representable even broadly: 4019

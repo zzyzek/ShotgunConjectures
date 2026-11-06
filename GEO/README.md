@@ -2,7 +2,7 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-10 entries: 5 resolved by this project, 2 answered elsewhere, 3 disputed or partial.
+12 entries: 5 resolved by this project, 4 answered elsewhere, 3 disputed or partial.
 
 Of the 5 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 2 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
@@ -24,6 +24,8 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 |---|---|---|---|---|---|
 | [A19.1](A19.1/) | trivial or misstated | minimal perimeter of a plane convex set of given diameter and width | — | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [B18.2](B18.2/) | proved | every polyhedron has a realization with all edges tangent to a sphere | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [F5.1](F5.1/) | proved | lim f\_3(n)/n^(1/3), minimum diameter of n points in R^3 with minimum distance 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [density-bound](../methods/density-bound/README.md) |
+| [F16.2](F16.2/) | known | the thrackle conjecture for small n | — | known | [known-theorem](../methods/known-theorem/README.md) |
 
 ## Disputed or only partly answered (not counted as resolutions)
 
@@ -175,6 +177,59 @@ sphere; one can even choose the realization with the origin as centroid of the t
 points). Literature answer, not a scan resolution.
 
 **Argument.** Not reproduced (circle-packing theorem).
+
+Lean: —.
+
+### [F5.1](F5.1/): lim f_3(n)/n^(1/3), minimum diameter of n points in R^3 with minimum distance 1
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991,
+section F5. f_d(n) is the least diameter of a set of n points in R^d with minimum mutual distance 1.
+The book quotes Thue's planar result lim f_2(n)/n^(1/2) = 2^(1/2) 3^(1/4) pi^(-1/2) and says the
+value of lim f_3(n)/n^(1/3) is unsolved, related to optimal ball-packing density.
+
+**Result.** Known (immediate consequence of the Kepler conjecture, proved by Hales):
+
+lim f_3(n)/n^(1/3) = (3 sqrt2 / pi)^(1/3) = (6/(sqrt2 pi))^(1/3) = 1.10533...
+
+**Argument.** Write delta = sqrt2, the point density of the face-centred cubic (fcc) lattice with
+minimum distance 1 (cubic cell of side sqrt2 holding 4 points). Kepler (Hales): every packing of
+balls of radius 1/2 in R^3 has density at most pi/sqrt18 = delta * (pi/6).
+
+*Upper bound.* Let c be the circumradius of the Voronoi cell of the fcc lattice. The Voronoi cells
+of the lattice points in the closed ball B(0, R) cover B(0, R - c), so B(0, R) holds at least
+delta (4 pi/3)(R - c)^3 lattice points. Any n of them form a set with minimum distance 1 and
+diameter at most 2R. Taking the least R with delta (4 pi/3)(R - c)^3 >= n gives
+f_3(n) <= (6n/(delta pi))^(1/3) + O(1).
+
+*Lower bound.* Let P be n points with minimum distance 1 and diameter D, K its convex hull
+(diameter D). Fix s > 0 and cut R^3 into cubes of side s.
+- A single cube Q: the balls of radius 1/2 around P cap Q lie in a cube of side s + 1. Repeating
+  that cube periodically with period s + 1 gives a packing of density
+  |P cap Q| (pi/6) / (s + 1)^3, so Kepler gives |P cap Q| <= delta (s + 1)^3.
+- Cubes that meet K lie in K + B(0, s sqrt3), a set of diameter at most D + 2 sqrt3 s. By the
+  isodiametric inequality its volume is at most pi (D + 2 sqrt3 s)^3 / 6, so at most that
+  volume divided by s^3 cubes meet K.
+Hence n <= delta (pi/6) (1 + 1/s)^3 (D + 2 sqrt3 s)^3. With s = sqrt D this is
+n <= delta (pi/6) D^3 (1 + O(D^(-1/2))), so f_3(n) >= (6n/(delta pi))^(1/3) (1 - o(1)).
+
+Both bounds give the limit (6/(sqrt2 pi))^(1/3). The same argument in the plane, with Thue's
+hexagonal density 2/sqrt3, reproduces the book's planar constant 2^(1/2) 3^(1/4) pi^(-1/2).
+
+Lean: needs Mathlib.
+
+### [F16.2](F16.2/): the thrackle conjecture for small n
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991,
+section F16. A thrackle is a drawing of a graph in the plane in which every pair of edges meets
+exactly once, either at a common endpoint or at a proper crossing. Conway's thrackle conjecture
+says a thrackle on n vertices has at most n edges. The book notes experimental evidence near
+n = 10 and asks whether there is at least a proof for small n.
+
+**Result.** Known. The thrackle conjecture holds for every graph with at most 12 vertices
+(J. Pammer 2014, by enumerating path-thrackles). The bound n <= 11 was used earlier as a known
+fact (Goddyn and Xu 2017). The general conjecture is open.
+
+**Argument.** Computer enumeration in the cited thesis; not re-derived here.
 
 Lean: —.
 
