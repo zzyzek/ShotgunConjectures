@@ -28,17 +28,25 @@ outputs (1, 1, 2, 2, 2, 0). No output is 3. In particular a(n) is odd iff n AND 
    on six numerator pairs; the diagonal's value at 0 is N0(0, 0) ∈ {1, 1, 2, 2, 2, 0}.
 
 **Evidence.**
-- Lean: [`A183161_mathlib.lean`](A183161_mathlib.lean), theorem `A183161_mod4` (from the definition: any integer
-  sequence with a(0) = 1 and self-convolution A183160) and `A183161_gf_mod4` (from Hanna's g.f.). The proof is in the
+- Lean: [`A183161_mathlib.lean`](A183161_mathlib.lean). `A183161` is defined in the library as an integer sequence,
+  A183161(n) = [t^n] R(t) (1-3t) (1-t)^(-2n-1) with R = 1/sqrt((1-3t)(1+t)); R has integer coefficients because
+  (1-3t)(1+t) = (1-t)^2 (1 - 4u), u = t^2/(1-t)^2, and sqrt(1-4u) = 1 - 2 sum_k Cat(k) u^(k+1) (Catalan series K = 1 + xK^2
+  substituted at u). Theorems: `A183161_spec` (A183161(0) = 1 and its self-convolution is A183160; the substitution ψ is
+  onto, by Lagrange inversion and the injectivity in step 3), `A183161_unique` (it is the only integer sequence with
+  these properties: A^2 = B^2, A(0) = B(0) = 1 force A = B), `A183161_mod4` (A183161(n) mod 4 ≠ 3), `A183161_mod4_of_conv`
+  (the same for any integer sequence with a(0) = 1 and self-convolution A183160) and `A183161_gf_mod4` (from Hanna's g.f.).
+  The proof is in the
   library: `OpenProblemsLib.HannaMod4` (steps 1-5; `lagrange`, `fibT_closed`, `A183160_eq`, `kernel_inj`, `S_mod4`,
-  `step_ok` by `decide`) on top of `OpenProblemsLib.AutomaticMod` (Cartier operators, `ry_step`,
+  `step_ok` by `decide`; existence `ψ_mk`, `Cu_sq`, `Tsq_sq`, `rootSeq_spec`, uniqueness `conv_root_unique`) on top of
+  `OpenProblemsLib.AutomaticMod` (Cartier operators, `ry_step`,
   `automaton_induction`, guide [lib/docs/automatic-mod.md](../../lib/docs/automatic-mod.md)). Axioms: propext,
   Classical.choice, Quot.sound.
 - [`certificate/gf_check.py`](certificate/gf_check.py): Hanna's g.f. formula, the square roots, "never 3" and the
   automaton against the definition for n ≤ 300. [`certificate/ry_automaton.py`](certificate/ry_automaton.py): the
-  script that found the six states (prints the Lean literals).
-- Outside Lean: the existence of the integer sequence (the OEIS terms); the Lean theorems hold for every integer
-  sequence with the defining property.
+  script that found the six states (prints the Lean literals). [`certificate/rootseq_check.py`](certificate/rootseq_check.py):
+  the Lean definitions of A183161, A219197 (and A218622 = A183161 mod 4) recomputed exactly and compared with the cached
+  OEIS terms (24, 24 and 60 terms; all agree).
+- Outside Lean: none. The printed OEIS terms are not used by the proof.
 
 **Review level.** `lean-proof`.
 

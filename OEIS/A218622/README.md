@@ -13,11 +13,15 @@ A183161(n) = [t^n] S(t) (1-t)^(-2n-1) with S = sqrt((1-3t)/(1+t)); S ≡ 1 + 2W 
 Rowland-Yassawi Cartier operators on the resulting bivariate rational function over ℤ/4 close on six states.
 
 **Evidence.**
-- Lean: [`A218622_mathlib.lean`](A218622_mathlib.lean), theorem `A218622_ne_three` (any integer sequence with
-  b(0) = 1 and self-convolution A183160 has b(n) mod 4 ≠ 3), via `OpenProblemsLib.HannaMod4.A183161_def_mod4`.
-  Axioms: propext, Classical.choice, Quot.sound.
-- Numerics: [OEIS/A183161/certificate/gf_check.py](../A183161/certificate/gf_check.py) (n ≤ 300).
-- Outside Lean: the existence of the integer sequence A183161 (the OEIS terms).
+- Lean: [`A218622_mathlib.lean`](A218622_mathlib.lean): `A183161_spec`, `A183161_unique` (the library's integer
+  sequence `OpenProblemsLib.HannaMod4.A183161` has value 1 at 0 and self-convolution A183160, and it is the only one;
+  integrality via Catalan numbers, see [OEIS/A183161](../A183161/README.md)), `A218622_ne_three` (A218622(n) =
+  A183161(n) mod 4 ≠ 3) and `A218622_ne_three_of_conv` (any integer sequence with b(0) = 1 and self-convolution A183160
+  has b(n) mod 4 ≠ 3), via `OpenProblemsLib.HannaMod4`. Axioms: propext, Classical.choice, Quot.sound.
+- Numerics: [OEIS/A183161/certificate/gf_check.py](../A183161/certificate/gf_check.py) (n ≤ 300);
+  [OEIS/A183161/certificate/rootseq_check.py](../A183161/certificate/rootseq_check.py) (the Lean definition mod 4 agrees
+  with the 60 cached terms).
+- Outside Lean: none. The printed OEIS terms are not used by the proof.
 
 **Review level.** `lean-proof`.
 

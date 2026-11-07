@@ -33,10 +33,20 @@ Proof.
   the square of the substituted g.f. of a self-convolution root `a` is `(1-t)^(-2c)/((1-3t)(1+t))`,
   which gives `S` as above.
 
-Main results: `A183161_def_mod4`, `A219197_def_mod4` (from the OEIS definitions: `a(0) = 1` and
-self-convolution A183160, resp. A199033), `gf_mod4` (from Hanna's g.f.), `hanna_mod4` (coefficient
-form). Not proved here: that an integer sequence with these properties exists (the OEIS terms are
-one; the theorems are about every such sequence).
+* Existence and uniqueness (`A183161_spec`, `A219197_spec`, `A183161_unique`, `A219197_unique`).
+  `ψ` is onto (`ψ_mk`: by `lagrange` and `kernel_inj`, the series with coefficients
+  `[tⁿ] H (1-3t)(1-t)^(-2n-1)` maps to `H`). With `K` the Catalan series (`K = 1 + x K²`),
+  `(1 - 2xK)² = 1 - 4x`; substituting `x ↦ u = t²/(1-t)²` gives an integer `C` with `C² = 1 - 4u`,
+  and `T = (1-t) C` satisfies `T² = (1-3t)(1+t)`. With `R = 1/T` the integer sequence
+  `rootSeq c n = [tⁿ] (1-t)^(-c) R (1-3t)(1-t)^(-2n-1)` is the preimage of `(1-t)^(-c) R` under `ψ`,
+  so its square has `ψ`-image `(1-t)^(-2c)/((1-3t)(1+t))`, i.e. its self-convolution is
+  A183160 (`c = 0`) resp. A199033 (`c = 1`). Uniqueness: `A² = B²` with `A(0) = B(0) = 1` gives
+  `(A - B)(A + B) = 0` in the domain `ℤ⟦x⟧`.
+
+Main results: `A183161_ne_three`, `A219197_ne_three` (for the sequences `A183161 = rootSeq 0`,
+`A219197 = rootSeq 1` defined here), `A183161_def_mod4`, `A219197_def_mod4` (for every integer
+sequence with `a(0) = 1` and self-convolution A183160, resp. A199033), `gf_mod4` (from Hanna's
+g.f.), `hanna_mod4` (coefficient form).
 -/
 
 namespace OpenProblemsLib.HannaMod4
@@ -831,5 +841,164 @@ theorem A219197_def_mod4 (a : ℕ → ℤ) (h0 : a 0 = 1)
     a n % 4 ≠ 3 :=
   conv_root_mod4 1 (by omega) a h0 (fun n => by
     rw [hconv, A199033_eq, show 2 * n + 3 = 2 * 1 + (2 * n + 1) by ring, pow_add]; ring_nf) n
+
+/-! ## Existence and uniqueness of the self-convolution roots -/
+
+/-- The Catalan generating function `K = ∑ Cat(k) xᵏ`. -/
+noncomputable def catGF : ℤ⟦X⟧ := mk fun n => (catalan n : ℤ)
+
+theorem catGF_rel : catGF = 1 + X * catGF ^ 2 := by
+  ext n
+  cases n with
+  | zero => simp [catGF]
+  | succ n =>
+    rw [map_add, coeff_succ_X_mul, pow_two, coeff_mul, catGF, coeff_mk, catalan_succ']
+    simp [coeff_mk]
+
+/-- `(1 - 2x K)² = 1 - 4x`. -/
+theorem sqrt14_sq : (1 - 2 * X * catGF) ^ 2 = 1 - 4 * X := by
+  linear_combination (-4 * X) * catGF_rel
+
+/-- `u = t² (1 - t)⁻²`. -/
+noncomputable def uS : ℤ⟦X⟧ := X ^ 2 * JZ ^ 2
+
+theorem constantCoeff_uS : constantCoeff uS = 0 := by simp [uS]
+
+theorem hasSubst_uS : HasSubst uS := HasSubst.of_constantCoeff_zero' constantCoeff_uS
+
+/-- `C = √(1 - 4u)`, an integer series. -/
+noncomputable def Cu : ℤ⟦X⟧ := substAlgHom hasSubst_uS (1 - 2 * X * catGF)
+
+theorem Cu_sq : Cu ^ 2 = 1 - 4 * uS := by
+  have h := congrArg (substAlgHom hasSubst_uS) sqrt14_sq
+  rw [map_pow] at h
+  rw [Cu, h, map_sub, map_one, map_mul, substAlgHom_X, map_ofNat]
+
+theorem constantCoeff_Cu : constantCoeff Cu = 1 := by
+  have h := constantCoeff_subst_of_constantCoeff_zero (a := uS) constantCoeff_uS
+    (1 - 2 * X * catGF)
+  rw [Cu, coe_substAlgHom]
+  change MvPowerSeries.constantCoeff (subst uS (1 - 2 * X * catGF)) = 1
+  rw [h]
+  simp
+
+/-- `T = (1 - t) C = √((1 - 3t)(1 + t))`. -/
+noncomputable def Tsq : ℤ⟦X⟧ := (1 - X) * Cu
+
+theorem Tsq_sq : Tsq ^ 2 = (1 - 3 * X) * (1 + X) := by
+  rw [Tsq, mul_pow, Cu_sq, uS]
+  linear_combination (-4 * X ^ 2 * (1 + (1 - X) * JZ)) * JZ_mul
+
+theorem constantCoeff_Tsq : constantCoeff Tsq = 1 := by
+  simp [Tsq, constantCoeff_Cu]
+
+/-- `R = 1/√((1 - 3t)(1 + t))`. -/
+noncomputable def Rr : ℤ⟦X⟧ := invOfUnit Tsq 1
+
+theorem Rr_mul : Tsq * Rr = 1 := mul_invOfUnit Tsq 1 (by simp [constantCoeff_Tsq])
+
+theorem constantCoeff_Rr : constantCoeff Rr = 1 := by
+  have h := congrArg constantCoeff Rr_mul
+  simpa [constantCoeff_Tsq] using h
+
+theorem Rr_sq : Rr ^ 2 * (1 - 3 * X) = Pinv := by
+  calc Rr ^ 2 * (1 - 3 * X) = Rr ^ 2 * ((1 - 3 * X) * (1 + X)) * Pinv := by
+        linear_combination (- Rr ^ 2 * (1 - 3 * X)) * Pinv_mul
+    _ = (Tsq * Rr) ^ 2 * Pinv := by rw [← Tsq_sq]; ring
+    _ = Pinv := by rw [Rr_mul, one_pow, one_mul]
+
+/-- The substitution `ψ` is onto: the series with coefficients `[tⁿ] H (1-3t)(1-t)^(-2n-1)`
+is mapped to `H`. -/
+theorem ψ_mk (H : ℤ⟦X⟧) :
+    ψ (mk fun n => coeff n (H * (1 - 3 * X) * JZ ^ (2 * n + 1))) = H := by
+  set F : ℤ⟦X⟧ := mk fun n => coeff n (H * (1 - 3 * X) * JZ ^ (2 * n + 1)) with hF
+  have h := kernel_inj ((ψ F - H) * (1 - 3 * X)) (fun n => by
+    rw [sub_mul, sub_mul, map_sub, ← lagrange, hF, coeff_mk, sub_self])
+  have hne : (1 - 3 * X : ℤ⟦X⟧) ≠ 0 := by
+    intro h0
+    have := congrArg constantCoeff h0
+    simp at this
+  exact sub_eq_zero.mp ((mul_eq_zero.mp h).resolve_right hne)
+
+/-- The root sequences: `rootSeq c n = [tⁿ] (1-t)^(-c) R (1-3t) (1-t)^(-2n-1)`, integers by
+construction. -/
+noncomputable def rootSeq (c n : ℕ) : ℤ :=
+  coeff n (JZ ^ c * Rr * (1 - 3 * X) * JZ ^ (2 * n + 1))
+
+theorem rootSeq_spec (c : ℕ) : rootSeq c 0 = 1 ∧ ∀ n,
+    ∑ k ∈ Finset.range (n + 1), rootSeq c k * rootSeq c (n - k) =
+      coeff n (JZ ^ (2 * c) * Pinv * JZ ^ (2 * n + 1)) := by
+  set A : ℤ⟦X⟧ := mk (rootSeq c) with hA
+  have hψA : ψ A = JZ ^ c * Rr := ψ_mk (JZ ^ c * Rr)
+  constructor
+  · have h := constantCoeff_ψ A
+    rw [hψA] at h
+    have h2 : constantCoeff A = rootSeq c 0 := by simp [hA]
+    rw [← h2, ← h]
+    simp [constantCoeff_Rr, JZ]
+  · intro n
+    have hconv : ∑ k ∈ Finset.range (n + 1), rootSeq c k * rootSeq c (n - k) =
+        coeff n (A ^ 2) := by
+      rw [pow_two, coeff_mul, Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+      simp [hA]
+    rw [hconv, lagrange, map_pow, hψA]
+    congr 1
+    calc (JZ ^ c * Rr) ^ 2 * (1 - 3 * X) * JZ ^ (2 * n + 1)
+        = JZ ^ (2 * c) * (Rr ^ 2 * (1 - 3 * X)) * JZ ^ (2 * n + 1) := by ring
+      _ = _ := by rw [Rr_sq]
+
+/-- Uniqueness: two integer sequences with value `1` at `0` and the same self-convolution
+are equal. -/
+theorem conv_root_unique (a b : ℕ → ℤ) (ha : a 0 = 1) (hb : b 0 = 1)
+    (h : ∀ n, ∑ k ∈ Finset.range (n + 1), a k * a (n - k) =
+      ∑ k ∈ Finset.range (n + 1), b k * b (n - k)) : a = b := by
+  have hsq : (mk a) ^ 2 = (mk b) ^ 2 := by
+    ext n
+    rw [pow_two, pow_two, coeff_mul, coeff_mul, Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk,
+      Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk]
+    simpa using h n
+  have h0 : (mk a - mk b) * (mk a + mk b) = 0 := by linear_combination hsq
+  have hne : mk a + mk b ≠ 0 := by
+    intro h1
+    have := congrArg constantCoeff h1
+    simp [ha, hb] at this
+  have := sub_eq_zero.mp ((mul_eq_zero.mp h0).resolve_right hne)
+  funext n
+  simpa using congrArg (coeff n) this
+
+/-- **A183161**, defined as an integer sequence. -/
+noncomputable def A183161 (n : ℕ) : ℤ := rootSeq 0 n
+
+/-- **A219197**, defined as an integer sequence. -/
+noncomputable def A219197 (n : ℕ) : ℤ := rootSeq 1 n
+
+/-- `A183161(0) = 1` and the self-convolution of A183161 is A183160. -/
+theorem A183161_spec : A183161 0 = 1 ∧
+    ∀ n, ∑ k ∈ Finset.range (n + 1), A183161 k * A183161 (n - k) = A183160 n := by
+  refine ⟨(rootSeq_spec 0).1, fun n => ?_⟩
+  rw [A183160_eq, show (A183161 : ℕ → ℤ) = rootSeq 0 from rfl, (rootSeq_spec 0).2 n]
+  simp
+
+/-- `A219197(0) = 1` and the self-convolution of A219197 is A199033. -/
+theorem A219197_spec : A219197 0 = 1 ∧
+    ∀ n, ∑ k ∈ Finset.range (n + 1), A219197 k * A219197 (n - k) = A199033 n := by
+  refine ⟨(rootSeq_spec 1).1, fun n => ?_⟩
+  rw [A199033_eq, show (A219197 : ℕ → ℤ) = rootSeq 1 from rfl, (rootSeq_spec 1).2 n,
+    show 2 * n + 3 = 2 * 1 + (2 * n + 1) by ring, pow_add]
+  ring_nf
+
+theorem A183161_unique (a : ℕ → ℤ) (h0 : a 0 = 1)
+    (hconv : ∀ n, ∑ k ∈ Finset.range (n + 1), a k * a (n - k) = A183160 n) : a = A183161 :=
+  conv_root_unique a A183161 h0 A183161_spec.1 fun n => by rw [hconv, A183161_spec.2]
+
+theorem A219197_unique (a : ℕ → ℤ) (h0 : a 0 = 1)
+    (hconv : ∀ n, ∑ k ∈ Finset.range (n + 1), a k * a (n - k) = A199033 n) : a = A219197 :=
+  conv_root_unique a A219197 h0 A219197_spec.1 fun n => by rw [hconv, A219197_spec.2]
+
+theorem A183161_ne_three (n : ℕ) : A183161 n % 4 ≠ 3 :=
+  A183161_def_mod4 A183161 A183161_spec.1 A183161_spec.2 n
+
+theorem A219197_ne_three (n : ℕ) : A219197 n % 4 ≠ 3 :=
+  A219197_def_mod4 A219197 A219197_spec.1 A219197_spec.2 n
 
 end OpenProblemsLib.HannaMod4

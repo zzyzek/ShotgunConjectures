@@ -38,13 +38,20 @@ output of the six-state automaton of [A183161](../A183161/README.md) started in 
 operators over ℤ/4); outputs 0, 1, 2.
 
 **Evidence.**
-- Lean: [`A219197_mathlib.lean`](A219197_mathlib.lean), theorem `A219197_def_mod4` (any integer sequence with a(0) = 1
-  and self-convolution A199033 has a(n) mod 4 ≠ 3) and `A219197_mod4` (from Hanna's g.f.), via
-  `OpenProblemsLib.HannaMod4` and `OpenProblemsLib.AutomaticMod`. Axioms: propext, Classical.choice, Quot.sound.
+- Lean: [`A219197_mathlib.lean`](A219197_mathlib.lean). `A219197` is defined in the library as the integer sequence
+  [t^n] R(t) (1-3t) (1-t)^(-2n-2), R = 1/sqrt((1-3t)(1+t)) (integer coefficients via the Catalan series, see
+  [OEIS/A183161](../A183161/README.md)). Theorems: `A219197_spec` (A219197(0) = 1 and its self-convolution is A199033),
+  `A219197_unique` (the only integer sequence with these properties), `A219197_ne_three` (A219197(n) mod 4 ≠ 3),
+  `A219197_def_mod4` (any integer sequence with a(0) = 1 and self-convolution A199033 has a(n) mod 4 ≠ 3) and
+  `A219197_mod4` (from Hanna's g.f.), via `OpenProblemsLib.HannaMod4` and `OpenProblemsLib.AutomaticMod`. Axioms:
+  propext, Classical.choice, Quot.sound.
 - [`certificate/gf_check.py`](certificate/gf_check.py): g.f. formula, square root, "never 3" and the automaton for n ≤ 300.
 - [`certificate/f.py`](certificate/f.py), [`certificate/g.py`](certificate/g.py), [`certificate/h.py`](certificate/h.py),
   [`certificate/m.gp`](certificate/m.gp): numerical checks of the first (paper) argument, steps 1-5.
-- Outside Lean: the existence of the integer sequence (the OEIS terms); the first (paper) argument is not formalised.
+- [OEIS/A183161/certificate/rootseq_check.py](../A183161/certificate/rootseq_check.py): the Lean definition agrees with
+  the 24 cached OEIS terms.
+- Outside Lean: none. The first (paper) argument is an independent second proof and is not formalised; the printed
+  OEIS terms are not used by the proof.
 
 **Review level.** `lean-proof` (the paper argument above and the Lean route are independent).
 

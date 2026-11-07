@@ -9,6 +9,11 @@ The entry gives the g.f. A(x) = G(x)/sqrt(1 - 2x G(x)^2 - 3x^2 G(x)^4) with G = 
 Conjecture: a(n) is never 3 (mod 4).
 
 Checked here.
+* `A219197_spec`, `A219197_unique`: the integer sequence `A219197` (defined in the library as
+  [tⁿ] R(t)(1-3t)(1-t)^(-2n-2), R = 1/sqrt((1-3t)(1+t)), an integer series via Catalan numbers)
+  has A219197(0) = 1 and self-convolution A199033, and it is the only integer sequence with these
+  two properties.
+* `A219197_ne_three`: A219197(n) mod 4 ≠ 3 for all n.
 * `A219197_def_mod4`: every integer sequence a with a(0) = 1 and self-convolution A199033 has
   a(n) mod 4 ≠ 3 for all n (`OpenProblemsLib.HannaMod4.A219197_def_mod4`).
 * `A219197_mod4`: the same for the coefficients of any A with G = 1 + X G^3, A(0) = 1 and
@@ -16,10 +21,27 @@ Checked here.
   `OpenProblemsLib.HannaMod4.gf_mod4` for G A₀.
 Proof (in the library): Lagrange inversion for x = t(1-t)^2, then a six-state Rowland-Yassawi
 automaton over ℤ/4 (`OpenProblemsLib.AutomaticMod`).
-Not checked: that an integer sequence with these properties exists (the OEIS terms are one).
+The printed OEIS terms are not used in Lean; they agree with the definition for the 24 cached
+terms (OEIS/A183161/certificate/rootseq_check.py).
 -/
 
 open PowerSeries
+
+/-- A219197, the integer self-convolution square root of A199033. -/
+noncomputable abbrev A219197 : ℕ → ℤ := OpenProblemsLib.HannaMod4.A219197
+
+theorem A219197_spec : A219197 0 = 1 ∧ ∀ n, ∑ k ∈ Finset.range (n + 1), A219197 k * A219197 (n - k) =
+      ∑ k ∈ Finset.range (n + 1), (((n + k + 1).choose (n - k) * (2 * n - k + 1).choose k : ℕ) : ℤ) :=
+  OpenProblemsLib.HannaMod4.A219197_spec
+
+theorem A219197_unique (a : ℕ → ℤ) (h0 : a 0 = 1)
+    (hconv : ∀ n, ∑ k ∈ Finset.range (n + 1), a k * a (n - k) =
+      ∑ k ∈ Finset.range (n + 1), (((n + k + 1).choose (n - k) * (2 * n - k + 1).choose k : ℕ) : ℤ)) :
+    a = A219197 :=
+  OpenProblemsLib.HannaMod4.A219197_unique a h0 hconv
+
+theorem A219197_ne_three (n : ℕ) : A219197 n % 4 ≠ 3 :=
+  OpenProblemsLib.HannaMod4.A219197_ne_three n
 
 theorem A219197_def_mod4 (a : ℕ → ℤ) (h0 : a 0 = 1)
     (hconv : ∀ n, ∑ k ∈ Finset.range (n + 1), a k * a (n - k) =
