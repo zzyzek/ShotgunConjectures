@@ -1,6 +1,7 @@
 import Mathlib
 import OpenProblemsLib.DworkEuler
 import OpenProblemsLib.DworkLocal
+import OpenProblemsLib.DworkLocalPoly
 
 /-!
 # OEIS A176827: a(n,q) is an integer for every integer q ≥ 1
@@ -20,6 +21,7 @@ Checked: `A176827_int : ∀ q ≥ 1, ∀ n, ∃ z : ℤ, a q n = z`, by primes:
   integers modulo `p^(v_p(N!) + N)`; the integer model `exp (∑ A'(Q^n x)^n x^n / n)` coefficient
   sequence `rowB ... (Q^n)^(m-n)` is integral at every prime (library `rowB_int`, Euler-product
   lemma), and `expQ_perturb` (library `DworkLocal`) transfers `p`-integrality to `A q N`.
+Helpers `Wt_*`, `CP_*`, `PV_pow_sub`, `expQ_eq_of_rec` are in library `DworkLocalPoly`.
 Not checked: the reading of the OEIS `exp (...)` as the recurrence.
 -/
 
@@ -58,18 +60,10 @@ theorem bf_eq (q : ℕ) (g : ℕ → ℚ) (m : ℕ) :
 
 /-! ## `n choose 2` -/
 
-theorem T_succ (n : ℕ) : (n + 1).choose 2 = n.choose 2 + n := by
-  rw [show (2 : ℕ) = 1 + 1 from rfl, Nat.choose_succ_succ, Nat.choose_one_right]; ring
-
-theorem T_add (i j : ℕ) : (i + j).choose 2 = i.choose 2 + j.choose 2 + i * j := by
-  induction j with
-  | zero => simp
-  | succ j ih => rw [← add_assoc, T_succ, ih, T_succ]; ring
-
 theorem T_ge (n : ℕ) : n - 1 ≤ n.choose 2 := by
   induction n with
   | zero => simp
-  | succ n ih => rw [T_succ]; omega
+  | succ n ih => rw [choose_two_succ]; omega
 
 section
 variable {p : ℕ} [hp : Fact p.Prime]
@@ -84,9 +78,9 @@ theorem key_ineq (v N m n : ℕ) (hv : 1 ≤ v) (hn : 1 ≤ n) (hnm : n ≤ m) (
       (padicValNat p m : ℤ) - padicValNat p n + -((v * (n * (m - n)) : ℕ) : ℤ) +
         -((v * (m - n).choose 2 : ℕ) : ℤ) := by
   have e1 : N.choose 2 = m.choose 2 + (N - m).choose 2 + m * (N - m) := by
-    have := T_add m (N - m); rwa [Nat.add_sub_cancel' hmN] at this
+    have := choose_two_add m (N - m); rwa [Nat.add_sub_cancel' hmN] at this
   have e2 : m.choose 2 = n.choose 2 + (m - n).choose 2 + n * (m - n) := by
-    have := T_add n (m - n); rwa [Nat.add_sub_cancel' hnm] at this
+    have := choose_two_add n (m - n); rwa [Nat.add_sub_cancel' hnm] at this
   have h1 : padicValNat p n ≤ n.choose 2 := (vp_le n hn).trans (T_ge n)
   have h2 : padicValNat p N ≤ padicValNat p m + m * (N - m) := by
     rcases eq_or_lt_of_le hmN with rfl | hlt
@@ -110,60 +104,6 @@ theorem key_ineq (v N m n : ℕ) (hv : 1 ≤ v) (hn : 1 ≤ n) (hnm : n ≤ m) (
   have k2 := mul_le_mul_of_nonneg_right hv' hM
   push_cast at h2' hM k2 ⊢
   nlinarith
-
-/-! ## Weighted coefficient bounds -/
-
-/-- `v_p ([x^i] f) ≥ -v (i choose 2)` for every `i`. -/
-def Wt (p v : ℕ) (f : ℚ[X]) : Prop := ∀ i, PV p (-((v * i.choose 2 : ℕ) : ℤ)) (f.coeff i)
-
-theorem Wt_mul {v : ℕ} {f g : ℚ[X]} (hf : Wt p v f) (hg : Wt p v g) : Wt p v (f * g) := by
-  intro k
-  rw [coeff_mul]
-  apply PV_sum; intro x hx
-  rw [Finset.HasAntidiagonal.mem_antidiagonal] at hx
-  refine PV_mono (PV_mul (hf x.1) (hg x.2)) ?_
-  rw [← hx, T_add]; push_cast
-  have : (0 : ℤ) ≤ (v : ℤ) * ((x.1 : ℤ) * x.2) := by positivity
-  nlinarith
-
-theorem Wt_one (v : ℕ) : Wt p v 1 := by
-  intro i
-  rw [coeff_one]
-  split_ifs with h
-  · subst h; simpa using PV_int (p := p) 1
-  · exact PV_zero _
-
-theorem Wt_pow {v : ℕ} {f : ℚ[X]} (hf : Wt p v f) (n : ℕ) : Wt p v (f ^ n) := by
-  induction n with
-  | zero => rw [pow_zero]; exact Wt_one v
-  | succ n ih => rw [pow_succ]; exact Wt_mul ih hf
-
-theorem Wt_gpoly {v m : ℕ} {g : ℕ → ℚ} (h : ∀ i, i < m → PV p (-((v * i.choose 2 : ℕ) : ℤ)) (g i)) :
-    Wt p v (gpoly g m) := by
-  intro i
-  rw [coeff_gpoly]
-  split_ifs with hi
-  · exact h i hi
-  · exact PV_zero _
-
-theorem PV_inv_qpow (q : ℕ) (hq : q ≠ 0) (k : ℕ) :
-    PV p (-((padicValNat p q * k : ℕ) : ℤ)) (1 / (q : ℚ) ^ k) := by
-  have hq' : (q : ℚ) ≠ 0 := by exact_mod_cast hq
-  have hv : padicValRat p ((q : ℚ) ^ k) = ((padicValNat p q * k : ℕ) : ℤ) := by
-    rw [padicValRat.pow, ← padicValRat_of_nat]; push_cast; ring
-  unfold PV
-  rw [padicNorm.div, padicNorm.one, padicNorm.eq_zpow_of_nonzero (pow_ne_zero _ hq'), hv, one_div,
-    ← zpow_neg]
-
-theorem PV_qpow (q k : ℕ) : PV p ((padicValNat p q * k : ℕ) : ℤ) ((q : ℚ) ^ k) := by
-  have h : ((p : ℤ) ^ padicValNat p q) ∣ (q : ℤ) := by exact_mod_cast pow_padicValNat_dvd
-  have h2 : ((p : ℤ) ^ (padicValNat p q * k)) ∣ (q : ℤ) ^ k := by
-    rw [pow_mul]; exact pow_dvd_pow_of_dvd h k
-  simpa using PV_dvd (p := p) _ _ h2
-
-theorem PV_nat_self (m : ℕ) : PV p (padicValNat p m) (m : ℚ) := by
-  have h : ((p : ℤ) ^ padicValNat p m) ∣ (m : ℤ) := by exact_mod_cast pow_padicValNat_dvd
-  simpa using PV_dvd (p := p) _ _ h
 
 theorem bf_bound (q : ℕ) (hq : q ≠ 0) (m : ℕ) (g : ℕ → ℚ)
     (hg : ∀ i, i < m → PV p (-((padicValNat p q * i.choose 2 : ℕ) : ℤ)) (g i)) (E : ℤ)
@@ -223,69 +163,6 @@ theorem A176827_pdvd (q n : ℕ) (hq : 1 ≤ q) (p : ℕ) (hp : p.Prime) (hpq : 
 
 section
 variable {p : ℕ} [hp : Fact p.Prime]
-
-/-- Coefficientwise `p^k ∣ f`. -/
-def CP (p : ℕ) (k : ℤ) (f : ℚ[X]) : Prop := ∀ i, PV p k (f.coeff i)
-
-theorem CP_mul {k l : ℤ} {f g : ℚ[X]} (hf : CP p k f) (hg : CP p l g) : CP p (k + l) (f * g) := by
-  intro i
-  rw [coeff_mul]
-  exact PV_sum _ _ (fun x _ => PV_mul (hf x.1) (hg x.2))
-
-theorem CP_one : CP p 0 (1 : ℚ[X]) := by
-  intro i
-  rw [coeff_one]
-  split_ifs
-  · simpa using PV_int (p := p) 1
-  · exact PV_zero _
-
-theorem CP_pow {f : ℚ[X]} (hf : CP p 0 f) (n : ℕ) : CP p 0 (f ^ n) := by
-  induction n with
-  | zero => rw [pow_zero]; exact CP_one
-  | succ n ih => rw [pow_succ]; have := CP_mul ih hf; rwa [zero_add] at this
-
-theorem CP_sum {ι : Type*} (s : Finset ι) (f : ι → ℚ[X]) {k : ℤ} (h : ∀ i ∈ s, CP p k (f i)) :
-    CP p k (∑ i ∈ s, f i) := by
-  intro j
-  rw [finsetSum_coeff]
-  exact PV_sum _ _ (fun i hi => h i hi j)
-
-theorem CP_pow_sub {K : ℤ} {f f' : ℚ[X]} (hf : CP p 0 f) (hf' : CP p 0 f') (hd : CP p K (f - f'))
-    (n : ℕ) : CP p K (f ^ n - f' ^ n) := by
-  rw [← geom_sum₂_mul]
-  have h := CP_mul (CP_sum (Finset.range n) _ (fun i _ => by
-    have := CP_mul (CP_pow hf i) (CP_pow hf' (n - 1 - i)); rwa [zero_add] at this)) hd
-  rwa [zero_add] at h
-
-theorem PV_pow0 {x : ℚ} (hx : PV p 0 x) (n : ℕ) : PV p 0 (x ^ n) := by
-  induction n with
-  | zero => simpa using PV_int (p := p) 1
-  | succ n ih => rw [pow_succ]; have := PV_mul ih hx; rwa [zero_add] at this
-
-theorem PV_pow_sub {K : ℤ} {x y : ℚ} (hx : PV p 0 x) (hy : PV p 0 y) (hd : PV p K (x - y))
-    (n : ℕ) : PV p K (x ^ n - y ^ n) := by
-  rw [← geom_sum₂_mul]
-  have h := PV_mul (PV_sum (Finset.range n) _ (fun i _ => by
-    have := PV_mul (PV_pow0 hx i) (PV_pow0 hy (n - 1 - i)); rwa [zero_add] at this)) hd
-  rwa [zero_add] at h
-
-theorem expQ_eq_of_rec (b : ℕ → ℚ) (A : ℕ → ℚ) (h0 : A 0 = 1)
-    (h : ∀ n : ℕ, ((n : ℚ) + 1) * A (n + 1) = ∑ j ∈ Finset.range (n + 1), b (j + 1) * A (n - j)) :
-    ∀ n, A n = expQ b n := by
-  intro n
-  induction n using Nat.strong_induction_on with
-  | _ n ih =>
-    rcases n with _ | n
-    · rw [h0, expQ_zero]
-    · have e1 := h n
-      have e2 := expQ_succ b n
-      have hs : ∑ j ∈ Finset.range (n + 1), b (j + 1) * A (n - j) =
-          ∑ j ∈ Finset.range (n + 1), b (j + 1) * expQ b (n - j) :=
-        Finset.sum_congr rfl (fun j hj => by
-          rw [Finset.mem_range] at hj
-          rw [ih (n - j) (by omega)])
-      have hne : ((n : ℚ) + 1) ≠ 0 := by positivity
-      exact mul_left_cancel₀ hne (e1.trans (hs.trans e2.symm))
 
 theorem rowB_cast (g' : ℕ → ℤ) (Q : ℤ) (N m : ℕ) (hm : m ≤ N) :
     (rowB ((X * gpoly g' N).map C) (fun _ => 0) (fun m n => (Q ^ n) ^ (m - n)) m : ℚ) =

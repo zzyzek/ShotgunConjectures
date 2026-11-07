@@ -1,4 +1,5 @@
 import Mathlib
+import OpenProblemsLib.BernoulliDen
 
 /-
 OEIS A141459: a(n) = product of the odd primes p with p - 1 | n (a(0) = 1).
@@ -24,12 +25,15 @@ Route.
   uniformly μ_j = -(2^j - 2) B'_j (π i)^j (`moment_formula`).
 * `bern_identity`: Σ_j C(n,j)(2 - 2^j) B'_j = 2^n B'_n (exponential generating functions).
 * `den_two_pow_bernoulli`: von Staudt–Clausen (Mathlib's `Bernoulli.vonStaudt_clausen`,
-  `padicValRat_bernoulli`) gives the p-adic valuations of 2^(2k) B_2k.
+  `padicValRat_bernoulli`; library `OpenProblemsLib.BernoulliDen.bernoulli_den_not_dvd`)
+  gives the p-adic valuations of 2^(2k) B_2k.
 Checked: all of the above. Not checked: nothing beyond the reading. Axioms: propext,
 Classical.choice, Quot.sound.
 -/
 
 namespace OEIS_A141459
+
+open OpenProblemsLib.BernoulliDen
 
 
 section
@@ -51,25 +55,6 @@ theorem den_vp (x : ℚ) (p : ℕ) [hp : Fact p.Prime] :
     simp
   · rw [padicValNat.eq_zero_of_not_dvd h]
     simp
-
-theorem bernoulli_den_not_dvd (k p : ℕ) [hp : Fact p.Prime] (hpk : ¬ (p - 1) ∣ 2 * k) :
-    ¬ p ∣ (bernoulli (2 * k)).den := by
-  obtain ⟨z, hz⟩ := Bernoulli.vonStaudt_clausen k
-  set S := (range (2 * k + 2)).filter (fun p => p.Prime ∧ (p - 1) ∣ 2 * k)
-  have hB : bernoulli (2 * k) = -((∑ q ∈ S, (1 : ℚ) / q) - z) := by rw [hz]; ring
-  have hden : (bernoulli (2 * k)).den ∣ ∏ q ∈ S, q := by
-    rw [hB, Rat.den_neg_eq_den, Rat.sub_intCast_den]
-    refine (Rat.den_sum_dvd_prod_den _ _).trans (dvd_of_eq (Finset.prod_congr rfl ?_))
-    intro q hq
-    have hq0 : q ≠ 0 := (Finset.mem_filter.mp hq).2.1.ne_zero
-    simp [hq0]
-  intro h
-  have := (Prime.dvd_finsetProd_iff hp.out.prime _).mp (h.trans hden)
-  obtain ⟨q, hq, hpq⟩ := this
-  have hqp := (Finset.mem_filter.mp hq).2
-  have : p = q := (Nat.prime_dvd_prime_iff_eq hp.out hqp.1).mp hpq
-  exact hpk (this ▸ hqp.2)
-
 
 theorem bernoulli_ne_zero (k : ℕ) (hk : 0 < k) : bernoulli (2 * k) ≠ 0 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

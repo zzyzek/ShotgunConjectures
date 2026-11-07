@@ -13,3 +13,6 @@ import OpenProblemsLib.DworkEuler
 import OpenProblemsLib.DworkMultinomial
 import OpenProblemsLib.ShevelevFactorial
 import OpenProblemsLib.QSeries
+import OpenProblemsLib.BernoulliDen
+import OpenProblemsLib.ModularSums
+import OpenProblemsLib.DworkLocalPoly

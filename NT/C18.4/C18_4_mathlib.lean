@@ -1,4 +1,5 @@
 import Mathlib
+import OpenProblemsLib.ModularSums
 
 /-
 Guy, UPINT C18 (Heden): on the n × n modular (toroidal) board, is the maximum number M(n) of
@@ -15,11 +16,13 @@ k·n only for |k| ≤ 6, and each k is excluded by `omega` on every pair of piec
 Checked here (`queens_upper`): every non-attacking set has at most n - 2 queens (Monsky's
 argument: the four coordinate maps of n - 1 queens each miss one value; sums and sums of squares,
 in ZMod n when 3 ∣ n and of lifts in ZMod (2n) when 4 ∣ n, force n ∣ Σ_{i<n} i² or a variant,
-which fails). Main theorem `modular_queens_eq`: both statements, i.e. M(n) = n - 2.
+which fails; `miss`, `sum_zmod`, `sq_lift` from library `OpenProblemsLib.ModularSums`). Main theorem `modular_queens_eq`: both statements, i.e. M(n) = n - 2.
 Not checked: nothing beyond reading M(n) as the maximum size of such a set.
 -/
 
 namespace NT_C18_4
+
+open OpenProblemsLib.ModularSums
 
 /-- Pairwise non-attacking queens on the n × n torus. -/
 def NonAttacking {n : ℕ} (S : Finset (ZMod n × ZMod n)) : Prop :=
@@ -1806,51 +1809,10 @@ theorem queens_lower (n : ℕ) (h3 : 3 ≤ n) (hd : 3 ∣ n ∨ 4 ∣ n) :
 
 /-! Upper bound (Monsky): no n - 1 non-attacking queens when 3 ∣ n or 4 ∣ n. -/
 
-theorem sum_zmod {n : ℕ} [NeZero n] {R : Type} [AddCommMonoid R] (g : ZMod n → R) :
-    ∑ v, g v = ∑ i ∈ Finset.range n, g (i : ZMod n) := by
-  refine (Finset.sum_nbij' (s := Finset.range n) (t := Finset.univ)
-    (f := fun i => g (i : ZMod n)) (g := g) (fun i => (i : ZMod n)) (fun v => v.val)
-    ?_ ?_ ?_ ?_ ?_).symm
-  · intro i _; simp
-  · intro v _; simp [ZMod.val_lt]
-  · intro i hi; rw [Finset.mem_range] at hi; exact ZMod.val_cast_of_lt hi
-  · intro v _; simp
-  · intro i _; rfl
-
-/-- If f is injective on S and |S| = n - 1, the image misses exactly one value a. -/
-theorem miss {n : ℕ} [NeZero n] {α : Type} [DecidableEq α] (S : Finset α) (f : α → ZMod n)
-    (hf : Set.InjOn f S) (hc : S.card + 1 = n) :
-    ∃ a : ZMod n, ∀ {R : Type} [AddCommGroup R] (g : ZMod n → R),
-      ∑ p ∈ S, g (f p) = (∑ v, g v) - g a := by
-  classical
-  have hI : (S.image f).card = S.card := Finset.card_image_of_injOn hf
-  have hcc : (S.image f)ᶜ.card = 1 := by
-    rw [Finset.card_compl, hI, ZMod.card]; omega
-  obtain ⟨a, ha⟩ := Finset.card_eq_one.1 hcc
-  refine ⟨a, fun {R} _ g => ?_⟩
-  rw [← Finset.sum_image (f := g) hf, ← Finset.sum_compl_add_sum (S.image f), ha,
-    Finset.sum_singleton]
-  abel
-
 theorem six_sum_sq (N : ℕ) : 6 * ∑ i ∈ Finset.range (N + 1), i ^ 2 = N * (N + 1) * (2 * N + 1) := by
   induction N with
   | zero => simp
   | succ N ih => rw [Finset.sum_range_succ, mul_add, ih]; ring
-
-theorem sq_lift {n : ℕ} (hn : 2 ∣ n) (u w : ℤ) (h : ((u : ZMod n)) = (w : ZMod n)) :
-    ((u : ZMod (2 * n))) ^ 2 = (w : ZMod (2 * n)) ^ 2 := by
-  rw [ZMod.intCast_eq_intCast_iff_dvd_sub] at h
-  obtain ⟨k, hk⟩ := h
-  obtain ⟨r, rfl⟩ := hn
-  have : ((u : ZMod (2 * (2 * r)))) = (w : ZMod (2 * (2 * r))) + ((2 * r : ℕ) : ℤ) * (-k) := by
-    have : u = w + ((2 * r : ℕ) : ℤ) * (-k) := by push_cast at hk ⊢; linarith
-    rw [this]; push_cast; ring
-  rw [this]
-  have h0 : ((2 * (2 * r) : ℕ) : ZMod (2 * (2 * r))) = 0 := ZMod.natCast_self _
-  have : ((w : ZMod (2 * (2 * r))) + ((2 * r : ℕ) : ℤ) * (-k)) ^ 2 =
-      (w : ZMod (2 * (2 * r))) ^ 2 + ((2 * (2 * r) : ℕ) : ZMod (2 * (2 * r))) * (w * (-k) + r * k ^ 2) := by
-    push_cast; ring
-  rw [this, h0, zero_mul, add_zero]
 
 theorem no_n_minus_one (n : ℕ) (hn : 3 ≤ n) (hd : 3 ∣ n ∨ 4 ∣ n)
     (S : Finset (ZMod n × ZMod n)) (hS : NonAttacking S) (hc : S.card + 1 = n) : False := by

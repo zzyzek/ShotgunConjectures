@@ -7,7 +7,7 @@ a(17), ..., a(32) = 8589934590.
 
 Proof.  von Staudt–Clausen (Mathlib `Bernoulli.vonStaudt_clausen` plus
 `Bernoulli.dvd_den_bernoulli`) gives, for k ≥ 1, den B_{2k} = ∏ p over primes
-p with p - 1 ∣ 2k (`bernoulli_den_eq_prod`).  For 2k = 2^m, p - 1 ∣ 2^m forces
+p with p - 1 ∣ 2k (library `OpenProblemsLib.BernoulliDen.bernoulli_den_eq_prod`).  For 2k = 2^m, p - 1 ∣ 2^m forces
 p = 2^j + 1 with j ≤ m; for m ≤ 31 the primes of this form are 2, 3, 5, 17,
 257, 65537 (65537 needs j = 16).  Products: 2·3·5·17·257 = 131070 and
 131070·65537 = 8589934590.
@@ -17,54 +17,9 @@ Not checked here: nothing beyond reading A027642 as Mathlib's
 `(bernoulli n).den` (the sign convention for B₁ does not change denominators).
 -/
 import Mathlib
+import OpenProblemsLib.BernoulliDen
 
-open Finset
-
-/-- The primes in the von Staudt–Clausen sum for B_{2k}. -/
-def vscSet (k : ℕ) : Finset ℕ :=
-  (range (2 * k + 2)).filter (fun p => p.Prime ∧ (p - 1) ∣ 2 * k)
-
-theorem den_dvd_prod (k : ℕ) : (bernoulli (2 * k)).den ∣ ∏ p ∈ vscSet k, p := by
-  obtain ⟨N, hN⟩ := Bernoulli.vonStaudt_clausen k
-  set P : ℕ := ∏ p ∈ vscSet k, p with hP
-  have hPpos : P ≠ 0 := by
-    rw [hP, Finset.prod_ne_zero_iff]
-    intro p hp
-    exact (Finset.mem_filter.1 hp).2.1.ne_zero
-  have hsum : (P : ℚ) * ∑ p ∈ vscSet k, (1 : ℚ) / p
-      = ((∑ p ∈ vscSet k, P / p : ℕ) : ℚ) := by
-    rw [Finset.mul_sum, Nat.cast_sum]
-    refine Finset.sum_congr rfl ?_
-    intro p hp
-    have hpp := (Finset.mem_filter.1 hp).2.1
-    have hdvd : p ∣ P := Finset.dvd_prod_of_mem _ hp
-    rw [Nat.cast_div hdvd (by exact_mod_cast hpp.ne_zero)]
-    ring
-  set M : ℕ := ∑ p ∈ vscSet k, P / p with hM
-  clear_value M
-  have hint : (P : ℚ) * bernoulli (2 * k) = (((P : ℤ) * N - (M : ℤ) : ℤ) : ℚ) := by
-    have : bernoulli (2 * k) = (N : ℚ) - ∑ p ∈ vscSet k, (1 : ℚ) / p := by
-      rw [hN]; unfold vscSet; ring
-    rw [this, mul_sub, hsum]
-    push_cast
-    ring
-  have hB : bernoulli (2 * k) = ((P : ℚ) * bernoulli (2 * k)) * (P : ℚ)⁻¹ := by
-    field_simp
-  have hd := Rat.mul_den_dvd ((P : ℚ) * bernoulli (2 * k)) ((P : ℚ)⁻¹)
-  rw [← hB, hint, Rat.den_intCast, one_mul,
-    show ((P : ℚ)⁻¹).den = P by simp [hPpos]] at hd
-  exact hd
-
-theorem bernoulli_den_eq_prod (k : ℕ) (hk : 0 < k) :
-    (bernoulli (2 * k)).den = ∏ p ∈ vscSet k, p := by
-  apply Nat.dvd_antisymm (den_dvd_prod k)
-  apply Finset.prod_primes_dvd
-  · intro p hp
-    exact (Finset.mem_filter.1 hp).2.1.prime
-  · intro p hp
-    have h := Finset.mem_filter.1 hp
-    have : Fact p.Prime := ⟨h.2.1⟩
-    exact Bernoulli.dvd_den_bernoulli hk h.2.2
+open Finset OpenProblemsLib.BernoulliDen
 
 /-- Primes p with p - 1 ∣ 2^m, m ≤ 31, are among 2, 3, 5, 17, 257, 65537. -/
 theorem fermat_like (m p : ℕ) (hm : m ≤ 31) (hp : p.Prime) (hd : (p - 1) ∣ 2 ^ m) :
