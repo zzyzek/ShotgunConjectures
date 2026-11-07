@@ -16,9 +16,9 @@ Found 2026-11-06 during the library promotion pass; not yet moved.
 - `powMod_eq` / `pow_period`: about 81 core-only COM files (library: PowMod.lean).
 
 Added 2026-11-07 (round r17 candidates):
-- Base-10 digits: `A077739_ds_add` (digit sum of a + 10^m b), `A077739_pow_period` (powers of 10 repeat mod n), A084043 repunit helpers `rp`, `rep`, `rep_mul`, `dvd_rep`. Candidate module Digits10.lean.
-- `exists_nonsq`, `sum_squares_zero` (ZMod p) in OEIS/A176948.
-- `descFactorial_mono` in OEIS/A096123.
+- Done 2026-11-07: base-10 digits (`A077739_ds_add`, `A077739_ds_le`, `A077739_pow_period`, `A077739_period_mul`; A084043 `rp`, `rep`, `rep_mul`, `dvd_rep` and helpers) moved to Digits10.lean as `digitSum_add`, `digitSum_le`, `pow_period`, `pow_period_mul`, `rp`, `rep`, ...; OEIS/A077739 (with A077740) and A084043 (with A084044) import it.
+- Done 2026-11-07: `exists_nonsq`, `sum_squares_zero`, `two_ne_zero_zmod` (OEIS/A176948) moved to Misc.lean; A176948 imports it.
+- Done 2026-11-07: `descFactorial_mono` (OEIS/A096123) moved to Misc.lean; A096123 imports it.
 
 Library issues noted while writing lib/docs (2026-11-07):
 - ArithFactor: no unitary-divisor-sum function; `unitary_val` proves one direction only; header says "all three" but lists four results.

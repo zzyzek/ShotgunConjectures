@@ -1,4 +1,5 @@
 import Mathlib
+import OpenProblemsLib.Digits10
 
 /-!
 # OEIS A084043, A084044: a palindromic multiple of n containing n exists iff 10 does not divide n
@@ -21,80 +22,12 @@ copies of `Y`, so `g ∣ P` (low digits) and `m ∣ (10^{|Y| k} - 1)/(10^{|Y|} -
 
 namespace A084043
 
-open Nat
+open Nat OpenProblemsLib.Digits10
 
 def IsPal (P : ℕ) : Prop := (Nat.digits 10 P).reverse = Nat.digits 10 P
 
 def Sandwich (n P : ℕ) : Prop :=
   ∃ u v : List ℕ, u ≠ [] ∧ v ≠ [] ∧ Nat.digits 10 P = u ++ Nat.digits 10 n ++ v
-
-/-- `k` copies of `Y`. -/
-def rp (Y : List ℕ) : ℕ → List ℕ
-  | 0 => []
-  | k + 1 => Y ++ rp Y k
-
-/-- `1 + B + ... + B^(k-1)`. -/
-def rep (B : ℕ) : ℕ → ℕ
-  | 0 => 0
-  | k + 1 => 1 + B * rep B k
-
-theorem rp_comm (Y : List ℕ) (k : ℕ) : rp Y k ++ Y = Y ++ rp Y k := by
-  induction k with
-  | zero => simp [rp]
-  | succ k ih => simp only [rp, List.append_assoc, ih]
-
-theorem rp_reverse (Y : List ℕ) (k : ℕ) : (rp Y k).reverse = rp Y.reverse k := by
-  induction k with
-  | zero => rfl
-  | succ k ih =>
-    simp only [rp, List.reverse_append, ih]
-    exact rp_comm Y.reverse k
-
-theorem mem_rp {Y : List ℕ} {k x : ℕ} (h : x ∈ rp Y k) : x ∈ Y := by
-  induction k with
-  | zero => simp [rp] at h
-  | succ k ih =>
-    simp only [rp, List.mem_append] at h
-    rcases h with h | h
-    · exact h
-    · exact ih h
-
-theorem ofDigits_rp (Y : List ℕ) (k : ℕ) :
-    Nat.ofDigits 10 (rp Y k) = Nat.ofDigits 10 Y * rep (10 ^ Y.length) k := by
-  induction k with
-  | zero => simp [rp, rep]
-  | succ k ih => rw [rp, Nat.ofDigits_append, ih, rep]; ring
-
-theorem rep_mul (B k : ℕ) (hB : 1 ≤ B) : rep B k * (B - 1) + 1 = B ^ k := by
-  obtain ⟨c, rfl⟩ : ∃ c, B = c + 1 := ⟨B - 1, by omega⟩
-  simp only [Nat.add_sub_cancel]
-  induction k with
-  | zero => simp [rep]
-  | succ k ih => rw [rep, pow_succ, ← ih]; ring
-
-theorem dvd_rep (m L : ℕ) (hm : 0 < m) (hL : 1 ≤ L) (hc : Nat.Coprime 10 m) :
-    ∃ j, m ∣ rep (10 ^ L) (j + 2) := by
-  set B := 10 ^ L with hBdef
-  have hB : 10 ≤ B := by
-    calc 10 = 10 ^ 1 := by norm_num
-      _ ≤ 10 ^ L := Nat.pow_le_pow_right (by norm_num) hL
-  set M := m * (B - 1)
-  have hMpos : 0 < M := Nat.mul_pos hm (by omega)
-  have hcop : Nat.Coprime B M := by
-    apply Nat.Coprime.mul_right (Nat.Coprime.pow_left L hc)
-    exact (Nat.coprime_self_sub_right (by omega)).2 (Nat.coprime_one_right B)
-  have ht : 0 < φ M := Nat.totient_pos.2 hMpos
-  refine ⟨2 * φ M - 2, ?_⟩
-  have hk : 2 * φ M - 2 + 2 = 2 * φ M := by omega
-  rw [hk]
-  have h1 : B ^ (2 * φ M) ≡ 1 [MOD M] := by
-    rw [mul_comm, pow_mul]
-    simpa using (Nat.ModEq.pow_totient hcop).pow 2
-  have h2 : M ∣ B ^ (2 * φ M) - 1 :=
-    (Nat.modEq_iff_dvd' (Nat.one_le_pow _ _ (by omega))).1 h1.symm
-  have h3 := rep_mul B (2 * φ M) (by omega)
-  rw [show B ^ (2 * φ M) - 1 = rep B (2 * φ M) * (B - 1) by omega] at h2
-  exact Nat.dvd_of_mul_dvd_mul_right (by omega) h2
 
 theorem pal_head_eq_last (l : List ℕ) (hl : l ≠ []) (h : l.reverse = l) :
     l.head hl = l.getLast hl := by

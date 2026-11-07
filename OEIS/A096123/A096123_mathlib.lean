@@ -1,4 +1,5 @@
 import Mathlib
+import OpenProblemsLib.Misc
 
 /-
 OEIS-A096123 (Mathlib). A096123: least product n*(n-1)*...*(n-k+1) divisible by (n-k)!.
@@ -17,23 +18,12 @@ Checked: everything above. Not checked here: that the definition matches the ent
 PARI program and data (certificate/check.gp, read-the-definition step).
 -/
 
+open OpenProblemsLib.Misc
+
 /-- `A096123 n`: the least product `n (n-1) ... (n-k+1)` divisible by `(n-k)!`. -/
 noncomputable def A096123 (n : ℕ) : ℕ :=
   n.descFactorial
     (Nat.find (⟨n, by simp⟩ : ∃ k, (n - k).factorial ∣ n.descFactorial k))
-
-lemma descFactorial_mono (n : ℕ) {k l : ℕ} (hkl : k ≤ l) (hl : l ≤ n) :
-    n.descFactorial k ≤ n.descFactorial l := by
-  induction l with
-  | zero => simp_all
-  | succ l ih =>
-    rcases Nat.eq_or_lt_of_le hkl with h | h
-    · rw [h]
-    · rw [Nat.descFactorial_succ]
-      have h1 := ih (by omega) (by omega)
-      have h2 : 1 ≤ n - l := by omega
-      calc n.descFactorial k ≤ n.descFactorial l := h1
-        _ ≤ (n - l) * n.descFactorial l := Nat.le_mul_of_pos_left _ h2
 
 lemma qualifies (p : ℕ) : (2 * p - p).factorial ∣ (2 * p).descFactorial p := by
   have h2 : 2 * p - p = p := by omega

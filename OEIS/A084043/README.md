@@ -25,7 +25,7 @@ revision #5 of Dec 05 2013, A084044 revision #7 of Aug 23 2014, checked 2026-11-
   significant first; reversal preserves palindromes and substrings). Main theorems
   `A084043.A084043_main : 0 < n → ((∃ P, 0 < P ∧ n ∣ P ∧ IsPal P ∧ Sandwich n P) ↔ ¬ 10 ∣ n)` and
   `A084043.A084044_main` (same with `digits 10 n <:+: digits 10 P`); construction `construct`, Euler step
-  `dvd_rep`, impossibility `no_pal_of_ten`. Check: `tools/leancheck-mathlib.sh`, exit 0, no warnings; axioms
+  `dvd_rep` (library `OpenProblemsLib.Digits10`), impossibility `no_pal_of_ten`. Check: `tools/leancheck-mathlib.sh`, exit 0, no warnings; axioms
   propext, Classical.choice, Quot.sound. No `sorry`, no `native_decide`.
 - [`certificate/brute.py`](certificate/brute.py): brute-force least values reproduce the data of both entries
   (A084043 n <= 38, A084044 n <= 45); exit 0.

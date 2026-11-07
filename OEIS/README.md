@@ -4,7 +4,7 @@ Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS
 
 405 entries: 280 resolved by this project, 113 answered elsewhere, 2 disputed or partial.
 
-Of the 280 resolutions: 249 proved in full in Lean, 9 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 22 on paper only (re-derived by a second reader; 11 of these need Mathlib to formalise).
+Of the 280 resolutions: 250 proved in full in Lean, 9 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 21 on paper only (re-derived by a second reader; 10 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -89,7 +89,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A100682](A100682/) | disproved | exception list of Greathouse's formula is incomplete | [full proof](A100682/A100682_mathlib.lean) | new | [exact-arithmetic](../methods/exact-arithmetic/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A101312](A101312/) | trivial or misstated | other weekday/day pairs do not give a shifted Friday-13th sequence | — | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A101462](A101462/) | disproved | 2^k − 509203 is never prime, so a(42228) does not exist | [full proof](A101462/A101462_mathlib.lean) | known | [covering-congruences](../methods/covering-congruences/README.md) |
-| [A102237](A102237/) | proved | a(n) = 2^n for n > 5 | needs Mathlib | new | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A102237](A102237/) | proved | a(n) = 2^n for n > 5 | [full proof](A102237/A102237_mathlib.lean) | new | [ordered-prime-gap-bound](../methods/ordered-prime-gap-bound/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A102613](A102613/) | trivial or misstated | π(n)/(n − π(n)) → 0 | [full proof](A102613/A102613_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md) |
 | [A103990](A103990/) | proved | sqrt(pi) I(n,0) = (2/3)(n^3 - n^2 + 2n + 1)/(2n + 1) | [full proof](A103990/A103990_mathlib.lean) | new | [reading-the-statement](../methods/reading-the-statement/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
 | [A104895](A104895/) | proved | positions of k ≥ 0 are A048724(k), positions of −k are A065621(k) | [full proof](A104895/A104895_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
@@ -2003,21 +2003,33 @@ a(n) = 2^n iff 2^n is a sum of n distinct primes.
 **Result.** True: for every n ≥ 6, 2^n is a sum of n distinct primes, so a(n) = 2^n.
 
 **Argument.** Parity: for even n use n odd primes summing to 2^n; for odd n use 2 plus n − 1 odd primes summing to
-2^n − 2. Call S(k, N): N is a sum of k distinct odd primes.
-1. *Step.* Suppose S(k, N') holds for every N' ≡ k (mod 2) in [L_k, B_k], with L_k ≥ 2·396738. Let N ≡ k+1 (mod 2),
-   2L_k/(1 − ε) ≤ N ≤ 2B_k, where ε = 1/(25 ln² L_k). By Dusart (2010, Prop. 6.8: for x ≥ 396738 there is a prime
-   in (x, x(1 + 1/(25 ln² x))]) with x = N/2 ≥ L_k there is a prime p with N/2 < p ≤ (N/2)(1 + ε) ≤ N − L_k. Then
-   N − p ∈ [L_k, B_k] has the parity of k, so it is a sum of k distinct odd primes, each ≤ N − p < N/2 < p. Adding p
-   gives S(k+1, N). So the statement holds with L_{k+1} = 2L_k/(1 − 1/(25 ln² L_k)), B_{k+1} = 2B_k.
-2. *Base.* k₀ = 22, L₂₂ = 3774874 ≈ 0.9·2^22, B₂₂ = 2^23: every even N in this range is the sum of the first 20 odd
-   primes (3..73) and two distinct primes > 73 (computer check).
-3. *Growth.* Then B_k = 2^{k+1} and L_k/2^k increases to about 0.9035 < 0.95 (computed to k = 10^5, with the tail
-   bounded by exp(Σ ε_j) ≤ exp(8.5·10^−7)). So for even k ≥ 22 both 2^k and 2^{k+1} − 2 lie in [L_k, B_k]: 2^n is a
-   sum of n distinct odd primes for even n ≥ 22, and 2^n = 2 + (sum of n − 1 distinct odd primes) for odd n ≥ 23.
-4. *Small n.* For 6 ≤ n ≤ 23 explicit representations (e.g. 64 = 3 + 5 + 7 + 13 + 17 + 19,
-   128 = 2 + 3 + 5 + 7 + 11 + 17 + 83).
+2^n − 2. Prime bound used: for every real x ≥ 25 there is a prime in (x, 1.21x] (library theorem
+`OpenProblemsLib.ShortIntervalPrimes.exists_prime_Ioc_mul`, proved in Lean from Chebyshev's 1852 bounds plus 85
+certified primes; see `lib/docs/short-interval-primes.md`). Write W(k, L, U, M) for: every N ≡ k (mod 2) with
+L ≤ N ≤ U is a sum of k distinct odd primes, each ≤ M.
+1. *Step.* Assume W(k, L, U, M) with L ≥ 0, M ≥ 25 and 0.42M ≤ 1.21(U − L). Let N ≡ k+1 (mod 2) with
+   L + 1.21M ≤ N ≤ U + 2M/1.21. Put b = max(N − U, M) and take a prime q with b < q ≤ 1.21b. Then q > M and
+   q > N − U. If b = M then q ≤ 1.21M ≤ min(2M, N − L). If b = N − U then q ≤ 1.21(N − U) ≤ 2M (from
+   N ≤ U + 2M/1.21), and 1.21(N − U) ≤ N − L because 0.21N ≤ 0.21U + 0.42M/1.21 ≤ 0.21U + (U − L). So
+   N − q ∈ [L, U] has the parity of k, is a sum of k distinct odd primes ≤ M < q, and adding q gives
+   W(k+1, L + 1.21M, U + 2M/1.21, 2M).
+2. *Iteration.* From W(6, L₀, U₀, M₀) the step gives W(6 + j, L₀ + 1.21M₀(2^j − 1), U₀ + (2/1.21)M₀(2^j − 1),
+   M₀2^j) for all j: the width condition holds at every stage because the window widens at slope
+   (2/1.21 − 1.21) = 0.443 per unit of M₀(2^j − 1), and 1.21·0.443 = 0.536 ≥ 0.42.
+3. *Bases.* Every even N in [62, 152] is a sum of six distinct odd primes ≤ 39 (chain A, M₀ = 39), and every even
+   N in [62, 374] is a sum of six distinct odd primes ≤ 78 (chain B, M₀ = 78). Explicit tables, checked in the
+   kernel.
+4. *Targets.* With t = 2^j ≥ 1: chain A has L = 62 + 47.19(t − 1) ≤ 64t ≤ 152 + 64.46(t − 1) = U, so 2^n
+   (n = 6 + j even) is a sum of n distinct odd primes. Chain B has 62 + 94.38(t − 1) ≤ 128t − 2 ≤
+   374 + 128.93(t − 1), so 2^n − 2 (n = 7 + j odd, k = n − 1 even) is a sum of n − 1 distinct odd primes; add 2.
+5. *Minimality.* A product of n primes is ≥ 2^n, and 2^n = 2·…·2. So a(n) = 2^n for n ≥ 6.
 
-Lean: needs Mathlib.
+Review note (2026-11-07): this induction replaces the earlier Dusart-based one (scoping proposal in
+`../open-problems/docs/PRIME-BOUNDS-SCOPE-2026-11-07.md`). Re-derived on paper before formalising. The proposal used
+"gap between consecutive primes in (M, 2M] ≤ U − L"; the version here takes one prime in (b, 1.21b] directly and
+needs the slightly weaker width condition U − L ≥ 0.347M. No gap found.
+
+Lean: [full proof](A102237/A102237_mathlib.lean).
 
 ### [A102613](A102613/): π(n)/(n − π(n)) → 0
 

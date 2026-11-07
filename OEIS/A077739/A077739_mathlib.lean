@@ -17,9 +17,10 @@ Checked here:
 Not checked: that the witnesses are the least ones (the OEIS values); only existence matters.
 -/
 import Mathlib
+import OpenProblemsLib.Digits10
 
 
-open Nat
+open Nat OpenProblemsLib.Digits10
 
 /-- N is a multiple of n whose decimal string begins and ends with that of n and whose digit
 sum is n. -/
@@ -33,62 +34,16 @@ noncomputable def A077739 (n : ℕ) : ℕ := if h : ∃ N, A077739_Good n N then
 /-- A077740(n) = A077739(n)/n. -/
 noncomputable def A077740 (n : ℕ) : ℕ := A077739 n / n
 
-/-- Decimal digit sum. -/
-abbrev A077739_ds (x : ℕ) : ℕ := (digits 10 x).sum
-
-theorem A077739_ds_add (m a b : ℕ) (ha : a < 10 ^ m) : A077739_ds (a + 10 ^ m * b) = A077739_ds a + A077739_ds b := by
-  rcases Nat.eq_zero_or_pos b with rfl | hb
-  · simp [A077739_ds]
-  have hlen : (digits 10 a).length ≤ m := (Nat.digits_length_le_iff (by norm_num) a).mpr ha
-  have h := Nat.digits_append_zeroes_append_digits (b := 10) (k := m - (digits 10 a).length)
-    (m := b) (n := a) (by norm_num) hb
-  rw [show (digits 10 a).length + (m - (digits 10 a).length) = m by omega] at h
-  unfold A077739_ds
-  rw [← h]
-  simp
-
-theorem A077739_ds_le (x : ℕ) : A077739_ds x ≤ 9 + x / 10 := by
-  rcases Nat.eq_zero_or_pos x with rfl | hx
-  · simp [A077739_ds]
-  unfold A077739_ds
-  rw [Nat.digits_def' (by norm_num) hx, List.sum_cons]
-  have h1 := Nat.digit_sum_le 10 (x / 10)
-  have h2 : x % 10 < 10 := Nat.mod_lt _ (by norm_num)
-  omega
-
-/-- Pigeonhole: the powers of 10 modulo n repeat. -/
-theorem A077739_pow_period (n : ℕ) (hn : 0 < n) : ∃ i P, 0 < P ∧ 10 ^ (i + P) % n = 10 ^ i % n := by
-  have hc : (Finset.range n).card < (Finset.range (n + 1)).card := by simp
-  obtain ⟨x, -, y, -, hxy, h⟩ := Finset.exists_ne_map_eq_of_card_lt_of_maps_to hc
-    (f := fun k => 10 ^ k % n) (by intro k _; simpa using Nat.mod_lt _ hn)
-  rcases Nat.lt_or_gt_of_ne hxy with h' | h'
-  · exact ⟨x, y - x, by omega, by rw [Nat.add_sub_cancel' h'.le]; exact h.symm⟩
-  · exact ⟨y, x - y, by omega, by rw [Nat.add_sub_cancel' h'.le]; exact h⟩
-
-theorem A077739_period_mul (n i P : ℕ) (h : 10 ^ (i + P) % n = 10 ^ i % n) (c t : ℕ) :
-    10 ^ (i + c + P * t) % n = 10 ^ (i + c) % n := by
-  induction t with
-  | zero => simp
-  | succ t ih =>
-    have h1 : 10 ^ (i + c + P * (t + 1)) = 10 ^ (i + P) * 10 ^ (c + P * t) := by
-      rw [← pow_add]; congr 1; ring
-    have h2 : 10 ^ (i + c + P * t) = 10 ^ i * 10 ^ (c + P * t) := by
-      rw [← pow_add]; congr 1; ring
-    have h3 : 10 ^ (i + P) * 10 ^ (c + P * t) ≡ 10 ^ i * 10 ^ (c + P * t) [MOD n] :=
-      Nat.ModEq.mul_right _ h
-    rw [h1]
-    exact h3.trans (by rw [← h2]; exact ih)
-
 /-- Horner evaluation with blocks of S digits. -/
 def A077739_H (S : ℕ) : List ℕ → ℕ
   | [] => 0
   | b :: l => b + 10 ^ S * A077739_H S l
 
-theorem A077739_H_ds (S : ℕ) : ∀ l : List ℕ, (∀ b ∈ l, b < 10 ^ S ∧ A077739_ds b = 1) → A077739_ds (A077739_H S l) = l.length
-  | [], _ => by simp [A077739_H, A077739_ds]
+theorem A077739_H_ds (S : ℕ) : ∀ l : List ℕ, (∀ b ∈ l, b < 10 ^ S ∧ (digits 10 b).sum = 1) → (digits 10 (A077739_H S l)).sum = l.length
+  | [], _ => by simp [A077739_H]
   | b :: l, h => by
     simp only [A077739_H, List.length_cons]
-    rw [A077739_ds_add S b _ (h b (by simp)).1, (h b (by simp)).2,
+    rw [digitSum_add S b _ (h b (by simp)).1, (h b (by simp)).2,
       A077739_H_ds S l (fun c hc => h c (by simp [hc]))]
     ring
 
@@ -113,19 +68,19 @@ theorem A077739_coprime_part (n i : ℕ) (hn : 0 < n) : ∃ q, 0 < q ∧ q ∣ n
     _ = (Nat.gcd n (10 ^ i) * (n / Nat.gcd n (10 ^ i))) * e := by ring
     _ = n * e := by rw [Nat.mul_div_cancel' (Nat.gcd_dvd_left _ _)]
 
-/-- For n ≥ 63 there is a multiple of n with digit sum n - 2·A077739_ds(n). -/
-theorem A077739_middle (n : ℕ) (hn : 63 ≤ n) : ∃ M, n ∣ M ∧ A077739_ds M = n - 2 * A077739_ds n := by
-  obtain ⟨i, P, hP, hper⟩ := A077739_pow_period n (by omega)
+/-- For n ≥ 63 there is a multiple of n with digit sum n - 2·(digit sum of n). -/
+theorem A077739_middle (n : ℕ) (hn : 63 ≤ n) : ∃ M, n ∣ M ∧ (digits 10 M).sum = n - 2 * (digits 10 n).sum := by
+  obtain ⟨i, P, hP, hper⟩ := pow_period n (by omega)
   have hS : 10 ^ (i + 3 * P) ≡ 10 ^ i [MOD n] := by
-    have := A077739_period_mul n i P hper 0 3
+    have := pow_period_mul n i P hper 0 3
     rw [Nat.add_zero, show P * 3 = 3 * P by ring] at this
     exact this
   obtain ⟨q, hq0, hqn, hnq⟩ := A077739_coprime_part n i (by omega)
   have hqle : q ≤ n := Nat.le_of_dvd (by omega) hqn
   obtain ⟨w, hw⟩ := hqn
-  have hsn := A077739_ds_le n
-  have h9 : n % 9 = A077739_ds n % 9 := Nat.modEq_nine_digits_sum n
-  obtain ⟨s, hs⟩ : ∃ s, s = A077739_ds n := ⟨_, rfl⟩
+  have hsn := digitSum_le n
+  have h9 : n % 9 = (digits 10 n).sum % 9 := Nat.modEq_nine_digits_sum n
+  obtain ⟨s, hs⟩ : ∃ s, s = (digits 10 n).sum := ⟨_, rfl⟩
   rw [← hs] at hsn h9 ⊢
   obtain ⟨r, hr⟩ : ∃ r, r = n - 2 * s := ⟨_, rfl⟩
   rw [← hr]
@@ -160,11 +115,11 @@ theorem A077739_middle (n : ℕ) (hn : 63 ≤ n) : ∃ M, n ∣ M ∧ A077739_ds
   have h1000 : 1000 ≤ 10 ^ (3 * P) := by
     calc 1000 = 10 ^ 3 := by norm_num
       _ ≤ 10 ^ (3 * P) := Nat.pow_le_pow_right (by norm_num) (by omega)
-  have hd1 : A077739_ds 1 = 1 := by norm_num [A077739_ds]
-  have hd10 : A077739_ds 10 = 1 := by norm_num [A077739_ds]
-  have hd100 : A077739_ds 100 = 1 := by norm_num [A077739_ds]
+  have hd1 : (digits 10 1).sum = 1 := by norm_num
+  have hd10 : (digits 10 10).sum = 1 := by norm_num
+  have hd100 : (digits 10 100).sum = 1 := by norm_num
   have hb : ∀ b ∈ (List.replicate (r - y % 11 - y / 11) 1 ++ List.replicate (y % 11) 10 ++
-      List.replicate (y / 11) 100), b < 10 ^ (3 * P) ∧ A077739_ds b = 1 := by
+      List.replicate (y / 11) 100), b < 10 ^ (3 * P) ∧ (digits 10 b).sum = 1 := by
     intro b hb
     simp only [List.mem_append, List.mem_replicate] at hb
     rcases hb with (⟨-, hb⟩ | ⟨-, hb⟩) | ⟨-, hb⟩ <;> subst hb
@@ -179,15 +134,15 @@ theorem A077739_middle (n : ℕ) (hn : 63 ≤ n) : ∃ M, n ∣ M ∧ A077739_ds
     have h2 : n ∣ 10 ^ i * (q * (m0 + 9 * k)) := by
       rw [← mul_assoc]; exact Dvd.dvd.mul_right hnq _
     exact (Nat.modEq_zero_iff_dvd.mp (h1.trans (Nat.modEq_zero_iff_dvd.mpr h2)))
-  · have := A077739_ds_add i 0 (A077739_H (3 * P) (List.replicate (r - y % 11 - y / 11) 1 ++
+  · have := digitSum_add i 0 (A077739_H (3 * P) (List.replicate (r - y % 11 - y / 11) 1 ++
       List.replicate (y % 11) 10 ++ List.replicate (y / 11) 100)) (by positivity)
     rw [Nat.zero_add] at this
     rw [this, A077739_H_ds (3 * P) _ hb, hlen]
-    simp [A077739_ds]
+    simp
 
 theorem A077739_construct (n : ℕ) (hn : 63 ≤ n) : ∃ N, A077739_Good n N := by
   obtain ⟨M, hM, hdsM⟩ := A077739_middle n hn
-  have hsn := A077739_ds_le n
+  have hsn := digitSum_le n
   have hnD : n < 10 ^ (digits 10 n).length := Nat.lt_base_pow_length_digits (by norm_num)
   have hMK : M < 10 ^ M := Nat.lt_pow_self (by norm_num)
   refine ⟨n + 10 ^ (digits 10 n).length * (M + 10 ^ M * n), ?_, ?_, ?_, ?_⟩
@@ -212,9 +167,9 @@ theorem A077739_construct (n : ℕ) (hn : 63 ≤ n) : ∃ N, A077739_Good n N :=
       rw [pow_add]; ring
     rw [e, ← h]
     exact List.suffix_append _ _
-  · have e1 := A077739_ds_add _ n (M + 10 ^ M * n) hnD
-    have e2 := A077739_ds_add M M n hMK
-    show A077739_ds (n + 10 ^ (digits 10 n).length * (M + 10 ^ M * n)) = n
+  · have e1 := digitSum_add _ n (M + 10 ^ M * n) hnD
+    have e2 := digitSum_add M M n hMK
+    show (digits 10 (n + 10 ^ (digits 10 n).length * (M + 10 ^ M * n))).sum = n
     rw [e1, e2, hdsM]
     omega
 

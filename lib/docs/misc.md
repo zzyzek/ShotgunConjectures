@@ -1,6 +1,6 @@
-# Short guides: quadratic discriminants, squared rectangles, combinatorial lines
+# Short guides: quadratic discriminants, squared rectangles, combinatorial lines, decimal digits, small lemmas
 
-Modules: `R5_Quadratic.lean`, `SquaredRect.lean`, `D_CombLine.lean`.
+Modules: `R5_Quadratic.lean`, `SquaredRect.lean`, `D_CombLine.lean`, `Digits10.lean`, `Misc.lean`.
 
 ---
 
@@ -185,3 +185,114 @@ a direct instance of `card_collinear` with `k := 4`.
 | `card_collinear` | count $=$ `binomTransform (k+1) n` $= ((k+2)^n - k^n)/2$ |
 
 Repo files using it: OEIS/A081199 ($k = 4$), A081200 ($k = 5$), A081201 ($k = 6$).
+
+---
+
+## Decimal digits, periodic powers of 10, repunits (`Digits10.lean`)
+
+### 1. The method
+
+Builds a decimal number from blocks of digits and controls its digit sum and its residue mod $n$.
+Three facts. (a) If $a < 10^m$, the digits of $a + 10^m b$ are those of $a$, padded with zeros to
+$m$ places, followed by those of $b$, so $\operatorname{ds}(a + 10^m b) = \operatorname{ds}(a) +
+\operatorname{ds}(b)$ ($\operatorname{ds}$ = digit sum). (b) The powers of 10 mod $n$ are eventually
+periodic: $10^{i+P} \equiv 10^i \pmod n$ for some $i$ and $P \ge 1$, and then
+$10^{i+c+Pt} \equiv 10^{i+c}$ for all $c, t$. (c) A block $Y$ of $L$ digits repeated $k$ times has
+value $Y \cdot (1 + 10^L + \dots + 10^{L(k-1)})$, and if $\gcd(m, 10) = 1$ some such base-$10^L$
+repunit with $k \ge 2$ ones is divisible by $m$.
+
+### 2. When to reach for it
+
+A claim that some multiple of $n$ has a prescribed digit pattern (begins or ends with given
+digits, is a palindrome, has a given digit sum), proved by an explicit construction from digit
+blocks.
+
+### 3. Paper proof
+
+(a) Mathlib's `Nat.digits_append_zeroes_append_digits`. (b) Pigeonhole on $10^0, \dots, 10^n$ mod $n$;
+the shifted statement by induction on $t$. (c) Let $B = 10^L$ and $M = m(B - 1)$. Then $B$ is coprime
+to $m$ (as $\gcd(m,10) = 1$) and to $B - 1$, so $B^{\varphi(M)} \equiv 1 \pmod M$ (Euler). With
+$k = 2\varphi(M) \ge 2$, $M \mid B^k - 1 = (1 + B + \dots + B^{k-1})(B - 1)$, and cancelling $B - 1$
+gives $m \mid 1 + B + \dots + B^{k-1}$. (Classical.)
+
+### 4. Worked example: OEIS A084043
+
+[A084043](https://oeis.org/A084043): least palindromic multiple of $n$ containing the digits of $n$
+with at least one digit on each side; conjecture: $a(n) = 0$ iff $10 \mid n$. Write $n = g m$,
+$g = 2^a 5^b$, $\gcd(m, 10) = 1$. The block $Y = \operatorname{rev}(E)\, s\, \operatorname{rev}(s)\, E$
+($s$ the digits of $n$, $E$ those of $g$ padded to $a + b + 1$ places) is a palindrome whose value
+is $\equiv g \pmod{10^{a+b+1}}$, so $g \mid Y$; by (c) some repeat count makes $m$ divide the repunit
+factor, so $n$ divides the repeated block. For $n = 7$ ($g = 1$, $L = 1$): $7 \mid 111111$ (6 ones;
+the lemma's count $2\varphi(63) = 72$ is larger), and the least value is $a(7) = 777$. For
+$n = 12$: $a(12) = 82128 = 12 \cdot 6844$. Lean: `A084043.A084043_main`, `A084043.A084044_main` in
+[`OEIS/A084043/A084043_mathlib.lean`](../../OEIS/A084043/A084043_mathlib.lean). OEIS A077739 uses
+(a) and (b): digit blocks $1, 10, 100$ spaced $3P$ places apart starting at $10^i$ give a multiple of
+$n$ with any digit sum $r$ in the right class mod 9 (for $n = 12$: $10^i \bmod 12 = 1, 10, 4, 4, \dots$,
+so $i = 2$, $P = 1$); see [`OEIS/A077739/A077739_mathlib.lean`](../../OEIS/A077739/A077739_mathlib.lean).
+
+### 5. In Lean
+
+`import OpenProblemsLib.Digits10`; namespace `OpenProblemsLib.Digits10`. Digit lists are
+`Nat.digits 10` (least significant first), digit sums `(Nat.digits 10 x).sum`.
+
+| declaration | content |
+|---|---|
+| `digitSum_add` | $a < 10^m$ ⟹ $\operatorname{ds}(a + 10^m b) = \operatorname{ds}(a) + \operatorname{ds}(b)$; e.g. $\operatorname{ds}(25017) = 8 + 7$ |
+| `digitSum_le` | $\operatorname{ds}(x) \le 9 + \lfloor x/10 \rfloor$ |
+| `pow_period`, `pow_period_mul` | $\exists\, i, P > 0$: $10^{i+P} \equiv 10^i \pmod n$; then $10^{i+c+Pt} \equiv 10^{i+c}$ |
+| `rp Y k`, `rp_comm`, `rp_reverse`, `mem_rp` | $k$ copies of the list $Y$; reversal gives $k$ copies of $\operatorname{rev} Y$ |
+| `rep B k`, `rep_mul` | $1 + B + \dots + B^{k-1}$; $\operatorname{rep}(B, k)(B - 1) + 1 = B^k$ |
+| `ofDigits_rp` | value of `rp Y k` $=$ value of $Y$ times `rep (10^|Y|) k` |
+| `dvd_rep` | $\gcd(m,10) = 1$, $L \ge 1$ ⟹ $m \mid$ `rep (10^L) (j+2)` for some $j$ |
+
+Repo files using it: OEIS/A077739 (also A077740), A084043 (also A084044).
+
+---
+
+## Small lemmas: descending factorials, squares mod $p$ (`Misc.lean`)
+
+### 1. The method
+
+Two unrelated single-purpose facts. (a) $n(n-1)\cdots(n-k+1)$ is monotone in $k$ for $k \le n$, so a
+bound on the least qualifying $k$ bounds the product. (b) For a prime $p > 3$ and nonzero
+$a, b, C \in \mathbb Z/p$, some $a(bx^2 - C)$ is a non-square: a quadratic polynomial cannot map
+all squares to squares.
+
+### 2. When to reach for it
+
+(a) A "least product $n(n-1)\cdots$" definition with a known qualifying $k$. (b) Showing a number
+is not of a given quadratic form (polygonal, sum of a square and a constant) by a local
+obstruction at one prime, then CRT over several primes.
+
+### 3. Paper proof
+
+(a) Each extra factor $n - l \ge 1$. (b) Let $S$ be the set of squares in $\mathbb Z/p$. Every nonzero
+square has exactly two roots $\pm y$ ($2 \ne 0$), so $\sum_x x^2 = 2 \sum_{s \in S} s$, and
+$\sum_x x^2 = 0$ for $p > 3$; hence $\sum_{s \in S} s = 0$. If $f(s) = a(bs - C)$ sent $S$ into $S$, it
+would permute $S$ ($f$ is injective, $ab \ne 0$), so $\sum_S f(s) = \sum_S s$, i.e.
+$ab \cdot 0 - |S| a C = 0$. But $0 < |S| < p$ (a non-square exists), contradiction. (Classical.)
+
+### 4. Worked example: OEIS A176948 (and A096123)
+
+[A176948](https://oeis.org/A176948): for $n \ge 4$, $n \ne 6$, some $n$-gonal number is not $k$-gonal
+for any $3 \le k < n$. A common value of $P_n(j)$ and $P_k(i)$ forces $a(bX^2 - C)$ to be a square
+($a = n - 2$, $b = k - 2$, $X = 2aj - (a - 2)$, $C = (a - b)(ab - 4)$); (b) gives a residue of $j$
+mod a prime $p_k > n^3$ that breaks this, and CRT combines the $k$. Small case: $p = 5$, $a = b = C = 1$:
+$x^2 - 1 \bmod 5$ takes the values $4, 0, 3, 3, 0$, and $3$ is not a square ($S = \{0, 1, 4\}$, sum $5 \equiv 0$).
+Lean: `A176948_conjecture` in [`OEIS/A176948/A176948_mathlib.lean`](../../OEIS/A176948/A176948_mathlib.lean).
+[A096123](https://oeis.org/A096123) uses (a): at $n = 2p$, $k = p$ qualifies ($p!\,p! \mid (2p)!$), so
+$a(2p) \le (2p)!/p! < (2p)!/(p-1)!$; for $n = 10$: $a(10) = 10 \cdot 9 \cdot 8 \cdot 7 = 5040 \le 30240 < 151200$.
+Lean: `A096123_main` in [`OEIS/A096123/A096123_mathlib.lean`](../../OEIS/A096123/A096123_mathlib.lean).
+
+### 5. In Lean
+
+`import OpenProblemsLib.Misc`; namespace `OpenProblemsLib.Misc`. Primes enter as `[Fact p.Prime]`.
+
+| declaration | content |
+|---|---|
+| `descFactorial_mono` | $k \le l \le n$ ⟹ `n.descFactorial k ≤ n.descFactorial l` |
+| `two_ne_zero_zmod` | $p > 2$ ⟹ $(2 : \mathbb Z/p) \ne 0$ |
+| `sum_squares_zero` | $p > 3$ ⟹ $\sum_{s \in S} s = 0$, $S$ the image of $x \mapsto x^2$ |
+| `exists_nonsq` | $p > 3$, $a, b, C \ne 0$ ⟹ $\exists x$, $a(bx^2 - C)$ not a square |
+
+Repo files using it: OEIS/A096123, A176948.

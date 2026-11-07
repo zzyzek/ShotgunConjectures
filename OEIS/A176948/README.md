@@ -23,7 +23,7 @@ b = k-2 in [1, a-1] and C = b(a-2)^2 - a(b-2)^2 = (a-b)(ab-4).
 - Lean (Mathlib): [`A176948_mathlib.lean`](A176948_mathlib.lean). `IsPolygonal k N := ∃ m, 2N = (k-2)(m(m-1)) + 2m`.
   Main theorem `A176948_conjecture : 4 ≤ n → n ≠ 6 → ∃ N, IsPolygonal n N ∧ ∀ k, 3 ≤ k → k < n →
   ¬ IsPolygonal k N`. Lemmas `key_identity` (step 2), `C_bounds` (step 1), `sum_squares_zero`, `exists_nonsq`
-  (step 3), CRT via `Nat.chineseRemainderOfFinset` with primes `Nat.nth Nat.Prime (n^3 + k)`. Check
+  (step 3, library `OpenProblemsLib.Misc`), CRT via `Nat.chineseRemainderOfFinset` with primes `Nat.nth Nat.Prime (n^3 + k)`. Check
   `tools/leancheck-mathlib.sh`: OK, no warnings, axioms propext, Classical.choice, Quot.sound.
 - [`certificate/check.py`](certificate/check.py): least witnesses for n = 4..150 (reproduces the data
   4, 5, 0, 7, 8, 24, 27, ...); none for n = 6.

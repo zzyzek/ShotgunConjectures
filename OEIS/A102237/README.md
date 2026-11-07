@@ -11,29 +11,44 @@ a(n) = 2^n iff 2^n is a sum of n distinct primes.
 **Result.** True: for every n ≥ 6, 2^n is a sum of n distinct primes, so a(n) = 2^n.
 
 **Argument.** Parity: for even n use n odd primes summing to 2^n; for odd n use 2 plus n − 1 odd primes summing to
-2^n − 2. Call S(k, N): N is a sum of k distinct odd primes.
-1. *Step.* Suppose S(k, N') holds for every N' ≡ k (mod 2) in [L_k, B_k], with L_k ≥ 2·396738. Let N ≡ k+1 (mod 2),
-   2L_k/(1 − ε) ≤ N ≤ 2B_k, where ε = 1/(25 ln² L_k). By Dusart (2010, Prop. 6.8: for x ≥ 396738 there is a prime
-   in (x, x(1 + 1/(25 ln² x))]) with x = N/2 ≥ L_k there is a prime p with N/2 < p ≤ (N/2)(1 + ε) ≤ N − L_k. Then
-   N − p ∈ [L_k, B_k] has the parity of k, so it is a sum of k distinct odd primes, each ≤ N − p < N/2 < p. Adding p
-   gives S(k+1, N). So the statement holds with L_{k+1} = 2L_k/(1 − 1/(25 ln² L_k)), B_{k+1} = 2B_k.
-2. *Base.* k₀ = 22, L₂₂ = 3774874 ≈ 0.9·2^22, B₂₂ = 2^23: every even N in this range is the sum of the first 20 odd
-   primes (3..73) and two distinct primes > 73 (computer check).
-3. *Growth.* Then B_k = 2^{k+1} and L_k/2^k increases to about 0.9035 < 0.95 (computed to k = 10^5, with the tail
-   bounded by exp(Σ ε_j) ≤ exp(8.5·10^−7)). So for even k ≥ 22 both 2^k and 2^{k+1} − 2 lie in [L_k, B_k]: 2^n is a
-   sum of n distinct odd primes for even n ≥ 22, and 2^n = 2 + (sum of n − 1 distinct odd primes) for odd n ≥ 23.
-4. *Small n.* For 6 ≤ n ≤ 23 explicit representations (e.g. 64 = 3 + 5 + 7 + 13 + 17 + 19,
-   128 = 2 + 3 + 5 + 7 + 11 + 17 + 83).
+2^n − 2. Prime bound used: for every real x ≥ 25 there is a prime in (x, 1.21x] (library theorem
+`OpenProblemsLib.ShortIntervalPrimes.exists_prime_Ioc_mul`, proved in Lean from Chebyshev's 1852 bounds plus 85
+certified primes; see `lib/docs/short-interval-primes.md`). Write W(k, L, U, M) for: every N ≡ k (mod 2) with
+L ≤ N ≤ U is a sum of k distinct odd primes, each ≤ M.
+1. *Step.* Assume W(k, L, U, M) with L ≥ 0, M ≥ 25 and 0.42M ≤ 1.21(U − L). Let N ≡ k+1 (mod 2) with
+   L + 1.21M ≤ N ≤ U + 2M/1.21. Put b = max(N − U, M) and take a prime q with b < q ≤ 1.21b. Then q > M and
+   q > N − U. If b = M then q ≤ 1.21M ≤ min(2M, N − L). If b = N − U then q ≤ 1.21(N − U) ≤ 2M (from
+   N ≤ U + 2M/1.21), and 1.21(N − U) ≤ N − L because 0.21N ≤ 0.21U + 0.42M/1.21 ≤ 0.21U + (U − L). So
+   N − q ∈ [L, U] has the parity of k, is a sum of k distinct odd primes ≤ M < q, and adding q gives
+   W(k+1, L + 1.21M, U + 2M/1.21, 2M).
+2. *Iteration.* From W(6, L₀, U₀, M₀) the step gives W(6 + j, L₀ + 1.21M₀(2^j − 1), U₀ + (2/1.21)M₀(2^j − 1),
+   M₀2^j) for all j: the width condition holds at every stage because the window widens at slope
+   (2/1.21 − 1.21) = 0.443 per unit of M₀(2^j − 1), and 1.21·0.443 = 0.536 ≥ 0.42.
+3. *Bases.* Every even N in [62, 152] is a sum of six distinct odd primes ≤ 39 (chain A, M₀ = 39), and every even
+   N in [62, 374] is a sum of six distinct odd primes ≤ 78 (chain B, M₀ = 78). Explicit tables, checked in the
+   kernel.
+4. *Targets.* With t = 2^j ≥ 1: chain A has L = 62 + 47.19(t − 1) ≤ 64t ≤ 152 + 64.46(t − 1) = U, so 2^n
+   (n = 6 + j even) is a sum of n distinct odd primes. Chain B has 62 + 94.38(t − 1) ≤ 128t − 2 ≤
+   374 + 128.93(t − 1), so 2^n − 2 (n = 7 + j odd, k = n − 1 even) is a sum of n − 1 distinct odd primes; add 2.
+5. *Minimality.* A product of n primes is ≥ 2^n, and 2^n = 2·…·2. So a(n) = 2^n for n ≥ 6.
+
+Review note (2026-11-07): this induction replaces the earlier Dusart-based one (scoping proposal in
+`../open-problems/docs/PRIME-BOUNDS-SCOPE-2026-11-07.md`). Re-derived on paper before formalising. The proposal used
+"gap between consecutive primes in (M, 2M] ≤ U − L"; the version here takes one prime in (b, 1.21b] directly and
+needs the slightly weaker width condition U − L ≥ 0.347M. No gap found.
 
 **Evidence.**
-- [`certificate/check.py`](certificate/check.py) (Python, exit 0, about 16 s): explicit representations for
-  n = 6..23 (checked: distinct, prime, correct sum and count); the base range of step 2 (all 2,306,868 even N); the
-  recurrence of step 3 to k = 10^5 with the analytic tail bound.
-- Lean: none. Missing pieces: Dusart's explicit prime-gap theorem (not in Mathlib); the base range is too large for
-  kernel evaluation.
-- Outside Lean: everything.
+- Lean: [`A102237_mathlib.lean`](A102237_mathlib.lean), checked with `tools/leancheck-mathlib.sh` (Lean 4.35.0,
+  Mathlib 56a00585, axioms propext, Classical.choice, Quot.sound, no warnings). `A102237_main`: `a102237 n = 2 ^ n`
+  for n ≥ 6, with `a102237 n` defined as the infimum of the numbers that are a product of n primes (list with
+  multiplicity) and a sum of n distinct primes. Uses the library module `OpenProblemsLib.ShortIntervalPrimes`.
+- [`certificate/base_tables.py`](certificate/base_tables.py): generates the two base tables in the Lean file and
+  simulates the windows to j = 200 (floating point; the Lean proof does not depend on it).
+- [`certificate/check.py`](certificate/check.py): the earlier Dusart-route check (explicit representations for
+  n = 6..23, base range of 2,306,868 even N, recurrence to k = 10^5). Superseded by the Lean proof.
+- Outside Lean: none.
 
-**Review level.** `rechecked`.
+**Review level.** `lean-proof`.
 
 **Prior art.** Checked 2026-11-06. The entry still states the conjecture. Representations of integers as sums of
 exactly k distinct primes are open in general (OEIS A387215 gives conjectural thresholds; the k = 2 case is
