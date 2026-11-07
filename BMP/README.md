@@ -2,7 +2,7 @@
 
 Problems from P. Brass, W. Moser, J. Pach, Research Problems in Discrete Geometry (Springer 2005), numbered by section and problem; statements paraphrased.
 
-1 entries: 0 resolved by this project, 1 answered elsewhere, 0 disputed or partial.
+4 entries: 0 resolved by this project, 2 answered elsewhere, 2 disputed or partial.
 
 Of the 0 resolutions: 0 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -13,6 +13,14 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [1.8.7](1.8.7/) | proved | congruent regular simplices packed in a cube of the same side | [full proof](1.8.7/BMP_1_8_7_mathlib.lean) | known | [flat-orthogonal-basis](../methods/flat-orthogonal-basis/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [8.2.6](8.2.6/) | answered | an r-cap or an empty r-cup in every large point set (Valtr's conjecture) | — | known | [known-theorem](../methods/known-theorem/README.md) |
+
+## Disputed or only partly answered (not counted as resolutions)
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [6.2.10](6.2.10/) | partial | BMP 6.2 Conjecture 10 (at least n-2 distinct angles) | — | known | [known-theorem](../methods/known-theorem/README.md) |
+| [9.6.3](9.6.3/) | partial | k-cross-free families are linear in n; the O(kn) form is still open | — | known | [known-theorem](../methods/known-theorem/README.md) |
 
 ## Short proofs
 
@@ -56,4 +64,43 @@ The containment step is a known theorem in sharper form, so the question is answ
   (2005) predates them.
 
 Lean: [full proof](1.8.7/BMP_1_8_7_mathlib.lean).
+
+### [8.2.6](8.2.6/): an r-cap or an empty r-cup in every large point set (Valtr's conjecture)
+
+**Source.** P. Brass, W. Moser, J. Pach, *Research Problems in Discrete Geometry* (2005), Section 8.2, Conjecture 6 (attributed to Valtr 2002). Paraphrase: for every r ≥ 3 there is f such that every set of at least f points in general position in the plane, no two on a vertical line, contains an r-cap or an empty r-cup (an r-cup whose convex hull contains no other point of the set).
+
+**Result.** True.
+
+**Argument.** P. Valtr (2007) calls a k-cap or k-cup p1, ..., pk *open* if no point p of the set with x(p1) < x(p) < x(pk) lies above the polygonal line p1 ... pk. The convex hull of a cup lies above the cup and inside that vertical strip, so an open cup is empty (Valtr states this in the proof of his Corollary 2). His Theorem 2 gives f(k, l) such that every configuration (general position, distinct x-coordinates) of size ≥ f(k, l) contains an open k-cap or an open l-cup; his Theorem 3(i) bounds f'(k, l), the threshold for "a k-cap or an open l-cup", between two double exponentials. With k = l = r this is the conjecture. Valtr also derives the consequence BMP state (a large set with no k-cap contains an empty l-gon, his Corollary 2) and notes he had asked this in the 2002 paper BMP cite.
+
+Lean: —.
+
+### [6.2.10](6.2.10/): BMP 6.2 Conjecture 10 (at least n-2 distinct angles)
+
+Lean: —.
+
+### [9.6.3](9.6.3/): k-cross-free families are linear in n; the O(kn) form is still open
+
+**Source.** Brass-Moser-Pach, Research Problems in Discrete Geometry (2005), Section 9.6,
+Conjecture 3 (paraphrased): a family of subsets of an n-set with no k pairwise crossing
+members has at most Ckn members, C an absolute constant. Two sets cross when all four Venn
+regions (A\B, B\A, A∩B, X\(A∪B)) are nonempty.
+
+**Reading.** The conjecture has two strengths: linear in n for each fixed k (|F| <= c_k n), and
+the stated form c_k = O(k).
+
+**Result.** Partial, known. Linearity for each fixed k holds:
+- E. Knill, Families of sets with locally bounded width, Graphs and Combinatorics 10 (1994)
+  145-157, proves that k-wise laminar families (no antichain of k members with a common point)
+  have size O_k(n); a k-cross-free family contains a k-wise laminar subfamily of at least half
+  its size (Tomon, Lemma 2.1), so |F| <= c_k n.
+- I. Tomon, Cross-free families have linear size, arXiv:2603.05443 (v3, Sep 2026), gives an
+  independent proof (Theorem 1.1) and records that Knill's 1994 paper had been overlooked.
+The constant in Tomon's proof is huge (an induction on k with trees of branching about
+h/(2k)^{k^2}); neither paper gives c_k = O(k). The Ckn form stays open; known exact cases
+are k = 2 (4n - 2, Edmonds-Giles) and k = 3 (8n - 20, Dress-Koolen-Moulton 2005).
+
+**Argument.** Citation only.
+
+Lean: —.
 

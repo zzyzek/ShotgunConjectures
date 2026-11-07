@@ -2,7 +2,7 @@
 
 Open-problem lists linked from https://amathr.org/problems/ (Cooper, TOPP, Egres Open, Froberg et al. and others); ids AMR-<list>-<k>, statements paraphrased with the list named in each README.
 
-8 entries: 2 resolved by this project, 5 answered elsewhere, 0 disputed or partial.
+12 entries: 2 resolved by this project, 9 answered elsewhere, 0 disputed or partial.
 
 Of the 2 resolutions: 1 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -21,9 +21,13 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 |---|---|---|---|---|---|
 | [aimmatrix-en1](aimmatrix-en1/) | proved | E(G) = E(G - e) + 2 only for G = K2 | — | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [aimmatrix-en2](aimmatrix-en2/) | disproved | edge deletion changes the energy by exactly 2 | [full proof](aimmatrix-en2/aimmatrix_en2_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [cooper-38](cooper-38/) | proved | the Linial-Luria count of d-dimensional permutations is tight (Keevash) | — | known | [known-theorem](../methods/known-theorem/README.md) |
+| [egres-63](egres-63/) | answered | minimum k-way cut in hypergraphs for fixed k | — | known | [known-theorem](../methods/known-theorem/README.md) |
+| [egres-97](egres-97/) | answered | well-balanced orientations of hypergraphs | — | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [froberg-M](froberg-M/) | proved | finiteness of B\_{n,m} and B'\_{n,m} | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [shapiro-12](shapiro-12/) | disproved | Forsgård–Shapiro Conjecture 9 (c̃\_k parity bound) is false | [witness](shapiro-11/shapiro_11.lean) | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [shapiro-13](shapiro-13/) | disproved | Forsgård–Shapiro Conjecture 10 (c\_k parity bound) is false | [witness](shapiro-11/shapiro_11.lean) | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [topp-67](topp-67/) | answered | fair partitions of convex polygons into n convex pieces | — | known | [known-theorem](../methods/known-theorem/README.md) |
 
 ## Weaker results on open problems (the problem stays open)
 
@@ -146,6 +150,50 @@ E(G \ e) = E(G) + 2 would force E(G \ e) <= E(G).
 
 Lean: [full proof](aimmatrix-en2/aimmatrix_en2_mathlib.lean).
 
+### [cooper-38](cooper-38/): the Linial-Luria count of d-dimensional permutations is tight (Keevash)
+
+**Source.** J. Cooper, Combinatorial Problems I Like (section Permutations), listed at
+amathr.org/problems: is P(n,d) >= ((1+o(1)) n/e^d)^{n^d}, where P(n,d) is the number of
+d-dimensional permutations of order n (0/1 arrays [n]^{d+1} with exactly one 1 on every
+axis-parallel line; d = 1 permutation matrices, d = 2 Latin squares)?
+
+**Result.** Yes, known. P. Keevash, The existence of designs II, arXiv:1802.05900 (2018),
+Theorem 1.8: the number of r-dimensional permutations of order n is (n/e^r + o(n))^{n^r}.
+The lower bound comes from Keevash's design method (random greedy almost-decomposition, then
+completion; the paper says the details follow its earlier counting argument for designs and
+are omitted); the upper bound is Linial-Luria, Combinatorica 34 (2014) 471-486. Since
+(n/e^d + o(n)) = (1+o(1)) n/e^d for fixed d, this is exactly the asked bound.
+
+**Argument.** Citation only. Keevash phrases Theorem 1.8 as the answer to the open problem of
+Linial-Luria, which is the problem Cooper lists.
+
+Lean: —.
+
+### [egres-63](egres-63/): minimum k-way cut in hypergraphs for fixed k
+
+**Source.** Egres Open (Egerváry Research Group problem list, http://lemon.cs.elte.hu/egres/open/, Wayback 2024 snapshot), listed at https://amathr.org/problems/. Paraphrase: give a polynomial algorithm for minimum k-way cut in capacitated hypergraphs for fixed k ≥ 4 (k = 2 and k = 3 were known: k = 3 by M. Xiao).
+
+**Reading.** "Capacitated" means non-negative hyperedge costs; a k-way cut is a set of hyperedges whose removal leaves at least k components.
+
+**Result.** Solved (yes). For every fixed k there is a deterministic polynomial algorithm, running in n^O(k)·m time (n vertices, m hyperedges), for non-negative hyperedge costs.
+
+**Argument.** Not reproduced (literature result). Chandrasekaran and Chekuri recover the parts of an optimal k-partition from minimum (S,T)-terminal cuts over polynomially many terminal choices, by divide and conquer. Earlier, Chandrasekaran, Xu and Yu gave a randomized polynomial algorithm (random contraction of hyperedges).
+
+Lean: —.
+
+### [egres-97](egres-97/): well-balanced orientations of hypergraphs
+
+**Source.** Egres Open (Egerváry Research Group problem list, http://lemon.cs.elte.hu/egres/open/Well-balanced_orientations_of_hypergraphs; the page is gone and the 2022-2024 Wayback snapshots return 404), listed at https://amathr.org/problems/. The title appears both in the solved and in the open list of the archived problem list. Paraphrase (from the title and from the citing paper): extend Nash-Williams' well-balanced orientation theorem (every graph has an orientation with λ_D(u, v) ≥ ⌊λ_G(u, v)/2⌋ for all u, v) to hypergraphs, or decide which hypergraphs have such an orientation.
+
+**Reading.** A hypergraph is oriented by choosing a head in each hyperedge (the other vertices are tails; Frank-Király-Király). The page text is lost; the reading follows Hörsch and Szigeti, who cite this page as the source of the question.
+
+**Result.** Answered negatively. No theorem of Nash-Williams type holds: some hypergraphs have no well-balanced orientation, and deciding whether a given hypergraph has one is NP-complete.
+
+**Argument.** - Small example (ours, re-derived): H on {a, b, c} with two copies of the hyperedge {a, b, c}. Every pair u, v lies in both hyperedges, so λ_H(u, v) = 2, and a well-balanced orientation needs λ_D(u, v) ≥ 1 for every ordered pair. A vertex can only be entered through a hyperedge whose head it is; two heads among three vertices leave some vertex v with no entering hyperedge, so λ_D(u, v) = 0.
+- NP-completeness: Hörsch and Szigeti, Theorem 6 (reduction from a satisfiability-type problem; not re-derived).
+
+Lean: —.
+
 ### [froberg-M](froberg-M/): finiteness of B_{n,m} and B'_{n,m}
 
 **Source.** R. Fröberg, S. Lundqvist, A. Oneto, B. Shapiro, *Algebraic stories from one and
@@ -193,6 +241,16 @@ Lean: [witness](shapiro-11/shapiro_11.lean).
 ### [shapiro-13](shapiro-13/): Forsgård–Shapiro Conjecture 10 (c_k parity bound) is false
 
 Lean: [witness](shapiro-11/shapiro_11.lean).
+
+### [topp-67](topp-67/): fair partitions of convex polygons into n convex pieces
+
+**Source.** The Open Problems Project, Problem 67 (Demaine, Mitchell, O'Rourke; https://topp.openproblem.net/p67), listed at https://amathr.org/problems/. Paraphrase: can every convex polygon be partitioned into n convex pieces that all have the same area and the same perimeter, for every n? (Nandakumar and Ramana Rao.)
+
+**Result.** Yes, for every n ≥ 2. The TOPP page (read 2026-11-06) still lists the problem as open, with n = 2, 3, 4 and prime powers n = p^k settled (Nandakumar-Ramana Rao; Bárány-Blagojević-Szűcs; Aronov-Hubard and Karasev 2010). The secondary questions on the page (deciding feasibility for a given polygon, minimising total cut length, higher dimensions for non-prime-power n) are not addressed here.
+
+**Argument.** Not reproduced (literature result). Akopyan, Avvakumov and Karasev prove that every convex body in the plane, in particular every convex polygon, has a partition into m convex parts of equal area and equal perimeter for every integer m ≥ 2. The prime-power case uses an equivariant-topology (configuration space / Voronoi) argument; they extend it to all m by an inductive cutting scheme with a degree computation.
+
+Lean: —.
 
 ### [froberg-P](froberg-P/): order of ψ(f) = Σ_a f(a) x^a on polynomials of degree < p
 

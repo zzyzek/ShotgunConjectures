@@ -2,7 +2,7 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-18 entries: 6 resolved by this project, 7 answered elsewhere, 3 disputed or partial.
+21 entries: 6 resolved by this project, 8 answered elsewhere, 5 disputed or partial.
 
 Of the 6 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
@@ -27,6 +27,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A19.1](A19.1/) | trivial or misstated | minimal perimeter of a plane convex set of given diameter and width | — | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A33.2](A33.2/) | disproved | the Lamé oval \|x\|^2.001 + \|y\|^2.001 = 1 has five-point hyperbolas | — | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B18.2](B18.2/) | proved | every polyhedron has a realization with all edges tangent to a sphere | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [C1.3](C1.3/) | answered | repeated subdivision of tetrahedra with a(T)/r(T) bounded (Hajós) | — | known | [known-theorem](../methods/known-theorem/README.md) |
 | [C10.2](C10.2/) | proved | the plane can be tiled with exactly one square of each positive rational side | — | known | [known-theorem](../methods/known-theorem/README.md) |
 | [F5.1](F5.1/) | proved | lim f\_3(n)/n^(1/3), minimum diameter of n points in R^3 with minimum distance 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [density-bound](../methods/density-bound/README.md) |
 | [F16.2](F16.2/) | known | the thrackle conjecture for small n | — | known | [known-theorem](../methods/known-theorem/README.md) |
@@ -37,7 +38,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 |---|---|---|---|---|---|
 | [B15.1](B15.1/) | proved | counting polyhedra by vertices and faces — not a resolution | — | — | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [B17.1](B17.1/) | proved | smallest dimension of a simplicial polytope with non-unimodal f-vector is 20 | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [C16.3](C16.3/) | partial | settled order by order up to n = 25; no general rule | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [D5.4](D5.4/) | proved | rectangles of total area 1 and side ≤ 1 pack into a square of area 2 | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [F13.2](F13.2/) | partial | n non-collinear points determine at least n-2 angles, proved for large n | — | known | [known-theorem](../methods/known-theorem/README.md) |
 
 ## Weaker results on open problems (the problem stays open)
 
@@ -291,6 +294,18 @@ points). Literature answer, not a scan resolution.
 
 Lean: —.
 
+### [C1.3](C1.3/): repeated subdivision of tetrahedra with a(T)/r(T) bounded (Hajós)
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry* (1991), C1 (end of section), citing G. Hajós, Problem 122, Colloq. Math. 3 (1954) 74. Paraphrase: with a(T) the longest edge and r(T) the inradius of a tetrahedron T, give an effective way to decompose any T into finitely many tetrahedra, then each of those, and so on, so that a/r stays bounded over all generations.
+
+**Reading.** The pieces are meant to shrink (otherwise "do not subdivide" works); the construction below halves the diameter at every generation.
+
+**Result.** Yes; answered by Freudenthal in 1942 (for simplices of every dimension, as an answer to a question of Brouwer).
+
+**Argument.** Write T = A(S) with A affine and S = {1 ≥ x1 ≥ x2 ≥ x3 ≥ 0} (Kuhn simplex). Generation k cuts S by the hyperplanes x_i = m/2^k and x_i − x_j = m/2^k (m integer). All facet hyperplanes of S belong to this arrangement, and inside each cube of side 2^−k the arrangement gives the 3! = 6 Kuhn simplices S_π (π a permutation) scaled by 2^−k. So S is a union of 2^(3k) translates of the S_π/2^k, generation k+1 refines generation k, and the pieces of T are translates of A(S_π)/2^k. a/r is invariant under translation and scaling, so over all generations it takes at most 6 values (Freudenthal; Bey shows 3 congruence classes suffice for tetrahedra with a suitable vertex order). The construction is explicit.
+
+Lean: —.
+
 ### [C10.2](C10.2/): the plane can be tiled with exactly one square of each positive rational side
 
 **Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry* (1991),
@@ -407,6 +422,28 @@ by this record.
 
 Lean: —.
 
+### [C16.3](C16.3/): settled order by order up to n = 25; no general rule
+
+**Source.** Croft-Falconer-Guy, Unsolved Problems in Geometry (1991), C16 Polyominoes
+(paraphrased): decide which n-ominoes tile the plane for n >= 9.
+
+**Reading.** Tiling by congruent copies (rotations and reflections allowed), polyominoes in
+Myers' convention (holes allowed; holed ones never tile). "Determine" read as either a
+per-order classification or a general criterion.
+
+**Result.** Partial, known. Per order the question is answered by exhaustive computation:
+J. Myers, Polyform tiling (polyomino.org.uk, computations 1996-2003, extended to higher orders
+by Paul Church), with counts in OEIS A054359 (n-ominoes that tile, b-file n = 1..25, for
+example 1050 9-ominoes and 271293803 25-ominoes tile) and A054360 (n-ominoes that do not tile,
+b-file to n = 25), and A075198 (tiling by translation). These are unrefereed computations.
+No criterion for all n is known; whether tiling the plane by one polyomino (isometries
+allowed) is algorithmically decidable is open, while tiling by translations alone is decidable
+(Beauquier-Nivat boundary-word criterion, 1991). So the problem as a whole stays open.
+
+**Argument.** Citation only.
+
+Lean: —.
+
 ### [D5.4](D5.4/): rectangles of total area 1 and side ≤ 1 pack into a square of area 2
 
 **Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section D5. Can every set of rectangles with total area 1 and maximum side 1
@@ -419,6 +456,26 @@ and cites an earlier reference that was not identified. Covering question: not c
 Literature, partial.
 
 **Argument.** None.
+
+Lean: —.
+
+### [F13.2](F13.2/): n non-collinear points determine at least n-2 angles, proved for large n
+
+**Source.** Croft-Falconer-Guy, Unsolved Problems in Geometry (1991), F13 (paraphrased): do n
+points, not all on a line, determine at least n-2 distinct angles? Same question:
+Brass-Moser-Pach, Research Problems in Discrete Geometry (2005), Section 6.2, Conjecture 10
+(Corradi-Erdos-Hajnal), angles counted in [0, pi). The regular n-gon shows n-2 is best possible.
+
+**Result.** Partial, known. K. Bhowmick, O. Roche-Newton, A. Warren, Point sets determining
+few angles are almost contained in a line or circle, arXiv:2609.15270 (2026), Theorem 2: for n
+sufficiently large every non-collinear n-point set in R^2 determines at least n-2 angles, and
+the regular n-gon is the unique minimiser. The threshold n0 is not explicit (it comes from a
+structure theorem with an absolute constant c > 0 and incidence bounds), so the claim for small
+and moderate n stays open; it is not a finite check because the configurations are continuous.
+
+**Argument.** Citation only. Their Theorem 1: unless P is (almost) on a line or a circle in one
+of four listed ways, some point of P sees at least n^{1+c} angles; the exceptional forms are
+then checked by hand to give at least n-2 angles.
 
 Lean: —.
 

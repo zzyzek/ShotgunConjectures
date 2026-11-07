@@ -1,0 +1,2 @@
+data match n<=24: 1
+primes p<=200 with a(2p) >= (2p)!/(p-1)!: 0

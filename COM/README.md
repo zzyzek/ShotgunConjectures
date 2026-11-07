@@ -2,7 +2,7 @@
 
 M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes*, 2013. C = conjecture (part one), P = open problem (part four). Statements are paraphrased.
 
-112 entries: 112 resolved by this project, 0 answered elsewhere, 0 disputed or partial.
+114 entries: 112 resolved by this project, 2 answered elsewhere, 0 disputed or partial.
 
 Of the 112 resolutions: 107 proved in full in Lean, 5 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -124,6 +124,13 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [P145](P145/) | disproved | C = pq + q - p (restates C188 = C123) | [full proof](C123/C123_mathlib.lean) | new | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [P147](P147/) | disproved | C = a^2 + b^2 + c^2 - 2 (restates C190) | [full proof](C190/C190.lean) | new (immediate) | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [P150](P150/) | trivial or misstated | x(P1 - 1) = y(P2 - 1) (restates C194) | [full proof](C194/C194.lean) | new (immediate) | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
+
+## Answered in the literature; written up or confirmed here
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [P126](P126/) | answered | Poulet numbers P = (d^2 + d)/2 with d a prime factor of P | [full proof](P126/P126_mathlib.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [P127](P127/) | answered | Poulet numbers P2 = 2\*P1 - 1 with P1 Poulet | [full proof](P127/P127_mathlib.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 
 ## Short proofs
 
@@ -1387,4 +1394,24 @@ Lean: [full proof](C190/C190.lean).
 Lean: [`../C194/C194.lean`](C194/C194.lean).
 
 Lean: [full proof](C194/C194.lean).
+
+### [P126](P126/): Poulet numbers P = (d^2 + d)/2 with d a prime factor of P
+
+**Source.** M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes* (2013), Part four, problem 126. Paraphrase: are there Poulet numbers P = (d^2 + d)/2, d a prime factor of P, other than 2701 = (73^2 + 73)/2? The attached infinitude conjecture is conjecture 177 (COM-C177, not settled here).
+
+**Result.** Yes. 18721 = (193^2 + 193)/2 = 97 * 193 and 33153 = (257^2 + 257)/2 = 3 * 43 * 257 are base-2 pseudoprimes. There are 7988 such P below 10^13.
+
+**Argument.** Direct check. A sufficient condition explains most examples: if d is a prime with d = ±1 (mod 8) and m = (d + 1)/2 is prime, then P = d*m and P - 1 = ((d - 1)/2)(d + 2) = (m - 1)(2m + 1); 2 is a square mod d, so ord_d(2) divides (d - 1)/2, and ord_m(2) divides m - 1, hence 2^(P-1) = 1 (mod P). Examples: (73, 37), (193, 97).
+
+Lean: [full proof](P126/P126_mathlib.lean).
+
+### [P127](P127/): Poulet numbers P2 = 2*P1 - 1 with P1 Poulet
+
+**Source.** M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes* (2013), Part four, problem 127. Paraphrase: are there Poulet numbers P2 = 2*P1 - 1 with P1 also Poulet, other than 130561 = 2*65281 - 1? The attached infinitude conjecture is conjecture 178 (COM-C178, not settled here).
+
+**Result.** Yes. 31417 = 2*15709 - 1 (31417 = 89*353, 15709 = 23*683) and 41541241 = 2*20770621 - 1. There are 27 such P2 below 10^13.
+
+**Argument.** Direct check.
+
+Lean: [full proof](P127/P127_mathlib.lean).
 

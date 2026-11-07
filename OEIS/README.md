@@ -2,9 +2,9 @@
 
 Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS wiki, Talk:Conjectures/List). OEIS text is quoted under CC BY-SA 4.0 with the A-number as attribution.
 
-377 entries: 264 resolved by this project, 103 answered elsewhere, 2 disputed or partial.
+405 entries: 280 resolved by this project, 113 answered elsewhere, 2 disputed or partial.
 
-Of the 264 resolutions: 237 proved in full in Lean, 9 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 18 on paper only (re-derived by a second reader; 9 of these need Mathlib to formalise).
+Of the 280 resolutions: 249 proved in full in Lean, 9 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 22 on paper only (re-derived by a second reader; 11 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -50,6 +50,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A076070](A076070/) | proved | no entry is zero | — | new | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A076072](A076072/) | proved | a multiple of n can always be formed from the digits of the next n numbers | — | new | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A077602](A077602/) | proved | M(n,1) ~ A077596(n) · sqrt(πn/2) for the Moebius polynomials | needs Mathlib | new | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A077739](A077739/) | proved | a(n) = 0 exactly for n = 11, 17, 19 | [full proof](A077739/A077739_mathlib.lean) | new (immediate) | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A077740](A077740/) | proved | a(n) = 0 iff n is 11, 17 or 19 | [full proof](A077739/A077739_mathlib.lean) | new (immediate) | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A078008](A078008/) | proved | even denominators in the rows of the Farey tree | [full proof](A078008/A078008_mathlib.lean) | partly-known | [reading-the-statement](../methods/reading-the-statement/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A078122](A078122/) | proved | row sums of the M^3-shift matrix are the partitions of 3^n into powers of 3 | [full proof](A078122/A078122_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A078128](A078128/) | proved | partitions into cubes > 1 — a(n) → ∞ with explicit b(k) | [full proof](A078128/A078128_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A078173](A078173/) | proved | max t = n(n+2) and max s = 2n over solutions of rst = n(r+s+t) | [full proof](A078173/A078173_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
@@ -65,6 +68,8 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A083219](A083219/) | proved | roots of x^n - x^(n-1) - ... - 1 in the left half-plane | [full proof](A129756/A129756_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A083452](A083452/) | trivial or misstated | n written n times exceeds n^n | [full proof](A083452/A083452.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A083942](A083942/) | proved | a(n) = Sum\_{k=1..2^n-1} Catalan(k) | [full proof](A083942/A083942_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [A084043](A084043/) | proved | a(n) = 0 iff 10 divides n | [full proof](A084043/A084043_mathlib.lean) | partly-known | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A084044](A084044/) | proved | a(n) = 0 iff 10 divides n | [full proof](A084043/A084043_mathlib.lean) | partly-known | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A087324](A087324/) | disproved | no term has a perfect-square prime signature | [full proof](A087324/A087324_mathlib.lean) | partly-known | [modular-obstruction](../methods/modular-obstruction/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A087726](A087726/) | proved | a(n) = n^2 if and only if n is squarefree | [full proof](A087726/A087726_mathlib.lean) | partly-known | [multiplicative-local-bounds](../methods/multiplicative-local-bounds/README.md), [parametric-family](../methods/parametric-family/README.md) |
 | [A088104](A088104/) | proved | an n-digit prime beginning with prime(n) always exists | needs Mathlib | new (immediate) | [known-theorem](../methods/known-theorem/README.md) |
@@ -75,6 +80,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A089758](A089758/) | proved | the prime concatenation chain never stops | [full proof](A089758/A089758_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md) |
 | [A090519](A090519/) | proved | some prime p has floor(10^n/p) prime | [full proof](A090519/A090519_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md) |
 | [A094787](A094787/) | proved | every prime is a least prime p with p + n a perfect power | [full proof](A094787/A094787_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [parametric-family](../methods/parametric-family/README.md) |
+| [A096123](A096123/) | disproved | a(n) = n!/(p-1)! for large n (p least prime with n ≤ 2p) is false | [full proof](A096123/A096123_mathlib.lean) | partly-known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A096127](A096127/) | proved | a(n) = n+1 exactly when n is a prime power | [full proof](A096127/A096127_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A097406](A097406/) | trivial or misstated | primitive prime factors of 2^n − 1 are ≡ 1 (mod n) | [full proof](A097406/A097406_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A097945](A097945/) | proved | Sum mu(n)/phi(n) = 0 | [full proof](A097945/A097945_mathlib.lean) | partly-known | [multiplicative-local-bounds](../methods/multiplicative-local-bounds/README.md), [known-theorem](../methods/known-theorem/README.md) |
@@ -118,6 +124,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A127750](A127750/) | proved | row sums mod 2 are the Fredholm-Rueppel sequence | [full proof](A127750/A127750_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A129454](A129454/) | proved | p-adic valuation of a triple gcd product (true after an index shift) | [full proof](A129454/A129454_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A129756](A129756/) | proved | roots of x^n − x^(n−1) − … − x − 1 in the right half-plane | [full proof](A129756/A129756_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [A131262](A131262/) | proved | least k with A130654(k) = n equals sigma(2^n) phi(2^n) | [full proof](A131262/A131262_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A132089](A132089/) | proved | the first column of L^(m+1) is the row-sum sequence of L^m (L = Losanitsch's triangle) | [full proof](A132089/A132089.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A132827](A132827/) | proved | the array is the dispersion of floor(n\*phi + n + 1); the entry's FORMULA is wrong from row 4 | [full proof](A132827/A132827_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A133212](A133212/) | proved | a(n) = 2\*A038503(n+3) for n > 0 | [full proof](A133212/A133212_mathlib.lean) | new (immediate) | [finite-identity](../methods/finite-identity/README.md) |
@@ -166,15 +173,21 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A166407](A166407/) | proved | A166406(n)/(2n+1) is an integer except on A166101, where its denominator is 3 | needs Mathlib | new | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A167230](A167230/) | proved | entries of exp(Sierpiński triangle)/e are Bell numbers | [full proof](A167230/A167230_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A170941](A170941/) | proved | involutions without adjacent transpositions, proportion → 1/e | [full proof](A170941/A170941_mathlib.lean) | new | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [creative-telescoping](../methods/creative-telescoping/README.md) |
+| [A173643](A173643/) | disproved | the odd-part formula needs K = 0 (counterexample 3) | [full proof](A173643/A173643_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A174470](A174470/) | proved | integer series | [full proof](A183241/A174470_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A174846](A174846/) | proved | \|a(n)/n!\|^(-1/n) tends to pi/4 = 0.7853... | needs Mathlib | partly-known | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A176494](A176494/) | disproved | an odd prime p with \|2^m - p\| composite for every m ≥ 1 | [full proof](A176494/A176494.lean) | known | [covering-congruences](../methods/covering-congruences/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A176827](A176827/) | proved | the q-analogue a(n,q) is an integer for every positive integer q | [full proof](A176827/A176827_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
+| [A176948](A176948/) | proved | every n >= 4 except 6 has an n-gonal number that is not k-gonal for 3 <= k < n | [full proof](A176948/A176948_mathlib.lean) | new | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A177430](A177430/) | proved | exp(sum b(n)^m x^n/n) is integral exactly for even m >= 0 | [full proof](A177430/A177430_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+| [A177431](A177431/) | proved | exp(sum a(n)^m x^n/n) integral only for even m >= 0 | [full proof](A177430/A177430_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A178473](A178473/) | proved | OEIS A178473 | [full proof](A178473/A178473_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
+| [A178612](A178612/) | proved | no term is a square (rank-0 elliptic curve) | [checked](A178612/A178612_mathlib.lean) | new (immediate) | [reduction-to-constant](../methods/reduction-to-constant/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A179873](A179873/) | proved | nondecreasing sequence of odd numbers | [full proof](A179874/A179874_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A179874](A179874/) | proved | integral antiharmonic means of the units mod h are odd and nondecreasing | [full proof](A179874/A179874_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A179902](A179902/) | proved | the parity pattern 1, 0, 1, 1 (period 4) holds | [full proof](A179902/A179902_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A180654](A180654/) | proved | Σ log(Σ\_k C(n,k)^p x^k)^n/(n! n^n) is an integer e.g.f. (Conjectures 1-3) | [full proof](A180654/A180654_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
+| [A180710](A180710/) | disproved | sigma(n) \| a(n) fails at n = 64 | — | new | [explicit-counterexample](../methods/explicit-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A181070](A181070/) | proved | integer series | [full proof](A183129/A183129_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
 | [A181074](A181074/) | proved | integer series | [full proof](A183129/A183129_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
 | [A181076](A181076/) | proved | integer series | [full proof](A183129/A183129_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
@@ -208,6 +221,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A188645](A188645/) | proved | (k^n + k^(-n))/2 is an integer for k = (√(x²+1) + x)² | [full proof](A188645/A188645_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A188646](A188646/) | proved | a(n) = k a(n-1) - (k-1)/k^n is an integer sequence | [full proof](A188646/A188646_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A188647](A188647/) | proved | a(n) = k a(n-1) - (k-1)/k^n is an integer sequence | [full proof](A188647/A188647_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A192062](A192062/) | proved | the prime chain T(2n) = A(n)T(n), A(3n) = A(n)B(n), B(5n) = B(n)C(n), ... has integer factors | needs Mathlib | new | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A192205](A192205/) | proved | a(n)^(1/n) → 16√3/9 for the coefficient sum of (1-x-x^2+x^3)^n | [full proof](A192205/A192205_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A193550](A193550/) | proved | sqrt((A(x) - 1)/x) is an integer series | [full proof](A193550/A193550_mathlib.lean) | new (immediate) | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A195507](A195507/) | proved | the recurrence a(n+1) = d a(n) - (d-1) n + 1 | [full proof](A195507/A195507_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md) |
@@ -255,10 +269,12 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A217448](A217448/) | proved | a(n) exists for every n (CRT) | [full proof](A217448/A217448_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A217482](A217482/) | proved | tetrahedral numbers T with 3T/2 + 2 a power of 2 | [witness](A217396/A217396_mathlib.lean) | new | [units-pell](../methods/units-pell/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A217876](A217876/) | proved | adjacent transpositions in a random involution are asymptotically Poisson(1) | [checked](A217876/A217876_mathlib.lean) | new (immediate) | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A219197](A219197/) | proved | the square root of the A199033 g.f. has no coefficient = 3 (mod 4) | needs Mathlib | new | [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A219431](A219431/) | proved | a(odd) ≡ 2 and a(even) ≡ 0 (mod 4) | [full proof](A219431/A219431_mathlib.lean) | partly-known | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A221650](A221650/) | proved | P(n,j,k) = [k \| j] p(n-j) counts partitions with at least j/k parts k | [full proof](A221650/A221650_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A225001](A225001/) | proved | floor(1/frac(e^(4/(5n)))) = A047203(n) for n > 1 | [full proof](A225001/A225001_mathlib.lean) | partly-known | [exact-arithmetic](../methods/exact-arithmetic/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A225004](A225004/) | proved | a(n) divides n² | [full proof](A225004/A225004_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [multiplicative-local-bounds](../methods/multiplicative-local-bounds/README.md) |
+| [A225660](A225660/) | proved | a(n) is odd for n > 9 | [full proof](A225660/A225660_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A225919](A225919/) | proved | the greedy harmonic-block sequence for f(k) = 1/(k+4) is linearly recurrent | — | new | [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A226661](A226661/) | proved | 3x+k cycles with exactly n odd elements exist for every n | [full proof](A226661/A226661_mathlib.lean) | partly-known | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A226676](A226676/) | proved | 3x-k cycles of every length N ≥ 3 exist | [full proof](A226676/A226676_mathlib.lean) | partly-known | [parametric-family](../methods/parametric-family/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
@@ -288,6 +304,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A008683b](A008683b/) | proved | a moved-corner divisibility matrix has determinant μ(n) and A074206(n) nonzero terms | [witness](A008683b/A008683b.lean) | known | [reading-the-statement](../methods/reading-the-statement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A022344](A022344/) | proved | Fibonacci sequences in the Wythoff array and the product of characteristics | [witness](A022344/A022344.lean) | known | [known-theorem](../methods/known-theorem/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A024812](A024812/) | proved | A024812(k) = (A024813(k) + k − 1)/2 | [full proof](A024812/A024812_mathlib.lean) | — | [exact-arithmetic](../methods/exact-arithmetic/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A029905](A029905/) | disproved | r(n) and h(n) are not complementary (row 120 of 3-row Chomp is in neither) | — | partly-known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [greedy-invariant](../methods/greedy-invariant/README.md) |
 | [A030210](A030210/) | proved | coefficients of (η(q)η(q^5))^4 satisfy \|a(p)\| < 2p^(3/2) | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A053029](A053029/) | proved | which m have 4 (resp. 1) zeros in the Fibonacci numbers mod m | [full proof](A053029/A053029_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A053031](A053031/) | proved | m has one zero in the Fibonacci numbers mod m iff ... | [full proof](A053029/A053029_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
@@ -301,6 +318,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A079128](A079128/) | proved | gcd(a(n), n) = 1 for permutations with relatively prime cycle lengths | [full proof](A079128/A079128_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A079267](A079267/) | proved | the number of short pairs in a random perfect matching of [2n] tends to Poisson(1) | [witness](A079267/A079267.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A081847](A081847/) | disproved | see A082235 | [full proof](A082235/A082235_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+| [A082108](A082108/) | proved | a(n−1) is the largest integer keeping the partial sum below 1 | [full proof](A082108/A082108_mathlib.lean) | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A082235](A082235/) | disproved | the triangular numbers 1, 21, 28, 45, 78, 91 are never hit | [full proof](A082235/A082235_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A085765b](A085765b/) | proved | a(n) mod 2 has period 7 | [witness](A085765b/A085765b.lean) | — | [elementary-proof](../methods/elementary-proof/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A086449](A086449/) | proved | parity of a(n) and a(2^k − 2) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
@@ -310,7 +328,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A095380](A095380/) | proved | the proportion of non-values of σ up to 2^n tends to 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A097602](A097602/) | proved | the squares hit are exactly m² with 3 ∤ m | [full proof](A097602/A097602_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A098021](A098021/) | proved | former and current definitions agree | [full proof](A098021/A098021_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [A103152](A103152/) | disproved | a(23) = 725 is not divisible by 3 | [witness](A103152/A103152_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A109926](A109926/) | trivial or misstated | "a(n+15) == 0 (mod 30) for n > 4" is false as printed; the mod 3 and mod 15 claims are out of reach | [full proof](A109926/A109926_mathlib.lean) | new (immediate) | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
+| [A111677](A111677/) | misstated | "a(n) = 0 iff n ≡ 3 (mod 5)" fails at n = 1 | [full proof](A111677/A111677_mathlib.lean) | new (immediate) | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A113599](A113599/) | proved | no term is zero (pigeonhole) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A115509](A115509/) | proved | a(n) = 0 for 2^(k+1) ≤ n < 3·2^k | [full proof](A115509/A115509_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A117414](A117414/) | trivial or misstated | an Euler triangle without a definition (row sums, columns 1 and 2) | needs Mathlib | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md) |
@@ -318,6 +338,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A121627](A121627/) | proved | divisibility of the "complex factorial" real parts | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A122957](A122957/) | trivial or misstated | "except for 1,2,3,4, this is the nonzero values of A066362" is false | [full proof](A122957/A122957_mathlib.lean) | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A123721](A123721/) | trivial or misstated | first occurrences of k in A123249(n) - 2n | [full proof](A123721/A123721_mathlib.lean) | new | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A129364](A129364/) | known | a(n) divides A092287(n) (known) | — | known | [known-theorem](../methods/known-theorem/README.md), [multiplicative-local-bounds](../methods/multiplicative-local-bounds/README.md) |
 | [A131439](A131439/) | proved | 1, 7, then 4k + 14, and its inverse binomial transform | [full proof](A131439/A131439_mathlib.lean) | known | [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A132293](A132293/) | trivial or misstated | maximal number of right angles in an n-gon (Mathar's correction) | — | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A132870](A132870/) | disproved | see A177390 | [witness](A177390/A177390.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
@@ -339,6 +360,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A173989](A173989/) | proved | 2-adic valuations of A173300 follow A, A, A+1, A with A odd | [full proof](A173989/A173989_mathlib.lean) | known | [exact-arithmetic](../methods/exact-arithmetic/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A177390](A177390/) | disproved | Hanna's "integer triangle for every k" fails at k = 1 (and k = 3) | [witness](A177390/A177390.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A178482](A178482/) | proved | Kimberling's change-of-base conjecture for phi-antipalindromic numbers (known) | — | known | [known-theorem](../methods/known-theorem/README.md) |
+| [A178790](A178790/) | proved | integrality and the Apery-sum congruence mod p^2 are both proved (Sun; Wang-Sun) | — | known | [known-theorem](../methods/known-theorem/README.md) |
 | [A182484](A182484/) | disproved | the product is a square for p = 63, so "square iff prime" is false | [witness](A182484/A182484.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A187941](A187941/) | trivial or misstated | a(n) = 2^n exactly for n prime or n = 1 (n ≥ 1); fails literally at n = 0 | [full proof](A187941/A187941_mathlib.lean) | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A192023](A192023/) | trivial or misstated | the determinant-2n matrix count does not match; a linear count does | [full proof](A192023/A192023_mathlib.lean) | misstated | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
@@ -347,13 +369,16 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A206912](A206912/) | proved | the differences of A206912 are 1s and 2s | [full proof](A206912/A206912_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A209260](A209260/) | proved | Jeffery's two conjectures (both proved in the entry's references) | — | — | [known-theorem](../methods/known-theorem/README.md) |
 | [A209998](A209998/) | misstated | penultimate term of row n equals A199923(n) | [full proof](A209998/A209998_mathlib.lean) | new (immediate) | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [finite-identity](../methods/finite-identity/README.md) |
+| [A212346](A212346/) | proved | a(n) = (n+3)(n^2-4)/6 for n >= 3 | [full proof](A212346/A212346_mathlib.lean) | partly-known | [gf-coefficient-extraction](../methods/gf-coefficient-extraction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A212652](A212652/) | proved | a(n) = min of d + (h-1)/2 over n = d\*h with h odd, and n lies in row a(n) of A209260 | [full proof](A212652/A212652_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [A212916](A212916/) | proved | standard Young tableaux of height ≤ 10, a(n) ~ 10^n π^(−5) (10/n)^(45/2) ∏ Γ(j/2) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A213257](A213257/) | proved | the excluded integers are the positions of 2 in a morphic word | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A213258](A213258/) | proved | terms are the positions of 2 in a morphic word (n = 2^(3t+2)·odd) | — | — | [elementary-proof](../methods/elementary-proof/README.md) |
+| [A213507](A213507/) | proved | a(n) is never divisible by 2, 5, 13, 29, 31, 37, 41, 43, 53, 71, 97 | needs Mathlib | partly-known | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A213648](A213648/) | proved | fixed points lie in A000057 | [checked](A213648/A213648_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A214724](A214724/) | proved | p \| a(n) for n >= p when p = m^2 + 1 is prime | — | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A214758](A214758/) | disproved | Coman's midpoint claim for Carmichael numbers is false (46657) | [witness](A214758/A214758_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [A215010](A215010/) | disproved | equiangular polygons with sides in arithmetic progression are not only hexagons | [full proof](A215010/A215010_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A215672](A215672/) | disproved | Coman's q((r+1)q − r) claim for Poulet numbers is false (617093) | [witness](A215672/A215672_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A216371](A216371/) | proved | for odd primes with one coach, the top row is a permutation of 1, 3, ..., 2q-1 | [full proof](A216371/A216371_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A217319](A217319/) | proved | the P-positions of Mark-4 are 0 and the numbers with odd 4-adic valuation | [full proof](A217319/A217319.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
@@ -366,6 +391,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A221564](A221564/) | proved | a(3k+1) = 2k for the FO4C3 shuffle | [full proof](A221564/A221564_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A223577](A223577/) | proved | A223578(n) = 2·A223577(n) − n + 1 | [full proof](A223577/A223577_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [nth-enumeration](../methods/nth-enumeration/README.md) |
 | [A223578](A223578/) | proved | A223578(k) = 2·A223577(k) − k + 1 | [full proof](A223577/A223577_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [nth-enumeration](../methods/nth-enumeration/README.md) |
+| [A223925](A223925/) | proved | a(2n) = 4^n divides A132049(2n) | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A224529](A224529/) | proved | a(np) ≡ a(n) mod p for (p/23) = 1 (proved by Osburn and Sahu) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A225003](A225003/) | proved | a(n) = A047332(n) for n ≥ 2 | [full proof](A225003/A225003_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A225611](A225611/) | proved | Sun's Legendre-symbol determinant vanishes on a residue class | [full proof](A228095/A225611_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
@@ -403,11 +429,13 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [A002383](A002383/) | partial | A002383 \ {3} = A085104 ∩ A059055 (open; inclusion ⊆ proved) | [checked](A007645/A007645_mathlib.lean) | new | [reading-the-statement](../methods/reading-the-statement/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [A054979](A054979/) | partial | "every e-perfect number is divisible by 36" is equivalent to the open Straus-Subbarao question | — | partly-known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A073117](A073117/) | partial | Cloitre's eventual-increment conjecture (partial: listed values confirmed) | [full proof](A073117/A073117.lean) | partly-known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [A094358](A094358/) | partial | Munafo's conjecture is equivalent to "all Fermat numbers are squarefree" | [full proof](A094358/A094358_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [A139250](A139250/) | partial | holes of the toothpick structure are rectangles (side lengths still open) | — | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A213381](A213381/) | partial | n^n mod (n+2) — zeros and the A176003 values (parts 3–4 open) | [full proof](A213381/A213381_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [A215926](A215926/) | partial | the power-of-2 conjectures reduce to almost perfect numbers | [witness](A215926/A215926_mathlib.lean) | new | [reduction-to-constant](../methods/reduction-to-constant/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [A219033](A219033/) | partial | the sequence is infinite; the 6\*A185208(n) ratio conjecture is false | [full proof](A219033/A219033_mathlib.lean) | new | [parametric-family](../methods/parametric-family/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [A227012](A227012/) | partial | the case g(n) = n^3, f(k) = 1/k | — | new | [exact-arithmetic](../methods/exact-arithmetic/README.md), [recurrence-asymptotics](../methods/recurrence-asymptotics/README.md) |
 
 ## Short proofs
@@ -1206,6 +1234,66 @@ numerical constant in A077596).
 
 Lean: needs Mathlib.
 
+### [A077739](A077739/): a(n) = 0 exactly for n = 11, 17, 19
+
+**Source.** [A077739](https://oeis.org/A077739) (offset 1), Amarnath Murthy, Nov 20 2002: "Smallest multiple of n
+beginning and ending in n and having a digit sum of n, or 0 if no such number exists." Comment: "Conjecture: a(n) = 0
+if and only if n is 11, 17 or 19." [A077740](https://oeis.org/A077740) is A077739(n)/n with the same conjecture
+(Ray Chandler, Sep 05 2003). (OEIS text, CC BY-SA 4.0, checked 2026-11-06.)
+
+**Reading.** N is admissible for n when n | N, the decimal string of N starts with that of n and ends with it
+(overlap allowed, so N = n counts for n ≤ 9), and the digit sum of N is n. This reading reproduces the data of
+A077739 for n ≤ 40 (certificate/brute.py).
+
+**Result.** True. For n ≥ 1 an admissible N exists iff n ∉ {11, 17, 19}; so A077739(n) = 0 and A077740(n) = 0 iff
+n ∈ {11, 17, 19}.
+
+**Argument.** Write ds for the decimal digit sum.
+- n = 19. N contains the digits 1, 9 at both ends. If the two copies of "19" do not overlap, ds(N) ≥ 20. They cannot
+  overlap in one digit (9 ≠ 1); full overlap gives N = 19 with ds = 10.
+- n = 17. As for 19, N = 17·10^(k+2) + 100·c + 17 where c has digits summing to 1 (the middle part), so c = 10^j.
+  Then 17 | 100·10^j, impossible.
+- n = 11. The two lowest digits of N are 1, 1, and ds(N) = 11, so the remaining digits sum to 9. The alternating
+  digit sum of N equals that of the remaining digits, an odd number in [−9, 9], so it is not divisible by 11.
+- n ≥ 63, construction. Let s = ds(n), r = n − 2s. By pigeonhole, 10^(i+P) ≡ 10^i (mod n) for some i and P ≥ 1. Let
+  q = n / gcd(n, 10^i), so n | 10^i·q. Pick V = q·(m0 + 9k) with V ≡ r (mod 9) (possible since r ≡ −n (mod 9) and
+  q | n) and r < V ≤ r + 18q; write V − r = 9y and y = 11z + v with v ≤ 10. Put u = r − v − z (≥ 0 because
+  s ≤ 9 + n/10 and n ≥ 63). Let M = 10^i·Σ_t 10^(3P·t)·b_t where the blocks b_t are u copies of 1, v copies of 10 and
+  z copies of 100. Each block has 3P ≥ 3 digits, so ds(M) = u + v + z = r, and modulo n,
+  M ≡ 10^i·(u + 10v + 100z) = 10^i·V ≡ 0. Finally N = n + 10^D·(M + 10^M·n) (D = number of digits of n) begins and
+  ends with n, is divisible by n, and has digit sum 2s + r = n.
+- 1 ≤ n ≤ 62, n ∉ {11, 17, 19}: explicit witnesses (certificate/witnesses.txt), the least multiple for n ≤ 49 and
+  n = 56, 58, 59, and a digit-DP witness of the form n·10^(L+D) + mid·10^D + n otherwise.
+
+Lean: [full proof](A077739/A077739_mathlib.lean).
+
+### [A077740](A077740/): a(n) = 0 iff n is 11, 17 or 19
+
+Lean: [full proof](A077739/A077739_mathlib.lean).
+
+### [A078008](A078008/): even denominators in the rows of the Farey tree
+
+**Source.** [A078008](https://oeis.org/A078008), expansion of (1-x)/((1+x)(1-2x)) = 1, 0, 2, 2, 6, 10, 22, ...
+Comment (Adamson, 2003): "Conjecture: a(n) = the number of fractions in the infinite Farey row of 2^n terms with
+even denominators. Compare the Salamin & Gosper item in the Beeler et al. link" (HAKMEM item 54: a random
+rational has even denominator with probability 1/3). (OEIS text checked 2026-11-06.)
+
+**Reading.** The "infinite Farey row of 2^n terms" is row n of the Stern-Brocot (Farey) tree of (0,1): row 0 is
+{1/2}, row 1 is {1/3, 2/3}, row 2 is {1/4, 2/5, 3/5, 3/4}; each fraction is the mediant of its two Farey neighbours
+and row n holds the 2^n fractions inserted at step n+1 of the mediant construction. This reading reproduces
+1, 0, 2, 2. (In the full Stern-Brocot tree of (0, infinity), rooted at 1/1, the count is A001045(n) instead;
+A078008(n) there counts fractions with odd numerator and odd denominator.)
+
+**Result.** True: for every n >= 0 row n has exactly a(n) = (2^n + 2(-1)^n)/3 fractions with even denominator.
+
+**Argument.** Store a node as its neighbours a/b < c/d (fraction (a+c)/(b+d)); then bc - ad = 1, preserved by the
+children (a/b, (a+c)/(b+d)) and ((a+c)/(b+d), c/d). So b, d are not both even. The children have denominators
+2b+d = d and b+2d = b (mod 2), so the number of even-denominator children is [b even] + [d even] = 1 - [b+d even].
+Summing over row n: E(n+1) = 2^n - E(n), E(0) = 1. The recurrence a(n+2) = a(n+1) + 2a(n), a(0) = 1, a(1) = 0
+gives a(n+1) + a(n) = 2^n, so E(n) = a(n).
+
+Lean: [full proof](A078008/A078008_mathlib.lean).
+
 ### [A078122](A078122/): row sums of the M^3-shift matrix are the partitions of 3^n into powers of 3
 
 **Source.** [A078122](https://oeis.org/A078122) (Paul D. Hanna): "Infinite lower triangular matrix, M, that satisfies
@@ -1504,6 +1592,33 @@ below 1^s 0^s are 0, all words of semilength 1..s-1, and all but one of semileng
 
 Lean: [full proof](A083942/A083942_mathlib.lean).
 
+### [A084043](A084043/): a(n) = 0 iff 10 divides n
+
+**Source.** [A084043](https://oeis.org/A084043) (Amarnath Murthy, 2003): smallest palindromic multiple of n in
+which the digit string of n appears "sandwiched between at least a pair of digits", or 0 if none exists.
+[A084044](https://oeis.org/A084044) (Murthy and Meenakshi Srikanth, 2003): smallest palindromic multiple of n in
+which n is a substring anywhere, or 0. Both: "Conjecture: a(n) = 0 iff n = 10k." (OEIS text, CC BY-SA 4.0, A084043
+revision #5 of Dec 05 2013, A084044 revision #7 of Aug 23 2014, checked 2026-11-06.)
+
+**Result.** True for both: for n >= 1 a palindromic multiple of n containing n with a digit on each side exists iff
+10 does not divide n (hence also one containing n anywhere).
+
+**Argument.** 1. *10 | n.* A positive multiple of 10 ends in 0; a palindrome would then start with 0. No such multiple exists.
+2. *10 does not divide n.* Write n = g m with g = 2^a 5^b and gcd(m, 10) = 1. Let e = a + b + 1, so g | 10^e and
+   g < 10^e; let E be the decimal string of g padded with leading zeros to length e. Since 10 does not divide
+   g, the last digit of g is nonzero. Let s be the decimal string of n and
+   Y = rev(E) s rev(s) E (a palindrome whose first digit is the last digit of g, nonzero, and whose value is
+   g mod 10^e, hence divisible by g). Let L = |Y|, M = m (10^L - 1), k = 2 phi(M) >= 2, and P = Y repeated k
+   times. P is a palindrome, P = Y (1 + 10^L + ... + 10^{L(k-1)}), and 10^{Lk} == 1 (mod M) by Euler (10^L is
+   coprime to m and to 10^L - 1), so m divides the repunit factor; g divides Y. So n | P, and the copy of s in the
+   second block of P has digits on both sides.
+
+Lean: [full proof](A084043/A084043_mathlib.lean).
+
+### [A084044](A084044/): a(n) = 0 iff 10 divides n
+
+Lean: [full proof](A084043/A084043_mathlib.lean).
+
 ### [A087324](A087324/): no term has a perfect-square prime signature
 
 **Source.** [A087324](https://oeis.org/A087324) (n such that n and its 9's complement have the same prime
@@ -1705,6 +1820,18 @@ non-square perfect powers up to M^2 number O(M^(2/3) log M) (cubes and higher po
 M − q values of m ≤ M are blocked once M is large. Hence some m works.
 
 Lean: [full proof](A094787/A094787_mathlib.lean).
+
+### [A096123](A096123/): a(n) = n!/(p-1)! for large n (p least prime with n ≤ 2p) is false
+
+**Source.** OEIS [A096123](https://oeis.org/A096123), "Least product n*(n-1)*(n-2)*...*(n-k+1) divisible by (n-k)!", conjecture by Amarnath Murthy in the entry: a(n) = n!/(p-1)! for all sufficiently large n, where p is the least prime such that n <= 2*p. The entry adds that A096974 (the n where equality holds) indicates the conjecture is most probably false.
+
+**Reading.** a(n) = n!/(n-k)! for the least k ≥ 0 with (n-k)! dividing n!/(n-k)!. This reproduces all 24 listed terms (`certificate/check.gp`). The entry's PARI program uses divisor (n-k+1)! instead; the argument below works for that reading too (k = p qualifies there because (p+1)!·p! divides (2p)!, as (2p)!/(p!·(p+1)!) is a Catalan number).
+
+**Result.** False. For every prime p, a(2p) ≤ (2p)!/p! < (2p)!/(p-1)!, and p is the least prime with 2p ≤ 2p. So the conjecture fails at n = 2p for every prime p.
+
+**Argument.** For n = 2p, k = p qualifies: (2p)!/p! is divisible by p! because p!·p! divides (2p)! (the binomial coefficient C(2p, p) is an integer). The least qualifying k is at most p, and the product n(n-1)...(n-k+1) grows with k, so a(2p) ≤ (2p)!/p!. The conjectured value is (2p)!/(p-1)! = p·(2p)!/p!, larger since p ≥ 2. Any prime q with 2p ≤ 2q has q ≥ p, so the least such prime is p.
+
+Lean: [full proof](A096123/A096123_mathlib.lean).
 
 ### [A096127](A096127/): a(n) = n+1 exactly when n is a prime power
 
@@ -2551,6 +2678,31 @@ with positive real part than P.
 This is the argument principle along the imaginary axis, done factor by factor so that only arctan limits are needed.
 
 Lean: [full proof](A129756/A129756_mathlib.lean).
+
+### [A131262](A131262/): least k with A130654(k) = n equals sigma(2^n) phi(2^n)
+
+**Source.** [A131262](https://oeis.org/A131262) (Adamchuk, 2007): a(n) = least index k with A130654(k) = n, where
+A130654(k) is the exponent of 2 in A092505(k) = A002430(k)/A046990(k) (numerators of the Taylor coefficients of
+tan x and of log(1/cos x)). Conjecture in the entry: a(n) = sigma(2^n) phi(2^n) = 2^(2n) - floor(2^n/2).
+(OEIS text checked 2026-11-06; still marked conjecture; A130654 notes records at 1, 3, 14, 60, 248, 1008, ...
+"strongly suggesting" the formula, Karttunen 2019.)
+
+**Reading.** A130654(k) is read as the 2-adic valuation of A092505(k) (OEIS formula A130654 = A007814(A092505),
+Karttunen). This equals the defining "m with 2^m = A092505(k)" whenever A092505(k) is a power of 2 (a separate
+conjecture in A130654, true for k <= 1100 by certificate/check.py; not needed here).
+
+**Result.** True: a(0) = 1 and a(n) = 2^(n-1)(2^(n+1) - 1) = sigma(2^n) phi(2^n) = 4^n - 2^(n-1) for n >= 1.
+
+**Argument.** Let t_k = 2^(2k)(2^(2k) - 1)|B_(2k)|/(2k)! be the coefficient of x^(2k-1) in tan x, and
+c_k = t_k/(2k) that of x^(2k) in log(1/cos x).
+1. v2(B_(2k)) = -1 (von Staudt-Clausen at 2), 2^(2k) - 1 is odd, and v2((2k)!) = 2k - s2(k) (Legendre, s2 = binary
+   digit sum). So v2(t_k) = s2(k) - 1 >= 0 and v2(c_k) = s2(k) - 2 - v2(k).
+2. For a rational q, v2(numerator q) = max(v2 q, 0). Hence A130654(k) = v2(num t_k) - v2(num c_k)
+   = min(s2(k) - 1, 1 + v2(k)).
+3. A130654(k) >= n >= 1 forces 2^(n-1) | k and s2(k) >= n + 1. Write k = 2^(n-1) m; s2(m) = s2(k) >= n+1 and
+   m + 1 >= 2^(s2 m), so k >= 2^(n-1)(2^(n+1) - 1). At k = 2^(n-1)(2^(n+1) - 1): v2 = n - 1, s2 = n + 1, value n.
+
+Lean: [full proof](A131262/A131262_mathlib.lean).
 
 ### [A132089](A132089/): the first column of L^(m+1) is the row-sum sequence of L^m (L = Losanitsch's triangle)
 
@@ -3471,6 +3623,26 @@ conjecture in revision #52, May 30 2026, checked 2026-11-06.)
 
 Lean: [full proof](A170941/A170941_mathlib.lean).
 
+### [A173643](A173643/): the odd-part formula needs K = 0 (counterexample 3)
+
+**Source.** [A173643](https://oeis.org/A173643) (offset 1): "Positive numbers of form 2^m - 2^l - 3*2^k (A172233)
+divisible by 9, divided by 9", with A172233 requiring m > l > k ≥ 0. Comment: "Conjecture: Odd part of a(n) is of
+form [(1/6)*(8^m-(-1)^m-3)*4^k-1]/3, k,m>0." (OEIS text, CC BY-SA 4.0, checked 2026-11-06.)
+
+**Reading.** The terms are (2^m − 2^l − 3·2^k)/9 with m > l > k ≥ 0, value positive and divisible by 9 (this
+reproduces the 55 listed terms, certificate/check.py). Write F(M,K) = ((8^M − (−1)^M − 3)/6 · 4^K − 1)/3.
+
+**Result.** As stated (K, M > 0) the conjecture is false: a(3) = 3 = (2^5 − 2^1 − 3)/9 has odd part 3, and
+F(M,K) ≠ 3 for K, M > 0 (F(2,0) = 3). With K ≥ 0 allowed it is true. The odd parts missed by K > 0 are exactly
+F(M,0) for even M: 3, 227, 14563, 932067, …, each of which is a term.
+
+**Argument.** Put B = l − k ≥ 1, D = m − l ≥ 1. The term is 2^k·w with w = (2^B(2^D − 1) − 3)/9 odd, so w is the
+odd part. Since 2^6 ≡ 1 (mod 9), 9 | 2^B(2^D − 1) − 3 iff (D ≡ 2 mod 6, B even) or (D ≡ 4 mod 6, B odd).
+In the first case M = (D+1)/3 is odd, K = B/2 ≥ 1 and w = F(M,K); in the second M = (D+2)/3 is even,
+K = (B−1)/2 ≥ 0 and w = F(M,K). F(M,0) for odd M is even, so it is never an odd part.
+
+Lean: [full proof](A173643/A173643_mathlib.lean).
+
 ### [A174470](A174470/): integer series
 
 Lean: [full proof](A183241/A174470_mathlib.lean).
@@ -3563,9 +3735,74 @@ a(n,q) ≡ 1 (mod q), is not treated here (it holds numerically, see Evidence).
 
 Lean: [full proof](A176827/A176827_mathlib.lean).
 
+### [A176948](A176948/): every n >= 4 except 6 has an n-gonal number that is not k-gonal for 3 <= k < n
+
+**Source.** [A176948](https://oeis.org/A176948) (Shevelev, 2010): a(n) = least x with A176774(x) = n, where
+A176774(x) is the least k >= 3 with x k-gonal; a(n) = 0 if there is none. Conjecture in the entry: for every
+n >= 4, n != 6, some n-gonal number is not k-gonal for 3 <= k < n (so a(6) = 0 is the only zero). (OEIS text
+checked 2026-11-06.)
+
+**Result.** True.
+
+**Argument.** P_k(m) = ((k-2)m(m-1) + 2m)/2. Fix n, put a = n-2 >= 2, a != 4, and for 3 <= k < n put
+b = k-2 in [1, a-1] and C = b(a-2)^2 - a(b-2)^2 = (a-b)(ab-4).
+1. C != 0: a > b, and ab = 4 with b < a forces (a, b) = (4, 1), i.e. n = 6. Also |C| < n^3.
+2. If N = P_n(j) = P_k(i), then with X = 2aj - (a-2), Y = 2bi - (b-2) we have 8aN + (a-2)^2 = X^2,
+   8bN + (b-2)^2 = Y^2, hence a(bX^2 - C) = (aY)^2.
+3. For a prime p > 3 with p not dividing abC, some x in Z/p makes a(bx^2 - C) a non-square. Otherwise
+   s -> a(bs - C) maps the set S of squares (with 0) injectively into itself, so permutes it; summing over S
+   and using sum_{s in S} s = (1/2) sum_x x^2 = 0 gives aC|S| = 0 in Z/p, but 0 < |S| < p.
+4. Take distinct primes p_k > n^3 + 2 (k = 3..n-1), the residues x_k of step 3, and j by the Chinese remainder
+   theorem with 2aj - (a-2) = x_k mod p_k. Then N = P_n(j) is n-gonal, and by step 2 it is k-gonal for no
+   3 <= k < n.
+
+Lean: [full proof](A176948/A176948_mathlib.lean).
+
+### [A177430](A177430/): exp(sum b(n)^m x^n/n) is integral exactly for even m >= 0
+
+**Source.** [A177431](https://oeis.org/A177431) b = 1, 3, 4, 5, 6, 12, ... and [A177430](https://oeis.org/A177430)
+= b^2 (Hanna, 2010): the least increasing sequence of squares that is the logarithmic derivative of an integer
+series, i.e. exp(sum b(n)^2 x^n/n) is in Z[[x]]. Conjectures: A177431, "exp(Sum a(n)^m x^n/n) consists entirely of
+integer coefficients only when m is a nonnegative even integer"; A177430, "{a(n)^(m/2)} forms a logarithmic
+derivative of an integer sequence only when m is a nonnegative even integer" (same statement, since
+A177430(n)^(m/2) = b(n)^m). (OEIS text checked 2026-11-06.)
+
+**Reading.** m ranges over the integers.
+
+**Result.** True, in both directions: exp(sum b(n)^m x^n/n) is integral iff m >= 0 and m is even.
+
+**Argument.** Integrality of exp(sum c(n) x^n/n) for integer c is equivalent to the Gauss congruences
+p^a | c(m p^a) - c(m p^(a-1)) (Dwork). 
+- m even >= 0: b^2 satisfies them (definition of b), and they are closed under products, so b^m = (b^2)^(m/2) does.
+- m odd >= 1: at p = 2, a = 2, m' = 1 the congruence needs 4 | b(4)^m - b(2)^m = 5^m - 3^m, but 5^m - 3^m = 2
+  (mod 4) for odd m. (The x^4 coefficient is not integral.)
+- m < 0: the x^2 coefficient is (b(1)^2m + b(2)^m)/2 = (1 + 3^m)/2 with 0 < 3^m < 1, not an integer.
+
+Lean: [full proof](A177430/A177430_mathlib.lean).
+
+### [A177431](A177431/): exp(sum a(n)^m x^n/n) integral only for even m >= 0
+
+Lean: [full proof](A177430/A177430_mathlib.lean).
+
 ### [A178473](A178473/): OEIS A178473
 
 Lean: [full proof](A178473/A178473_mathlib.lean).
+
+### [A178612](A178612/): no term is a square (rank-0 elliptic curve)
+
+**Source.** [A178612](https://oeis.org/A178612) (offset 1): "Positive numbers of the form p^6 - 4*p^4*q +
+4*p^2*q^2 + 4*q^3 (and p*q <> 0)." Comment: "Conjecture: There are no perfect squares in this sequence (in spite
+of all numbers being congruent to 0 or 1 mod 4)." A square would give a septic trinomial x^7 + Ax^2 + B with
+irreducible factors of degrees 3 and 4. (OEIS text, CC BY-SA 4.0, checked 2026-11-06.)
+
+**Result.** True: F(p,q) = p^6 − 4p^4q + 4p^2q^2 + 4q^3 is never a perfect square for integers p, q ≠ 0.
+
+**Argument.** If F(p,q) = y^2 with p ≠ 0, put x = 4q/p^2, Y = 4y/p^3. Dividing by p^6 and multiplying by 16 gives
+Y^2 = x^3 + 4x^2 − 16x + 16, an elliptic curve E of conductor 35 (minimal model y^2 + y = x^3 + x^2 − x, isogeny
+class 35.a). E(Q) has rank 0 (2-descent: PARI/GP `ellrank` gives bounds [0, 0]; also L(E,1) ≈ 0.7029 ≠ 0) and
+torsion Z/3 generated by (0, 4). So E(Q) = {O, (0, 4), (0, −4)}, hence x = 0, i.e. q = 0.
+
+Lean: [checked](A178612/A178612_mathlib.lean).
 
 ### [A179873](A179873/): nondecreasing sequence of odd numbers
 
@@ -3647,6 +3884,22 @@ binomial convolution).
 For p = 1, P_n = (1+x)^n gives Σ log(1+x)^n/n! = 1+x, the entry's comparison.
 
 Lean: [full proof](A180654/A180654_mathlib.lean).
+
+### [A180710](A180710/): sigma(n) | a(n) fails at n = 64
+
+**Source.** [A180710](https://oeis.org/A180710) (Hanna, 2010): a(1) = 1, a(n) = sigma(2^(n-1) a(n-1)) for n > 1.
+Comment: "Conjecture: sigma(n) | a(n) for n>=1." (OEIS text checked 2026-11-06; data up to a(9).)
+
+**Result.** False. sigma(n) | a(n) holds for 1 <= n <= 63, but sigma(64) = 127 and a(64) = 43 (mod 127). a(64) has 658
+digits.
+
+**Argument.** a(n) is computed exactly through its prime factorization: if 2^(n-1) a(n-1) = prod p^e, then
+a(n) = prod (p^(e+1) - 1)/(p - 1), and each factor (p^(e+1) - 1)/(p - 1) is factored separately (PARI `factor`),
+the results merged. Every prime found is certified by PARI `isprime` (proven primality, APR-CL), so each step
+gives the exact prime factorization of a(n) and the next sigma is exact. The first terms equal the entry's data
+(and direct `sigma` evaluation for n <= 12). Reducing the factorization of a(64) modulo 127 gives 43.
+
+Lean: —.
 
 ### [A181070](A181070/): integer series
 
@@ -4183,6 +4436,45 @@ k (k^n + k^(1-n))/(k+1) - (k-1)k^(-n) = (k^(n+1) + k^(2-n) - k^(2-n) + k^(-n))/(
 integer (OEIS-A188644/A188645, using 1/k = (√(x²+y) - x)² since y² = 1).
 
 Lean: [full proof](A188647/A188647_mathlib.lean).
+
+### [A192062](A192062/): the prime chain T(2n) = A(n)T(n), A(3n) = A(n)B(n), B(5n) = B(n)C(n), ... has integer factors
+
+**Source.** [A192062](https://oeis.org/A192062) (Kenneth J. Ramsey, 2011), comment: "Conjecture re relation of
+A192062 to the sequence of primes: T(2*n,j) = A(n,j)*T(n,j) where A(n,j) is from the square array A191971. There,
+A(3*n,j) = A(n,j)*B(n,j) where B(n,j) are integers. ... My conjecture is that this property continues indefinitely
+and follows the sequence of primes." (OEIS text, CC BY-SA 4.0, revision #23 of Dec 10 2016, checked 2026-11-06.)
+
+**Reading.** Column j >= 0 of T is T(0)=0, T(1)=1, T(2i)=T(2i-2)+T(2i-1), T(2i+1)=T(2i-1)+j T(2i) (formula in the
+entry). Column j of A191971 is A(0)=2, A(1)=1, A(2i)=j A(2i-1)+A(2i-2), A(2i+1)=A(2i)+A(2i-1). Let p_1, p_2, ... =
+2, 3, 5, ... Put G_1 = T, G_2 = A and G_{k+1}(n) = G_k(p_k n)/G_k(n) (so G_3 = B, G_4 = C, ...). The conjecture:
+for every k, j >= 0 and n >= 1, G_k(p_k n) = G_k(n) G_{k+1}(n) with G_{k+1}(n) an integer (and G_2 = A).
+
+**Result.** True for every k, j and n >= 1. Every G_k(n) is a product of distinct "cyclotomic parts" of a Lehmer
+sequence, and each G_{k+1}(n) is again such a product.
+
+**Argument.** 1. *Lehmer form.* For j >= 1 let a, b be real with ab = -1 and a^2 + b^2 = j+2, so (a+b)^2 = j and a^2, b^2 are the
+   two roots of x^2 - (j+2)x + 1. The Lehmer sequence L(n) = (a^n - b^n)/(a - b) (n odd), (a^n - b^n)/(a^2 - b^2)
+   (n even) has L(0)=0, L(1)=1, L(2)=1, L(3)=a^2+ab+b^2=j+1 and L(n+4)=(j+2)L(n+2)-L(n). T satisfies the same
+   recurrence (eliminate the odd terms from the two-step rule; it is the formula T(n+2) = (j+2)T(n) - T(n-2) in the
+   entry) with the same four initial values, so T(n,j) = L(n). Likewise the companion V(n) = a^n + b^n (n even),
+   (a^n + b^n)/(a + b) (n odd) has V(0)=2, V(1)=1, V(2)=j+2, V(3)=j+3 and the same order-4 recurrence, as does A;
+   so A(n,j) = V(n).
+2. *Cyclotomic parts.* Let P_d = b^{phi(d)} Phi_d(a/b), the homogenised cyclotomic polynomial. Then
+   a^n - b^n = prod_{d | n} P_d, with P_1 = a - b and P_2 = a + b. Hence L(n) = prod_{d | n, d >= 3} P_d for every
+   n >= 1. For d >= 3, Phi_d is self-reciprocal of even degree, so P_d is a symmetric form of even degree in a, b
+   with integer coefficients, i.e. an integer polynomial in (a+b)^2 = j and ab = -1: P_d is an integer. a/b = -a^2
+   has absolute value != 1, so P_d != 0.
+3. *Exponent bookkeeping.* Write G_k(n) = prod_{d >= 3} P_d^{e_k(n,d)}. For G_1, e_1(n,d) = prod_q [v_q(d) <= v_q(n)]
+   over all primes q. Claim: e_k(n,d) = prod_{i<k} [v_{p_i}(d) = v_{p_i}(n)+1] * prod_{q not in {p_1..p_{k-1}}}
+   [v_q(d) <= v_q(n)], which is 0 or 1. Induction: replacing n by p_k n changes only the factor for q = p_k, from
+   [v <= v_{p_k}(n)] to [v <= v_{p_k}(n)+1]; the difference is [v = v_{p_k}(n)+1] >= 0, so G_k(p_k n)/G_k(n) =
+   prod P_d^{e_{k+1}(n,d)} with e_{k+1} of the claimed form. Since the P_d (d >= 3) are nonzero integers, every
+   G_k(n) is an integer and G_k(p_k n) = G_k(n) G_{k+1}(n). For k = 1 this gives T(2n)/T(n) = prod_{d | 2n, d not
+   dividing n, d >= 3} P_d = V(n) = A(n) (for n odd the factor P_2 = a+b is excluded, giving (a^n+b^n)/(a+b)).
+4. *j = 0.* Here T(2i)=i, T(2i+1)=1, A(n)=n for odd n and 2 for even n, so B(n) = A(3n)/A(n) = 3 (n odd), 1 (n
+   even), and C = B(5n)/B(n) = 1, after which every G_k is 1.
+
+Lean: needs Mathlib.
 
 ### [A192205](A192205/): a(n)^(1/n) → 16√3/9 for the coefficient sum of (1-x-x^2+x^3)^n
 
@@ -5196,6 +5488,39 @@ No method-of-moments theorem is needed.
 
 Lean: [checked](A217876/A217876_mathlib.lean).
 
+### [A219197](A219197/): the square root of the A199033 g.f. has no coefficient = 3 (mod 4)
+
+**Source.** [A219197](https://oeis.org/A219197) (Hanna, 2012): a = 1, 2, 9, 46, 253, ..., the self-convolution square
+root of A199033(n) = sum_k C(n+k+1, n-k) C(2n-k+1, k). G.f. formula in the entry: A = G/sqrt(1 - 2xG^2 - 3x^2G^4),
+G = 1 + xG^3. Comment: "Conjecture: a(n) is never congruent to 3 modulo 4." (OEIS text checked 2026-11-06.)
+
+**Result.** True. Moreover a(n) is odd iff n is even and n AND 2n = 0 (no two adjacent 1-bits), and then a(n) = 1
+(mod 4).
+
+**Argument.** 1. *Lagrange form.* Put t = xG^2; then G = 1/(1-t) and x = t(1-t)^2. The entry's g.f. becomes
+   A = (1-t)^(-1) (1-2t-3t^2)^(-1/2), and Lagrange inversion ([x^n] H = [t^n] H(t) phi^n (1 - t phi'/phi),
+   phi = (1-t)^(-2)) gives a(n) = [t^n] S(t) (1-t)^(-2n-2), S = sqrt((1-3t)/(1+t)).
+2. *S mod 4.* (1-3t)/(1+t) = 1 - 4u with u = t/(1+t), so S = sqrt(1-4u) = 1 - 2 sum_{k>=1} Cat(k-1) u^k. Cat(k-1) is
+   odd iff k is a power of 2, and u^(2^j) = t^(2^j)/(1+t^(2^j)) (mod 2). Hence S = 1 + 2W (mod 4) with
+   W = sum_m (v2(m) + 1) t^m (mod 2), and
+   a(n) = C(3n+1, n) + 2 E(n) (mod 4),  E(n) = sum_{1<=m<=n, v2(m) even} C(3n+1-m, n-m).
+3. *Parity.* C(3n+1, n) = C(n + (2n+1), n) is odd iff adding n and 2n+1 has no carry, i.e. n even and n AND 2n = 0.
+   By Lucas, C(3n+1-m, n-m) = C(k + (2n+1), k) with k = n-m is odd iff k AND (2n+1) = 0, so
+   E(n) = #{0 <= k < n : k AND (2n+1) = 0, v2(n-k) even} (mod 2).
+4. *C(3n+1, n) mod 4.* From (1+t)^(2x) = (1+t^2+2t)^x = (1+t^2)^x + 2xt(1+t^2)^(x-1) (mod 4), C(2x, 2y) = C(x, y)
+   (mod 4); with C(2x+1, 2y) = C(2x, 2y)(2x+1)/(2x-2y+1) and C(2x+1, 2y+1) = C(2x, 2y)(2x+1)/(2y+1) and
+   2z+1 = (-1)^z (mod 4), a carry-free C(a, b) is (-1)^N (mod 4), N = #{i : a_(i+1) = a_i = 1, b_(i+1) != b_i}. For
+   a = 3n+1, b = n (n even, no adjacent 1-bits) this is N(n) = popcount(n) + #{i >= 0 : n_(i+1) = 1, (2n+1)_i = 1}.
+5. *E = N (mod 2).* Write n = 2^e + n' with n' < 2^(e-1) (top bit e, next bit e2 <= e-2 if n' > 0). The k >= 2^e
+   are 2^e + k'' with k'' counted by E(n'). The k < 2^e range over the span of the free positions F = {1..e-1}
+   minus {e_j + 1 : j >= 2}; k = n' gives v2 = e, and for k != n', v2(n-k) = v2(n'-k) = v exactly for 2^|F cap (v, e-1]|
+   values of k when v is in F (none otherwise). Mod 2 only v = max F survives, so this part is
+   [max F even] + [e even]: 1 if e >= 2 and e2 != e-2 (or n' = 0), 0 if e2 = e-2 or e = 1. The same top-bit step
+   changes N by 1 + [e2 = e-2] (by 1 + [e = 1] when n' = 0). Induction from E(0) = N(0) = 0 gives E = N (mod 2).
+6. Hence for odd a(n): a(n) = (-1)^N + 2N = 1 (mod 4); otherwise a(n) is even. So a(n) is never 3 mod 4.
+
+Lean: needs Mathlib.
+
 ### [A219431](A219431/): a(odd) ≡ 2 and a(even) ≡ 0 (mod 4)
 
 **Source.** OEIS [A219431](https://oeis.org/A219431), logarithmic derivative of the g.f. of the
@@ -5265,6 +5590,34 @@ m = p^f m', n = p^e n' with p ∤ m', n'. Then n' | m', so τ(n') ≤ τ(m'), an
 τ(m) = (f+1)τ(m') ≥ (2e+2)τ(n') = 2τ(n). Hence τ(m) < 2τ(n) forces v_p(m) ≤ 2v_p(n) for every p, i.e. m | n².
 
 Lean: [full proof](A225004/A225004_mathlib.lean).
+
+### [A225660](A225660/): a(n) is odd for n > 9
+
+**Source.** [A225660](https://oeis.org/A225660) (Clark Kimberling, 2013): number of nonrepeating vectors in the
+counting procedure H(0) = binary digits of n, H(q+1) = F(H(q)), where F(S) = (f(0), ..., f(max S)) and f(i) is the
+number of occurrences of i in S. Comment: "Conjecture: if n>9, then a(n) is odd." (OEIS text, CC BY-SA 4.0, revision
+#14 of Dec 04 2016, checked 2026-11-06.)
+
+**Reading.** a(n) = least i such that H(i) occurs again later; this reproduces the data (e.g. a(7) = a(9) = 0
+because 111 and 1001 lie on a cycle).
+
+**Result.** True: a(n) is odd for every n > 9.
+
+**Argument.** 1. *Cycles.* The set C = {002, 011, 03, 1001, 111, 12, 201, 22} is closed under F and F^6 is the identity on C
+   (cycles 12 -> 011 -> 12 and 22 -> 002 -> 201 -> 111 -> 03 -> 1001 -> 22). If the orbit of a vector meets C,
+   then H(i) repeats iff H(i) is in C (a periodic H(i) equals F^{pT}H(i), which lies in C once the orbit is in C),
+   so a(n) is the first time the orbit meets C.
+2. *First step.* For n >= 1, F(bits) = (z, o), the numbers of 0s and 1s; for n >= 8, z + o >= 4 and o >= 1. For
+   n > 9 the binary word of n is not in C (the members of C read as binary numbers are at most 9), so
+   a(n) = 1 + (hitting time of C from (z, o)).
+3. *Pairs return in an even number of steps.* For z != o with q = max(z, o): F(z, o) is the word of length q+1 with
+   1 at positions z and o, and F^2(z, o) = (q-1, 2). For m >= 3: (m, m) -> 0^m 2 -> (m, 0, 1) -> 1 1 0^{m-2} 1 ->
+   (m-2, 3). The intermediate words have length >= 6 or maximum >= 5, so they are not in C when max >= 5.
+4. *Induction on max(z, o).* For pairs with z + o >= 4, o >= 1 and max <= 4 the hitting time is even (finite check).
+   For max >= 5, step 3 reaches a pair with smaller max, still with sum >= 4 and o in {2, 3}, after 2 or 4 steps.
+   So the hitting time from (z, o) is even and a(n) is odd.
+
+Lean: [full proof](A225660/A225660_mathlib.lean).
 
 ### [A225919](A225919/): the greedy harmonic-block sequence for f(k) = 1/(k+4) is linearly recurrent
 
@@ -5862,6 +6215,46 @@ n = A024812(k) is taken once, at m = A024813(k), then the positions 1..m hold f(
 
 Lean: [full proof](A024812/A024812_mathlib.lean).
 
+### [A029905](A029905/): r(n) and h(n) are not complementary (row 120 of 3-row Chomp is in neither)
+
+**Source.** OEIS [A029905](https://oeis.org/A029905), "r(n), where exists one-parameter family of
+strategic partitions (k+p(n)+q(n), k+q(n), r(n)) for k = 0,1,2,... in Chomp", comment
+"Conjectured to be complementary to h(n), see A029902", and A. E. Brouwer (May 31 2002):
+"Maybe the conjecture is false - see the Brouwer link." h(n) is [A029902](https://oeis.org/A029902):
+the strategic move on the g(n) X 3 rectangle is (h(n),2) (OEIS text, CC BY-SA 4.0).
+Origin: Berlekamp-Conway-Guy, Winning Ways vol. 2, 598-600.
+
+**Reading.** Positions of 3-row Chomp are (p,q,r), p >= q >= r >= 0 row lengths, the player
+who must take the poisoned square loses ((1,0,0) is a P-position). The move (h,2) on the
+g X 3 rectangle (g,g,g) leads to (g,g,h). So h ranges over the rows r for which some
+(q,q,r), q > r, is a P-position. r(n) ranges over the rows r for which (k+P+Q, k+Q, r) is a
+P-position for every k >= 0.
+
+**Result.** False. Row r = 120 lies in neither set. For q >= 170 the P-positions in row 120
+are (q+72, q, 120) for even q and (q+70, q, 120) for odd q (q - 170 even / odd), forever, and
+no (q,q,120) is a P-position. Rows 0..119 and 121..125 each lie in exactly one of the two
+sets, and the computed sets agree with the OEIS data of A029902 and A029905.
+
+**Argument.** For q >= r let f(q,r) be the unique p with (p, min(p,q), min(p,q,r)) a
+P-position (the positions with fixed q, r and varying p form a chain, each can move to every
+lower one, so there is at most one P-position; there is at least one by the rule below).
+Re-derived from the move rules: if some p' < q has (p',p',min(p',r)) a P-position then
+f(q,r) = p'; otherwise f(q,r) is the least p >= max(q,1) that is not among
+f(a, min(r,a)) (a < q, moves in row 1) and f(q,b) (b < r, moves in row 2). This rule is
+checked against a brute-force game solver on all boards with p <= 14 (`chomp_cert.py`).
+A row with a diagonal P-position is constant from then on (the finite case, giving h).
+Otherwise, for q beyond the starting points of all lower rows, f(q,r) = q + t with t the
+least t >= 1 outside S_q ∪ D_q, where S_q = {v - q : v already used in row r, v >= q} and
+D_q = {f(q,b) - q : b < r infinite rows}. Each lower infinite row is certified eventually
+periodic, so D_q is periodic in q, and (q mod L, S_q) evolves by a deterministic finite rule
+S_{q+1} = {s-1 : s ∈ S_q ∪ {t}, s >= 1}. A repeated state proves the row periodic forever.
+`chomp_rows.py` does this row by row for r <= 125 (rows 0..119 have period 1); for row 120
+the state repeats with period 2 and offsets (72, 70), t >= 1 throughout, and f(q,120) != q
+for 120 < q < 170 is checked directly. Hence (q,q,120) is never a P-position (120 not in h)
+and f(q,120) - q is not eventually constant (no one-parameter family, 120 not in r).
+
+Lean: —.
+
 ### [A030210](A030210/): coefficients of (η(q)η(q^5))^4 satisfy |a(p)| < 2p^(3/2)
 
 **Source.** OEIS [A030210](https://oeis.org/A030210) (offset 1): expansion of (eta(q) * eta(q^5))^4 in powers
@@ -6143,6 +6536,23 @@ Lean: [witness](A079267/A079267.lean).
 
 Lean: [full proof](A082235/A082235_mathlib.lean).
 
+### [A082108](A082108/): a(n−1) is the largest integer keeping the partial sum below 1
+
+**Source.** [A082108](https://oeis.org/A082108) (offset 0): a(n) = 4n² + 6n + 1. The 2013 wiki conjecture list gives
+"Conjecture. a(n-1) is the largest integer such that Sum[a(k)/(2k)!, k=1,2,...,n] is less than 1". The current entry
+no longer carries the conjecture; it has, from Robert Israel (Jul 19 2017), "Sum_{k=1..n} a(k-1)/(2*k)! = 1 - 1/(2*n)!".
+(OEIS text, CC BY-SA 4.0, checked 2026-11-06.)
+
+**Reading.** Literally (summand a(k)) the claim fails at n = 1: a(1)/2! = 11/2 > 1. The intended statement has summand
+a(k−1): a(n−1) is the largest integer x with Σ_{k=1}^{n−1} a(k−1)/(2k)! + x/(2n)! < 1.
+
+**Result.** The intended statement is true; it is equivalent to Israel's formula.
+
+**Argument.** a(k−1)/(2k)! = 1/(2k−2)! − 1/(2k)! because (2k)(2k−1) − 1 = 4(k−1)² + 6(k−1) + 1; the sum telescopes
+to 1 − 1/(2n)!. With S = 1 − 1/(2n−2)!, S + x/(2n)! < 1 iff x < (2n)(2n−1) = a(n−1) + 1.
+
+Lean: [full proof](A082108/A082108_mathlib.lean).
+
 ### [A082235](A082235/): the triangular numbers 1, 21, 28, 45, 78, 91 are never hit
 
 **Source.** [A081847](https://oeis.org/A081847) (Amarnath Murthy, Apr 10 2003): "a(1) = 1, a(n) = smallest positive
@@ -6324,6 +6734,21 @@ Irrationality of √2 is not used.
 
 Lean: [full proof](A098021/A098021_mathlib.lean).
 
+### [A103152](A103152/): a(23) = 725 is not divisible by 3
+
+**Source.** [A103152](https://oeis.org/A103152) (Lei Zhou, 2005): smallest odd number that is 2p + q (p, q odd
+primes) in exactly n ways. Comment: "Conjecture: except for the 2nd, 3rd and 4th terms, all other terms are
+divisible by 3". Later comments in the same entry: "a(23)=725 is also not divisible by 3" (D. S. McNeil,
+Sep 06 2010) and "The only terms a(n) not divisible by 3 for n <= 1450 are a(2),a(3),a(4) and a(23)" (Robert
+Israel, Mar 17 2020). (OEIS text checked 2026-11-06.)
+
+**Result.** False, already refuted in the entry: a(23) = 725 = 5^2 * 29.
+
+**Argument.** 725 has exactly 23 representations 2p + q with p, q odd primes, and every odd m < 725 has a
+different number of representations; so a(23) = 725, and 3 does not divide 725.
+
+Lean: [witness](A103152/A103152_mathlib.lean).
+
 ### [A109926](A109926/): "a(n+15) == 0 (mod 30) for n > 4" is false as printed; the mod 3 and mod 15 claims are out of reach
 
 **Source.** [A109926](https://oeis.org/A109926) (offset 0, keywords hard, more): least k such that k - 2^r is prime
@@ -6348,6 +6773,22 @@ reproduces a(0..12) this way); r >= 0 and k - 2^r must be a prime (so 2^r < k).
 which fixes r. With r = 0 this gives at most 2 representations. So k with at least 3 representations is odd.
 
 Lean: [full proof](A109926/A109926_mathlib.lean).
+
+### [A111677](A111677/): "a(n) = 0 iff n ≡ 3 (mod 5)" fails at n = 1
+
+**Source.** [A111677](https://oeis.org/A111677) (offset 1): number of primes of the form "k concatenated with 2n−1"
+with k < 2n−1 (row n of [A111676](https://oeis.org/A111676)). Comment: "Conjecture: a(n)=0 iff n== 3 (mod 5).
+[Corrected by _R. J. Mathar_, Aug 20 2007]". (OEIS text, CC BY-SA 4.0, checked 2026-11-06.)
+
+**Reading.** k runs over 1 ≤ k < 2n−1 and "k concatenated with m" is k·10^d + m, d the number of digits of m. This
+reproduces the 29 listed terms (certificate/check.py). Row 1 is empty, as the entry's own a(1) = 0 and the name
+("1---> no prime") say.
+
+**Result.** Misstated: a(1) = 0 but 1 ≢ 3 (mod 5). The "if" direction holds for all n: if n ≡ 3 (mod 5) then 2n−1
+ends in 5, so every k·10^d + (2n−1) is a multiple of 5 above 5. The remaining direction (a(n) > 0 for n ≥ 2,
+n ≢ 3 mod 5) is open; it asks for a prime among k·10^d + m, k < m < 10^d, beyond what Linnik-type bounds give.
+
+Lean: [full proof](A111677/A111677_mathlib.lean).
 
 ### [A113599](A113599/): no term is zero (pigeonhole)
 
@@ -6516,6 +6957,23 @@ so A123249(n) = 2n + d(n) for n >= 2 and A123721(n) = d(n).
    also shows d(n) <= k + 1. So G(k+1) = 2G(k) + k is the first n with d(n) = k + 1.
 
 Lean: [full proof](A123721/A123721_mathlib.lean).
+
+### [A129364](A129364/): a(n) divides A092287(n) (known)
+
+**Source.** [A129364](https://oeis.org/A129364) (offset 1): a(n) = Π_{k=1..n} A066841(k) = Π_{k=1..n} Π_{d|k} d^(k/d);
+the entry also gives a(n) = Π_{k=1..n} (⌊n/k⌋!)^k. Comment: "Conjecture: a(n) divides A092287(n) for all n - see
+comments in A129365", where A092287(n) = Π_{j,k ≤ n} gcd(j,k). This is Conjecture A of
+[A129365](https://oeis.org/A129365) (A129365 = A092287/A129364 is an integer). (OEIS text, CC BY-SA 4.0, checked
+2026-11-06.)
+
+**Result.** True, known.
+
+**Argument.** Fix a prime p and write m_r = ⌊n/p^r⌋. Counting pairs (j,k) with p^r | gcd(j,k) gives
+v_p(A092287(n)) = Σ_{r≥1} m_r² (Greathouse, in A092287, 2013). By Legendre, v_p(Π_k (⌊n/k⌋!)^k) =
+Σ_{r≥1} Σ_k k·⌊m_r/k⌋, and m² − Σ_{k≤m} k⌊m/k⌋ = Σ_{k≤m} (m mod k) ≥ 0 (A004125). So every p-adic valuation of
+a(n) is at most that of A092287(n).
+
+Lean: —.
 
 ### [A131439](A131439/): 1, 7, then 4k + 14, and its inverse binomial transform
 
@@ -6936,6 +7394,28 @@ representations of the members.
 
 Lean: —.
 
+### [A178790](A178790/): integrality and the Apery-sum congruence mod p^2 are both proved (Sun; Wang-Sun)
+
+**Source.** OEIS [A178790](https://oeis.org/A178790) (mean of (2k+1)A_k, A_k Apery numbers
+A005259), comments by Zhi-Wei Sun: "Conjecture: the number a(n) = n^(-1)*Sum_{k=0..n-1}(2*k+1)*A_k
+is always an integer" and "Conjecture: If p=5,7 (mod 8) is a prime then sum_{k=0}^{p-1}A_k=0
+(mod p^2); if p=1,3 (mod 8) is a prime greater than 3 and p=x^2+2y^2 with x,y integers then
+sum_{k=0}^{p-1}A_k=4x^2-2p (mod p^2)." (OEIS text, CC BY-SA 4.0.)
+
+**Result.** Both parts are theorems.
+- Integrality: Z.-W. Sun, Arithmetic properties of Apery numbers and central Delannoy numbers,
+  arXiv:1006.2776 (noted in the entry, Jun 17 2010), via
+  a(n) = sum_{k<n} C(n-1,k) C(n+k,k) C(n+k,2k+1) C(2k,k).
+- Congruence: C. Wang, Z.-W. Sun, p-adic analogues of hypergeometric identities and their
+  applications, arXiv:1910.06856 (2019), Theorem 1.1 (stated in the abstract): for every odd
+  prime p, sum_{k=0}^{p-1} A_k = 4x^2 - 2p (mod p^2) if p = x^2 + 2y^2, and = 0 (mod p^2) if
+  p = 5, 7 (mod 8). The proof reduces the sum to a truncated 4F3 and uses known evaluations of
+  that series mod p^2 (their Remark 2.1).
+
+**Argument.** Citation only.
+
+Lean: —.
+
 ### [A182484](A182484/): the product is a square for p = 63, so "square iff prime" is false
 
 **Source.** OEIS [A182484](https://oeis.org/A182484): a(n) = Product_{k=1..p-1} k^(2k-p-1), p = prime(n)
@@ -7122,6 +7602,35 @@ G_(m+1) = 2*3^m + 3 G_m (group k by k mod 3), so G_m = (2m+3)3^(m-1), and A19992
 
 Lean: [full proof](A209998/A209998_mathlib.lean).
 
+### [A212346](A212346/): a(n) = (n+3)(n^2-4)/6 for n >= 3
+
+**Source.** [A212346](https://oeis.org/A212346) (N. J. A. Sloane, 2012): coefficient of x^0 in the marked mesh
+pattern generating function Q_{n,132}^{(0,4,0,0)}(x). Comment: "Conjecture stated in Formula holds through a(35)";
+formula: "Conjecture: this appears to equal (n+3)(n^2-4)/6 for n >= 3". (OEIS text, CC BY-SA 4.0, revision #34 of
+Nov 05 2025, checked 2026-11-06.)
+
+**Reading.** Q_{n,132}^{(0,4,0,0)}(x) = sum over 132-avoiding permutations s of 1..n of x^m, m = number of entries
+of s with at least 4 larger entries to their left (quadrant II). So a(n) counts 132-avoiding permutations in which
+every entry has at most 3 larger entries to its left.
+
+**Result.** True: a(n) = (n+3)(n^2-4)/6 for every n >= 3. Barker's recurrence and g.f. in the entry follow.
+
+**Argument.** Let N_k(n) count 132-avoiding permutations of length n in which every entry has fewer than k larger
+entries to its left (a = N_4).
+1. *Decomposition.* In a 132-avoider with n at position i+1, every entry left of n exceeds every entry right of n.
+   The left block (size i) and right block (size n-1-i) are arbitrary 132-avoiders; a left entry's larger-left
+   entries are those inside the left block; a right entry has the i left entries, n, and its larger-left entries
+   inside the right block. Hence N_k(0) = 1, N_0(n) = 0 for n >= 1, and
+   N_k(n) = sum_{i=0}^{n-1} N_k(i) N_{k-1-i}(n-1-i). (This is the x = 0 case of the generating function theorem for
+   Q^{(0,k,0,0)}_{132} of Kitaev, Remmel and Tiefenbruck, which the entry's Mathematica program transcribes.)
+2. *Closed forms.* Terms with i >= k and a nonempty right block vanish, so for n >= k-1:
+   N_k(n+1) = N_k(n) + sum_{i<k-1} N_k(i) N_{k-1-i}(n-i). This gives N_1(n) = 1; N_2(n) = n (n >= 1);
+   N_3(n+1) = N_3(n) + n + 1 for n >= 2, so 2N_3(n) = n^2 + n - 2 (n >= 2); and for n >= 3
+   N_4(n+1) = N_4(n) + N_3(n) + (n-1) + 2 with N_4(3) = 5. Induction gives 6N_4(n) = (n+3)(n^2-4) for n >= 3, since
+   (n+4)((n+1)^2-4) - (n+3)(n^2-4) = 3(n^2+n-2) + 6(n-1) + 12.
+
+Lean: [full proof](A212346/A212346_mathlib.lean).
+
 ### [A212652](A212652/): a(n) = min of d + (h-1)/2 over n = d*h with h odd, and n lies in row a(n) of A209260
 
 **Source.** [A212652](https://oeis.org/A212652) (offset 1), Max Alekseyev (2008): a(n) is the least positive
@@ -7226,6 +7735,27 @@ letter 2 at position n.
 
 Lean: —.
 
+### [A213507](A213507/): a(n) is never divisible by 2, 5, 13, 29, 31, 37, 41, 43, 53, 71, 97
+
+**Source.** [A213507](https://oeis.org/A213507) (Hanna, 2012): e.g.f. exp(sum_{n>=1} Catalan(n) x^n/n); a = 1, 1, 3,
+17, 149, 1809, ... Comment: "Conjecture: a(n) is not divisible by {2,5,13,29,31,37,41,43,53,71,97}." Formulas added
+by Peter Bala (Aug 16 2026): e.g.f. C(x)^2 exp(-x C(x)^2), C the Catalan g.f., and a(n+k) - (-1)^k a(n) = 0 (mod k).
+(OEIS text checked 2026-11-06.)
+
+**Result.** True. For every listed prime p, a(n) mod p is periodic with period dividing 2p and a(n+p) = -a(n) (mod p);
+a(0), ..., a(p-1) are nonzero mod p, so no a(n) is divisible by p.
+
+**Argument.** 1. E.g.f. With C = 1 + xC^2 and D = x d/dx: D log(C^2 exp(-xC^2)) = 2xC'/C - xC^2 - 2x^2 C C'. From
+   C' = C^2/(1 - 2xC), xC^2 = C - 1 and 1 - 2xC = (2 - C)/C this equals xC^2 = C - 1 = sum_{n>=1} Catalan(n) x^n,
+   so exp(sum Catalan(n) x^n/n) = C^2 exp(-xC^2).
+2. Congruence. Bala's theorem (2017 note, Theorem 1 and Lemma 1): if the e.g.f. of b is F(y) exp(y H(y)) with
+   F, H in Z[[y]] and H(0) = 1, then b(n+k) = b(n) (mod k) for all n, k. Put y = -x, b(n) = (-1)^n a(n):
+   F(y) = C(-y)^2 and H(y) = C(-y)^2 are integral with H(0) = 1, so a(n+k) = (-1)^k a(n) (mod k).
+3. Finite check. With k = p: a(n+p) = -a(n) (mod p), so it suffices that p does not divide a(0), ..., a(p-1); this holds
+   for all eleven primes (certificate). (For p = 2: a(n+2) = a(n) mod 2 and a(0) = a(1) = 1.)
+
+Lean: needs Mathlib.
+
 ### [A213648](A213648/): fixed points lie in A000057
 
 **Source.** [A213648](https://oeis.org/A213648) (offset 2): "The minimum number of 1's in the relation
@@ -7286,6 +7816,28 @@ are also Carmichael numbers, only if both C1 and C3 are divisible by C2." Same e
 there are 6 midpoint triples of Carmichael numbers and 5 of them are counterexamples; 46657 is the least C1.
 
 Lean: [witness](A214758/A214758_mathlib.lean).
+
+### [A215010](A215010/): equiangular polygons with sides in arithmetic progression are not only hexagons
+
+**Source.** [A215010](https://oeis.org/A215010) (Garcia, 2012): integer side lengths t + m d of the simple convex
+equiangular hexagons with sides in arithmetic progression. Comment: "Conjecture: hexagons are the only simple
+convex polygons with equal interior angles with such property, due to the fact that cos(Pi/3) = 1/2." (OEIS text
+checked 2026-11-06.)
+
+**Reading.** "Such property": the n side lengths, in some order, are t, t+d, ..., t+(n-1)d with d >= 1.
+
+**Result.** False. The equiangular 10-gon with consecutive sides t + m_k d, m = (0, 6, 2, 8, 4, 5, 1, 7, 3, 9),
+closes for every t, d >= 1; for t = d = 1 its sides are 1, 7, 3, 9, 5, 6, 2, 8, 4, 10. More generally an
+equiangular n-gon with sides 1, ..., n exists for many composite n (Kvant problem M644: n = 1980).
+
+**Argument.** With w = exp(2 pi i/10), the polygon closes iff sum_k (t + m_k d) w^k = 0. The sum of all w^k is 0,
+so it suffices that sum_k m_k w^k = 0. Since w^5 = -1, this is sum_(k<5) (m_k - m_(k+5)) w^k
+= -5(1 - w + w^2 - w^3 + w^4) = -5 (1 + w^5)/(1 + w) = 0. (The choice m_k = 5[k odd] + (k mod 5) is a sum of a
+function of k mod 2 and a function of k mod 5, and each part sums to 0 over cosets.) A closed polygon with
+positive sides whose direction turns left by 2 pi/10 at every vertex (one full turn) is convex and simple, with
+all interior angles 4 pi/5.
+
+Lean: [full proof](A215010/A215010_mathlib.lean).
 
 ### [A215672](A215672/): Coman's q((r+1)q − r) claim for Poulet numbers is false (617093)
 
@@ -7490,6 +8042,31 @@ Lean: [full proof](A223577/A223577_mathlib.lean).
 `OEIS/A223577/A223577_mathlib.lean`).
 
 Lean: [full proof](A223577/A223577_mathlib.lean).
+
+### [A223925](A223925/): a(2n) = 4^n divides A132049(2n)
+
+**Source.** [A223925](https://oeis.org/A223925) (Paul Curtz, 2013): a(2n+1) = 2n-1, a(2n) = 4^n. Comment:
+"Conjecture: a(2n) is always a divisor of A132049(2n)." [A132049](https://oeis.org/A132049): numerator of
+2n A000111(n-1)/A000111(n) in lowest terms. (OEIS text, CC BY-SA 4.0, A223925 revision #37 of Jul 30 2018, A132049
+revision #49 of Jun 28 2026, checked 2026-11-06.)
+
+**Result.** True, and sharp: v_2(A132049(2n)) = 2n exactly for every n >= 1, so 4^n divides A132049(2n) and
+A132049(2n)/4^n is odd.
+
+**Argument.** A132049(2n) is the numerator of 4n T_n / E_n with T_n = A000111(2n-1) = A000182(n) (tangent number)
+and E_n = A000111(2n) = A000364(n) (secant number).
+1. E_n is odd (classical: E_n == 1 mod 2, from the secant series sec x = 1/cos x mod 2, or the Seidel triangle
+   mod 2). So the gcd removed in lowest terms is odd and v_2(numerator) = v_2(4n T_n) = 2 + v_2(n) + v_2(T_n).
+2. T_n = 2^{2n}(2^{2n}-1)|B_{2n}|/(2n) = 2^{2n-2} G_n / n with G_n = 2(2^{2n}-1)|B_{2n}| the Genocchi number
+   A110501(n). By von Staudt-Clausen B_{2n} = A - sum_{(p-1) | 2n} 1/p with A an integer; for odd p in the sum,
+   p | 2^{2n} - 1 (Fermat), and the p = 2 term contributes 2^{2n} - 1, which is odd. Hence G_n is an odd integer and
+   v_2(T_n) = 2n - 2 - v_2(n).
+3. So v_2(A132049(2n)) = 2 + v_2(n) + 2n - 2 - v_2(n) = 2n.
+The ingredients (secant numbers odd, tangent-Bernoulli formula, von Staudt-Clausen, Genocchi numbers odd) are
+classical; the conjecture is a direct consequence. Curtz's remark that the quotients begin like A110501 is the
+Genocchi factor of step 2.
+
+Lean: needs Mathlib.
 
 ### [A224529](A224529/): a(np) ≡ a(n) mod p for (p/23) = 1 (proved by Osburn and Sahu)
 
@@ -7837,6 +8414,31 @@ Lean: —.
 
 Lean: [checked](A007645/A007645_mathlib.lean).
 
+### [A054979](A054979/): "every e-perfect number is divisible by 36" is equivalent to the open Straus-Subbarao question
+
+**Source.** OEIS [A054979](https://oeis.org/A054979) (e-perfect numbers, sum of exponential
+divisors = 2k), comment by Jon Perry (Nov 13 2012): "Conjecture: Every e-perfect number is
+divisible by 36, see A219016." (OEIS text, CC BY-SA 4.0.)
+
+**Result.** Partial; the claim is equivalent to a known open problem.
+- 4 | n holds for every e-perfect n (from Straus-Subbarao, below).
+- 9 | n for every e-perfect n is equivalent to: no e-perfect number is coprime to 3. That is the
+  question raised by Straus and Subbarao; Fabrykowski and Subbarao showed that an e-perfect
+  number not divisible by 3 exceeds 10^664 (with further necessary conditions), and
+  Lelechenko (arXiv:1405.7597, 2014) still lists it as open. No later resolution found.
+So the conjecture is open, and it is exactly the "3 does not divide" question.
+
+**Argument.** σ_e is multiplicative with σ_e(p^a) = sum_{d | a} p^d, and σ_e(p) = p.
+So if p || n then σ_e(n)/n = σ_e(n/p)/(n/p): n is e-perfect iff n/p is.
+(i) Straus-Subbarao (1974): no odd e-perfect numbers. Hence n is even, and if 2 || n then n/2
+would be an odd e-perfect number, so 4 | n.
+(ii) If 3 || n then n/3 is e-perfect and coprime to 3. So "9 | n for all e-perfect n" holds iff
+"3 | n for all e-perfect n", which is the open question. Conversely a counterexample to the
+open question is itself a counterexample to the conjecture.
+The b-file (10000 terms, Eldar) has every term divisible by 36 (checked 2026-11-06).
+
+Lean: —.
+
 ### [A073117](A073117/): Cloitre's eventual-increment conjecture (partial: listed values confirmed)
 
 **Source.** [A073117](https://oeis.org/A073117), a(n+1) = a(n) + (a(n) mod n), a(1) = 1. Comment by B. Cloitre
@@ -8034,6 +8636,31 @@ Conjecture 1 implies it.
   Powers of 2 are deficient, so a(n) ≤ 2^j.
 
 Lean: [witness](A215926/A215926_mathlib.lean).
+
+### [A219033](A219033/): the sequence is infinite; the 6*A185208(n) ratio conjecture is false
+
+**Source.** [A219033](https://oeis.org/A219033) (Jon Perry, 2012): numbers k such that k = x + y,
+sigma_1(k) = sigma_1(x) + sigma_1(y) and sigma_2(k) = sigma_2(x) + sigma_2(y). Five conjectures in the entry: the
+sequence is infinite; it has only even terms; the parts are even; no term satisfies the sigma_3 equality; "With the
+lower partition as 6*A185208(n) and the upper partition 214/3 = 71.3333... of this, then the equalities are
+satisfied." (OEIS text, CC BY-SA 4.0, revision #36 of Feb 24 2026, checked 2026-11-06.) A185208: numbers with no
+divisor d > 1 such that d + 1 is a prime power.
+
+**Result.** 1. Conjecture 1 is true: 434m is a term for every m coprime to 2*3*7*31*107 (parts 428m and 6m).
+2. Conjecture 5 is false: 107 is in A185208, but x = 6*107 = 642, y = 428*107 = 45796 gives
+   sigma_1(46438) - sigma_1(45796) - sigma_1(642) = 749 != 0 (and the sigma_2 difference is 240429).
+3. Conjectures 2-4 (even terms, even parts, no sigma_3 solution) remain open; they hold for k <= 16100.
+
+**Argument.** 434 = 2*7*31, 428 = 4*107, 6 = 2*3. sigma_1: 768 = 756 + 12; sigma_2: 240500 = 240450 + 50. If m is
+coprime to 4*3*7*31*107 then m is coprime to 434, 428 and 6, and multiplicativity of sigma_k gives
+sigma_k(434m) = sigma_k(434)sigma_k(m) = (sigma_k(428) + sigma_k(6))sigma_k(m) = sigma_k(428m) + sigma_k(6m) for
+k = 1, 2. The m = 278628t + 1 are pairwise distinct and coprime to 278628, so the sequence is infinite. For m = 107
+the factor 107 divides 428, sigma_1(428*107) = sigma_1(4)sigma_1(107^2) = 7*11557 = 80899, sigma_1(642) =
+12*108 = 1296, sigma_1(46438) = 768*108 = 82944, and 82944 - 80899 - 1296 = 749. The first-12 partitions quoted in
+the entry are the m in A185208 below 107; A185208 contains every prime other than 2 and the Mersenne primes, and
+107 is the first member sharing a factor with 428.
+
+Lean: [full proof](A219033/A219033_mathlib.lean).
 
 ### [A227012](A227012/): the case g(n) = n^3, f(k) = 1/k
 

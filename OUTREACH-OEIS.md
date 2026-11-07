@@ -4,9 +4,9 @@ OEIS entries whose conjecture this project settled and which OEIS does not yet r
 (prior-art review 2026-11-04: current entry, entries citing it, edit history, web, arXiv).
 Each draft comment is a starting point: shorten it to OEIS style and sign it. "Partly known" means a source covers part of it; the note says which part.
 
-211 entries.
+223 entries.
 
-## Substantive (not an immediate consequence of a known theorem) (100)
+## Substantive (not an immediate consequence of a known theorem) (103)
 
 ### [A026002](https://oeis.org/A026002): Bergot's array with borders n(n−1)+1 has diagonal A026002
 
@@ -496,6 +496,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: a(n,q) ∈ ℤ for all n ≥ 0 and integers q ≥ 1. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A176827). - _<Name>_, <Mon DD YYYY>
 
+### [A176948](https://oeis.org/A176948): every n >= 4 except 6 has an n-gonal number that is not k-gonal for 3 <= k < n
+
+- Problem: [OEIS-A176948](OEIS/A176948/README.md) (proved, new). Lean: Lean proof, [`A176948_mathlib.lean`](OEIS/A176948/A176948_mathlib.lean).
+- Prior art: No proof found.
+- Draft comment:
+
+  > The conjecture is true (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A176948). - _<Name>_, <Mon DD YYYY>
+
 ### [A180654](https://oeis.org/A180654): Σ log(Σ_k C(n,k)^p x^k)^n/(n! n^n) is an integer e.g.f. (Conjectures 1-3)
 
 - Problem: [OEIS-A180654](OEIS/A180654/README.md) (proved, new). Lean: Lean proof, [`A180654_mathlib.lean`](OEIS/A180654/A180654_mathlib.lean).
@@ -503,6 +511,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: All three conjectures are true. More generally: if P_n ∈ 1 + xℤ[x] and n divides k·[x^k]P_n for all k, then Σ_n log(P_n)^n/(n! n^n) has integer e.g.f. coefficients. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A180654). - _<Name>_, <Mon DD YYYY>
+
+### [A180710](https://oeis.org/A180710): sigma(n) | a(n) fails at n = 64
+
+- Problem: [OEIS-A180710](OEIS/A180710/README.md) (disproved, new). Lean: paper proof.
+- Prior art: No counterexample recorded.
+- Draft comment:
+
+  > The conjecture is false: sigma(n) | a(n) holds for 1 <= n <= 63, but sigma(64) = 127 and a(64) = 43 (mod 127). a(64) has 658 digits. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A180710). - _<Name>_, <Mon DD YYYY>
 
 ### [A181070](https://oeis.org/A181070): integer series
 
@@ -752,6 +768,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A217482). - _<Name>_, <Mon DD YYYY>
 
+### [A219197](https://oeis.org/A219197): the square root of the A199033 g.f. has no coefficient = 3 (mod 4)
+
+- Problem: [OEIS-A219197](OEIS/A219197/README.md) (proved, new). Lean: paper proof.
+- Prior art: No proof found.
+- Draft comment:
+
+  > The conjecture is true: Moreover a(n) is odd iff n is even and n AND 2n = 0 (no two adjacent 1-bits), and then a(n) = 1 (mod 4). (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A219197). - _<Name>_, <Mon DD YYYY>
+
 ### [A219431](https://oeis.org/A219431): a(odd) ≡ 2 and a(even) ≡ 0 (mod 4)
 
 - Problem: [OEIS-A219431](OEIS/A219431/README.md) (proved, partly-known). Lean: Lean proof, [`A219431_mathlib.lean`](OEIS/A219431/A219431_mathlib.lean).
@@ -824,7 +848,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjectured terms a(3) = 12 and a(4) = 30 are correct: the numbers whose trajectory under n -> phi(n) + 1 ends at 5 are exactly 5, 8, 10, 12, and those ending at 7 are exactly 7, 9, 14, 15, 16, 18, 20, 24, 30. The set reaching a prime q is built from q by repeatedly solving phi(n) = m - 1; the inverse totient sets needed are phi^(-1)(4) = {5, 8, 10, 12}, phi^(-1)(6) = {7, 9, 14, 18} and phi^(-1)(8) = {15, 16, 20, 24, 30}, while 7, 9, 11, 13, 14, 15, 17, 19, 23, 29 are not totients. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B41.5.
 
-## Immediate from a known theorem or short argument, still open in OEIS (111)
+## Immediate from a known theorem or short argument, still open in OEIS (120)
 
 ### [A004050](https://oeis.org/A004050): only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways
 
@@ -946,6 +970,30 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A075885). - _<Name>_, <Mon DD YYYY>
 
+### [A077739](https://oeis.org/A077739): a(n) = 0 exactly for n = 11, 17, 19
+
+- Problem: [OEIS-A077739](OEIS/A077739/README.md) (proved, new). Lean: Lean proof, [`A077739_mathlib.lean`](OEIS/A077739/A077739_mathlib.lean).
+- Prior art: 
+- Draft comment:
+
+  > The conjecture is true: For n ≥ 1 an admissible N exists iff n ∉ {11, 17, 19}; so A077739(n) = 0 and A077740(n) = 0 iff n ∈ {11, 17, 19}. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A077739). - _<Name>_, <Mon DD YYYY>
+
+### [A077740](https://oeis.org/A077740): a(n) = 0 iff n is 11, 17 or 19
+
+- Problem: [OEIS-A077740](OEIS/A077740/README.md) (proved, new). Lean: Lean proof, [`A077739_mathlib.lean`](OEIS/A077739/A077739_mathlib.lean).
+- Prior art: 
+- Draft comment:
+
+  > The conjecture is true (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A077740). - _<Name>_, <Mon DD YYYY>
+
+### [A078008](https://oeis.org/A078008): even denominators in the rows of the Farey tree
+
+- Problem: [OEIS-A078008](OEIS/A078008/README.md) (proved, partly-known). Lean: Lean proof, [`A078008_mathlib.lean`](OEIS/A078008/A078008_mathlib.lean).
+- Prior art: Exact count not found written; folklore parity argument.
+- Draft comment:
+
+  > The conjecture is true: for every n >= 0 row n has exactly a(n) = (2^n + 2(-1)^n)/3 fractions with even denominator. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A078008). - _<Name>_, <Mon DD YYYY>
+
 ### [A078122](https://oeis.org/A078122): row sums of the M^3-shift matrix are the partitions of 3^n into powers of 3
 
 - Problem: [OEIS-A078122](OEIS/A078122/README.md) (proved, new). Lean: Lean proof, [`A078122_mathlib.lean`](OEIS/A078122/A078122_mathlib.lean).
@@ -1057,6 +1105,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: a(1) = 2, and for n >= 2 Bertrand's postulate gives a prime p with 10^n/4 < p <= 10^n/2, so floor(10^n/p) is 2 or 3, both prime. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A090519.
+
+### [A096123](https://oeis.org/A096123): a(n) = n!/(p-1)! for large n (p least prime with n ≤ 2p) is false
+
+- Problem: [OEIS-A096123](OEIS/A096123/README.md) (disproved, partly-known). Lean: Lean proof, [`A096123_mathlib.lean`](OEIS/A096123/A096123_mathlib.lean).
+- Prior art: Failure at every n = 2p is new as a proof; data hinted at it.
+- Draft comment:
+
+  > The conjecture is false: For every prime p, a(2p) ≤ (2p)!/p! < (2p)!/(p-1)!, and p is the least prime with 2p ≤ 2p. So the conjecture fails at n = 2p for every prime p. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A096123). - _<Name>_, <Mon DD YYYY>
 
 ### [A100056](https://oeis.org/A100056): the A054065 permutations do not maximize the sum of differences
 
@@ -1193,6 +1249,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true with n-1 in place of n (i.e., for the product over 1..n) and false as printed: for every prime p and n >= 1, ordp(a(n),p) = Sum_{t>=1} floor((n-1)/p^t)^3, while the printed formula fails at n = 2, p = 2 and at n = 3, p = 3 (a(3) = 2). Indeed ordp(gcd(i,j,k),p) counts the t with p^t dividing i, j and k, and summing over 1 <= i,j,k <= n-1 gives Sum_t floor((n-1)/p^t)^3; this is the 3-dimensional analog of A092287. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A129454.
+
+### [A131262](https://oeis.org/A131262): least k with A130654(k) = n equals sigma(2^n) phi(2^n)
+
+- Problem: [OEIS-A131262](OEIS/A131262/README.md) (proved, new). Lean: Lean proof, [`A131262_mathlib.lean`](OEIS/A131262/A131262_mathlib.lean).
+- Prior art: No proof found; ingredients classical.
+- Draft comment:
+
+  > The conjecture is true: a(0) = 1 and a(n) = 2^(n-1)(2^(n+1) - 1) = sigma(2^n) phi(2^n) = 4^n - 2^(n-1) for n >= 1. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A131262). - _<Name>_, <Mon DD YYYY>
 
 ### [A132089](https://oeis.org/A132089): the first column of L^(m+1) is the row-sum sequence of L^m (L = Losanitsch's triangle)
 
@@ -1346,6 +1410,30 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: entry (n,k) is Bell(j) = A000110(j) if the binary 1's of k are among those of n, with j = A000120(n) - A000120(k), and 0 otherwise. By Lucas's theorem the Sierpinski triangle S is the Kronecker power of [[1,0],[1,1]], so S^m has entries m^j or 0, and exp(S)(n,k) = Sum_{m>=0} m^j/m! = e*Bell(j) by Dobinski's formula. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A167230.
 
+### [A173643](https://oeis.org/A173643): the odd-part formula needs K = 0 (counterexample 3)
+
+- Problem: [OEIS-A173643](OEIS/A173643/README.md) (disproved, new). Lean: Lean proof, [`A173643_mathlib.lean`](OEIS/A173643/A173643_mathlib.lean).
+- Prior art: 
+- Draft comment:
+
+  > The conjecture is false: As stated (K, M > 0) the conjecture is false: a(3) = 3 = (2^5 − 2^1 − 3)/9 has odd part 3, and F(M,K) ≠ 3 for K, M > 0 (F(2,0) = 3). With K ≥ 0 allowed it is true. The odd parts missed by K > 0 are exactly F(M,0) for even M: 3, 227, 14563, 932067, …, each of which is a term. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A173643). - _<Name>_, <Mon DD YYYY>
+
+### [A177430](https://oeis.org/A177430): exp(sum b(n)^m x^n/n) is integral exactly for even m >= 0
+
+- Problem: [OEIS-A177430](OEIS/A177430/README.md) (proved, new). Lean: Lean proof, [`A177430_mathlib.lean`](OEIS/A177430/A177430_mathlib.lean).
+- Prior art: Immediate from Dwork/Gauss congruences; no written proof found.
+- Draft comment:
+
+  > The conjecture is true: in both directions: exp(sum b(n)^m x^n/n) is integral iff m >= 0 and m is even. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A177430). - _<Name>_, <Mon DD YYYY>
+
+### [A177431](https://oeis.org/A177431): exp(sum a(n)^m x^n/n) integral only for even m >= 0
+
+- Problem: [OEIS-A177431](OEIS/A177431/README.md) (proved, new). Lean: Lean proof, [`A177430_mathlib.lean`](OEIS/A177430/A177430_mathlib.lean).
+- Prior art: Immediate from Dwork/Gauss congruences; no written proof found.
+- Draft comment:
+
+  > The conjecture is true (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A177431). - _<Name>_, <Mon DD YYYY>
+
 ### [A178473](https://oeis.org/A178473): OEIS A178473
 
 - Problem: [OEIS-A178473](OEIS/A178473/README.md) (proved, new). Lean: Lean proof, [`A178473_mathlib.lean`](OEIS/A178473/A178473_mathlib.lean).
@@ -1353,6 +1441,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A178473). - _<Name>_, <Mon DD YYYY>
+
+### [A178612](https://oeis.org/A178612): no term is a square (rank-0 elliptic curve)
+
+- Problem: [OEIS-A178612](OEIS/A178612/README.md) (proved, new). Lean: paper proof, [`A178612_mathlib.lean`](OEIS/A178612/A178612_mathlib.lean).
+- Prior art: 
+- Draft comment:
+
+  > The conjecture is true: F(p,q) = p^6 − 4p^4q + 4p^2q^2 + 4q^3 is never a perfect square for integers p, q ≠ 0. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A178612). - _<Name>_, <Mon DD YYYY>
 
 ### [A179873](https://oeis.org/A179873): nondecreasing sequence of odd numbers
 
