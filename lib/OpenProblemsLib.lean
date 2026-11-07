@@ -20,3 +20,5 @@ import OpenProblemsLib.Digits10
 import OpenProblemsLib.Misc
 import OpenProblemsLib.ShortIntervalPrimes
 import OpenProblemsLib.LRAT
+import OpenProblemsLib.AutomaticMod
+import OpenProblemsLib.HannaMod4

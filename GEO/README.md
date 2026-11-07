@@ -2,7 +2,7 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-21 entries: 6 resolved by this project, 8 answered elsewhere, 5 disputed or partial.
+23 entries: 6 resolved by this project, 9 answered elsewhere, 5 disputed or partial.
 
 Of the 6 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 1 of these need Mathlib to formalise).
 
@@ -28,6 +28,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A33.2](A33.2/) | disproved | the Lamé oval \|x\|^2.001 + \|y\|^2.001 = 1 has five-point hyperbolas | — | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B18.2](B18.2/) | proved | every polyhedron has a realization with all edges tangent to a sphere | — | — | [known-theorem](../methods/known-theorem/README.md) |
 | [C1.3](C1.3/) | answered | repeated subdivision of tetrahedra with a(T)/r(T) bounded (Hajós) | — | known | [known-theorem](../methods/known-theorem/README.md) |
+| [C3.1](C3.1/) | known | Mrs Perkins's quilt, f(n) beyond 100 and Selfridge's prime sets | — | known | [reading-the-statement](../methods/reading-the-statement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [C10.2](C10.2/) | proved | the plane can be tiled with exactly one square of each positive rational side | — | known | [known-theorem](../methods/known-theorem/README.md) |
 | [F5.1](F5.1/) | proved | lim f\_3(n)/n^(1/3), minimum diameter of n points in R^3 with minimum distance 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [density-bound](../methods/density-bound/README.md) |
 | [F16.2](F16.2/) | known | the thrackle conjecture for small n | — | known | [known-theorem](../methods/known-theorem/README.md) |
@@ -47,6 +48,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [C8.2](C8.2/) | partial | more than 120 congruent "non-thin" triangles on the sphere? | — | partly-known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
+| [F9.1](F9.1/) | partial | nine points with 19 unit circles through three of them, so f(9) ≥ 19 | [witness](F9.1/F9_1.lean) | new | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [F15.2](F15.2/) | partial | worst-case shortest path through 4 points of the unit square is 3 | — | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 
 ## Short proofs
@@ -306,6 +308,32 @@ Lean: —.
 
 Lean: —.
 
+### [C3.1](C3.1/): Mrs Perkins's quilt, f(n) beyond 100 and Selfridge's prime sets
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991,
+section C3. f(n) is the least number of squares in a prime (gcd 1) dissection of an n × n square
+along lattice lines; values were known "with some slightly increasing lack of confidence" for
+n ≤ 100. Selfridge noted (from the Brooks–Smith–Stone–Tutte finiteness theorem) that for each N all
+but finitely many primes p have p × p squares that cannot be dissected into N squares, and the book
+asks for this set of primes for each N.
+
+**Reading.** For prime p and N ≥ 2, a dissection of p × p into N squares is automatically prime.
+So the set asked for is {p prime : T(p, N) = 0}, where T(n, N) counts prime dissections of an n × n
+square into N squares. Since T(n, N) > 0 forces f(n) ≤ N, only finitely many p need checking.
+
+**Result.** Answered computationally elsewhere for the computable range.
+- f(n) is now known exactly for n ≤ 120 (E. Wynn, b-file of OEIS A005670, 2013), with the n ≤ 100
+  values confirmed.
+- E. Wynn, *Exhaustive generation of Mrs Perkins's quilt square dissections for low orders*,
+  Discrete Math. 334 (2014) 38–47, arXiv:1308.5420, generated all prime dissections of order
+  N ≤ 18 (plantri on triangulations, cross-checked by a direct method). Its Table 1 gives T(n, N)
+  for every n and N ≤ 18, and its Table 3 gives the largest size g(N) (OEIS A089047). This settles
+  Selfridge's set for every N ≤ 18: the primes p ≤ g(N) with T(p, N) = 0, together with all primes
+  p > g(N).
+The question "for each N" (all N) is a request for an infinite table and has no closed answer.
+
+Lean: —.
+
 ### [C10.2](C10.2/): the plane can be tiled with exactly one square of each positive rational side
 
 **Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry* (1991),
@@ -515,6 +543,21 @@ family, with a side > π/3 and smallest angle ≤ 2π/n ≤ 8π/F, and the spora
 F = 4n and F = 8n families with the side computations above.
 
 Lean: —.
+
+### [F9.1](F9.1/): nine points with 19 unit circles through three of them, so f(9) ≥ 19
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991,
+section F9. f(n) is the largest number of unit circles each passing through at least 3 points of an
+n-point plane set. Known: f(3), ..., f(8) = 1, 4, 4, 8, 12, 16 (Harborth–Mengersen 1986; OEIS
+A003829). The value f(9) is asked for.
+
+**Result.** f(9) ≥ 19 (previous lower bound 16 = f(8)). Upper bound n(n−1)/3 = 24 (Harborth–Mengersen).
+f(9) itself stays open.
+
+**Argument.** Exact arithmetic in Q(√3, √11): each listed centre has squared distance 1 to three
+listed points, the centres are distinct, so the 19 unit circles are distinct.
+
+Lean: [witness](F9.1/F9_1.lean).
 
 ### [F15.2](F15.2/): worst-case shortest path through 4 points of the unit square is 3
 

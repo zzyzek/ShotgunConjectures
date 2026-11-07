@@ -25,7 +25,7 @@ FORCE=0; [ "${1:-}" = "--force" ] && FORCE=1
 # it is built first, OpenProblemsLib/* after it.
 #
 PNTPLUS="Auxiliary MellinCalculus Sobolev Fourier Mathlib/Analysis/SpecialFunctions/Log/Basic Rectangle ResidueCalcOnRectangles EulerMaclaurin ZetaBounds ZetaConj Mathlib/Algebra/Notation/Support SmoothExistence MediumPNT StrongPNT Defs Mathlib/Analysis/Asymptotics/Asymptotics Wiener Consequences"
-MODULES="PowMod Pratt Fermat Korselt Cipolla SquaredRect ArithFactor D_CombLine R5_Quadratic Dwork DworkLocal DworkEuler DworkMultinomial ShevelevFactorial QSeries BernoulliDen ModularSums DworkLocalPoly Digits10 Misc ShortIntervalPrimes LRAT"
+MODULES="PowMod Pratt Fermat Korselt Cipolla SquaredRect ArithFactor D_CombLine R5_Quadratic Dwork DworkLocal DworkEuler DworkMultinomial ShevelevFactorial QSeries BernoulliDen ModularSums DworkLocalPoly Digits10 Misc ShortIntervalPrimes LRAT AutomaticMod HannaMod4"
 
 compile() {
   local src="$1" olean="$2" ilean="$3"

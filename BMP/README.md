@@ -2,7 +2,7 @@
 
 Problems from P. Brass, W. Moser, J. Pach, Research Problems in Discrete Geometry (Springer 2005), numbered by section and problem; statements paraphrased.
 
-4 entries: 0 resolved by this project, 2 answered elsewhere, 2 disputed or partial.
+5 entries: 0 resolved by this project, 3 answered elsewhere, 2 disputed or partial.
 
 Of the 0 resolutions: 0 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -12,6 +12,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [1.5.4](1.5.4/) | known | a nonconvex plane body tiling by translates tiles by a lattice | — | known | [reading-the-statement](../methods/reading-the-statement/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [1.8.7](1.8.7/) | proved | congruent regular simplices packed in a cube of the same side | [full proof](1.8.7/BMP_1_8_7_mathlib.lean) | known | [flat-orthogonal-basis](../methods/flat-orthogonal-basis/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [8.2.6](8.2.6/) | answered | an r-cap or an empty r-cup in every large point set (Valtr's conjecture) | — | known | [known-theorem](../methods/known-theorem/README.md) |
 
@@ -25,6 +26,26 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 ## Short proofs
 
 Copied from each problem README (source paraphrase, result, argument).
+
+### [1.5.4](1.5.4/): a nonconvex plane body tiling by translates tiles by a lattice
+
+**Source.** P. Brass, W. Moser, J. Pach, *Research Problems in Discrete Geometry*, Springer 2005,
+Section 1.5, Problem 4 (Grünbaum–Shephard): if a nonconvex plane body C tiles the plane by
+translates, does it tile by a lattice? The authors add that even periodicity is not known.
+
+**Reading.** BMP Chapter 0 defines a body as a set homeomorphic to a ball; in the plane, a closed
+topological disk. Under that definition the problem is answered.
+
+**Result.** Yes for bodies in BMP's sense. Girault-Beauquier and Nivat (1991, with boundary
+conditions; Beauquier–Nivat for polyominoes, Discrete Comput. Geom. 6 (1991) 575–592) and
+R. Kenyon, *Rigidity of planar tilings*, Invent. Math. 107 (1992) 637–651 (erratum 112 (1993) 223)
+proved that a closed topological disk tiling the plane by translations has boundary split into 4
+or 6 arcs matched in opposite pairs by translations (pseudo-square or pseudo-hexagon), which gives
+a lattice tiling. For general compact tiles (disconnected or with holes) the periodic tiling
+question in R^2 is open: R. Greenfeld, *Translational tilings: structured or wild?*,
+arXiv:2509.25576 (2025), Section 7, Question 7.4.
+
+Lean: —.
 
 ### [1.8.7](1.8.7/): congruent regular simplices packed in a cube of the same side
 

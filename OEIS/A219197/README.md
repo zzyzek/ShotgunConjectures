@@ -30,19 +30,23 @@ G = 1 + xG^3. Comment: "Conjecture: a(n) is never congruent to 3 modulo 4." (OEI
    changes N by 1 + [e2 = e-2] (by 1 + [e = 1] when n' = 0). Induction from E(0) = N(0) = 0 gives E = N (mod 2).
 6. Hence for odd a(n): a(n) = (-1)^N + 2N = 1 (mod 4); otherwise a(n) is even. So a(n) is never 3 mod 4.
 
+**Lean proof (second argument).** The same Lagrange step (1) holds in the form [x^n] F = [t^n] F(t(1-t)^2) (1-3t)
+(1-t)^(-2n-1) for every F, and A199033(n) = [t^n] (1-t)^(-2n-3)/(1+t) by the Fibonacci-polynomial identity
+(1+t) sum_k C(N-k, k) t^k (1-t)^(N-2k) = 1 - (-t)^(N+1) with N = 2n+1. So a(n) = [t^n] S (1-t)^(-2n-2) with
+S = sqrt((1-3t)/(1+t)) follows from the definition (no g.f. formula assumed), S ≡ 1 + 2W (mod 4), and a(n) mod 4 is the
+output of the six-state automaton of [A183161](../A183161/README.md) started in state 1 (Rowland-Yassawi Cartier
+operators over ℤ/4); outputs 0, 1, 2.
+
 **Evidence.**
-- [`certificate/f.py`](certificate/f.py): step 1 exactly (a(n) from the entry's A002426 formula equals the Lagrange
-  coefficient, n <= 120) and the mod-4 formula of step 2 (n <= 120).
-- [`certificate/g.py`](certificate/g.py): steps 4-5 identities (C(3n+1,n) mod 4 = (-1)^N and E = N mod 2) for all
-  377 even n < 8192 without adjacent 1-bits.
-- [`certificate/h.py`](certificate/h.py): A199033(n) = [t^n](1-t)^(-2n-3)(1+t)^(-1) for n <= 400 (the entry's g.f.
-  formula, used in step 1).
-- [`certificate/m.gp`](certificate/m.gp): a(n) mod 4 for n <= 1200 from the g.f.: residues 0, 1, 2 only
-  (`m_out.txt`).
-- Lean: none. Outside Lean: the whole argument; the entry's g.f. formula A = G/sqrt(1-2xG^2-3x^2G^4) (checked to
-  n = 400 via h.py) is used, not re-proved.
+- Lean: [`A219197_mathlib.lean`](A219197_mathlib.lean), theorem `A219197_def_mod4` (any integer sequence with a(0) = 1
+  and self-convolution A199033 has a(n) mod 4 ≠ 3) and `A219197_mod4` (from Hanna's g.f.), via
+  `OpenProblemsLib.HannaMod4` and `OpenProblemsLib.AutomaticMod`. Axioms: propext, Classical.choice, Quot.sound.
+- [`certificate/gf_check.py`](certificate/gf_check.py): g.f. formula, square root, "never 3" and the automaton for n ≤ 300.
+- [`certificate/f.py`](certificate/f.py), [`certificate/g.py`](certificate/g.py), [`certificate/h.py`](certificate/h.py),
+  [`certificate/m.gp`](certificate/m.gp): numerical checks of the first (paper) argument, steps 1-5.
+- Outside Lean: the existence of the integer sequence (the OEIS terms); the first (paper) argument is not formalised.
 
-**Review level.** `agent` (proof written here, each step checked numerically; no independent second reading).
+**Review level.** `lean-proof` (the paper argument above and the Lean route are independent).
 
-**Prior art.** Checked 2026-11-06: entry (unannotated), not in google-deepmind/formal-conjectures or
+**Prior art.** Checked 2026-11-06 and 2026-11-07: entry (unannotated), not in google-deepmind/formal-conjectures or
 otoi-lab/oeis-lean-proofs. No proof found.

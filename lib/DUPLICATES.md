@@ -29,3 +29,5 @@ Library issues noted while writing lib/docs (2026-11-07):
 - DworkEuler `rowB_int`: covers H = 1/(1 - tF) with F a polynomial, not the general bivariate lemma.
 - QSeries `qGaussSum_mul`: only the family a = q, rho1 = q, rho2 = -1.
 - BernoulliDen `vscSet 0` is empty (harmless).
+
+Added 2026-11-07 (round r19 candidates): `isPrimeSmall_sound` (NT/D11.4), `isqrt_bounds` (OEIS/A060298), `num_injective` and `G_factor` (GF(2) polynomials, OEIS/A177960), the 9d^k9 covering lemma (OEIS/A108847).

@@ -1,0 +1,1 @@
+for(d=4,7, if(d==6,next); c=0; for(k=1,120, N=9*10^(k+1)+d*(10^k-1)/9*10+9; f=0; forprime(p=2,10^5, if(N%p==0, f=p; break)); if(f==0, print("d=",d," k=",k," no small factor"); c++)); print("d=",d," done ",c))

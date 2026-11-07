@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-40 entries: 19 resolved by this project, 14 answered elsewhere, 0 disputed or partial.
+41 entries: 19 resolved by this project, 15 answered elsewhere, 0 disputed or partial.
 
 Of the 19 resolutions: 17 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -43,6 +43,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [B31.5](B31.5/) | disproved | the gcd of two binomial coefficients can have all prime factors ≤ r (already in the book) | [full proof](B31.5/B31_5.lean) | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B36.7](B36.7/) | proved | infinitely many noncototients (already in the book) | — | — | [known-theorem](../methods/known-theorem/README.md) |
 | [C18.4](C18.4/) | solved | Heden's modular queens, M(n) = n - 2 when 3 \| n or 4 \| n | [full proof](C18.4/C18_4_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [parametric-family](../methods/parametric-family/README.md) |
+| [D11.4](D11.4/) | disproved | Johnson's 48 semiprime unit fractions summing to 1 are not minimal | [witness](D11.4/D11_4.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [D19.3](D19.3/) | proved | every attainable integer ratio base/height occurs for infinitely many primitive triangles | needs Mathlib | partly-known | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [D20.4](D20.4/) | proved | a lattice 7-cluster exists | [full proof](D20.4/D20_4.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [E10.3](E10.3/) | proved | Moser's base-3 collinearity question follows from density Hales–Jewett | needs Mathlib | — | [known-theorem](../methods/known-theorem/README.md) |
@@ -604,6 +605,23 @@ lifts in [0, n) taken mod 2n) with (x+y)² + (y-x)² = 2x² + 2y² forces n | Σ
 modulo 2n (4 | n), which fails because (n-1)(2n-1) is prime to 3 and odd.
 
 Lean: [full proof](C18.4/C18_4_mathlib.lean).
+
+### [D11.4](D11.4/): Johnson's 48 semiprime unit fractions summing to 1 are not minimal
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section D11.
+Erdős and Graham showed that unit fractions with squarefree denominators having exactly ω prime
+factors represent 1. For ω = 2 at least 38 terms are needed, and Allan Johnson found 48 such
+terms. Guy asks whether 48 is the smallest possible number.
+
+**Result.** No. There are 47 distinct squarefree semiprimes whose reciprocals sum to 1:
+
+6, 10, 14, 15, 21, 22, 26, 33, 34, 35, 38, 39, 46, 51, 55, 57, 58, 62, 65, 69, 74, 82, 85, 86, 87,
+91, 93, 95, 106, 111, 123, 133, 145, 155, 159, 185, 203, 215, 253, 265, 287, 319, 493, 583, 731,
+851, 1073.
+
+**Argument.** Direct exact computation. The least common multiple is 693386350578511590.
+
+Lean: [witness](D11.4/D11_4.lean).
 
 ### [D19.3](D19.3/): every attainable integer ratio base/height occurs for infinitely many primitive triangles
 

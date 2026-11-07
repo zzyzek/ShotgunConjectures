@@ -235,5 +235,11 @@
   "name": "Reflective polynomial identity checker (kernel-evaluated certificates)",
   "role": "certification",
   "cue": "A Lean proof needs large explicit polynomial identities (ideal-membership or elimination certificates with long or big-integer cofactors) that linear_combination / ring cannot normalise within the memory or time limit."
+ },
+ {
+  "id": "cartier-automaton",
+  "name": "Cartier-operator automaton for coefficients modulo prime powers",
+  "role": "proof",
+  "cue": "OEIS claims about an algebraic or binomial-sum sequence modulo 2, 4, 8, 3, 9, ... (never ≡ r, odd iff, periodic patterns in base p): write the terms as a diagonal of a rational function, build the Rowland-Yassawi automaton, check it in Lean."
  }
 ]

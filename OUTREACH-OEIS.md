@@ -4,9 +4,17 @@ OEIS entries whose conjecture this project settled and which OEIS does not yet r
 (prior-art review 2026-11-04: current entry, entries citing it, edit history, web, arXiv).
 Each draft comment is a starting point: shorten it to OEIS style and sign it. "Partly known" means a source covers part of it; the note says which part.
 
-223 entries.
+226 entries.
 
-## Substantive (not an immediate consequence of a known theorem) (103)
+## Substantive (not an immediate consequence of a known theorem) (104)
+
+### [A002093](https://oeis.org/A002093): highly abundant numbers are eventually divisible by every k
+
+- Problem: [OEIS-A002093](OEIS/A002093/README.md) (proved, partly-known). Lean: paper proof.
+- Prior art: No source for (b) beyond k | 12 found; elementary, may be folklore.
+- Draft comment:
+
+  > The conjecture is true: - (b) True (ours): for every prime power q^e, all sufficiently large highly abundant n are divisible by q^e; hence by every k. - (a) Proved informally by D. Eppstein (blog, Feb 26 2015, revised after 630 was found); that case analysis is cited, not re-derived here. **Argument for (b).** For a prime s with s^a || n and the replacement s^a -> s^(a+i) (i >= 1), sigma is multiplied by (s^(a+i+1)-1)/(s^(a+1)-1) >= s^i (1 + delta_s(a)), delta_s(a) = (1 - 1/s)/(s^(a+1) - 1) > 0, decreasing in a. For s^a -> s^(a-j), sigma is multiplied by (s^(a-j+1)-1)/(s^(a+1)-1) >= s^(-j)(1 - s^(j-a-1)); for s^1 -> s^0 by 1/(s+1). A highly abundant n admits no m < n with sigma(m) >= sigma(n). Fix q, e and suppose v_q(n) <= e-1 for infinitely many highly abundant n; let delta = delta_q(e-1). Fix a prime r != q. 1. If v_r(n) is unbounded along them: pick i, j >= 1 with q^i < r^j < q^i(1 + delta/2) (exists since log r / log q is irrational). Then m = n q^i / r^j < n and sigma(m)/sigma(n) >= (1+delta)/(1+delta/2) * (1 - r^(j-a-1)) > 1 once a = v_r(n) is large. Contradiction. 2. If v_r(n) <= B but the largest prime factor P of n is unbounded: let eps = delta_r(B). For P large pick i >= 1, k >= 0 with P/(1 + delta/2) < q^i r^k < P (the numbers q^i r^k have consecutive ratios -> 1). Then m = n q^i r^k / P < n and sigma(m)/sigma(n) >= (1+delta) q^i r^k / (P+1) > (1+delta)/(1+delta/2) * P/(P+1) > 1. 3. If v_r(n) and P are both bounded: n is P-smooth with P bounded, so some prime s != q has v_s(n) unbounded; apply 1 with s in place of r. So v_q(n) >= e for all large highly abundant n. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A002093). - _<Name>_, <Mon DD YYYY>
 
 ### [A026002](https://oeis.org/A026002): Bergot's array with borders n(n−1)+1 has diagonal A026002
 
@@ -848,7 +856,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjectured terms a(3) = 12 and a(4) = 30 are correct: the numbers whose trajectory under n -> phi(n) + 1 ends at 5 are exactly 5, 8, 10, 12, and those ending at 7 are exactly 7, 9, 14, 15, 16, 18, 20, 24, 30. The set reaching a prime q is built from q by repeatedly solving phi(n) = m - 1; the inverse totient sets needed are phi^(-1)(4) = {5, 8, 10, 12}, phi^(-1)(6) = {7, 9, 14, 18} and phi^(-1)(8) = {15, 16, 20, 24, 30}, while 7, 9, 11, 13, 14, 15, 17, 19, 23, 29 are not totients. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B41.5.
 
-## Immediate from a known theorem or short argument, still open in OEIS (120)
+## Immediate from a known theorem or short argument, still open in OEIS (122)
 
 ### [A004050](https://oeis.org/A004050): only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways
 
@@ -1322,6 +1330,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: ∫_0^1 log(1 - 1/x)^n dx = 2^n B'_n (πi)^n for all n ≥ 0 (B'_n the Bernoulli numbers with B'_1 = +1/2), and den(2^n B'_n) = A141459(n). Hence both conjectures hold (A211163 for n ≥ 2, where (-1/π^n)·∫ = -2^n B'_n i^n is rational). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A141459). - _<Name>_, <Mon DD YYYY>
 
+### [A143132](https://oeis.org/A143132): last digits cycle 1, 6, 6, 6
+
+- Problem: [OEIS-A143132](OEIS/A143132/README.md) (proved, new). Lean: Lean proof, [`A143132_mathlib.lean`](OEIS/A143132/A143132_mathlib.lean).
+- Prior art: Routine periodicity argument; no prior written proof found.
+- Draft comment:
+
+  > The conjecture is true: a(n) mod 10 = 1 if 4 | n, and 6 otherwise. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A143132). - _<Name>_, <Mon DD YYYY>
+
 ### [A144652](https://oeis.org/A144652): if h is not a term, then 4h + 1 is prime (h ≥ 1)
 
 - Problem: [OEIS-A144652](OEIS/A144652/README.md) (proved, partly-known). Lean: Lean proof, [`A144652.lean`](OEIS/A144652/A144652.lean).
@@ -1473,6 +1489,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: for every n >= 1: a(n) is even iff n = 2 (mod 4). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A179902). - _<Name>_, <Mon DD YYYY>
+
+### [A181674](https://oeis.org/A181674): the average order is 1, not Theta(log log n)
+
+- Problem: [OEIS-A181674](OEIS/A181674/README.md) (disproved, new). Lean: paper proof.
+- Prior art: Refutation is a two-line density argument; no published discussion found.
+- Draft comment:
+
+  > The conjecture is false: M(x) -> 1; in particular M(x) = O(1), so M(x) is not Omega(log log x). (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A181674). - _<Name>_, <Mon DD YYYY>
 
 ### [A182132](https://oeis.org/A182132): (30n-7)(90n-23)(300n-79) is Carmichael when all factors are prime
 
