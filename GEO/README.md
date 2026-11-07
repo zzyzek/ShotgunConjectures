@@ -2,7 +2,7 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-24 entries: 7 resolved by this project, 9 answered elsewhere, 5 disputed or partial.
+26 entries: 7 resolved by this project, 9 answered elsewhere, 5 disputed or partial.
 
 Of the 7 resolutions: 3 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 1 of these need Mathlib to formalise).
 
@@ -48,9 +48,11 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [A4.4](A4.4/) | partial | billiards in the regular tetrahedron — every periodic orbit has even period | [full proof](A4.4/A4_4.lean) | new | [modular-obstruction](../methods/modular-obstruction/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [C8.2](C8.2/) | partial | more than 120 congruent "non-thin" triangles on the sphere? | — | partly-known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 | [F9.1](F9.1/) | partial | nine points with 19 unit circles through three of them, so f(9) ≥ 19 | [witness](F9.1/F9_1.lean) | new | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [F15.2](F15.2/) | partial | worst-case shortest path through 4 points of the unit square is 3 | — | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
+| [G9.2](G9.2/) | partial | two sets always meeting in exactly n points — odd n is impossible for curve-like sets | — | new | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 
 ## Short proofs
 
@@ -547,6 +549,43 @@ then checked by hand to give at least n-2 angles.
 
 Lean: —.
 
+### [A4.4](A4.4/): billiards in the regular tetrahedron — every periodic orbit has even period
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry* (1991), section A4
+(paraphrased): Steinhaus asked whether every polyhedron has a periodic billiard orbit. Conway showed circuits
+exist in all tetrahedra and said the regular tetrahedron has a continuous family of periodic quadrangles, two
+periodic hexagons, and no other orbits with fewer than eight bounces. Are there periodic orbits with arbitrarily
+many bounces, and do they all have an even number of bounces?
+
+**Reading.** Billiard trajectories avoid edges and vertices; a periodic orbit returns to its starting point with
+its starting direction after k bounces (k minimal).
+
+**Result.** Partial.
+1. (New, proved.) In the regular tetrahedron every periodic billiard orbit has an even number of bounces.
+2. (New, proved.) Every periodic orbit is isolated: there is no continuous (parallel) family of periodic orbits
+   of any period. This contradicts the "continuous family of periodic quadrangles" as reported in the book;
+   there are exactly three periodic quadrangles (each hitting the four faces once, one per cyclic order up to
+   reversal).
+3. (Computation, exact.) Primitive periodic orbits exist with k = 4, 6, 12, 14, 16, 18, 20 bounces and none with
+   k = 2, 8, 10 (exhaustive for k ≤ 10 by the exact search; for 12 ≤ k ≤ 20 a floating-point screen whose hits
+   were all verified exactly). Numbers of primitive cyclic face words (rotations of words starting with face 0):
+   k = 4: 6, 6: 20, 12: 80, 14: 36, 16: 12, 18: 16, 20: 72. This supports "arbitrarily many bounces"
+   but does not prove it. Steinhaus's question for all polyhedra stays open.
+
+**Argument.** Faces: n_f · x = 1 with n_f = −V_f, V_f the vertices (±1,±1,±1) with an even number of minus
+signs. The reflection in face f is x ↦ L_f x + t_f with 3L_f = 3I − 2 n_f n_fᵀ. A periodic orbit with cyclic face
+word w = f_1 … f_k unfolds to a line ℓ with G(ℓ) = ℓ, G = σ_{f_1} ∘ … ∘ σ_{f_k}, preserving the direction u, so
+L_w u = u for the linear part L_w = L_{f_1}⋯L_{f_k}.
+- Mod 3: 3L_f ≡ n_f n_fᵀ, and n_f · n_g = −1 for f ≠ g, so 3^k L_w ≡ (−1)^{k−1} n_{f_1} n_{f_k}ᵀ (mod 3) and
+  trace(3^k L_w) ≡ (−1)^k (mod 3) when f_k ≠ f_1. Hence trace(L_w) ≠ 1 and L_w ≠ I (both give a trace of
+  3^k L_w divisible by 3).
+- Odd k: L_w is orthogonal with det −1 and eigenvalue 1, so its eigenvalues are 1, 1, −1 and its trace is 1;
+  impossible. So k is even.
+- Even k: L_w is a rotation ≠ I fixing u, so G is a screw motion whose only invariant line parallel to u is its
+  axis. Hence the orbit with word w is unique, i.e. isolated, and orbits are found by testing the axis of G_w.
+
+Lean: [full proof](A4.4/A4_4.lean).
+
 ### [C8.2](C8.2/): more than 120 congruent "non-thin" triangles on the sphere?
 
 **Source.** Croft, Falconer, Guy, *Unsolved Problems in Geometry* (1991), §C8 (dissecting the sphere
@@ -626,6 +665,39 @@ length at least 1. Upper bound, for points A, B, C, D in [0,1]^2:
   (2(b + c) + 2a + b)/3 = (2P + b)/3. The perimeter of a triangle in the square is convex in each
   vertex, so P <= 2 + sqrt 2 (three corners), and b <= sqrt 2. Hence the path is at most
   (4 + 3 sqrt 2)/3 < 2.75 < 3.
+
+Lean: —.
+
+### [G9.2](G9.2/): two sets always meeting in exactly n points — odd n is impossible for curve-like sets
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry* (1991), section G9
+(paraphrased): Steinhaus asked for two plane sets that meet in exactly one point however they are placed
+(Sierpiński: yes, using the axiom of choice). For sets always meeting in exactly n points, n even has a simple
+example: parallel lines at unit spacing and a circle of radius n/4. Are there such simple examples for odd n?
+
+**Reading.** "Placed" = moved by a rigid motion g (orientation-preserving; the result also holds with
+reflections). N(g) = |A ∩ gB|. "Simple" is read as: both sets are curve-like (locally finite embedded graphs).
+
+**Result.** Partial (negative for the natural class). Let A be a locally finite union of straight lines and B a
+compact embedded graph with finitely many C¹ edges. If N(g) = n for every rigid motion g, then n is even.
+So the even-n example (lines and a circle, or lines and any closed curve of constant width n/2) has no odd-n
+analogue with A a family of lines and B a finite union of arcs; odd n needs a set that is not a finite union
+of arcs. The same argument (sketched below) applies when A is any locally finite embedded C² graph.
+An explicit odd-n example (simple or Borel) remains open.
+
+**Argument.** (1) Every vertex of B has even degree. Suppose p is a vertex of odd degree (an endpoint has degree
+1). Choose g₀ with g₀(p) on a line λ of A, all edges of g₀B at g₀(p) transverse to λ, and no other vertex of g₀B
+on A. Moving g across the wall W_p = {g : g(p) ∈ A} changes the number of intersections near g(p) by
+deg(p) − 2k for some k, an odd number. Tangencies elsewhere change N by 0 or ±2. Another vertex p′ can lie on A
+for all g in an open subset of W_p only if A contains, for each a in an interval of λ, an arc of the circle of
+radius |p − p′| around a, i.e. a set with interior; A has none. So such g₀ exist, N mod 2 changes across W_p,
+and N is not constant. (2) With all degrees even, B is a mod-2 1-cycle; being compact in ℝ² it bounds a compact
+2-chain D (mod 2). For g with gB transverse to every line of A (generic g), each line λ meets gB = ∂(gD) in an
+even number of points (λ ∩ gD is a finite union of segments whose endpoints are exactly λ ∩ gB). Summing over
+the finitely many lines meeting gB, N(g) is even. Since N is constant, n is even.
+General A (sketch): the wall argument works for vertices of A as well (use g⁻¹), with the extra case of an edge
+of A that is a circle arc centred at a vertex of A, which one avoids by choosing the crossing point on another
+edge; step (2) uses that a locally finite even-degree graph meets a compact mod-2 boundary evenly.
 
 Lean: —.
 

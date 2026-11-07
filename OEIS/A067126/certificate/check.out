@@ -1,0 +1,4 @@
+composite terms <= 2000000: [4, 9]
+records with g >= isqrt(p+1): [(1, 2, 1), (2, 3, 2), (3, 7, 4), (4, 23, 6), (6, 113, 14)]
+from record index 7 on (p >= 523) all records satisfy g < isqrt(p+1); records up to 2^64: 80
+need direct check up to next record start p = 523 <= N0: True

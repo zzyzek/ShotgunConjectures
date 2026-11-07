@@ -1,0 +1,16 @@
+1 a0-a=-1 digits=1 data_ok
+2 a0-a=0 digits=1 data_ok D=ln(a/a_prev^2)=-0.6931 logratio=1.000000 a>=a_prev(a_prev-1):True
+3 a0-a=1 digits=1 data_ok D=ln(a/a_prev^2)=0.8109 logratio=3.169925 a>=a_prev(a_prev-1):True
+4 a0-a=0 digits=2 data_ok D=ln(a/a_prev^2)=0.1164 logratio=2.052981 a>=a_prev(a_prev-1):True
+5 a0-a=0 digits=5 data_ok D=ln(a/a_prev^2)=0.5393 logratio=2.119567 a>=a_prev(a_prev-1):True
+6 a0-a=0 digits=9 data_ok D=ln(a/a_prev^2)=0.2237 logratio=2.023402 a>=a_prev(a_prev-1):True
+7 a0-a=0 digits=17 data_ok D=ln(a/a_prev^2)=0.2588 logratio=2.013375 a>=a_prev(a_prev-1):True
+8 a0-a=1 digits=35 data_ok D=ln(a/a_prev^2)=0.6014 logratio=2.015441 a>=a_prev(a_prev-1):True
+9 a0-a=6 digits=69 data_ok D=ln(a/a_prev^2)=1.8120 logratio=2.023082 a>=a_prev(a_prev-1):True
+10 a0-a=10 digits=140 D=ln(a/a_prev^2)=2.4451 logratio=2.015396 a>=a_prev(a_prev-1):True
+11 a0-a=0 digits=279 D=ln(a/a_prev^2)=0.3523 logratio=2.001101 a>=a_prev(a_prev-1):True
+12 a0-a=0 digits=557 D=ln(a/a_prev^2)=0.0570 logratio=2.000089 a>=a_prev(a_prev-1):True
+13 a0-a=0 digits=1114 D=ln(a/a_prev^2)=0.6445 logratio=2.000503 a>=a_prev(a_prev-1):True
+14 a0-a=0 digits=2227 D=ln(a/a_prev^2)=0.0342 logratio=2.000013 a>=a_prev(a_prev-1):True
+15 a0-a=2 digits=many D=ln(a/a_prev^2)=0.9851 logratio=2.000192 a>=a_prev(a_prev-1):True
+rc=0

@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-46 entries: 19 resolved by this project, 15 answered elsewhere, 1 disputed or partial.
+49 entries: 19 resolved by this project, 15 answered elsewhere, 1 disputed or partial.
 
 Of the 19 resolutions: 17 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -39,7 +39,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A3.11](A3.11/) | proved | more primes (16^p + 1)/17 beyond p = 317 | — | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B1.2](B1.2/) | partial | Martin's alternating-divisor (k-imperfect) numbers for k ≥ 4 | [full proof](B1.2/B1_2_mathlib.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [B2.3](B2.3/) | disproved | Kravitz's "no odd-square abundance" conjecture is false (already in the book) | [witness](B2.3/B2_3.lean) | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
-| [B4.3](B4.3/) | partial | the smallest odd amicable pair coprime to 3 | [full proof](B4.3/B4_3_mathlib.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [B4.3](B4.3/) | partial | the smallest odd amicable pair coprime to 3 | [checked](B4.3/B4_3_mathlib.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [B31.5](B31.5/) | disproved | the gcd of two binomial coefficients can have all prime factors ≤ r (already in the book) | [full proof](B31.5/B31_5.lean) | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B36.7](B36.7/) | proved | infinitely many noncototients (already in the book) | — | — | [known-theorem](../methods/known-theorem/README.md) |
 | [C18.4](C18.4/) | solved | Heden's modular queens, M(n) = n - 2 when 3 \| n or 4 \| n | [full proof](C18.4/C18_4_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [parametric-family](../methods/parametric-family/README.md) |
@@ -64,6 +64,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 |---|---|---|---|---|---|
 | [A3.12](A3.12/) | partial | primes (p^p−1)/(p−1) and (p^p+1)/(p+1) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [B2.12](B2.12/) | partial | Erdős's extra-weird numbers (partial) | — | new | [minimal-counterexample-reduction](../methods/minimal-counterexample-reduction/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [B4.4](B4.4/) | partial | members of an odd amicable pair are incongruent mod 4, checked on all known pairs | — | new | [complete-table-scan](../methods/complete-table-scan/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [B4.5](B4.5/) | partial | unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair) | [full proof](B4.5/B4_5_mathlib.lean) | known | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
 | [B38.2](B38.2/) | partial | σ(y) = n! is solvable for 3 ≤ n ≤ 250 (partial) | [witness](B38.2/B38_2_mathlib.lean) | new | [lean-certificate](../methods/lean-certificate/README.md) |
 | [C15.1](C15.1/) | partial | Selfridge's conjecture on k(m) for even m (partial) | — | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md) |
@@ -72,6 +73,8 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [E11.2](E11.2/) | partial | the generalized Schur number σ(4, 4) = 171 (partial) | [full proof](E11.2/E11_2_lrat.lean) | new | [sat-threshold](../methods/sat-threshold/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [E13.1](E13.1/) | partial | values of Turán's s(m, n) | [full proof](E13.1/E13_1.lean) | partly-known | [sat-threshold](../methods/sat-threshold/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [E22.1](E22.1/) | partial | Gupta's rosary bound m(n) ≤ ⌊n²/2⌋ for odd n (case n = 7) | [full proof](E22.1/E22_1_mathlib.lean) | new | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [F6.3](F6.3/) | partial | three consecutive fifth-power residues — partial results | [full proof](F6.3/F6_3.lean) | new | [sat-threshold](../methods/sat-threshold/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [F31.1](F31.1/) | partial | the least multiplier can be quadratic in k | [witness](F31.1/F31_1.lean) | new | [finite-identity](../methods/finite-identity/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [F31.3](F31.3/) | partial | which integers are quotients of integers with ternary digits 0, 1? | [full proof](F31.3/F31_3_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 
 ## Short proofs
@@ -551,16 +554,16 @@ conjectured that both members of every odd amicable pair are divisible by 3; Bat
 counterexamples, and te Riele announced (1987) a 33-digit one. Guy asks: is that the smallest such pair? Is there an
 odd pair with exactly one member divisible by 3? Is there a pair whose members have different smallest prime factors?
 
-**Result.** First question answered (known): no. The 32-digit pair
-m = 42262694537514864075544955198125 = 5⁴·7²·11²·13²·19³·29·37·71·109·181·347·2833·6659,
-n = 42405817271188606697466971841875 = 5⁴·7²·11²·13²·19³·29·37·71·109·181·6568305119
-is amicable, odd and coprime to 3 (in J. M. Pedersen's lists; MathWorld "Amicable Pair" calls it the smallest known
-pair not divisible by 6). Whether it is the smallest such pair, and the second and third questions, remain open.
+**Result.** All three questions answered (known pairs; minimality from a complete list).
+1. Smallest odd pair coprime to 3: m = 5480828320492525 = 5^2·7^2·11·13·17·19·23·31·103·1319, n = 5786392931193875 = 5^3·7·11·13·19·31·37·43·61·809 (16 digits). It is the smallest because S. Chernykh's amicable-pair list (sech.me/ap) is complete below 10^20 and contains no smaller odd pair coprime to 3.
+2. Odd pair with exactly one member divisible by 3: 445953248528881275 = 3^2·5^2·7·13·19·37·43·73·439·22483 and 659008669204392325 = 5^2·7·13·19·37·73·571·1693·5839, the smallest such pair by the same list.
+3. Members with different smallest prime factors: the pair in 2 (3 and 5).
+The 32-digit pair m = 42262694537514864075544955198125, n = 42405817271188606697466971841875 recorded on 2026-11-06 (Pedersen's lists, MathWorld) is also odd and coprime to 3, but it is not the smallest; that earlier write-up was wrong to call minimality open and to call questions 2 and 3 open. Corrected 2026-11-07 (round r22, NT-B4.4 data).
 
 **Argument.** σ is multiplicative. With A = 5⁴·7²·11²·13²·19³·29·37·71·109·181, σ(A) = 12890465692724011392000,
 and σ(m) = σ(A)·348·2834·6660 = m + n = σ(A)·6568305120 = σ(n).
 
-Lean: [full proof](B4.3/B4_3_mathlib.lean).
+Lean: [checked](B4.3/B4_3_mathlib.lean).
 
 ### [B31.5](B31.5/): the gcd of two binomial coefficients can have all prime factors ≤ r (already in the book)
 
@@ -822,6 +825,28 @@ that "two ways without repetitions" means disjoint sets). Extra-weird = σ(n) > 
 
 Lean: —.
 
+### [B4.4](B4.4/): members of an odd amicable pair are incongruent mod 4, checked on all known pairs
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B4 (paraphrased): Charles Wall asks
+whether the two members of every odd amicable pair are incongruent modulo 4.
+
+**Result.** Partial; the question stays open.
+1. (Reduction, classical ingredients.) For an amicable pair (m, n) with m odd, the following are equivalent:
+   (a) n is odd and m ≡ n (mod 4); (b) σ(m) ≡ 2 (mod 4); (c) m = p^a k² with p prime, p ≡ a ≡ 1 (mod 4), p ∤ k
+   (Euler form); (d) n is odd and of Euler form. So a counterexample is a pair of odd numbers of Euler form, both
+   ≡ 1 (mod 4).
+2. (Data.) No counterexample among the 5 697 688 odd pairs in S. Chernykh's list of all known amicable pairs
+   (2023-01-01). The list is complete for pairs with smaller member below 10^20, which contain 1 975 654 odd pairs.
+   In every one of the 5 697 688 odd pairs the members are incongruent mod 4, and neither member has Euler form.
+
+**Argument.** (a)⇒(b): σ(m) = m + n ≡ 2 (mod 4). (b)⇒(a): σ(n) = σ(m) = m + n is ≡ 2 mod 4, so n is odd (m odd,
+n even would make m + n odd), hence m ≡ n (mod 4). (b)⇔(c): for an odd prime q, σ(q^e) is odd iff e is even, so
+v₂(σ(m)) = 1 forces exactly one prime p with odd exponent a; then σ(p^a) = (1 + p)(1 + p² + … + p^(a−1)), whose
+second factor has parity (a+1)/2, and v₂ = 1 iff p ≡ 1 (mod 4) and a ≡ 1 (mod 4) (Euler's argument for odd perfect
+numbers). (c)⇔(d): apply (b)⇔(c) to n, since σ(n) = σ(m).
+
+Lean: —.
+
 ### [B4.5](B4.5/): unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair)
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B4 (paraphrased): a unitary amicable
@@ -1005,6 +1030,77 @@ A 15-minute tabu search for length 23 found nothing (inconclusive).
 **Argument.** Direct check of all 5040 permutations against the 24 rotations of W.
 
 Lean: [full proof](E22.1/E22_1_mathlib.lean).
+
+### [F6.3](F6.3/): three consecutive fifth-power residues — partial results
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section F6, and
+[Erdős problem #436](https://www.erdosproblems.com/436) (paraphrased): r(k,3,p) is the least r ≥ 1 such that
+r, r+1, r+2 are all nonzero k-th power residues mod p, and Λ(k,3) = limsup_p r(k,3,p). Lehmer, Lehmer, Mills and
+Selfridge proved Λ(3,3) = 23532; the Lehmers proved Λ(k,3) = ∞ for even k. Is Λ(k,3) finite for odd k ≥ 5?
+(Smallest open case k = 5; open per erdosproblems.com, last update 2025-08-31.)
+
+**Reading.** For p ≢ 1 (mod 5) every nonzero residue is a fifth power and r = 1, so only p ≡ 1 (mod 5) matter.
+
+**Result.** Partial; the question stays open.
+1. (Reduction, classical ingredients.) Λ(5,3) = sup over completely additive f : ℕ⁺ → ℤ/5 of the least r with
+   f(r) = f(r+1) = f(r+2) = 0, and Λ(5,3) < ∞ iff every such f has at least one zero triple.
+2. (Lean, new as a stated obstruction.) For every odd k, no completely additive f : ℕ⁺ → ℤ/k of character type
+   (f(n) depends only on n mod Q for n prime to Q, any values on primes dividing Q) avoids zero triples:
+   r = Q^k − 1 works. So an f proving Λ(k,3) = ∞ for odd k cannot be of the Lehmer (character) type used for
+   even k; it has to be aperiodic on units.
+3. (Computation, new.) Λ(5,3) ≥ 399 999: an explicit f with no zero triple r ≤ 399 998 (SAT, CaDiCaL), checked
+   from scratch from its values at primes. The same encoding reproduces Λ(3,3) = 23532 exactly
+   (satisfiable at N = 23533, unsatisfiable at N = 23534).
+
+**Argument.** (1) Let p ≡ 1 (mod 5) and χ_p a character of order 5; n is a nonzero fifth-power residue iff
+χ_p(n) = 1, so f_p = log χ_p is completely additive with values in ℤ/5 on n < p. Conversely, for primes
+q_1 < … < q_s and any target values, Kummer theory gives Gal(Q(ζ_5, q_1^{1/5}, …, q_s^{1/5})/Q(ζ_5)) ≅ (ℤ/5)^s,
+and Chebotarev gives infinitely many p with χ_p(q_i) the prescribed fifth roots of unity (up to the choice of
+χ_p, which does not change the zero set). Hence an f avoiding zero triples up to N gives infinitely many p with
+r(5,3,p) > N − 2, and conversely. Compactness (König's lemma over the finitely many choices at each prime)
+turns "every f has a zero triple" into a uniform bound. (2) With f of character type: f(Q^k) = k·f(Q) = 0;
+Q^k + 1 ≡ 1 (mod Q) so f(Q^k + 1) = f(1) = 0; Q^k − 1 ≡ Q − 1 (mod Q) and (Q − 1)² ≡ 1, so
+2 f(Q − 1) = 0 in ℤ/k, and k odd gives f(Q − 1) = 0. (3) The CNF has one-hot variables for f(n), n ≤ N,
+the clauses f(p m) = f(p) + f(m) for the least prime factor p, the triple clauses, and f(2) ∈ {0, 1} (scaling by
+a unit of ℤ/5 preserves zero sets).
+
+Lean: [full proof](F6.3/F6_3.lean).
+
+### [F31.1](F31.1/): the least multiplier can be quadratic in k
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section F31 (paraphrased): let L be the set of
+integers with a base-4 representation using only the digits 0, 1, −1. Loxton and van der Poorten (Acta Arith. 49
+(1987) 193–203) showed that for every odd k some m ≥ 1 has m ∈ L and km ∈ L, but their argument gives no estimate
+of the least such m. Guy asks whether there is an absolute constant C with a multiplier below |k|^C, and quotes
+k = 133 (m = 333) and k = 501 as examples needing large multipliers.
+
+**Reading.** m(k) = least m ≥ 1 with m, km ∈ L, for odd k. Since L = −L, m(−k) = m(k); take k > 0.
+
+**Result.** Partial; the polynomial-bound question stays open, but the exponent is pinned from below.
+1. (New, all j.) For k_j = 2·4^j + 5 (j ≥ 1), every l ∈ L∖{0} with k_j·l ∈ L has at least 2j − 1 base-4 digits.
+   Hence m(k_j) ≥ (2·4^(2j−2) + 1)/3 > k_j²/128 for j ≥ 3. So no C < 2 works: any bound m(k) ≤ |k|^C needs C ≥ 2.
+2. (Data.) Exact m(k) for every odd k < 2·10^7. For 37 ≤ k < 2·10^7, m(k) < k²/48. The largest values of
+   m(k)/k² come from k = 2·4^j + 5, where m(k_j) = (4^(2j+1) − 7·4^j + 48)/48 for 3 ≤ j ≤ 12 (so m/k² → 1/48),
+   with digits (top first) +^j − 0^(j−3) +. The next family is k = 2·4^j − 5 (m/k² → 1/96).
+3. (Lean.) m(133) = 333 and m(517) = 5425.
+
+This suggests the answer to Guy's question is yes with C = 2 (conjecturally m(k) ≤ k²/48 for k ≥ 37), and that 2 is
+optimal.
+
+**Argument for 1.** Write l = A + 4^j B, where A holds the digits a_0..a_{j−1} (a_0 ≠ 0 after dividing out
+powers of 4) and B the r = n − j remaining digits (r = 0 when l has at most j digits). Then
+k_j l = 5l + 2·4^j l, and the base-4 carry chain of this sum runs over four consecutive blocks of positions: inputs
+5a_i (positions i < j), 5b_i + 2a_i (positions j + i, i < r), 2a_i (positions j + i, r ≤ i < j) and 2b_i
+(positions 2j + i, i < r), then zeros. An integer x is in L iff the forced chain x = d + 4x' (d ∈ {−1,0,1}
+determined by x mod 4, failure on residue 2) never fails, and here every carry lies in {−2,…,2}; so k_j l ∈ L iff
+the chain never meets residue 2 and the final carry is in {−1,0,1}. Indexing all four blocks by the digit index i
+runs them in lockstep: a finite automaton on states (c₁, c₂, c₄, g₁, g₂) (three carries and the two guessed carries
+at the block boundaries), reading (a_i, b_i) for i < r and a_i for r ≤ i < j; j enters only as the number of steps.
+The state-set sequences are eventually periodic, so all (r, s = j − r) are covered by a finite computation:
+acceptance happens only for s ∈ {0, 1}, i.e. n = j + r ≥ 2j − 1. The digit count n gives
+|l| ≥ 4^(n−1) − (4^(n−1) − 1)/3.
+
+Lean: [witness](F31.1/F31_1.lean).
 
 ### [F31.3](F31.3/): which integers are quotients of integers with ternary digits 0, 1?
 

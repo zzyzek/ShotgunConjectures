@@ -1,0 +1,18 @@
+k= 1  count_in_[10^(k-1),10^k)=4  cumulative A(10^k)=4  coprime3_cum=6  A/x=0.400000000000  A/coprime3=0.666666666667  deficit=2 exhaustive=0
+k= 2  count_in_[10^(k-1),10^k)=37  cumulative A(10^k)=41  coprime3_cum=66  A/x=0.410000000000  A/coprime3=0.621212121212  deficit=25 exhaustive=2
+k= 3  count_in_[10^(k-1),10^k)=416  cumulative A(10^k)=457  coprime3_cum=666  A/x=0.457000000000  A/coprime3=0.686186186186  deficit=209 exhaustive=16
+k= 4  count_in_[10^(k-1),10^k)=5001  cumulative A(10^k)=5458  coprime3_cum=6666  A/x=0.545800000000  A/coprime3=0.818781878188  deficit=1208 exhaustive=39
+k= 5  count_in_[10^(k-1),10^k)=55316  cumulative A(10^k)=60774  coprime3_cum=66666  A/x=0.607740000000  A/coprime3=0.911619116191  deficit=5892 exhaustive=28
+k= 6  count_in_[10^(k-1),10^k)=573501  cumulative A(10^k)=634275  coprime3_cum=666666  A/x=0.634275000000  A/coprime3=0.951413451413  deficit=32391 exhaustive=37
+k= 7  count_in_[10^(k-1),10^k)=5844069  cumulative A(10^k)=6478344  coprime3_cum=6666666  A/x=0.647834400000  A/coprime3=0.971751697175  deficit=188322 exhaustive=26
+k= 8  count_in_[10^(k-1),10^k)=59065294  cumulative A(10^k)=65543638  coprime3_cum=66666666  A/x=0.655436380000  A/coprime3=0.983154579832  deficit=1123028 exhaustive=56
+k= 9  count_in_[10^(k-1),10^k)=594399345  cumulative A(10^k)=659942983  coprime3_cum=666666666  A/x=0.659942983000  A/coprime3=0.989914475490  deficit=6723683 exhaustive=44
+k=10  count_in_[10^(k-1),10^k)=5966405521  cumulative A(10^k)=6626348504  coprime3_cum=6666666666  A/x=0.662634850400  A/coprime3=0.993952275699  deficit=40318162 exhaustive=37
+k=11  count_in_[10^(k-1),10^k)=59798443725  cumulative A(10^k)=66424792229  coprime3_cum=66666666666  A/x=0.664247922290  A/coprime3=0.996371883445  deficit=241874437 exhaustive=38
+k=12  count_in_[10^(k-1),10^k)=598790667129  cumulative A(10^k)=665215459358  coprime3_cum=666666666666  A/x=0.665215459358  A/coprime3=0.997823189038  deficit=1451207308 exhaustive=61
+k=13  count_in_[10^(k-1),10^k)=5992744053297  cumulative A(10^k)=6657959512655  coprime3_cum=6666666666666  A/x=0.665795951266  A/coprime3=0.998693926898  deficit=8707154011 exhaustive=39
+k=14  count_in_[10^(k-1),10^k)=59956464343736  cumulative A(10^k)=66614423856391  coprime3_cum=66666666666666  A/x=0.666144238564  A/coprime3=0.999216357846  deficit=52242810275 exhaustive=41
+k=15  count_in_[10^(k-1),10^k)=599738786105881  cumulative A(10^k)=666353209962272  coprime3_cum=666666666666666  A/x=0.666353209962  A/coprime3=0.999529814943  deficit=313456704394 exhaustive=50
+k=16  count_in_[10^(k-1),10^k)=5998432716692872  cumulative A(10^k)=6664785926655144  coprime3_cum=6666666666666666  A/x=0.666478592666  A/coprime3=0.999717888998  deficit=1880740011522 exhaustive=74
+k=17  count_in_[10^(k-1),10^k)=59990596300255777  cumulative A(10^k)=66655382226910921  coprime3_cum=66666666666666666  A/x=0.666553822269  A/coprime3=0.999830733404  deficit=11284439755745 exhaustive=45
+k=18  count_in_[10^(k-1),10^k)=599943577801394822  cumulative A(10^k)=666598960028305743  coprime3_cum=666666666666666666  A/x=0.666598960028  A/coprime3=0.999898440042  deficit=67706638360923 exhaustive=71

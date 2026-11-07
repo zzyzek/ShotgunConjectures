@@ -1,6 +1,6 @@
 # OEIS entries presented as open that are settled
 
-One line per OEIS entry (259). `settled by`: this project, or the literature (cross-reference only).
+One line per OEIS entry (268). `settled by`: this project, or the literature (cross-reference only).
 `Lean`: full = the whole result is proved in Lean; partial = one named step is outside Lean; none = written proof.
 Machine-readable: [oeis-updates.jsonl](oeis-updates.jsonl).
 
@@ -34,6 +34,7 @@ Machine-readable: [oeis-updates.jsonl](oeis-updates.jsonl).
 | [A061002](https://oeis.org/A061002) | this project | true | full | [OEIS/A061002](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A061002) |
 | [A065056](https://oeis.org/A065056) | this project | false | full | [OEIS/A065056](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065056) |
 | [A065129](https://oeis.org/A065129) | this project | true | partial | [OEIS/A065129](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065129) |
+| [A065255](https://oeis.org/A065255) | this project | true | none | [OEIS/A065255](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065255) |
 | [A065558](https://oeis.org/A065558) | this project | true | none | [OEIS/A065558](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065558) |
 | [A069187](https://oeis.org/A069187) | this project | true | full | [OEIS/A069187](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A069187) |
 | [A071561](https://oeis.org/A071561) | this project | false | none | [OEIS/A071561](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A071561) |
@@ -58,9 +59,16 @@ Machine-readable: [oeis-updates.jsonl](oeis-updates.jsonl).
 | [A081201](https://oeis.org/A081201) | literature | true | full | [OEIS/A081201](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A081201) |
 | [A081320](https://oeis.org/A081320) | this project | true | full | [OEIS/A081320](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A081320) |
 | [A082981](https://oeis.org/A082981) | this project | true | full | [OEIS/A082981](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A082981) |
+| [A083143](https://oeis.org/A083143) | this project | true | none | [OEIS/A083143](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083143) |
+| [A083144](https://oeis.org/A083144) | this project | true | none | [OEIS/A083144](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083144) |
 | [A083219](https://oeis.org/A083219) | this project | true | full | [OEIS/A083219](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083219) |
 | [A083452](https://oeis.org/A083452) | this project | trivial or misstated | full | [OEIS/A083452](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083452) |
 | [A083942](https://oeis.org/A083942) | this project | true | full | [OEIS/A083942](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083942) |
+| [A084013](https://oeis.org/A084013) | this project | true | full | [OEIS/A084013](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084013) |
+| [A084015](https://oeis.org/A084015) | this project | true | full | [OEIS/A084015](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084015) |
+| [A084029](https://oeis.org/A084029) | this project | true | none | [OEIS/A084029](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084029) |
+| [A084189](https://oeis.org/A084189) | this project | true | full | [OEIS/A084189](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084189) |
+| [A084352](https://oeis.org/A084352) | this project | true | full | [OEIS/A084352](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084352) |
 | [A085057](https://oeis.org/A085057) | this project | true | none | [OEIS/A085057](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A085057) |
 | [A086552](https://oeis.org/A086552) | this project | false | none | [OEIS/A086552](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A086552) |
 | [A087324](https://oeis.org/A087324) | this project | false | full | [OEIS/A087324](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A087324) |
@@ -265,3 +273,4 @@ Machine-readable: [oeis-updates.jsonl](oeis-updates.jsonl).
 | [A228933](https://oeis.org/A228933) | this project | true | full | [OEIS/A228933](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228933) |
 | [A228934](https://oeis.org/A228934) | this project | true | full | [OEIS/A228934](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228934) |
 | [A229487](https://oeis.org/A229487) | this project | true | full | [NT/B41.5](https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B41.5) |
+| [A230496](https://oeis.org/A230496) | this project | true | none | [OEIS/A230496](https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A230496) |

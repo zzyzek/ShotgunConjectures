@@ -1,0 +1,2 @@
+D=140: digit sums seen below 10^D: 837 values; all m%3!=0 up to 1255 present; first missing 1256
+exit 0

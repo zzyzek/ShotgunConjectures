@@ -38,6 +38,9 @@ In Lean it is reduced exactly to one missing count (partial).
   2a² + c² = 9^n) is elementary: there is one primitive solution per n, unique by the
   divisibility trick 9^n | (y₁x₂ − x₁y₂)(y₁x₂ + x₁y₂). It is not formalised here because the
   Lean reduction does not need it.
+- 2026-11-07: the library module `OpenProblemsLib.ThreeSquares` (Legendre's three-square
+  theorem) decides which n are sums of three squares but does not count representations, so it
+  does not supply r_3(9^n); the missing piece is unchanged.
 - `certificate/check.py` checks C(9^n) and P(n) for n ≤ 7 and r_3(9^n) for n ≤ 5.
 
 **Review level.** lean-proof for the reduction and the misindexing. The corrected statement

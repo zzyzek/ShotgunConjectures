@@ -1,0 +1,5 @@
+t=1 n=1 exponents=[0, 1, 2] M=3 bits=7 popcount(k)=3 parities k^1..k^n=[1]
+t=2 n=3 exponents=[0, 1, 4, 13, 32] M=8 bits=257 popcount(k)=5 parities k^1..k^n=[1, 1, 1]
+t=3 n=7 exponents=[0, 1, 8, 57, 256, 1153, 4181, 14180, 47381] M=24 bits=1137145 popcount(k)=9 parities k^1..k^n=[1, 1, 1, 1, 1, 1, 1]
+
+[exited with code 0]

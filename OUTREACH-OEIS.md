@@ -4,9 +4,9 @@ OEIS entries whose conjecture this project settled and which OEIS does not yet r
 (prior-art review 2026-11-04: current entry, entries citing it, edit history, web, arXiv).
 Each draft comment is a starting point: shorten it to OEIS style and sign it. "Partly known" means a source covers part of it; the note says which part.
 
-240 entries.
+249 entries.
 
-## Substantive (not an immediate consequence of a known theorem) (108)
+## Substantive (not an immediate consequence of a known theorem) (114)
 
 ### [A002093](https://oeis.org/A002093): highly abundant numbers are eventually divisible by every k
 
@@ -152,6 +152,22 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: All six are true. Moreover a(4j+t) = 4c_j + t d_j (t = 1..4, with 4c_{j+1} = 4c_j + 4d_j for t = 4), where (c_0, d_0) = (0, 1) and (c, d) -> (c + d, 4c + 5d); this gives a(n) = 6a(n-4) - a(n-8) and the g.f. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A082981). - _<Name>_, <Mon DD YYYY>
 
+### [A083143](https://oeis.org/A083143): no entry is zero (proved, modulo the Dias da Silva–Hamidoune theorem)
+
+- Problem: [OEIS-A083143](OEIS/A083143/README.md) (proved, new). Lean: paper proof.
+- Prior art: No proof found; ours uses a published additive-combinatorics theorem.
+- Draft comment:
+
+  > The conjecture is true: For every n ≥ 1 there is an n-digit palindrome divisible by prime(n). So no entry of A083143 or A083144 is zero. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083143). - _<Name>_, <Mon DD YYYY>
+
+### [A083144](https://oeis.org/A083144): no entry is zero (same proof as A083143)
+
+- Problem: [OEIS-A083144](OEIS/A083144/README.md) (proved, new). Lean: paper proof.
+- Prior art: No proof found; ours uses a published additive-combinatorics theorem.
+- Draft comment:
+
+  > The conjecture is true: No entry is zero: a(n) = 0 exactly when A083143(n) = 0, and A083143 has no zero entry. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083144). - _<Name>_, <Mon DD YYYY>
+
 ### [A083219](https://oeis.org/A083219): roots of x^n - x^(n-1) - ... - 1 in the left half-plane
 
 - Problem: [OEIS-A083219](OEIS/A083219/README.md) (proved, new). Lean: Lean proof, [`A129756_mathlib.lean`](OEIS/A129756/A129756_mathlib.lean).
@@ -159,6 +175,30 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: with the index shift. For every n, x^(n+1) − x^n − … − x − 1 has n − 2⌊n/4⌋ roots with Re < 0. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083219). - _<Name>_, <Mon DD YYYY>
+
+### [A084013](https://oeis.org/A084013): every n has an n-digit palindromic multiple
+
+- Problem: [OEIS-A084013](OEIS/A084013/README.md) (proved, new). Lean: Lean proof, [`A084013_mathlib.lean`](OEIS/A084013/A084013_mathlib.lean).
+- Prior art: Fixed-length palindromic multiples not found in the literature; Harminc-Sotak give existence without length control.
+- Draft comment:
+
+  > The conjecture is true: no term of A084013 or A084015 is 0. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084013). - _<Name>_, <Mon DD YYYY>
+
+### [A084015](https://oeis.org/A084015): no term is zero
+
+- Problem: [OEIS-A084015](OEIS/A084015/README.md) (proved, new). Lean: Lean proof, [`A084013_mathlib.lean`](OEIS/A084013/A084013_mathlib.lean).
+- Prior art: Fixed-length palindromic multiples not found in the literature; Harminc-Sotak give existence without length control.
+- Draft comment:
+
+  > The conjecture is true: A term is 0 only if no admissible n-digit multiple of n exists, and the companion entry [A084013](../A084013/README.md) (smallest such number) proves that one always exists. Same reading as there; it reproduces a(1..10) = 9, 88, ..., 9999999990. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084015). - _<Name>_, <Mon DD YYYY>
+
+### [A084029](https://oeis.org/A084029): only one term is zero
+
+- Problem: [OEIS-A084029](OEIS/A084029/README.md) (proved, new). Lean: paper proof, [`A084029_mathlib.lean`](OEIS/A084029/A084029_mathlib.lean).
+- Prior art: No proof found.
+- Draft comment:
+
+  > The conjecture is true (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084029). - _<Name>_, <Mon DD YYYY>
 
 ### [A085057](https://oeis.org/A085057): the least integer ratio of two n-element products from {1..2n} is the squarefree part of (2n)!
 
@@ -888,7 +928,15 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjectured terms a(3) = 12 and a(4) = 30 are correct: the numbers whose trajectory under n -> phi(n) + 1 ends at 5 are exactly 5, 8, 10, 12, and those ending at 7 are exactly 7, 9, 14, 15, 16, 18, 20, 24, 30. The set reaching a prime q is built from q by repeatedly solving phi(n) = m - 1; the inverse totient sets needed are phi^(-1)(4) = {5, 8, 10, 12}, phi^(-1)(6) = {7, 9, 14, 18} and phi^(-1)(8) = {15, 16, 20, 24, 30}, while 7, 9, 11, 13, 14, 15, 17, 19, 23, 29 are not totients. A proof formally verified in Lean 4 is at https://github.com/zzyzek/ShotgunConjectures/tree/main/NT/B41.5.
 
-## Immediate from a known theorem or short argument, still open in OEIS (132)
+### [A230496](https://oeis.org/A230496): a(n) > 0 for every n
+
+- Problem: [OEIS-A230496](OEIS/A230496/README.md) (proved, new). Lean: paper proof.
+- Prior art: No proof found. A230497 and A230498 (evil/odious variants) stay open.
+- Draft comment:
+
+  > The conjecture is true: For every n there is an odd k > 1 with k, k^2, ..., k^n all odious. Explicitly, with 2^t > n, k = 1 + 2^{M e_1} + ... + 2^{M e_{2^t}} works whenever the exponents are "generic" in the sense below. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A230496). - _<Name>_, <Mon DD YYYY>
+
+## Immediate from a known theorem or short argument, still open in OEIS (135)
 
 ### [A004050](https://oeis.org/A004050): only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways
 
@@ -1010,6 +1058,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: in both readings. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065129). - _<Name>_, <Mon DD YYYY>
 
+### [A065255](https://oeis.org/A065255): b(k)/k → 10
+
+- Problem: [OEIS-A065255](OEIS/A065255/README.md) (proved, new). Lean: paper proof, [`A065255_mathlib.lean`](OEIS/A065255/A065255_mathlib.lean).
+- Prior art: Follows at once from the classical fact that m | sigma(n) for almost all n; not recorded on the entry.
+- Draft comment:
+
+  > The conjecture is true: B differs from the multiples of 10 by a set of density 0, so B has density 1/10 and b(k) ~ 10k. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065255). - _<Name>_, <Mon DD YYYY>
+
 ### [A071561](https://oeis.org/A071561): almost all integers have no middle divisor, so a(n)/n -> 1, not 4/3
 
 - Problem: [OEIS-A071561](OEIS/A071561/README.md) (disproved, partly-known). Lean: paper proof.
@@ -1113,6 +1169,22 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 - Draft comment:
 
   > The conjecture is true: a(n) = Sum_{k=1..2^n-1} C_k. More generally, the position of 1^s 0^s in A014486 is Sum_{k=1..s} C_k for every s. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A083942). - _<Name>_, <Mon DD YYYY>
+
+### [A084189](https://oeis.org/A084189): the minimum digit of the factors is never greater than 3
+
+- Problem: [OEIS-A084189](OEIS/A084189/README.md) (proved, new). Lean: Lean proof, [`A084189_mathlib.lean`](OEIS/A084189/A084189_mathlib.lean).
+- Prior art: No proof found; immediate from 11 | even-length palindromes plus a length count.
+- Draft comment:
+
+  > The conjecture is true: and sharper: a(n) = 3 only for the term 9 = 3 * 3 (n = 3); a(n) <= 2 for every other n. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084189). - _<Name>_, <Mon DD YYYY>
+
+### [A084352](https://oeis.org/A084352): the minimum digit of the factors of a palindromic brilliant number is never greater than 3
+
+- Problem: [OEIS-A084352](OEIS/A084352/README.md) (proved, new). Lean: Lean proof, [`A084189_mathlib.lean`](OEIS/A084189/A084189_mathlib.lean).
+- Prior art: No proof found; immediate from 11 | even-length palindromes plus a length count.
+- Draft comment:
+
+  > The conjecture is true: and sharper: a(n) = 3 only for 9 = 3 * 3 (n = 3); a(n) <= 2 for every other n. The factors need not be palindromes. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A084352). - _<Name>_, <Mon DD YYYY>
 
 ### [A087324](https://oeis.org/A087324): no term has a perfect-square prime signature
 

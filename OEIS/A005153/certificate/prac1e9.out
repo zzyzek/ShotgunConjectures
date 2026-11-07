@@ -1,0 +1,14 @@
+practical numbers <= 1000000000: 64782731
+min margin (n+1)log a(n) - n log a(n+1) = 0.052116 at n=5 (a(n)=8)
+max gap/threshold = 0.969525 at n=5 (a(n)=8, a(n+1)=12)
+a(n) in [1e0,1e1): max gap/threshold 0.969525 at n=5 (a(n)=8, gap 4)
+a(n) in [1e1,1e2): max gap/threshold 0.649664 at n=6 (a(n)=12, gap 4)
+a(n) in [1e2,1e3): max gap/threshold 0.557837 at n=46 (a(n)=180, gap 12)
+a(n) in [1e3,1e4): max gap/threshold 0.502060 at n=300 (a(n)=1600, gap 20)
+a(n) in [1e4,1e5): max gap/threshold 0.511018 at n=4588 (a(n)=35910, gap 42)
+a(n) in [1e5,1e6): max gap/threshold 0.538980 at n=34145 (a(n)=319808, gap 64)
+a(n) in [1e6,1e7): max gap/threshold 0.541143 at n=497977 (a(n)=5791302, gap 98)
+a(n) in [1e7,1e8): max gap/threshold 0.574194 at n=2418669 (a(n)=31243040, gap 128)
+a(n) in [1e8,1e9): max gap/threshold 0.632138 at n=21094812 (a(n)=307350504, gap 180)
+a(10000)=83984
+exit 0

@@ -1,0 +1,5 @@
+v=1000: {n : a(n) <= v} has 2783 elements, max 10020
+v=3000: {n : a(n) <= v} has 14190 elements, max 85458
+v=10000: {n : a(n) <= v} has 42203 elements, max 287220
+v=30000: {n : a(n) <= v} has 144709 elements, max 1282110
+v=100000: {n : a(n) <= v} has 313211 elements, max 2380164

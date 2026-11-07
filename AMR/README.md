@@ -2,7 +2,7 @@
 
 Open-problem lists linked from https://amathr.org/problems/ (Cooper, TOPP, Egres Open, Froberg et al. and others); ids AMR-<list>-<k>, statements paraphrased with the list named in each README.
 
-19 entries: 2 resolved by this project, 12 answered elsewhere, 1 disputed or partial.
+20 entries: 2 resolved by this project, 12 answered elsewhere, 1 disputed or partial.
 
 Of the 2 resolutions: 1 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -43,6 +43,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [aimmatrix-sap3](aimmatrix-sap3/) | partial | fewest nonzeros of an irreducible β-arbitrary pattern (partial) | — | new | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [froberg-H](froberg-H/) | partial | T\_{n,2,2} = S/(x\_1², …, x\_n²)² has the WLP for every n | needs Mathlib | new | [elementary-proof](../methods/elementary-proof/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [froberg-O](froberg-O/) | partial | periods of the zero-set map φ on F\_p[x]: period 6 occurs (partial) | [witness](froberg-O/froberg_O.lean) | new | [complete-table-scan](../methods/complete-table-scan/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [froberg-P](froberg-P/) | partial | order of ψ(f) = Σ\_a f(a) x^a on polynomials of degree < p | [witness](froberg-P/froberg_P.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [froberg-R](froberg-R/) | partial | explicit odd-degree forms with the Lundqvist–Nicklasson series (partial) | — | new | [parametric-family](../methods/parametric-family/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
@@ -457,6 +458,44 @@ lower bounds are proved for zero-nonzero patterns, the constructions are sign pa
   coefficients; a 10-entry {1,2,3,4}-witness).
 
 Lean: —.
+
+### [froberg-H](froberg-H/): T_{n,2,2} = S/(x_1², …, x_n²)² has the WLP for every n
+
+**Source.** R. Fröberg, S. Lundqvist, A. Oneto, B. Shapiro, *Algebraic stories from one and from the other
+pockets*, Arnold Math. J. 4 (2018), §2.3, Problem H (paraphrased): when do T_{n,d,k} = S/(x_1^d, …, x_n^d)^k have
+the WLP and the SLP? The text recalls that T_{n,2,2} has the WLP for odd n (Boij–Fröberg–Lundqvist, J. Algebra 495
+(2018), Theorem 22) and that this is believed for even n; the BFL proof does not apply there.
+
+**Reading.** S = C[x_1, …, x_n] (characteristic 0, any field of characteristic 0 or > 2 works for the new step),
+WLP with respect to ℓ = x_1 + … + x_n (for monomial algebras the WLP holds iff it holds for this ℓ).
+
+**Result.** Partial answer to Problem H (the example it names): T_{n,2,2} has the WLP for every n. New for
+even n. The general classification of WLP/SLP for T_{n,d,k} stays open.
+
+**Argument.** BFL's proof of Theorem 22 works verbatim for even n = 2k in every degree except the map
+×ℓ: R_{k+1} → R_{k+2} (their closing remark). We prove that this map is injective
+(dim R_{k+1} < dim R_{k+2}; dimension check below).
+
+Basis of R_t: x_S (S ⊂ [n] squarefree, |S| = t), x_i² x_T (i ∉ T, |T| = t−2), x_i³ x_R (i ∉ R, |R| = t−3);
+x_i²x_j² = x_i⁴ = 0. Write U (up) and D (down) for the Boolean-lattice maps U f(S) = Σ_{x∈S} f(S∖x).
+Multiplying v = Σβ(S)x_S + Σγ(i,T)x_i²x_T + Σδ(i,R)x_i³x_R ∈ R_{k+1} by ℓ and reading coefficients:
+(i) Uβ = 0 (squarefree part, level k+1 → k+2 on [2k]);
+(ii) link_i β + Uγ_i = 0 for every i, where link_i β(T) = β(T ∪ i) on k-subsets of [2k]∖i;
+(iii) γ_i + Uδ_i = 0.
+So ℓv = 0 iff β ∈ ker U and link_i β = U²δ_i for all i; U² from level k−2 to k on 2k−1 points is injective, so
+v = 0 iff β = 0. Thus injectivity ⇔ Φ: ker U → ⊕_i Fun_k([2k]∖i)/Im U², β ↦ (link_i β mod Im U²)_i, is injective.
+By the sl₂ (Specht) decomposition of the Boolean lattice, ker U at level k+1 on [2k] is the irreducible
+S_{2k}-module S^{(k+1,k−1)}, spanned by β = U²v with v = Π_{r<k}(e_{a_r} − e_{b_r}) (k−1 disjoint pairs, two
+further points c, d). Φ is S_{2k}-equivariant, so by Schur it is injective or zero. It is not zero:
+Im U² = (ker D²)^⊥, and w = Uv' with v' = Π_r(e_{a_r} − e_{b_r}) on [2k]∖c satisfies Dv' = 0 and DU − UD = 1 at
+level k−1 on 2k−1 points, so D²w = Dv' = 0; and ⟨link_c β, w⟩ = Σ_T β(T∪{c,d})·w(T∪{d}) = Σ_T 2·sign(T)² = 2^k,
+the sum over the 2^{k−1} transversals T of the pairs (sets T ∪ {y} with y a partner of an element of T give
+w = 0 by cancellation). Hence Φ ≠ 0, Φ is injective, and ×ℓ: R_{k+1} → R_{k+2} is injective.
+
+Dimension check: dim R_t = C(2k,t) + 2k·C(2k,t−2) (the x_i²-, x_i³-monomials form n copies of the Boolean level
+t−2 on n points, as in BFL), and dim R_{k+2} − dim R_{k+1} = C(2k,k)/(k+1)·(2k − 3k/(k+2)) > 0.
+
+Lean: needs Mathlib.
 
 ### [froberg-O](froberg-O/): periods of the zero-set map φ on F_p[x]: period 6 occurs (partial)
 

@@ -1,0 +1,5 @@
+X=1000  #{sigma(n)=n mod 10}=96  ratio X/count=10.41667  #{10 not | sigma(n)}/X=0.72600
+X=10000  #{sigma(n)=n mod 10}=994  ratio X/count=10.06036  #{10 not | sigma(n)}/X=0.66480
+X=100000  #{sigma(n)=n mod 10}=9999  ratio X/count=10.00100  #{10 not | sigma(n)}/X=0.62291
+X=1000000  #{sigma(n)=n mod 10}=100221  ratio X/count=9.97795  #{10 not | sigma(n)}/X=0.59173
+X=3000000  #{sigma(n)=n mod 10}=300622  ratio X/count=9.97931  #{10 not | sigma(n)}/X=0.57939
