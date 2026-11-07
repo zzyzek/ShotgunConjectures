@@ -1,0 +1,68 @@
+p=3 len=4 rep={ }
+p=3 K=3 done, 1 cycles
+p=5 len=4 rep={ }
+p=5 K=3 done, 1 cycles
+p=7 len=4 rep={ }
+p=7 K=3 done, 1 cycles
+p=11 len=4 rep={ }
+p=11 K=3 done, 1 cycles
+p=13 len=4 rep={ }
+p=13 K=3 done, 1 cycles
+p=17 len=4 rep={ }
+p=17 K=3 done, 1 cycles
+p=19 len=4 rep={ }
+p=19 K=3 done, 1 cycles
+p=23 len=4 rep={ }
+p=23 K=3 done, 1 cycles
+p=29 len=4 rep={ }
+p=29 K=3 done, 1 cycles
+p=31 len=4 rep={ }
+p=31 K=3 done, 1 cycles
+p=37 len=4 rep={ }
+p=37 K=3 done, 1 cycles
+p=41 len=4 rep={ }
+p=41 K=3 done, 1 cycles
+p=43 len=4 rep={ }
+p=43 K=3 done, 1 cycles
+p=47 len=4 rep={ }
+p=47 K=3 done, 1 cycles
+p=53 len=4 rep={ }
+p=53 K=3 done, 1 cycles
+p=59 len=4 rep={ }
+p=59 K=3 done, 1 cycles
+p=61 len=4 rep={ }
+p=61 K=3 done, 1 cycles
+p=67 len=4 rep={ }
+p=67 K=3 done, 1 cycles
+p=71 len=4 rep={ }
+p=71 len=2 rep={ 23 26 34 39 41 51 70 }
+p=71 K=3 done, 2 cycles
+p=73 len=4 rep={ }
+p=73 K=3 done, 1 cycles
+p=79 len=4 rep={ }
+p=79 K=3 done, 1 cycles
+p=83 len=4 rep={ }
+p=83 K=3 done, 1 cycles
+p=89 len=4 rep={ }
+p=89 K=3 done, 1 cycles
+p=97 len=4 rep={ }
+p=97 K=3 done, 1 cycles
+p=101 len=4 rep={ }
+p=101 K=3 done, 1 cycles
+p=103 len=4 rep={ }
+p=103 K=3 done, 1 cycles
+p=107 len=4 rep={ }
+p=107 K=3 done, 1 cycles
+p=109 len=4 rep={ }
+p=109 K=3 done, 1 cycles
+p=113 len=4 rep={ }
+p=113 K=3 done, 1 cycles
+p=127 len=4 rep={ }
+p=127 len=2 rep={ 38 89 }
+p=127 K=3 done, 2 cycles
+p=131 len=4 rep={ }
+p=131 K=3 done, 1 cycles
+p=137 len=4 rep={ }
+p=137 K=3 done, 1 cycles
+p=139 len=4 rep={ }
+p=139 K=3 done, 1 cycles

@@ -1,0 +1,198 @@
+p=3 len=4 rep={ }
+p=3 K=2 done, 1 cycles
+p=5 len=4 rep={ }
+p=5 K=2 done, 1 cycles
+p=7 len=4 rep={ }
+p=7 K=2 done, 1 cycles
+p=11 len=4 rep={ }
+p=11 K=2 done, 1 cycles
+p=13 len=4 rep={ }
+p=13 K=2 done, 1 cycles
+p=17 len=4 rep={ }
+p=17 K=2 done, 1 cycles
+p=19 len=4 rep={ }
+p=19 K=2 done, 1 cycles
+p=23 len=4 rep={ }
+p=23 K=2 done, 1 cycles
+p=29 len=4 rep={ }
+p=29 K=2 done, 1 cycles
+p=31 len=4 rep={ }
+p=31 K=2 done, 1 cycles
+p=37 len=4 rep={ }
+p=37 K=2 done, 1 cycles
+p=41 len=4 rep={ }
+p=41 K=2 done, 1 cycles
+p=43 len=4 rep={ }
+p=43 K=2 done, 1 cycles
+p=47 len=4 rep={ }
+p=47 K=2 done, 1 cycles
+p=53 len=4 rep={ }
+p=53 K=2 done, 1 cycles
+p=59 len=4 rep={ }
+p=59 K=2 done, 1 cycles
+p=61 len=4 rep={ }
+p=61 K=2 done, 1 cycles
+p=67 len=4 rep={ }
+p=67 K=2 done, 1 cycles
+p=71 len=4 rep={ }
+p=71 len=2 rep={ 23 26 34 39 41 51 70 }
+p=71 K=2 done, 2 cycles
+p=73 len=4 rep={ }
+p=73 K=2 done, 1 cycles
+p=79 len=4 rep={ }
+p=79 K=2 done, 1 cycles
+p=83 len=4 rep={ }
+p=83 K=2 done, 1 cycles
+p=89 len=4 rep={ }
+p=89 K=2 done, 1 cycles
+p=97 len=4 rep={ }
+p=97 K=2 done, 1 cycles
+p=101 len=4 rep={ }
+p=101 K=2 done, 1 cycles
+p=103 len=4 rep={ }
+p=103 K=2 done, 1 cycles
+p=107 len=4 rep={ }
+p=107 K=2 done, 1 cycles
+p=109 len=4 rep={ }
+p=109 K=2 done, 1 cycles
+p=113 len=4 rep={ }
+p=113 K=2 done, 1 cycles
+p=127 len=4 rep={ }
+p=127 len=2 rep={ 38 89 }
+p=127 K=2 done, 2 cycles
+p=131 len=4 rep={ }
+p=131 K=2 done, 1 cycles
+p=137 len=4 rep={ }
+p=137 K=2 done, 1 cycles
+p=139 len=4 rep={ }
+p=139 K=2 done, 1 cycles
+p=149 len=4 rep={ }
+p=149 K=2 done, 1 cycles
+p=151 len=4 rep={ }
+p=151 len=2 rep={ 33 119 150 }
+p=151 len=2 rep={ 69 150 }
+p=151 K=2 done, 3 cycles
+p=157 len=4 rep={ }
+p=157 K=2 done, 1 cycles
+p=163 len=4 rep={ }
+p=163 K=2 done, 1 cycles
+p=167 len=4 rep={ }
+p=167 K=2 done, 1 cycles
+p=173 len=4 rep={ }
+p=173 K=2 done, 1 cycles
+p=179 len=4 rep={ }
+p=179 K=2 done, 1 cycles
+p=181 len=4 rep={ }
+p=181 len=2 rep={ 111 180 }
+p=181 K=2 done, 2 cycles
+p=191 len=4 rep={ }
+p=191 K=2 done, 1 cycles
+p=193 len=4 rep={ }
+p=193 K=2 done, 1 cycles
+p=197 len=4 rep={ }
+p=197 K=2 done, 1 cycles
+p=199 len=4 rep={ }
+p=199 K=2 done, 1 cycles
+p=211 len=4 rep={ }
+p=211 K=2 done, 1 cycles
+p=223 len=4 rep={ }
+p=223 K=2 done, 1 cycles
+p=227 len=4 rep={ }
+p=227 K=2 done, 1 cycles
+p=229 len=4 rep={ }
+p=229 K=2 done, 1 cycles
+p=233 len=4 rep={ }
+p=233 K=2 done, 1 cycles
+p=239 len=4 rep={ }
+p=239 K=2 done, 1 cycles
+p=241 len=4 rep={ }
+p=241 K=2 done, 1 cycles
+p=251 len=4 rep={ }
+p=251 K=2 done, 1 cycles
+p=257 len=4 rep={ }
+p=257 K=2 done, 1 cycles
+p=263 len=4 rep={ }
+p=263 K=2 done, 1 cycles
+p=269 len=4 rep={ }
+p=269 K=2 done, 1 cycles
+p=271 len=4 rep={ }
+p=271 K=2 done, 1 cycles
+p=277 len=4 rep={ }
+p=277 K=2 done, 1 cycles
+p=281 len=4 rep={ }
+p=281 K=2 done, 1 cycles
+p=283 len=4 rep={ }
+p=283 K=2 done, 1 cycles
+p=293 len=4 rep={ }
+p=293 K=2 done, 1 cycles
+p=307 len=4 rep={ }
+p=307 K=2 done, 1 cycles
+p=311 len=4 rep={ }
+p=311 K=2 done, 1 cycles
+p=313 len=4 rep={ }
+p=313 K=2 done, 1 cycles
+p=317 len=4 rep={ }
+p=317 K=2 done, 1 cycles
+p=331 len=4 rep={ }
+p=331 K=2 done, 1 cycles
+p=337 len=4 rep={ }
+p=337 K=2 done, 1 cycles
+p=347 len=4 rep={ }
+p=347 K=2 done, 1 cycles
+p=349 len=4 rep={ }
+p=349 K=2 done, 1 cycles
+p=353 len=4 rep={ }
+p=353 K=2 done, 1 cycles
+p=359 len=4 rep={ }
+p=359 K=2 done, 1 cycles
+p=367 len=4 rep={ }
+p=367 len=2 rep={ 26 341 }
+p=367 K=2 done, 2 cycles
+p=373 len=4 rep={ }
+p=373 len=2 rep={ 81 372 }
+p=373 K=2 done, 2 cycles
+p=379 len=4 rep={ }
+p=379 K=2 done, 1 cycles
+p=383 len=4 rep={ }
+p=383 K=2 done, 1 cycles
+p=389 len=4 rep={ }
+p=389 K=2 done, 1 cycles
+p=397 len=4 rep={ }
+p=397 len=2 rep={ 35 85 93 111 201 318 363 383 396 }
+p=397 K=2 done, 2 cycles
+p=401 len=4 rep={ }
+p=401 K=2 done, 1 cycles
+p=409 len=4 rep={ }
+p=409 len=2 rep={ 41 331 }
+p=409 K=2 done, 2 cycles
+p=419 len=4 rep={ }
+p=419 K=2 done, 1 cycles
+p=421 len=4 rep={ }
+p=421 len=2 rep={ 44 67 142 169 420 }
+p=421 len=2 rep={ 36 51 174 269 346 388 420 }
+p=421 K=2 done, 3 cycles
+p=431 len=4 rep={ }
+p=431 len=2 rep={ 26 186 315 336 430 }
+p=431 K=2 done, 2 cycles
+p=433 len=4 rep={ }
+p=433 K=2 done, 1 cycles
+p=439 len=4 rep={ }
+p=439 K=2 done, 1 cycles
+p=443 len=4 rep={ }
+p=443 K=2 done, 1 cycles
+p=449 len=4 rep={ }
+p=449 len=2 rep={ 197 223 }
+p=449 K=2 done, 2 cycles
+p=457 len=4 rep={ }
+p=457 K=2 done, 1 cycles
+p=461 len=4 rep={ }
+p=461 K=2 done, 1 cycles
+p=463 len=4 rep={ }
+p=463 K=2 done, 1 cycles
+p=467 len=4 rep={ }
+p=467 K=2 done, 1 cycles
+p=479 len=4 rep={ }
+p=479 K=2 done, 1 cycles
+p=487 len=4 rep={ }
+p=487 K=2 done, 1 cycles
+p=491 len=4 rep={ }

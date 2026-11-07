@@ -1,0 +1,12 @@
+p=23 images=12190
+p=23 cycle len 4 member 0
+p=23 census: len4:1
+0.75s 2836KB
+p=29 images=114356
+p=29 cycle len 4 member 0
+p=29 census: len4:1
+54.63s 28308KB
+p=31 images=199235
+p=31 cycle len 4 member 0
+p=31 census: len4:1
+237.40s 62356KB

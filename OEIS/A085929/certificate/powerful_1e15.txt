@@ -1,0 +1,2 @@
+powerful numbers <=N: 68575557 consecutive pairs: 25
+signatures realised by consecutive powerful pairs: {}

@@ -2,9 +2,9 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-23 entries: 6 resolved by this project, 9 answered elsewhere, 5 disputed or partial.
+24 entries: 7 resolved by this project, 9 answered elsewhere, 5 disputed or partial.
 
-Of the 6 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 1 of these need Mathlib to formalise).
+Of the 7 resolutions: 3 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 1 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -12,6 +12,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [B22.2](B22.2/) | disproved | no convex polyhedron has all faces directly congruent to a right or obtuse scalene triangle | [witness](B22.2/B22_2.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [C2.1](C2.1/) | disproved | a perfect squared rectangle with only one square surrounded by larger ones | [full proof](C2.1/C2_1_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [C2.2](C2.2/) | disproved | a coprime perfect squared rectangle with no square of square side | [full proof](C2.2/C2_2_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [C2.3](C2.3/) | proved | a rectangle with two perfect squarings sharing no square size | [full proof](C2.3/C2_3_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
@@ -54,6 +55,45 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 ## Short proofs
 
 Copied from each problem README (source paraphrase, result, argument).
+
+### [B22.2](B22.2/): no convex polyhedron has all faces directly congruent to a right or obtuse scalene triangle
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer
+1991, problem B22 (paraphrase): for which triangles T is there a convex polyhedron all of whose
+faces are congruent to T, with or without reflections allowed; how many faces, and how arranged?
+The scan item B22.2 is the orientation-preserving case ("directly congruent", no reflections)
+for the triangles left open by arXiv:2608.01109: right and obtuse scalene triangles.
+
+**Reading.** Faces are the facets of a convex polyhedron in R³; "directly congruent" means
+congruent by an orientation-preserving isometry, with each face viewed from outside the polyhedron.
+
+**Result.** For a scalene triangle T, every convex polyhedron whose faces are all directly
+congruent to T is a tetrahedron with one corner of each angle of T at every vertex (a
+disphenoid). Such a tetrahedron exists only when T is acute. Hence for right and obtuse scalene
+triangles the answer is no, and for acute scalene triangles the disphenoid (4 faces) is the only
+example.
+
+**Argument.** Let T have sides a, b, c (distinct) with opposite angles A, B, C.
+1. Edge to edge. Each face is a triangle, its sides are edges of the polyhedron, and each edge
+   lies in exactly two faces. Since T is scalene, every edge has a well-defined label a, b or c
+   (its length), the same in both faces.
+2. Same cyclic order. Orient every face counterclockwise as seen from outside. A direct copy of
+   T then shows its sides in the cyclic order (a, b, c) (a mirror copy would show (a, c, b)).
+3. Around a vertex. Let v have degree d, edges e_1, …, e_d in counterclockwise order seen from
+   outside, and face f_i between e_i and e_{i+1}. The boundary of f_i, counterclockwise, runs
+   v → (along e_i) → … → (along e_{i+1}) → v, so e_{i+1} is the side that precedes e_i in the
+   cyclic order of f_i: L(e_{i+1}) = σ⁻¹ L(e_i) with σ = (a b c). Going once around v gives
+   σ^{−d} = 1, so 3 divides d, and the corners at v run through the types B, A, C, B, A, C, …
+   (the corner between sides x and σ⁻¹x is opposite the third side). The angle sum at v is
+   therefore (d/3)(A + B + C) = (d/3)π.
+4. Convexity. A vertex of a convex polyhedron has angle sum < 2π, so d = 3 and the angle sum is
+   π at every vertex. A triangulated sphere with all degrees 3 has 2E = 3V = 3F and
+   V − E + F = 2, so V = 4: the polyhedron is a tetrahedron with corners A, B, C at each vertex,
+   that is, opposite edges equal (a disphenoid). A disphenoid with faces T exists iff T is acute
+   (for right T the four points are coplanar, for obtuse T none exist; standard, and also Lemma 5
+   of arXiv:2608.01109).
+
+Lean: [witness](B22.2/B22_2.lean).
 
 ### [C2.1](C2.1/): a perfect squared rectangle with only one square surrounded by larger ones
 

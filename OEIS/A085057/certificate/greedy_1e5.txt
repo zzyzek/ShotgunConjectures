@@ -1,0 +1,1 @@
+greedy succeeds for n <= 100000 ; full exponent check for n <= 1000

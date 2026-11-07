@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-41 entries: 19 resolved by this project, 15 answered elsewhere, 0 disputed or partial.
+46 entries: 19 resolved by this project, 15 answered elsewhere, 1 disputed or partial.
 
 Of the 19 resolutions: 17 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -52,14 +52,24 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [F23.2](F23.2/) | trivial or misstated | n! = 2^a + 2^b only for n = 2, 3, 4 | [full proof](F23.2/F23_2_mathlib.lean) | — | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [F31.2](F31.2/) | proved | Coppersmith's 247 — no m with m and 247m both zero-free in balanced ternary | [full proof](F31.2/F31_2.lean) | — | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 
+## Disputed or only partly answered (not counted as resolutions)
+
+| Problem | Verdict | Result | Lean | Prior art | Method |
+|---|---|---|---|---|---|
+| [C14.2](C14.2/) | partial | strongly sum-free triples in groups (partial, by others) | — | known | [known-theorem](../methods/known-theorem/README.md) |
+
 ## Weaker results on open problems (the problem stays open)
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [A3.12](A3.12/) | partial | primes (p^p−1)/(p−1) and (p^p+1)/(p+1) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
+| [B2.12](B2.12/) | partial | Erdős's extra-weird numbers (partial) | — | new | [minimal-counterexample-reduction](../methods/minimal-counterexample-reduction/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [B4.5](B4.5/) | partial | unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair) | [full proof](B4.5/B4_5_mathlib.lean) | known | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
+| [B38.2](B38.2/) | partial | σ(y) = n! is solvable for 3 ≤ n ≤ 250 (partial) | [witness](B38.2/B38_2_mathlib.lean) | new | [lean-certificate](../methods/lean-certificate/README.md) |
+| [C15.1](C15.1/) | partial | Selfridge's conjecture on k(m) for even m (partial) | — | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [C20.4](C20.4/) | partial | three hexagonal (pentagonal) numbers of positive rank | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [D16.1](D16.1/) | partial | least common product of m triples with one sum and one product, m = 2..11 | [witness](D16.1/D16_1.lean) | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [E11.2](E11.2/) | partial | the generalized Schur number σ(4, 4) = 171 (partial) | [full proof](E11.2/E11_2_lrat.lean) | new | [sat-threshold](../methods/sat-threshold/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [E13.1](E13.1/) | partial | values of Turán's s(m, n) | [full proof](E13.1/E13_1.lean) | partly-known | [sat-threshold](../methods/sat-threshold/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [E22.1](E22.1/) | partial | Gupta's rosary bound m(n) ≤ ⌊n²/2⌋ for odd n (case n = 7) | [full proof](E22.1/E22_1_mathlib.lean) | new | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [F31.3](F31.3/) | partial | which integers are quotients of integers with ternary digits 0, 1? | [full proof](F31.3/F31_3_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
@@ -748,6 +758,25 @@ does, since |c| ≤ 124 < 247 ≤ |247·(nonzero)|.
 
 Lean: [full proof](F31.2/F31_2.lean).
 
+### [C14.2](C14.2/): strongly sum-free triples in groups (partial, by others)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section C14 (paraphrased): is there, for
+every l, an n₀(l) such that whenever n > n₀ and a₁, …, aₙ are elements of a group with no product a_i a_j equal to
+the identity (i = j allowed, so no element of order 1 or 2 and no element together with its inverse), there are l
+of the a's whose pairwise products (in index order) are not among a₁, …, aₙ? Guy: "this has not even been proved
+for l = 3".
+
+**Result (known partial result; the question stays open).** For l = 3 and abelian groups the answer is yes:
+T. Łuczak and T. Schoen, *On strongly sum-free subsets of abelian groups*, Colloq. Math. 71 (1996) 149–151
+(DOI 10.4064/cm-71-1-149-151). Their abstract states exactly this: an affirmative answer in the first non-trivial
+case l = 3 when the group is abelian. Open: l = 3 for non-abelian groups, and every l ≥ 4 (abelian or not).
+
+**Argument.** Not re-derived here (the paper was not available; only its abstract was read). Guy's C14 reference
+list already contains this paper, so the third edition's remark "not even proved for l = 3" is best read as
+referring to general (non-abelian) groups.
+
+Lean: —.
+
 ### [A3.12](A3.12/): primes (p^p−1)/(p−1) and (p^p+1)/(p+1)
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section A3. Paraphrased: (p^p−1)/(p−1) is prime for p = 2, 3, 19, 31 and (p^p+1)/(p+1) for p = 3, 5, 17, 157; are there more primes p of either kind?
@@ -755,6 +784,41 @@ Lean: [full proof](F31.2/F31_2.lean).
 **Result.** Partly answered elsewhere. Minus case: p = 7547 gives a probable prime of 29262 digits (H. Lifchitz; OEIS A088790), so a fifth value exists if that PRP is prime; no further p up to 230000 (Aggarwal, 2026, in A088790). Plus case: no further prime p is known; A088817 (Cyclotomic(2k,k) prime) lists k = 3977 = 41·97 as the next term, not prime, and reports no others below 4700. Both cases remain open in the strict sense (primality of the 7547 number is not proved; infinitude is open).
 
 **Argument.** None of ours; recomputation only.
+
+Lean: —.
+
+### [B2.12](B2.12/): Erdős's extra-weird numbers (partial)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B2 (paraphrased): Erdős asks
+whether there are "extra-weird" numbers n, with σ(n) > 3n, such that n is not the sum of distinct divisors of n
+in two ways without repetitions. Guy's example: 180 is not one, since σ(180) = 546, 180 = 30 + 60 + 90, and 180
+is also the sum of all its other proper divisors except 6.
+
+**Reading.** n is *good* if its proper divisors contain two disjoint sets, each summing to n (Guy's example shows
+that "two ways without repetitions" means disjoint sets). Extra-weird = σ(n) > 3n and not good.
+
+**Result (partial; the question stays open).**
+1. There is no extra-weird number below 10^12.
+2. There is no odd extra-weird number below 10^18.
+
+**Argument.** - *Multiples.* If d | n and d is good, n is good: multiply both sets of divisors of d by n/d (they stay proper
+  divisors of n and disjoint, and each sums to n). Hence a least extra-weird number n has no good proper divisor;
+  every 3-abundant proper divisor of n would be good or a smaller extra-weird number, so n is *primitive*
+  3-abundant: σ(n) > 3n and σ(n/p) ≤ 3n/p for every prime p | n (abundancy only grows under multiplication).
+- *Enumeration.* `certificate/prim3.c` lists all primitive 3-abundant n ≤ X by depth-first search over prime
+  factorizations in increasing prime order, pruning a branch when even the product of p/(p-1) over the next primes
+  (with product of those primes within the budget X/m) cannot lift σ(m)/m above 3 (exact u128 arithmetic for the
+  final tests). Branches stop at the first 3-abundant number. A branch whose σ(m) = 3m exactly (a 3-perfect
+  number) is tested for goodness itself and, if good, not extended, since everything below it is a multiple.
+  For each listed n a depth-first subset-sum search over the proper divisors (largest first, with suffix-sum
+  pruning, plus restarts that forbid one of the 12 largest divisors in the first set) finds two disjoint sets
+  summing to n.
+- *Counts.* X = 10^12, all n: 15 046 633 primitive 3-abundant numbers tested (not counting multiples of the six
+  3-perfect numbers 120, 672, 523776, 459818240, 1476304896, 51001180160, all good), 0 failures; the prime list
+  (to 3·10^7) was never exhausted. X = 10^18, odd n only: 1 186 265 odd primitive 3-abundant numbers, 0 failures
+  (the least one is 1018976683725 = 3^3·5^2·7^2·11·13·17·19·23·29). Brute-force cross-checks: the primitive list
+  matches a direct sieve for n ≤ 3·10^5 (835 numbers); `certificate/xw.c` (sieve of σ, every 3-abundant n tested,
+  not only primitive ones) finds no extra-weird n ≤ 3·10^7 (606 506 numbers).
 
 Lean: —.
 
@@ -775,6 +839,48 @@ the twin question) and the coprime conjecture remain open.
 σ*(n) = 4·6·8·18·72·4760 = 1184440320.
 
 Lean: [full proof](B4.5/B4_5_mathlib.lean).
+
+### [B38.2](B38.2/): σ(y) = n! is solvable for 3 ≤ n ≤ 250 (partial)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B38 (paraphrased): Erdős remarks
+that φ(x) = n! is solvable and that, apart from n = 2, σ(y) = n! is probably solvable too.
+
+**Result (partial; the general question stays open).** σ(y) = n! has a solution for every n with 3 ≤ n ≤ 250
+(Lean), and for every n with 3 ≤ n ≤ 557 by an exact computation outside Lean. Previously known: 3 ≤ n ≤ 28
+(Alekseyev, OEIS A055486, which counts all solutions).
+
+**Argument.** σ is multiplicative, so y = ∏ q^a over distinct primes q gives σ(y) = ∏ (1 + q + … + q^a), and it
+suffices to write n! as such a product. `certificate/search_small.py` (and `search.py` for larger n) fills the
+exponents of the odd primes of n! from the largest prime down, choosing at random among atoms σ(q) = q + 1
+(q ≤ B prime) and σ(q^a) (a ≥ 2, q < 2·10^4) that divide what remains and use a new q, with restarts; the remaining
+power of 2 is then a subset sum of Mersenne exponents k ∈ {2, 3, 5, 7, 13, 17, 19} (σ(2^k − 1) = 2^k), using
+Mersenne primes not already chosen. Example: n = 10, y = 3·7·19·5669, σ(y) = 4·8·20·5670 = 3628800 = 10!.
+
+Lean: [witness](B38.2/B38_2_mathlib.lean).
+
+### [C15.1](C15.1/): Selfridge's conjecture on k(m) for even m (partial)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section C15 (paraphrased): k(m) is the
+largest number of distinct residues mod m with no nonempty subset summing to 0 mod m. For m = 2(l² + l + 1)
+Selfridge gives a set of size 2l + 1 = √(2m − 3), and he conjectures that for every even m his set, or that set with
+one element deleted, is best possible. In the form used by later authors (e.g. *Additive Combinatorics: A Menu of
+Research Problems*, arXiv:1705.07444, problem on the Olson constant): k(m) = ⌊√(2m − 3)⌋ for every even m.
+That source reports a verification by Subocz for even m ≤ 64.
+
+**Result (partial; the conjecture stays open).** k(m) = ⌊√(2m − 3)⌋ for every even m with 6 ≤ m ≤ 100.
+
+**Argument.** For each even m let K = ⌊√(2m − 3)⌋. `certificate/zsfdec.c m T` decides whether Z_m has a
+zero-sum-free set of T distinct nonzero residues by depth-first search over increasing residues, keeping the set
+of nonempty subset sums as a bitset (x may be added iff −x is not already a subset sum). Symmetry: if the set
+contains a unit u, multiplying by u⁻¹ gives a zero-sum-free set of the same size containing 1, so the search
+covers (A) sets containing 1 and (B) sets of non-units only. For every even m in [6, 100] the program finds a set
+of size K (a lower-bound witness, printed) and proves that no set of size K + 1 exists (both cases exhausted).
+`certificate/results.txt` lists the 48 runs with node counts; m = 100 took 352 s (8.2·10^8 nodes).
+Cross-check: for 6 ≤ m ≤ 59 the values agree with an independent full enumeration of all zero-sum-free sets
+(`scratch/nt-CD/c15_zsf.c` in the scan repo) and with Guy's statement that k = ⌊(−1 + √(8m + 9))/2⌋ for
+5 < m < 24 where the two formulas agree.
+
+Lean: —.
 
 ### [C20.4](C20.4/): three hexagonal (pentagonal) numbers of positive rank
 
@@ -830,6 +936,27 @@ unrecorded, so no record can be missed.
 
 Lean: [witness](D16.1/D16_1.lean).
 
+### [E11.2](E11.2/): the generalized Schur number σ(4, 4) = 171 (partial)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section E11 (paraphrased): σ(m, n) is the
+least v such that every n-colouring of [1, v] has a monochromatic solution of a₁ + … + a_{m−1} = a_m (the a_i not
+necessarily distinct); σ(m, 2) = m² − m − 1, and the problem asks for the values in general.
+
+**Result (partial; the general problem stays open).** σ(4, 4) = 171 = 4⁴ − 4³ − 4² − 4 − 1, i.e. [1, 170] has a
+4-colouring with no monochromatic x + y + z = w and every 4-colouring of [1, 171] has one.
+
+**Argument.** - Lower bound: an explicit colouring of [1, 170] (found by CaDiCaL; it has the block shape of the recursive
+  Ahmed–Schaal construction: 00 111111 00 2…2 00 111111 00 3…3 …), checked over all solutions with w ≤ 170.
+- Upper bound: the CNF "4-colouring of [1, 171] with no monochromatic x + y + z = w" with colour-symmetry breaking
+  (1 has colour 0; 3 has colour 1, which is sound because 1 + 1 + 1 = 3; colour 3 appears only after colour 2) is
+  unsatisfiable (CaDiCaL 2.1.3, 31 s). The breaking is sound because any valid colouring can be renamed: send the
+  colours of 1 and 3 to 0 and 1, the first other colour to appear to 2, the last to 3. For the kernel check the
+  proof is rerun on the clauses of its unsat core (all every-number-has-a-colour, at-most-one-colour and symmetry
+  clauses, plus 44 526 of the 560 396 solution clauses); a sub-CNF of genuine constraints being unsatisfiable is
+  enough.
+
+Lean: [full proof](E11.2/E11_2_lrat.lean).
+
 ### [E13.1](E13.1/): values of Turán's s(m, n)
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section E13 (paraphrased): s(m, n) is the
@@ -838,8 +965,10 @@ least s such that every partition of [m, m + s] into n classes has a class conta
 s(m, n) ≥ 3 s(m, n-1) + m. Guy lists only bounds for n ≥ 3.
 
 **Result.** 1. s(m, 3) = 13m for every m ≥ 1.
-2. Computation: s(m, 4) = 44, 82, 120, 160 for m = 1, 2, 3, 4 (lower bound 40m, upper bound 44m from
-   item 1's argument).
+2. s(2, 4) = 82 and s(4, 4) = 160, proved in Lean (kernel-checked LRAT certificates); s(m, 4) ≥ 40m
+   for every m ≥ 1, proved in Lean.
+3. Computation: s(1, 4) = 44 (Schur S(4)) and s(3, 4) = 120 (SAT, no kept proof); bounds 40m ≤ s(m, 4) ≤ 44m
+   from item 1's argument.
 
 **Argument.** Lower bound: the Abbott-Znám step. Turán's colouring of [m, 5m-1] (class A = [m, 2m) ∪ [4m, 5m),
 class B = [2m, 4m)) is sum-free; colour [5m, 10m) with a new class C (its smallest sum is 10m) and [10m, 14m) by
@@ -848,8 +977,14 @@ shifting Turán's colouring up by 9m. A sum x + y = z inside one old class with 
 Upper bound: [m, 14m] contains m, 2m, ..., 14m, a copy of [1, 14] scaled by m, and Schur's S(3) = 13
 (Baumert 1965) says every 3-colouring of [1, 14] has a monochromatic x + y = z. The same scaling gives
 s(m, n) ≤ m·S(n) in general, which for n = 3 meets the Abbott-Znám bound 3·4m + m.
-For n = 4 the two bounds are 40m and 44m; SAT (CaDiCaL via pysat) gives 44, 82, 120, 160, so s(m, 4) = 40m for
-m = 3, 4. For m = 5 the solver did not decide s = 200 within 30 minutes (one core).
+For n = 4 the two bounds are 40m and 44m (the Abbott-Znám step once more: the 3-colouring of [m, 14m - 1],
+a new class [14m, 28m), and the 3-colouring shifted up by 27m on [28m, 41m - 1]); SAT (CaDiCaL) gives 44, 82, 120,
+160, so s(m, 4) = 40m for m = 3, 4. For m = 2 and m = 4 the upper bound is the unsatisfiability of the CNF "[m, m +
+s] has a 4-colouring without monochromatic x + y = z" at s = 82 and s = 160, with colour-symmetry breaking (m gets
+colour 0, 2m colour 1, colour 3 only after colour 2 has appeared). The breaking is sound because any valid
+colouring can be renamed into that form: m and 2m have different colours (m + m = 2m), so send them to 0 and 1,
+the first other colour to appear to 2 and the remaining one to 3. The lower bound for m = 2 is an explicit
+colouring of [2, 83] found by the solver. For m = 5 the solver did not decide s = 200 within 30 minutes (one core).
 
 Lean: [full proof](E13.1/E13_1.lean).
 
