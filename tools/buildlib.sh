@@ -21,8 +21,11 @@ LOCKDIR="$HOME/.cache/open-problems-locks"; mkdir -p "$LOCKDIR"
 FORCE=0; [ "${1:-}" = "--force" ] && FORCE=1
 
 # Dependency order: a module may import only modules listed before it.
+# PNTPlus/* is the vendored PrimeNumberTheoremAnd closure (lib/PNTPlus/README.md);
+# it is built first, OpenProblemsLib/* after it.
 #
-MODULES="PowMod Pratt Fermat Korselt Cipolla SquaredRect ArithFactor D_CombLine R5_Quadratic Dwork DworkLocal DworkEuler DworkMultinomial ShevelevFactorial QSeries BernoulliDen ModularSums DworkLocalPoly Digits10 Misc ShortIntervalPrimes"
+PNTPLUS="Auxiliary MellinCalculus Sobolev Fourier Mathlib/Analysis/SpecialFunctions/Log/Basic Rectangle ResidueCalcOnRectangles EulerMaclaurin ZetaBounds ZetaConj Mathlib/Algebra/Notation/Support SmoothExistence MediumPNT StrongPNT Defs Mathlib/Analysis/Asymptotics/Asymptotics Wiener Consequences"
+MODULES="PowMod Pratt Fermat Korselt Cipolla SquaredRect ArithFactor D_CombLine R5_Quadratic Dwork DworkLocal DworkEuler DworkMultinomial ShevelevFactorial QSeries BernoulliDen ModularSums DworkLocalPoly Digits10 Misc ShortIntervalPrimes LRAT"
 
 compile() {
   local src="$1" olean="$2" ilean="$3"
@@ -46,12 +49,14 @@ fi
 status=0
 mkdir -p "$OUT/OpenProblemsLib"
 rebuilt=0
-for m in $MODULES; do
-  src="$LIB/OpenProblemsLib/$m.lean"
-  olean="$OUT/OpenProblemsLib/$m.olean"
-  ilean="$OUT/OpenProblemsLib/$m.ilean"
+for pm in $(for m in $PNTPLUS; do echo "PNTPlus/$m"; done) $(for m in $MODULES; do echo "OpenProblemsLib/$m"; done); do
+  m="${pm//\//.}"
+  src="$LIB/$pm.lean"
+  olean="$OUT/$pm.olean"
+  ilean="$OUT/$pm.ilean"
+  mkdir -p "$(dirname "$olean")"
   if [ $FORCE -eq 0 ] && [ $rebuilt -eq 0 ] && [ -f "$olean" ] && [ "$olean" -nt "$src" ]; then
-    echo "up to date OpenProblemsLib.$m"
+    echo "up to date $m"
     continue
   fi
   # Once one module is rebuilt, rebuild all later ones (they may import it).
@@ -59,10 +64,10 @@ for m in $MODULES; do
   rebuilt=1
   out=$(compile "$src" "$olean" "$ilean"); rc=$?
   if [ $rc -eq 0 ] && ! grep -q 'error' <<<"$out"; then
-    echo "built OpenProblemsLib.$m"
+    echo "built $m"
     [ -n "$out" ] && sed 's/^/   /' <<<"$out" | head -20
   else
-    echo "FAIL OpenProblemsLib.$m (exit $rc)"
+    echo "FAIL $m (exit $rc)"
     sed 's/^/   /' <<<"$out" | head -60
     rm -f "$olean" "$ilean"
     status=1

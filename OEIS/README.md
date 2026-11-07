@@ -4,7 +4,7 @@ Conjecture comments in the On-Line Encyclopedia of Integer Sequences (list: OEIS
 
 405 entries: 280 resolved by this project, 113 answered elsewhere, 2 disputed or partial.
 
-Of the 280 resolutions: 250 proved in full in Lean, 9 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 21 on paper only (re-derived by a second reader; 10 of these need Mathlib to formalise).
+Of the 280 resolutions: 251 proved in full in Lean, 8 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 21 on paper only (re-derived by a second reader; 9 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -114,7 +114,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A114534](A114534/) | proved | the Fibonacci matrix has rank 2 | [full proof](A114534/A114534_mathlib.lean) | known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A115038](A115038/) | proved | every prime is y^k − x^2 | [full proof](A115038/A115038.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md) |
 | [A116731](A116731/) | proved | bubble sort produces (n^3 − 3n^2 + 5n)/3 distinct (flips, iterations) pairs | [full proof](A116731/A116731_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
-| [A119659](A119659/) | proved | consecutive prime-indexed primes form a triangle from (17, 31, 41) on | needs Mathlib | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [ordered-prime-gap-bound](../methods/ordered-prime-gap-bound/README.md) |
+| [A119659](A119659/) | proved | consecutive prime-indexed primes form a triangle from (17, 31, 41) on | [checked](A119659/A119659_mathlib.lean) | new (immediate) | [known-theorem](../methods/known-theorem/README.md), [ordered-prime-gap-bound](../methods/ordered-prime-gap-bound/README.md) |
 | [A123722](A123722/) | proved | multiples of 3 in the list are 3 and 3p (p prime), and every odd prime occurs | [full proof](A123722/A123722_mathlib.lean) | new (immediate) | [multiplicative-local-bounds](../methods/multiplicative-local-bounds/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A123723](A123723/) | proved | multiples of 4 in the list, other than 4, are 4p with p prime | [full proof](A123723/A123723_mathlib.lean) | new (immediate) | [multiplicative-local-bounds](../methods/multiplicative-local-bounds/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [A124431](A124431/) | proved | Mathar's recurrence for Σ 2^k C(⌊(n+k)/2⌋, k) C(⌊(n+k+1)/2⌋, k) | [full proof](A124431/A124431_mathlib.lean) | new (immediate) | [creative-telescoping](../methods/creative-telescoping/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
@@ -135,7 +135,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [A135659](A135659/) | proved | every Mersenne prime > 3 is ≡ 7 (mod 24) | [full proof](A135659/A135659.lean) | known | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A137328](A137328/) | disproved | the prime 2 never occurs | [full proof](A137328/A137328_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [A138808](A138808/) | proved | the row sums of A010766 are upper bounds | [full proof](A138808/A138808_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
-| [A139043](A139043/) | proved | sum of composites ≤ 10^n versus 10^n(10^n+1)/2 - 1 - (10^n)^2/(2 log 10^n - 1) | [witness](A139043/A139043_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md) |
+| [A139043](A139043/) | proved | sum of composites ≤ 10^n versus 10^n(10^n+1)/2 - 1 - (10^n)^2/(2 log 10^n - 1) | [full proof](A139043/A139043_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md) |
 | [A140869](A140869/) | proved | if h is not a term, then 4h + 5 is prime | [full proof](A140869/A140869.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md) |
 | [A141419](A141419/) | proved | diagonal of S\_N^T S\_N (Chebyshev U sums) equals the triangle | [full proof](A141419/A141419_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [finite-identity](../methods/finite-identity/README.md) |
 | [A141459](A141459/) | proved | denominators of ∫\_0^1 log(1 - 1/x)^n dx | [full proof](A141459/A141459_mathlib.lean) | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [known-theorem](../methods/known-theorem/README.md) |
@@ -1889,9 +1889,9 @@ partial sums Sum_{n<=N} in the natural order to 0. For Re(z) > 1 the series conv
 
 **Result.** 1. For every complex z with Re z > 1, Sum mu(n)/phi(n)^z = 0 (absolutely convergent).
    Unconditional, proved in Lean.
-2. Sum_{n<=N} mu(n)/phi(n) → 0. Proved in Lean from the hypothesis Sum_{m<=N} mu(m)/m → 0,
-   which is the classical theorem of von Mangoldt (1897) and Landau (1899), equivalent to the
-   prime number theorem and not in Mathlib.
+2. Sum_{n<=N} mu(n)/phi(n) → 0. Proved in Lean, using Sum_{m<=N} mu(m)/m → 0 (von Mangoldt
+   1897, Landau 1899; equivalent to the prime number theorem), which is `mu_pnt_alt` of the
+   PrimeNumberTheoremAnd project, vendored in `lib/PNTPlus`.
 So both conjectures in the entry are true. The entry's own argument is incomplete (its bound
 Sum_{j=N/2..N} 1/phi(j)^s, which also needs the pairing to be exact, does not apply at s = 1, where
 the tail Sum_{N/2<j<=N} 1/phi(j) does not tend to 0).
@@ -2489,7 +2489,7 @@ triples that cannot form a triangle." (OEIS text, CC BY-SA 4.0.)
   h(m) = 0.56 ln m − 1.44 ln 1.44 − 1.44 ln ln 1.44m; h′(m) > 0 once ln 1.44m > 1.44/0.56, and
   300·h(300) = 21.77 > 0. Hence q_{n+2} < 2q_n < q_n + q_{n+1}.
 
-Lean: needs Mathlib.
+Lean: [checked](A119659/A119659_mathlib.lean).
 
 ### [A123722](A123722/): multiples of 3 in the list are 3 and 3p (p prime), and every odd prime occurs
 
@@ -2942,7 +2942,7 @@ x^2/(4L^3) + O(x^2/L^4), while x^2/(2L - 1) = x^2/(2L) + x^2/(4L^2) + x^2/(8L^3)
 The difference is x^2/(8L^3)(1 + o(1)). (The scan argued failure of the difference reading from
 oscillation of the error term; the third-order term gives it directly.)
 
-Lean: [witness](A139043/A139043_mathlib.lean).
+Lean: [full proof](A139043/A139043_mathlib.lean).
 
 ### [A140869](A140869/): if h is not a term, then 4h + 5 is prime
 

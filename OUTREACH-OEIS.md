@@ -186,11 +186,11 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A102237](https://oeis.org/A102237): a(n) = 2^n for n > 5
 
-- Problem: [OEIS-A102237](OEIS/A102237/README.md) (proved, new). Lean: paper proof.
+- Problem: [OEIS-A102237](OEIS/A102237/README.md) (proved, new). Lean: Lean proof, [`A102237_mathlib.lean`](OEIS/A102237/A102237_mathlib.lean).
 - Prior art: Richert-type induction with an explicit Bertrand bound; not found written for this sequence.
 - Draft comment:
 
-  > The conjecture is true: for every n ≥ 6, 2^n is a sum of n distinct primes, so a(n) = 2^n. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A102237). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: for every n ≥ 6, 2^n is a sum of n distinct primes, so a(n) = 2^n. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A102237). - _<Name>_, <Mon DD YYYY>
 
 ### [A103990](https://oeis.org/A103990): sqrt(pi) I(n,0) = (2/3)(n^3 - n^2 + 2n + 1)/(2n + 1)
 
@@ -1212,7 +1212,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A119659](https://oeis.org/A119659): consecutive prime-indexed primes form a triangle from (17, 31, 41) on
 
-- Problem: [OEIS-A119659](OEIS/A119659/README.md) (proved, new). Lean: paper proof.
+- Problem: [OEIS-A119659](OEIS/A119659/README.md) (proved, new). Lean: paper proof, [`A119659_mathlib.lean`](OEIS/A119659/A119659_mathlib.lean).
 - Prior art: Immediate from standard explicit bounds.
 - Draft comment:
 
@@ -1300,7 +1300,7 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A139043](https://oeis.org/A139043): sum of composites ≤ 10^n versus 10^n(10^n+1)/2 - 1 - (10^n)^2/(2 log 10^n - 1)
 
-- Problem: [OEIS-A139043](OEIS/A139043/README.md) (proved, partly-known). Lean: Lean (partial), [`A139043_mathlib.lean`](OEIS/A139043/A139043_mathlib.lean).
+- Problem: [OEIS-A139043](OEIS/A139043/README.md) (proved, partly-known). Lean: Lean proof, [`A139043_mathlib.lean`](OEIS/A139043/A139043_mathlib.lean).
 - Prior art: The expansion is in the literature; the conclusion for this entry (ratio true, difference false) is not stated.
 - Draft comment:
 

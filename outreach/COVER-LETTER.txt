@@ -11,9 +11,9 @@ states the full answer
 2026-11-04).
 
 The results come from an AI-assisted scan (Claude agents) of open problems.
-Each was re-derived by a second agent, and 215 are proved in full in
-Lean 4 (core Lean or Mathlib), checked by the Lean kernel; 6 are partly
-formalised (the remaining step is named) and 21 have written proofs
+Each was re-derived by a second agent, and 217 are proved in full in
+Lean 4 (core Lean or Mathlib), checked by the Lean kernel; 5 are partly
+formalised (the remaining step is named) and 20 have written proofs
 only. Every proof, its Lean file and the scripts are in
 
   https://github.com/zzyzek/ShotgunConjectures

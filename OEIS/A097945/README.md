@@ -13,9 +13,9 @@ partial sums Sum_{n<=N} in the natural order to 0. For Re(z) > 1 the series conv
 **Result.**
 1. For every complex z with Re z > 1, Sum mu(n)/phi(n)^z = 0 (absolutely convergent).
    Unconditional, proved in Lean.
-2. Sum_{n<=N} mu(n)/phi(n) → 0. Proved in Lean from the hypothesis Sum_{m<=N} mu(m)/m → 0,
-   which is the classical theorem of von Mangoldt (1897) and Landau (1899), equivalent to the
-   prime number theorem and not in Mathlib.
+2. Sum_{n<=N} mu(n)/phi(n) → 0. Proved in Lean, using Sum_{m<=N} mu(m)/m → 0 (von Mangoldt
+   1897, Landau 1899; equivalent to the prime number theorem), which is `mu_pnt_alt` of the
+   PrimeNumberTheoremAnd project, vendored in `lib/PNTPlus`.
 So both conjectures in the entry are true. The entry's own argument is incomplete (its bound
 Sum_{j=N/2..N} 1/phi(j)^s, which also needs the pairing to be exact, does not apply at s = 1, where
 the tail Sum_{N/2<j<=N} 1/phi(j) does not tend to 0).
@@ -37,16 +37,17 @@ the tail Sum_{N/2<j<=N} 1/phi(j) does not tend to 0).
   `A097945.A097945_re_gt_one` (part 1, `HasSum (fun n => mu n / (phi n : ℂ)^z) 0` for 1 < Re z)
   and `A097945.A097945_conditional` (part 2: given `Tendsto (Sum_{m∈Ioc 0 N} mu m / m) atTop (𝓝 0)`,
   the partial sums of mu(n)/phi(n) and of a(n)/phi(n)^2, with `a n = mu n * phi n` as in the
-  entry, tend to 0). Helper `summable_of_mult` (summability of a nonnegative multiplicative
-  function from its prime-power sums). Axioms: propext, Classical.choice, Quot.sound. Checked with
-  tools/leancheck-mathlib.sh, no warnings.
+  entry, tend to 0), and `A097945.A097945_s_one`, the same conclusion unconditionally, with the
+  hypothesis supplied by `A097945.sum_mu_div_tendsto` (from `mu_pnt_alt`, lib/PNTPlus,
+  PrimeNumberTheoremAnd rev 127b50e3). Helper `summable_of_mult` (summability of a nonnegative
+  multiplicative function from its prime-power sums). Axioms of every theorem, including the
+  vendored PNT: propext, Classical.choice, Quot.sound. Checked with tools/leancheck-mathlib.sh
+  after tools/buildlib.sh, no warnings.
 - `certificate/partial_sums.py` / `partial_sums.out`: S(10^k) for k ≤ 6
   (S(10^6) ≈ 3.1e-4).
-- Outside Lean: the hypothesis of part 2, Sum mu(n)/n = 0 (prime number theorem; proved in the
-  PrimeNumberTheoremAnd project, not in Mathlib at revision 56a0058).
+- Outside Lean: that the Lean statements match the entry's text (reading).
 
-**Review level.** `lean-proof` for part 1; part 2 is a Lean proof conditional on the stated
-classical theorem.
+**Review level.** `lean-proof` for both parts (part 2 through the vendored PNT, 2026-11-07).
 
 **Prior art.** Searched 2026-11-06: current OEIS entry and history; web search for the series
 Sum mu(n)/phi(n); arXiv (Gadiyar–Padma-type Ramanujan expansions use mu(q)/phi(q) as

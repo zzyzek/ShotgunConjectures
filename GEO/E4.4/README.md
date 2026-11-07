@@ -33,8 +33,18 @@ partitions is UNSAT.
   agrees with an exact rational segment/open-triangle test in every case, and every set has a
   Birch partition.
 - The scan's `om.py`, `controls.py`, `birch8.py` are copied.
+- Lean, SAT part: [`E4_4_lrat.lean`](E4_4_lrat.lean), theorem `birch_cnf_unsat : Unsat birchCnf`, where
+  `birchCnf` is the clause list of `certificate/e44.cnf` (read at elaboration time). Checked with the
+  library LRAT checker `OpenProblemsLib.LRAT` (guide `lib/docs/lrat.md`) on the CaDiCaL 2.1.3 proof
+  [`certificate/e44.lrat`](certificate/e44.lrat) (625 additions, 7890 hints): 20 s, 2.0 GB. Axioms propext,
+  Classical.choice, Quot.sound (2026-11-07).
+  Outside Lean: that the CNF encodes the geometry, i.e. (1) `certificate/e44_sat.py` writes the signotope
+  axioms, the Tseitin clauses for "segment meets open triangle" and one clause per partition as described
+  above, and (2) every 8-point set in general position, sorted by x, gives a signotope whose orientations
+  satisfy it, with "segment pq meets the open triangle abc" equivalent to "p or q strictly inside, or pq
+  properly crosses an edge" (a real-geometry argument with no Mathlib support yet).
 Not done: cross-check against the 3315 order types of 8 points (Aichholzer's database needs a
-download). No Lean (a DRAT checker in core Lean is out of scope).
+download).
 
-**Review level.** `rechecked`.
+**Review level.** `rechecked` (the SAT part is kernel-checked in Lean; the geometric reduction is not).
 **Prior art.** No resolution found. Searched: web (standard and extended) on Birch's 8-point question, [Hell, arXiv math/0612823](https://arxiv.org/abs/math/0612823) (Birch partitions; not this question), the Tverberg survey [Bárány–Soberón, arXiv 1712.06119](https://arxiv.org/abs/1712.06119). Brass–Moser–Pach (2005) was not accessible. Verdict: new. 2026-11-04.

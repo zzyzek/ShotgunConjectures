@@ -4,7 +4,7 @@ H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springe
 
 21 entries: 6 resolved by this project, 8 answered elsewhere, 5 disputed or partial.
 
-Of the 6 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
+Of the 6 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 1 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -16,7 +16,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [C2.2](C2.2/) | disproved | a coprime perfect squared rectangle with no square of square side | [full proof](C2.2/C2_2_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [C2.3](C2.3/) | proved | a rectangle with two perfect squarings sharing no square size | [full proof](C2.3/C2_3_mathlib.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [C5.2](C5.2/) | disproved | incomparable tilings cannot have all tiles close to squares | — | new (immediate) | [elementary-proof](../methods/elementary-proof/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
-| [E4.4](E4.4/) | proved | Birch's 8-point question holds for points in general position | needs Mathlib | new | [elementary-proof](../methods/elementary-proof/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [E4.4](E4.4/) | proved | Birch's 8-point question holds for points in general position | [checked](E4.4/E4_4_lrat.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [F3.5](F3.5/) | trivial or misstated | order of magnitude of g\_d(n), the largest n-distance set in R^d | needs Mathlib | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 
 ## Answered in the literature; written up or confirmed here
@@ -173,7 +173,7 @@ ones, which only strengthens UNSAT). "Segment pq meets open triangle abc" is exa
 position as: p or q strictly inside, or pq properly crossing an edge. Forbidding all 280
 partitions is UNSAT.
 
-Lean: needs Mathlib.
+Lean: [checked](E4.4/E4_4_lrat.lean).
 
 ### [F3.5](F3.5/): order of magnitude of g_d(n), the largest n-distance set in R^d
 

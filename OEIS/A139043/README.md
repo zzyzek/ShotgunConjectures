@@ -24,14 +24,23 @@ oscillation of the error term; the third-order term gives it directly.)
 **Evidence.**
 - `certificate/a139043.py`: S(10^n) for n ≤ 8 by sieve; ratio S/approx = 1.0007 at 10^8 and the
   difference 2.03·10^11 against x^2/(8 log^3 x) = 2.0·10^11.
-- Lean (Mathlib, partial): [`A139043_mathlib.lean`](A139043_mathlib.lean), theorem `A139043_ratio`: the main
-  statement in the ratio reading, a(n)/(x(x+1)/2 − 1 − x²/(2 log x − 1)) → 1 for x = 10^n (via S(x) ≤ x·π(x) and
-  Chebyshev's bound). Outside Lean: the parenthetical S(x) ~ x²/(2 log x − 1) (prime number theorem) and the
-  failure of the difference reading (PNT with error term).
+- Lean + Mathlib: [`A139043_mathlib.lean`](A139043_mathlib.lean), all four claims, with the prime number
+  theorem from the vendored PrimeNumberTheoremAnd library (`lib/PNTPlus`, rev 127b50e3).
+  - `A139043_ratio`: main statement, ratio reading (S(x) ≤ x·π(x) and Chebyshev's bound).
+  - `A139043PNT.A139043_primes_ratio`: parenthetical statement, ratio reading, S(10^n)/(x²/(2 log x − 1)) → 1
+    (θ ~ x, summation by parts for Σ p log p, then log p between (1 − η) log x and log x).
+  - `A139043PNT.A139043Diff.A139043_primes_difference` and `A139043_main_difference`: S(10^n) − x²/(2 log x − 1)
+    → +∞, and approx(n) − a(n) is the same quantity, so both differences tend to +∞ (θ(x) − x = O(x/log⁴ x)
+    from `StrongPNT`, Abel summation against n/log n, and Σ_{n≤N} n/log n ≥ F(N) − F(3) with
+    F(t) = t²/(2 log t) + t²/(4 log² t) + t²/(4 log³ t) by the mean value theorem).
+  Axioms of every theorem: propext, Classical.choice, Quot.sound. Checked with tools/leancheck-mathlib.sh, no
+  warnings.
+- Outside Lean: that the Lean statements match the entry's text (S(x) is the sum of primes ≤ x, equal to the
+  sum of primes < x for x = 10^n, n ≥ 1).
 
-**Review level.** `lean-witness`.
+**Review level.** `lean-proof` (2026-11-07; previously `lean-witness` for the main ratio statement only).
 
-**Depends on (Mathlib).** Prime number theorem (ratio); PNT with error term O(x exp(-c√log x)) for
-the difference statement.
+**Depends on.** Prime number theorem (ratio) and PNT with error term O(x exp(-c√log x)) (difference), both
+from the vendored PrimeNumberTheoremAnd (`lib/PNTPlus`), not from Mathlib.
 
 **Prior art.** Verdict partly-known, immediate (OEIS status conjecture; searched 2026-11-04). The expansion is in the literature; the conclusion for this entry (ratio true, difference false) is not stated. Sources: [OEIS A139043 (fetched 2026-11-04)](https://oeis.org/A139043): still says Conjecture; [C. Axler, arXiv:1606.06874, eq. (1.4)](https://arxiv.org/abs/1606.06874): S(x) = x^2/(2L) + x^2/(4L^2) + x^2/(4L^3) + O(x^2/L^4), from which both readings follow in one line. Searched: OEIS entry (text format); OEIS search for references; OEIS edit history; Google/arXiv: sum of primes asymptotic expansion.

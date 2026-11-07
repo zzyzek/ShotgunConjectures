@@ -6,8 +6,8 @@ x ≥ 3, x·y ≤ 3149 and x, y, x + y, x·y all the same colour. So N = 3149 do
 force a monochromatic {x, y, x+y, xy}.
 
 Not checked here: the matching upper bound (every 2-colouring of [3, 3150] has
-one). That is a SAT/UNSAT fact with a DRAT proof in certificate/, checked by
-certificate/rupcheck.c, outside Lean.
+one). It is proved in E29_1_lrat.lean (kernel-checked LRAT certificate), which
+also contains a copy of this colouring and states the exact threshold.
 -/
 
 /-- The colouring as the bits of one natural number: bit n is the colour of n. -/

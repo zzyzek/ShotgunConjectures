@@ -1,4 +1,5 @@
 import Mathlib
+import PNTPlus.Consequences
 
 /-
 OEIS A097945: a(n) = mu(n) * phi(n).
@@ -11,6 +12,9 @@ Main theorems.
 * `A097945_conditional`: if Sum_{n<=N} mu(n)/n -> 0 (Landau's form of the prime
   number theorem), then the partial sums Sum_{n<=N} mu(n)/phi(n) and
   Sum_{n<=N} a(n)/phi(n)^2 tend to 0.
+* `sum_mu_div_tendsto`: Sum_{n<=N} mu(n)/n -> 0, from `mu_pnt_alt` of the vendored
+  PrimeNumberTheoremAnd library (lib/PNTPlus, rev 127b50e3).
+* `A097945_s_one`: the s = 1 statement, unconditional.
 
 Route.
 * `summable_of_mult`: a nonnegative multiplicative F with
@@ -23,9 +27,10 @@ Route.
   Sum_{n<=N} mu(n)/phi(n) = Sum_{d<=N} k(d) A(N/d), A(M) = Sum_{m<=M} mu(m)/m,
   and Tannery's theorem (`tendsto_tsum_of_dominated_convergence`).
 
-Not checked in this file: the hypothesis of `A097945_conditional`
-(Sum mu(n)/n = 0, von Mangoldt 1897 / Landau 1899, equivalent to the prime
-number theorem; not in Mathlib at the revision used).
+The hypothesis Sum mu(n)/n = 0 (von Mangoldt 1897 / Landau 1899) is not in Mathlib
+at the revision used; it comes from `mu_pnt_alt` in lib/PNTPlus (vendored
+PrimeNumberTheoremAnd), compiled with this repo's tools/buildlib.sh.
+Not checked in this file: that the Lean statements match the OEIS text.
 -/
 
 open ArithmeticFunction Finset Filter Topology
@@ -353,3 +358,29 @@ theorem A097945_conditional
   unfold a
   push_cast
   field_simp
+
+/-- Landau's form of the prime number theorem, Sum_{m<=N} mu(m)/m -> 0,
+from `mu_pnt_alt` (vendored PrimeNumberTheoremAnd). -/
+theorem sum_mu_div_tendsto :
+    Tendsto (fun N : ℕ => ∑ m ∈ Ioc 0 N, (moebius m : ℝ) / m) atTop (𝓝 0) := by
+  have h := (Asymptotics.isLittleO_one_iff ℝ).mp mu_pnt_alt
+  have hN : Tendsto (fun N : ℕ => (N : ℝ) + 1) atTop atTop :=
+    tendsto_atTop_add_const_right _ 1 tendsto_natCast_atTop_atTop
+  have hsum : ∀ N : ℕ, ∑ n ∈ range (N + 1), (moebius n : ℝ) / n =
+      ∑ m ∈ Ioc 0 N, (moebius m : ℝ) / m := by
+    intro N
+    induction N with
+    | zero => simp
+    | succ n ih => rw [Finset.sum_range_succ, ih, Finset.sum_Ioc_succ_top (Nat.zero_le n)]
+  refine (h.comp hN).congr (fun N => ?_)
+  have hfl : ⌊(N : ℝ) + 1⌋₊ = N + 1 := by exact_mod_cast Nat.floor_natCast (N + 1)
+  simp only [Function.comp_apply, hfl]
+  exact hsum N
+
+/-- **A097945, s = 1**: the partial sums of Sum mu(n)/phi(n) and of
+Sum a(n)/phi(n)^2 tend to 0. -/
+theorem A097945_s_one :
+    Tendsto (fun N : ℕ => ∑ n ∈ Ioc 0 N, (moebius n : ℝ) / n.totient) atTop (𝓝 0) ∧
+    Tendsto (fun N : ℕ => ∑ n ∈ Ioc 0 N, (a n : ℝ) / (n.totient : ℝ) ^ 2) atTop (𝓝 0) :=
+  A097945_conditional sum_mu_div_tendsto
+

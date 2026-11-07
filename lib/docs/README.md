@@ -13,6 +13,8 @@ end to end, and lists the Lean declarations and the problems that use them.
 | [qseries.md](qseries.md) | QSeries | q-series identities: Gaussian binomials, q-Pascal rules and the Jacobi triple product |
 | [bernoulli-den.md](bernoulli-den.md) | BernoulliDen | the denominator of $B_{2k}$ as the product of primes $p$ with $p - 1 \mid 2k$ (von Staudt–Clausen) and its consequences |
 | [short-interval-primes.md](short-interval-primes.md) | ShortIntervalPrimes | a prime in $(x, 1.21x]$ for every real $x \ge 25$ (Chebyshev's 1852 bounds on $\psi$ plus 85 certified primes): inductions that add one prime at a time, consecutive-prime ratios |
+| [lrat.md](lrat.md) | LRAT | kernel-checked UNSAT certificates: an LRAT proof from `cadical --lrat` checked by `decide +kernel` in chunk theorems, giving `Unsat F` for a CNF defined in Lean (SAT-solved thresholds, finite colouring and order-type problems) |
+| [../PNTPlus/README.md](../PNTPlus/README.md) | PNTPlus (vendored PrimeNumberTheoremAnd) | the prime number theorem with de la Vallée Poussin error term (`StrongPNT`), θ ~ x, p_n ~ n log n, Σ μ(n)/n → 0 (`mu_pnt_alt`) |
 | [misc.md](misc.md) | R5_Quadratic | the discriminant of $\mathbb Q(\sqrt d)$: $d$ or $4d$, via the ring of integers |
 | [misc.md](misc.md) | SquaredRect | exact tilings of a rectangle by squares in $\mathbb R^2$ from a column-cover certificate |
 | [misc.md](misc.md) | D_CombLine | collinear $k$-subsets of $\{0,\dots,k-1\}^n$ are combinatorial lines; there are $((k+2)^n - k^n)/2$ of them |

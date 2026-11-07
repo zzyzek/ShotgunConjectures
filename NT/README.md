@@ -4,7 +4,7 @@ R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Stateme
 
 40 entries: 19 resolved by this project, 14 answered elsewhere, 0 disputed or partial.
 
-Of the 19 resolutions: 16 proved in full in Lean, 2 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
+Of the 19 resolutions: 17 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -28,7 +28,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [D24.3](D24.3/) | disproved | the weighted count of a primitive set is not x²/6 + O(x) | [full proof](D24.3/D24_3.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [parametric-family](../methods/parametric-family/README.md) |
 | [E4.3](E4.3/) | disproved | Erdős's last question on primitive sets — the x²/6 guess is too small | — | new | [elementary-proof](../methods/elementary-proof/README.md) |
 | [E20.2](E20.2/) | partial | N\_5(7) = 37 | [witness](E20.2/E20_2.lean) | new | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
-| [E29.1](E29.1/) | proved | Graham's {x, y, x+y, xy} colouring threshold starting at 3 is 3150 | [witness](E29.1/E29_1.lean) | new | [sat-threshold](../methods/sat-threshold/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [E29.1](E29.1/) | proved | Graham's {x, y, x+y, xy} colouring threshold starting at 3 is 3150 | [full proof](E29.1/E29_1_lrat.lean) | new | [sat-threshold](../methods/sat-threshold/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [F6.2](F6.2/) | proved | Q(1,6,7) = ∞ and the other four-residue subpatterns of (1,6,7,10) | [full proof](F6.2/F6_2_mathlib.lean) | partly-known | [known-theorem](../methods/known-theorem/README.md) |
 | [F19.1](F19.1/) | proved | every n ≥ 23 has two 3-part partitions with equal product | [full proof](F19.1/F19_1_mathlib.lean) | known | [parametric-family](../methods/parametric-family/README.md) |
 
@@ -435,7 +435,7 @@ monochromatic is N = 3150.
 Upper bound: the CNF with one variable per n in [3, 3150] and, for every x < y with xy ≤ 3150, the
 two clauses "not all false" and "not all true" on {x, y, x + y, xy} is unsatisfiable.
 
-Lean: [witness](E29.1/E29_1.lean).
+Lean: [full proof](E29.1/E29_1_lrat.lean).
 
 ### [F6.2](F6.2/): Q(1,6,7) = ∞ and the other four-residue subpatterns of (1,6,7,10)
 

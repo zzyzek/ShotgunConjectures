@@ -21,12 +21,18 @@ triples that cannot form a triangle." (OEIS text, CC BY-SA 4.0.)
 **Evidence.**
 - [`certificate/check.py`](certificate/check.py): the inequality fails only at n = 1, 2, 3 for n ≤ 10⁵; the
   value 300·h(300) and the monotonicity threshold (30-digit mpmath).
-- Lean: none. `lean_status: needs-mathlib`; missing pieces are the explicit prime bounds above (Nagura 1952,
-  Rosser–Schoenfeld p_k < k(ln k + ln ln k), Rosser p_k > k ln k), the subject of core
-  `core-explicit-prime-bounds-lean`.
-- Outside Lean: everything (the three cited bounds, the finite check, the real-variable estimate).
+- Lean + Mathlib (eventual form only): [`A119659_mathlib.lean`](A119659_mathlib.lean), theorem
+  `A119659.A119659_eventually`: q(n+2) < q(n) + q(n+1) for all sufficiently large n. It uses p_{k+1} ≤ 1.1 p_k
+  and 0.9 k ln k ≤ p_k ≤ 1.1 k ln k for large k (`pn_pn_plus_one`, `nth_prime_asymp` of the vendored
+  PrimeNumberTheoremAnd, `lib/PNTPlus`), so q(n+2) < 2q(n). Axioms: propext, Classical.choice, Quot.sound.
+  The threshold is not explicit (the PNT used is ineffective), so this does not cover n ≥ 4.
+- The full claim still needs the explicit prime bounds above (Nagura 1952, Rosser–Schoenfeld
+  p_k < k(ln k + ln ln k), Rosser p_k > k ln k), the subject of core `core-explicit-prime-bounds-lean`.
+- Outside Lean: the explicit threshold n ≥ 63 (the three cited bounds and the real-variable estimate) and the
+  finite check for n ≤ 62.
 
-**Review level.** `rechecked` (hand proof from cited bounds plus computation).
+**Review level.** `rechecked` (hand proof from cited bounds plus computation); the eventual form is a Lean
+proof (2026-11-07).
 
 **Prior art.** Checked 2026-11-06: still a conjecture in the entry. Bayless, Klyve and Oliveira e Silva,
 New bounds and computations on prime-indexed primes, Integers 13 (2013) A43, give PIP bounds but the triangle
