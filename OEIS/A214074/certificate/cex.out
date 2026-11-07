@@ -1,0 +1,15 @@
+if-class: Mod(3438721, 5366790)
+n1=3438721 a(n1)=4 factors gcd m=3 contains 487891: 1
+onlyif cand n=379107 n%330=267 a=1
+onlyif cand n=782601 n%330=171 a=1
+onlyif cand n=1186095 n%330=75 a=3
+onlyif cand n=1589589 n%330=309 a=3
+onlyif cand n=1993083 n%330=213 a=3
+onlyif cand n=2396577 n%330=117 a=3
+onlyif cand n=2800071 n%330=21 a=1
+onlyif cand n=3203565 n%330=255 a=3
+onlyif cand n=3607059 n%330=159 a=1
+onlyif cand n=4010553 n%330=63 a=1
+onlyif cand n=4414047 n%330=297 a=3
+onlyif cand n=4817541 n%330=201 a=1
+onlyif cand n=5221035 n%330=105 a=3

@@ -2,7 +2,7 @@
 
 H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991. Statements are paraphrased with the section number.
 
-16 entries: 6 resolved by this project, 5 answered elsewhere, 3 disputed or partial.
+18 entries: 6 resolved by this project, 7 answered elsewhere, 3 disputed or partial.
 
 Of the 6 resolutions: 3 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 3 on paper only (re-derived by a second reader; 2 of these need Mathlib to formalise).
 
@@ -25,7 +25,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 |---|---|---|---|---|---|
 | [A12.2](A12.2/) | disproved | Fickett's cosecant bound for congruent triangles is false | [witness](A12.2/A12_2.lean) | known | [explicit-counterexample](../methods/explicit-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [A19.1](A19.1/) | trivial or misstated | minimal perimeter of a plane convex set of given diameter and width | — | known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [known-theorem](../methods/known-theorem/README.md) |
+| [A33.2](A33.2/) | disproved | the Lamé oval \|x\|^2.001 + \|y\|^2.001 = 1 has five-point hyperbolas | — | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B18.2](B18.2/) | proved | every polyhedron has a realization with all edges tangent to a sphere | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [C10.2](C10.2/) | proved | the plane can be tiled with exactly one square of each positive rational side | — | known | [known-theorem](../methods/known-theorem/README.md) |
 | [F5.1](F5.1/) | proved | lim f\_3(n)/n^(1/3), minimum diameter of n points in R^3 with minimum distance 1 | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [density-bound](../methods/density-bound/README.md) |
 | [F16.2](F16.2/) | known | the thrackle conjecture for small n | — | known | [known-theorem](../methods/known-theorem/README.md) |
 
@@ -249,6 +251,32 @@ an interval, so no polygon is extremal. Checks: w = d gives pi d (Barbier); w ->
 
 Lean: —.
 
+### [A33.2](A33.2/): the Lamé oval |x|^2.001 + |y|^2.001 = 1 has five-point hyperbolas
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry* (1991),
+Section A33 (conics through five points). Paraphrase: Reznick asks what can be said about an
+infinite set S, for instance a union of rectifiable curves, if every five-point subset of S
+determines an ellipse (or, respectively, a hyperbola). The book adds the suggestion that
+|x|^2.001 + |y|^2.001 = 1 yields only ellipses.
+
+**Reading.** Two parts: the open-ended "describe such sets", and the specific suggestion about
+the oval. Only the specific suggestion is settled here.
+
+**Result.** The suggestion is false. Take p = 2001/1000 and the five points on the oval with
+y_k = k/1000 and x_k = (1 − y_k^p)^{1/p}, k = 1..5 (all near the vertex (1,0), on one side of
+it). Their conic a x² + b xy + c y² + d x + e y + f = 0 is a nondegenerate hyperbola, with
+b² − 4ac ≈ 5.169·10^{−56} > 0. The same holds for y_k = k/10^4 and k/10^5. The scales
+k/10 and k/100 give ellipses.
+
+**Argument.** Near (1,0) the oval is u ≈ y^p/p with u = 1 − x. Georgiou (below) proves that
+any five points on a power curve u = a y^p with p > 2 and y > 0 determine a hyperbola. As the
+five points shrink toward the vertex, the oval's own five-point conic converges to that case.
+The certificate does not use this limit argument. It computes the conic coefficients as signed
+5×5 minors (Cramer's rule) in 120-digit interval arithmetic. The interval for b² − 4ac is
+strictly positive, and the interval for the 3×3 conic determinant excludes 0.
+
+Lean: —.
+
 ### [B18.2](B18.2/): every polyhedron has a realization with all edges tangent to a sphere
 
 **Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry*, Springer 1991, section B18. Is every convex polyhedron combinatorially equivalent to one with
@@ -260,6 +288,36 @@ sphere; one can even choose the realization with the origin as centroid of the t
 points). Literature answer, not a scan resolution.
 
 **Argument.** Not reproduced (circle-packing theorem).
+
+Lean: —.
+
+### [C10.2](C10.2/): the plane can be tiled with exactly one square of each positive rational side
+
+**Source.** H. T. Croft, K. J. Falconer, R. K. Guy, *Unsolved Problems in Geometry* (1991),
+Section C10 (squares tiling the plane). Question: can the plane be tiled using exactly one
+square of each positive rational side?
+
+**Result.** Yes. F. V. Henle and J. M. Henle, *Squaring the plane*, Amer. Math. Monthly 115
+(2008) 3–12, tile the plane with one square of each positive integer side (Golomb's
+heterogeneous tiling conjecture). The authors note that their algorithm can easily be used to
+tile the plane with one square of every rational side (squaring.net, *Squaring the Plane I*,
+quoting the Henles).
+
+**Argument (re-derived).** The Henle construction alternates two steps.
+1. *Fill.* Place the next unused size at a fixed corner of the current tiled region. For
+   integers this is the smallest unused size. For the rationals, fix an enumeration
+   q_1, q_2, … of Q_{>0} and use the first unused q_i.
+2. *Puff up.* Extend the current region (an L-shape) to a perfect tiled rectangle. The new
+   squares have sizes that are integer combinations of sizes already placed, each larger than
+   every size used so far.
+
+Step 2 stays valid over Q. Integer combinations of rationals are rational. Only finitely many
+sizes are in use at any stage, so sizes above the current maximum are unused, and the sizes in
+one puff-up step are distinct because they increase strictly. Step 1 uses every q_i
+eventually, because after the i-th fill step q_1..q_i are all placed. The plane-covering part
+of the Henle proof (the rectangles grow in all four directions in turn) does not depend on
+which size step 1 inserts. So every positive rational appears exactly once and the union is
+the plane.
 
 Lean: —.
 

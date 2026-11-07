@@ -1,0 +1,5 @@
+y = k*1/10, k=1..5: disc = [-3.7081157e-17, -3.7081157e-17] ellipse nondegenerate
+y = k*1/100, k=1..5: disc = [-7.4314508e-38, -7.4314508e-38] ellipse nondegenerate
+y = k*1/1000, k=1..5: disc = [5.1693138e-56, 5.1693138e-56] HYPERBOLA nondegenerate
+y = k*1/10000, k=1..5: disc = [5.2201854e-74, 5.2201854e-74] HYPERBOLA nondegenerate
+y = k*1/100000, k=1..5: disc = [5.1497602e-92, 5.1497602e-92] HYPERBOLA nondegenerate

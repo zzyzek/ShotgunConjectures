@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-34 entries: 19 resolved by this project, 11 answered elsewhere, 0 disputed or partial.
+40 entries: 19 resolved by this project, 14 answered elsewhere, 0 disputed or partial.
 
 Of the 19 resolutions: 16 proved in full in Lean, 2 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -37,9 +37,12 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [A3.11](A3.11/) | proved | more primes (16^p + 1)/17 beyond p = 317 | — | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [B1.2](B1.2/) | partial | Martin's alternating-divisor (k-imperfect) numbers for k ≥ 4 | [full proof](B1.2/B1_2_mathlib.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [B2.3](B2.3/) | disproved | Kravitz's "no odd-square abundance" conjecture is false (already in the book) | [witness](B2.3/B2_3.lean) | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [B4.3](B4.3/) | partial | the smallest odd amicable pair coprime to 3 | [full proof](B4.3/B4_3_mathlib.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [B31.5](B31.5/) | disproved | the gcd of two binomial coefficients can have all prime factors ≤ r (already in the book) | [full proof](B31.5/B31_5.lean) | — | [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [B36.7](B36.7/) | proved | infinitely many noncototients (already in the book) | — | — | [known-theorem](../methods/known-theorem/README.md) |
+| [C18.4](C18.4/) | solved | Heden's modular queens, M(n) = n - 2 when 3 \| n or 4 \| n | [full proof](C18.4/C18_4_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [parametric-family](../methods/parametric-family/README.md) |
 | [D19.3](D19.3/) | proved | every attainable integer ratio base/height occurs for infinitely many primitive triangles | needs Mathlib | partly-known | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [D20.4](D20.4/) | proved | a lattice 7-cluster exists | [full proof](D20.4/D20_4.lean) | known | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [E10.3](E10.3/) | proved | Moser's base-3 collinearity question follows from density Hales–Jewett | needs Mathlib | — | [known-theorem](../methods/known-theorem/README.md) |
@@ -56,6 +59,9 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [B4.5](B4.5/) | partial | unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair) | [full proof](B4.5/B4_5_mathlib.lean) | known | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
 | [C20.4](C20.4/) | partial | three hexagonal (pentagonal) numbers of positive rank | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [D16.1](D16.1/) | partial | least common product of m triples with one sum and one product, m = 2..11 | [witness](D16.1/D16_1.lean) | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [E13.1](E13.1/) | partial | values of Turán's s(m, n) | [full proof](E13.1/E13_1.lean) | partly-known | [sat-threshold](../methods/sat-threshold/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [E22.1](E22.1/) | partial | Gupta's rosary bound m(n) ≤ ⌊n²/2⌋ for odd n (case n = 7) | [full proof](E22.1/E22_1_mathlib.lean) | new | [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [F31.3](F31.3/) | partial | which integers are quotients of integers with ternary digits 0, 1? | [full proof](F31.3/F31_3_mathlib.lean) | known | [known-theorem](../methods/known-theorem/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 
 ## Short proofs
 
@@ -491,6 +497,26 @@ OEIS entry does not mention one, so the answer is at probable-prime level.
 
 Lean: —.
 
+### [B1.2](B1.2/): Martin's alternating-divisor (k-imperfect) numbers for k ≥ 4
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B1 (paraphrased): with f multiplicative
+and f(p^e) = p^e - p^(e-1) + p^(e-2) - ... + (-1)^e, Martin asks whether n = k f(n) has solutions for k ≥ 4, whether
+there are infinitely many for k = 2, 3, and whether any odd solution exists for k = 3.
+
+**Reading.** These n are the k-imperfect numbers (Iannucci; OEIS A127724, A127725, A127726, A328860). f = id ⋆ λ,
+the Dirichlet convolution of the identity with the Liouville function, since both sides are multiplicative and agree
+on prime powers.
+
+**Result.** First question answered (known) for k = 4 and k = 5. 4-imperfect numbers: OEIS A328860, the smallest
+993803899780063855042560. 5-imperfect: A. Wechsler (math-fun / Seqfan, 11 Feb 2020) found the 208-digit
+N = 2^91·3^29·5^20·7^12·11^9·13^4·17·19·23^7·29·31^3·37·41·43·47^2·53^3·61^3·73·89·97·103·127·181·241·271·277·281·367·
+449·683·1013·1657·1861·2411·3221·4561·5987·7603·13421·30269·139921·178481·2796203·228511817 with N = 5 f(N).
+Open: k ≥ 6, infinitude for k = 2, 3, odd 3-imperfect numbers (none below 10^49 per A127726).
+
+**Argument.** f(N) = Π f(p^e) with f(p^e) = (p^(e+1) + (-1)^e)/(p + 1); the product equals N/5.
+
+Lean: [full proof](B1.2/B1_2_mathlib.lean).
+
 ### [B2.3](B2.3/): Kravitz's "no odd-square abundance" conjecture is false (already in the book)
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section B2 (p. 75). Kravitz conjectured that no n has abundance σ(n) − 2n
@@ -506,6 +532,24 @@ this entry records the check. Smallest example: n = 2²·7²·53² = 550564,
 10^6), matching Cohen's list.
 
 Lean: [witness](B2.3/B2_3.lean).
+
+### [B4.3](B4.3/): the smallest odd amicable pair coprime to 3
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B4 (paraphrased): Bratley and McKay
+conjectured that both members of every odd amicable pair are divisible by 3; Battiato and Borho found
+counterexamples, and te Riele announced (1987) a 33-digit one. Guy asks: is that the smallest such pair? Is there an
+odd pair with exactly one member divisible by 3? Is there a pair whose members have different smallest prime factors?
+
+**Result.** First question answered (known): no. The 32-digit pair
+m = 42262694537514864075544955198125 = 5⁴·7²·11²·13²·19³·29·37·71·109·181·347·2833·6659,
+n = 42405817271188606697466971841875 = 5⁴·7²·11²·13²·19³·29·37·71·109·181·6568305119
+is amicable, odd and coprime to 3 (in J. M. Pedersen's lists; MathWorld "Amicable Pair" calls it the smallest known
+pair not divisible by 6). Whether it is the smallest such pair, and the second and third questions, remain open.
+
+**Argument.** σ is multiplicative. With A = 5⁴·7²·11²·13²·19³·29·37·71·109·181, σ(A) = 12890465692724011392000,
+and σ(m) = σ(A)·348·2834·6660 = m + n = σ(A)·6568305120 = σ(n).
+
+Lean: [full proof](B4.3/B4_3_mathlib.lean).
 
 ### [B31.5](B31.5/): the gcd of two binomial coefficients can have all prime factors ≤ r (already in the book)
 
@@ -535,6 +579,31 @@ citation of the book, not a new resolution.
 **Argument.** Not re-derived here.
 
 Lean: —.
+
+### [C18.4](C18.4/): Heden's modular queens, M(n) = n - 2 when 3 | n or 4 | n
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section C18 (paraphrased): on the n × n
+board whose rows, columns and diagonals wrap around, Heden showed that the maximum number M(n) of non-attacking
+queens is n, n - 1 for gcd(n,6) = 1, gcd(n,12) = 2, and lies in [n-4, n-2] or [n-5, n-2] when gcd(n,12) is 3 or 4,
+respectively 6 or 12. Heden believed M(n) = n - 2 in the last two cases.
+
+**Reading.** Two queens at (x, y), (x', y') in ZMod n × ZMod n attack iff x = x', y = y', x + y = x' + y' or
+y - x = y' - x'. The question covers every n ≥ 3 with 3 | n or 4 | n.
+
+**Result.** Known: M(n) = n - 2 whenever 3 | n or 4 | n. P. Monsky, solution to E3162, Amer. Math. Monthly 96 (1989)
+258-259; a complete proof with explicit placements is in K. Williams, *Torus Queen Independence*,
+arXiv:2404.18237 (2024), Theorem 6 (independence number n for n ≡ ±1 mod 6, n - 1 for n ≡ ±2 mod 12, n - 2
+otherwise). Guy's 3rd edition (2004) still lists the question as open.
+
+**Argument.** Lower bound: columns t = 0..n-1 minus two excluded columns, queen at (t, Y(t)) with Y piecewise linear
+(Williams, five residue families n = 6m+3, 12m+4, 12m+6, 12m-4, 12m, plus n = 4, 6, 12 by hand). For t1 < t2 the
+differences of y, x + y and y - x lie strictly between -7n and 7n, and none is a multiple of n.
+Upper bound (Monsky; Williams' write-up): if n - 1 queens existed, the four coordinate maps each miss one value
+a, b, c, d. Summing gives c = a + b - S1, d = S1 - a + b with S1 = n(n-1)/2. Summing squares (for even n, squares of
+lifts in [0, n) taken mod 2n) with (x+y)² + (y-x)² = 2x² + 2y² forces n | Σ_{v<n} v² (odd n, or 3 | n) or the same
+modulo 2n (4 | n), which fails because (n-1)(2n-1) is prime to 3 and odd.
+
+Lean: [full proof](C18.4/C18_4_mathlib.lean).
 
 ### [D19.3](D19.3/): every attainable integer ratio base/height occurs for infinitely many primitive triangles
 
@@ -742,4 +811,72 @@ upper bound (τ₃(P) + 3τ(P) + 2)/6 on its number of triples is below every mu
 unrecorded, so no record can be missed.
 
 Lean: [witness](D16.1/D16_1.lean).
+
+### [E13.1](E13.1/): values of Turán's s(m, n)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section E13 (paraphrased): s(m, n) is the
+least s such that every partition of [m, m + s] into n classes has a class containing a solution of x + y = z
+(x = y allowed). Turán: s(m, 2) = 4m. Clearly s(1, n) is the Schur number S(n). Abbott and Znám:
+s(m, n) ≥ 3 s(m, n-1) + m. Guy lists only bounds for n ≥ 3.
+
+**Result.** 1. s(m, 3) = 13m for every m ≥ 1.
+2. Computation: s(m, 4) = 44, 82, 120, 160 for m = 1, 2, 3, 4 (lower bound 40m, upper bound 44m from
+   item 1's argument).
+
+**Argument.** Lower bound: the Abbott-Znám step. Turán's colouring of [m, 5m-1] (class A = [m, 2m) ∪ [4m, 5m),
+class B = [2m, 4m)) is sum-free; colour [5m, 10m) with a new class C (its smallest sum is 10m) and [10m, 14m) by
+shifting Turán's colouring up by 9m. A sum x + y = z inside one old class with x < 5m ≤ y would map to x + (y - 9m)
+= z - 9m inside Turán's colouring, and two elements ≥ 10m sum beyond 14m. So [m, 14m - 1] is 3-colourable.
+Upper bound: [m, 14m] contains m, 2m, ..., 14m, a copy of [1, 14] scaled by m, and Schur's S(3) = 13
+(Baumert 1965) says every 3-colouring of [1, 14] has a monochromatic x + y = z. The same scaling gives
+s(m, n) ≤ m·S(n) in general, which for n = 3 meets the Abbott-Znám bound 3·4m + m.
+For n = 4 the two bounds are 40m and 44m; SAT (CaDiCaL via pysat) gives 44, 82, 120, 160, so s(m, 4) = 40m for
+m = 3, 4. For m = 5 the solver did not decide s = 200 within 30 minutes (one core).
+
+Lean: [full proof](E13.1/E13_1.lean).
+
+### [E22.1](E22.1/): Gupta's rosary bound m(n) ≤ ⌊n²/2⌋ for odd n (case n = 7)
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section E22 (paraphrased): m(n) is the least
+length of a cycle a_1, ..., a_m with entries in [1, n] such that every permutation of 1..n is a subsequence of some
+rotation a_j, ..., a_m, a_1, ..., a_(j-1). Gupta conjectured m(n) ≤ ⌊n²/2⌋.
+
+**Result.** Partial (new data point). m(7) ≤ 24 = ⌊49/2⌋: the cycle
+W = 2 5 1 6 7 3 5 1 2 4 7 6 1 5 3 7 4 2 1 5 6 7 3 4
+contains every permutation of 1..7 in some rotation. The conjecture is proved for even n (Lecouturier-Zmiaikou,
+Discrete Math. 312 (2012)); for odd n they give m(n) < n²/2 + n/4 - 1, i.e. m(7) ≤ 25, and OEIS A373728 lists
+m(n) only for n ≤ 6 (2, 4, 8, 12, 17). The general odd case stays open; n = 3, 5 are covered by A373728.
+
+A 15-minute tabu search for length 23 found nothing (inconclusive).
+
+**Argument.** Direct check of all 5040 permutations against the 24 rotations of W.
+
+Lean: [full proof](E22.1/E22_1_mathlib.lean).
+
+### [F31.3](F31.3/): which integers are quotients of integers with ternary digits 0, 1?
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section F31 (paraphrased): after Selfridge and
+Lacampagne's question for digits ±1 in base 3 (answered negatively by Coppersmith, k = 247), Guy asks which integers
+can be written as a / b with a, b having base-3 digits 0 and 1 only.
+
+**Reading.** k ≥ 1, a, b ≥ 1. Since k is a quotient iff 3k is (append or strip a final 0 digit), it suffices to
+treat 3 ∤ k.
+
+**Result.** Partial; all three statements are known (OEIS A339636, J. Shallit 2020; Anders, Dawsey, Reznick,
+Sisneros-Thiry, arXiv:2308.07252). For 3 ∤ k:
+1. k ≡ 2 (mod 3) is never a quotient (the last nonzero digit of k·b would be 2).
+2. No k with 1.5·3^m < k < 2·3^m (some m) is a quotient.
+3. Computation: every other k ≡ 1 (mod 3) below 10^5 is a quotient except the six sporadic values
+   529, 592, 601, 616, 5368, 50281 (exactly the first six terms of OEIS A339636, which continues 4072741, ...).
+So below 10^5 the non-quotients are exactly the k ≡ 2 (mod 3) family, the intervals (1.5·3^m, 2·3^m) (times powers
+of 3), and six sporadic values. A339636 has 22 sporadic terms below 3.5·10^8 and conjectures that 23·3^(4k+3) - 20 is
+never representable; a rule for the sporadic set (and its infinitude) remains open.
+
+**Argument.** (2): if a has ℓ ternary digits, all 0 or 1, then 3^(ℓ-1) ≤ a and 2a < 3^ℓ. With a = k·b, ℓ_a and
+ℓ_b the digit counts, 3·3^m < 2k gives 3^(m+ℓ_b) < 3^(ℓ_a), and k < 2·3^m gives 3^(ℓ_a) < 3^(m+ℓ_b+1): no integer
+ℓ_a fits. This is the integer form of the description of quotients of the Cantor set (Athreya-Reznick-Tyson 2019). (3): k is a quotient iff the long multiplication k·b, with b's digits chosen in {0,1}
+from the right, reaches a carry whose own digits are 0/1 without ever writing a digit 2; carries stay below k, so a
+breadth-first search over (carry, b ≠ 0) decides each k.
+
+Lean: [full proof](F31.3/F31_3_mathlib.lean).
 

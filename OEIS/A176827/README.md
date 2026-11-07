@@ -24,11 +24,22 @@ a(n,q) ≡ 1 (mod q), is not treated here (it holds numerically, see Evidence).
    v_p(A_N) ≥ -v C(N,2). Hence a(N,q) ∈ ℤ_(p).
 
 **Evidence.**
+- Lean (Mathlib): [`A176827_mathlib.lean`](A176827_mathlib.lean), namespace `A176827`, main theorem
+  `A176827_int (q n : ℕ) (hq : 1 ≤ q) : ∃ z : ℤ, a q n = z` with `a q n = q^(n choose 2) * A q n` and `A q`
+  the coefficient recurrence of exp(Σ A(x/q^n)^n x^n/n) (`recSeq`). Step 2 is `A_bound`/`A176827_pdvd`.
+  Step 1 is `A_pint`, proved without the two-variable p-local lemma: approximate 1/q by an integer Q and
+  A_0..A_(N-1) by integers modulo p^(v_p(N!)+N); the integer model exp(Σ A'(Q^n x)^n x^n/n) is integral by
+  the library Euler-product lemma (`rowB_int`), and `expQ_perturb` in
+  [`lib/OpenProblemsLib/DworkLocal.lean`](../../lib/OpenProblemsLib/DworkLocal.lean) shows that congruent
+  log-coefficients modulo p^K give exp-coefficients congruent modulo p^(K - v_p(n!)). Check
+  `tools/leancheck-mathlib.sh`: OK, no warnings, axioms at most propext, Classical.choice, Quot.sound.
 - [`certificate/check.py`](certificate/check.py): exact a(n,q) for q ∈ {2,3,4,5,6,8,9,10,12}, n ≤ 11: all
   integers, all ≡ 1 (mod q); q = 3 matches the data.
-- Lean: none. Outside Lean: the whole argument.
+- [`certificate/recurrence_check.py`](certificate/recurrence_check.py): the recurrence exactly as defined in
+  the Lean file, q = 3, n ≤ 9: matches the data.
+- Outside Lean: only the reading of the OEIS exp(...) g.f. as the coefficient recurrence.
 
-**Review level.** `rechecked`.
+**Review level.** `lean-proof`.
 
 **Prior art.** Checked 2026-11-06: entry still says "Conjecture"; web search found no proof; not in
 google-deepmind/formal-conjectures or otoi-lab/oeis-lean-proofs (local clones).

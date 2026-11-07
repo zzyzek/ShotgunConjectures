@@ -8,6 +8,7 @@ import OpenProblemsLib.ArithFactor
 import OpenProblemsLib.D_CombLine
 import OpenProblemsLib.R5_Quadratic
 import OpenProblemsLib.Dwork
+import OpenProblemsLib.DworkLocal
 import OpenProblemsLib.DworkEuler
 import OpenProblemsLib.DworkMultinomial
 import OpenProblemsLib.ShevelevFactorial

@@ -73,13 +73,16 @@ primes p, then b(n) = Σ_{d|n} d c(d) with c(d) ∈ ℤ and exp(Σ b(n) x^n/n) =
   (x_0 + ... + x_K)^(pn) ≡ (x_0^p + ... + x_K^p)^n mod p^(1+v_p n), so multinomial(pλ) ≡ multinomial(λ) and the
   multinomial of a partition of pn with a part prime to p is ≡ 0. Check `tools/leancheck-mathlib.sh`: OK, no
   warnings, axioms propext, Classical.choice, Quot.sound.
-- Outside Lean: item 3 completely (A165940: the p-local Dwork criterion and the 2-adic bound; the library is
-  integral, not p-local); for A183241, A182963, A157675, A156907, A156908 only the reading of exp(...) as the
+- Lean (Mathlib), item 3: [`A165940_mathlib.lean`](A165940_mathlib.lean) (`A165940.A165940_int`,
+  a n = 2^(n^2+n) expQ u n with u m = 1/2^(m^2)). Odd p: the p-local Dwork lemma `expQ_pint_of_LGq` in
+  [`lib/OpenProblemsLib/DworkLocal.lean`](../../lib/OpenProblemsLib/DworkLocal.lean) (p-integral Dwork
+  exponents, approximation by an integer Euler product, perturbation bound); p = 2: `two_adic` and Legendre.
+  Check `tools/leancheck-mathlib.sh`: OK, no warnings, axioms propext, Classical.choice, Quot.sound.
+- Outside Lean: for A165940 only the reading of exp(...) as its recurrence and data agreement; for A183241, A182963, A157675, A156907, A156908 only the reading of exp(...) as the
   recurrence and data agreement; for A174470 only the reading of exp(...) as its recurrence and PARI's cutoff
   ceil(log m/log 3) (terms beyond it vanish).
 
-**Review level.** A183241, A182963, A174470, A157675, A156907, A156908 `lean-proof`; A165940 `rechecked` (argument
-re-derived, numerics).
+**Review level.** All seven `lean-proof`.
 
 **Prior art.** Checked 2026-11-06: all seven entries still say "Conjectured"; web search found only the
 OEIS pages; none of the A-numbers is in google-deepmind/formal-conjectures or otoi-lab/oeis-lean-proofs

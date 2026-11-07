@@ -2,9 +2,9 @@
 
 Open-problem lists linked from https://amathr.org/problems/ (Cooper, TOPP, Egres Open, Froberg et al. and others); ids AMR-<list>-<k>, statements paraphrased with the list named in each README.
 
-5 entries: 1 resolved by this project, 3 answered elsewhere, 0 disputed or partial.
+8 entries: 2 resolved by this project, 5 answered elsewhere, 0 disputed or partial.
 
-Of the 1 resolutions: 1 proved in full in Lean, 0 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
+Of the 2 resolutions: 1 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -13,6 +13,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [aimmatrix-mr8](aimmatrix-mr8/) | disproved | minimum rank of strict powers of a tree is not strictly decreasing | [full proof](aimmatrix-mr8/aimmatrix_mr8_mathlib.lean) | new | [explicit-counterexample](../methods/explicit-counterexample/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
+| [shapiro-11](shapiro-11/) | disproved | Forsgård–Shapiro real-zero bounds (Conjectures 8, 9, 10) fail | [witness](shapiro-11/shapiro_11.lean) | new | [explicit-counterexample](../methods/explicit-counterexample/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 
 ## Answered in the literature; written up or confirmed here
 
@@ -21,6 +22,8 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [aimmatrix-en1](aimmatrix-en1/) | proved | E(G) = E(G - e) + 2 only for G = K2 | — | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [aimmatrix-en2](aimmatrix-en2/) | disproved | edge deletion changes the energy by exactly 2 | [full proof](aimmatrix-en2/aimmatrix_en2_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [froberg-M](froberg-M/) | proved | finiteness of B\_{n,m} and B'\_{n,m} | needs Mathlib | known | [known-theorem](../methods/known-theorem/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
+| [shapiro-12](shapiro-12/) | disproved | Forsgård–Shapiro Conjecture 9 (c̃\_k parity bound) is false | [witness](shapiro-11/shapiro_11.lean) | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [shapiro-13](shapiro-13/) | disproved | Forsgård–Shapiro Conjecture 10 (c\_k parity bound) is false | [witness](shapiro-11/shapiro_11.lean) | known | [known-theorem](../methods/known-theorem/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 
 ## Weaker results on open problems (the problem stays open)
 
@@ -71,6 +74,47 @@ of 1, 3, 5, 6; 0 adjacent to 1, 3).
   minimum rank 1. Not needed for the counterexample and not in Lean.
 
 Lean: [full proof](aimmatrix-mr8/aimmatrix_mr8_mathlib.lean).
+
+### [shapiro-11](shapiro-11/): Forsgård–Shapiro real-zero bounds (Conjectures 8, 9, 10) fail
+
+**Source.** B. Shapiro, *Problems around polynomials: the good, the bad and the ugly*,
+Arnold Math. J. 1 (2015), arXiv 1503.05295, Section 7, Conjectures 8, 9, 10 (Forsgård–Shapiro),
+listed at https://amathr.org/problems/. For f = Σ a_k x^k of degree n with all a_k > 0:
+- Conj 8 (shapiro-11): the number of real zeros of f is at most the number of corners of
+  t ↦ max_k (log a_k + kt + log C(n,k)).
+- Conj 9 (shapiro-12): with c̃_k = (k+1)a_k² − k a_{k−1}a_{k+1} (a_{−1} = a_{n+1} = 0), and
+  k_1 < … < k_m the indices with c̃_k > 0, the number of real zeros is at most the number of
+  parity changes in (k_i mod 2).
+- Conj 10 (shapiro-13): the same with c_k = a_k² − a_{k−1}a_{k+1} ≥ 0.
+
+**Reading.** Real zeros are counted as distinct points (the counterexample below has simple
+zeros, so the count with multiplicity gives the same answer).
+
+**Result.** All three are false. One polynomial refutes all three:
+
+P(x) = (19x² − 94x + 163) · ∏_{j=0}^{21} (2D x + 2D + 2j − 23),  D = 10^5.
+
+P has degree 24, positive coefficients, and the 22 distinct rational zeros
+x_j = −1 − (2j − 23)/(2D). Its corner count is 21, and both parity counts are 20.
+
+- Conj 9 and 10: known. Katkova, Shapiro, Vishnyakova (arXiv 2403.12200, Section 5) refute
+  them with Q_15(x) = (x+1)^13 (19/360360 x² − 89/720720 x + 83/720720) and its primitives
+  Q_n(x) = ∫_{−1}^x Q_{n−1}, whose real zeros are a single zero at −1 of multiplicity n − 2.
+- Conj 8: new here. Katkova–Shapiro–Vishnyakova list it as Conjecture 1 and do not refute it.
+  Their own family refutes it: Q_21 has 18 corners against 19 real zeros (with multiplicity),
+  and Q_n has n − 3 corners for 24 ≤ n ≤ 39 (checked). The polynomial P above splits the
+  22-fold zero of Q_24 = (x+1)^22 · (19x² − 94x + 163)/K into distinct zeros. That makes the
+  counterexample hold for distinct zeros too.
+
+**Argument.** The zeros are explicit linear factors. 19x² − 94x + 163 has no real zeros
+(94² < 4·19·163). Corners: f_trop is the maximum of the affine functions log w_k + kt with
+w_k = a_k C(24,k). Its corners are the edges of the upper hull of the points (k, log w_k).
+Index j is a strict hull vertex iff w_i^{l−j} w_l^{j−i} < w_j^{l−i} for all i < j < l. Exact
+integer arithmetic finds the vertices 0..16, 20..24 (22 vertices, 21 corners). The indices
+with c_k ≥ 0 and those with c̃_k > 0 are also 0..16, 20..24. That list has 16 + 4 = 20
+parity changes. In all three cases 22 > the bound.
+
+Lean: [witness](shapiro-11/shapiro_11.lean).
 
 ### [aimmatrix-en1](aimmatrix-en1/): E(G) = E(G - e) + 2 only for G = K2
 
@@ -141,6 +185,14 @@ already answered when it was listed.
 3. B'_{n,m} ≤ B_{n,m} since sums of squares are non-negative.
 
 Lean: needs Mathlib.
+
+### [shapiro-12](shapiro-12/): Forsgård–Shapiro Conjecture 9 (c̃_k parity bound) is false
+
+Lean: [witness](shapiro-11/shapiro_11.lean).
+
+### [shapiro-13](shapiro-13/): Forsgård–Shapiro Conjecture 10 (c_k parity bound) is false
+
+Lean: [witness](shapiro-11/shapiro_11.lean).
 
 ### [froberg-P](froberg-P/): order of ψ(f) = Σ_a f(a) x^a on polynomials of degree < p
 
