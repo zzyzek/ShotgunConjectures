@@ -11,3 +11,4 @@ import OpenProblemsLib.Dwork
 import OpenProblemsLib.DworkEuler
 import OpenProblemsLib.DworkMultinomial
 import OpenProblemsLib.ShevelevFactorial
+import OpenProblemsLib.QSeries

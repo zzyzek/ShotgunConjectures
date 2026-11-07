@@ -13,12 +13,21 @@ Checked here.
   (A202146(k) ≡ [q^k] Sum (-q)^n (-q;q)_n/(q;q^2)_{n+1} mod 2), and
   `A202146_parity_of_star`: given identity (*) (`sumS TL = theta`), A202146(k) is odd iff
   k = 3m(m+1).
-Not checked here: identity (*) itself, i.e. Bailey's lemma (q-Gauss summation) applied to
-`bailey_pair` with rho1 = q, rho2 = -1 (README step 3); the regrouping of E_1 + E_3 into the
-alpha_n of README step 2 is immediate but not stated in Lean; the rewriting of the entry's
-g.f. 1/(1-x) + Sum_{n>=1} ... as Sum q^n (q;q)_n/(q;q^2)_{n+1}.
+* `A202146_entry` (the coefficients of the entry's g.f.
+  1/(1-x) + Sum_{n>=1} x^n/(1-x) Product_{k=1..n} (1-x^k)/(1-x^(2k+1)), written literally with
+  `entryTerm`) and `A202146_entry_eq` (it equals `A202146`).
+* Identity (*) `star : sumS TL = theta`, i.e.
+  Sum_n (-q)^n (-q;q)_n/(q;q^2)_{n+1} = Sum_m (-1)^m q^{3m(m+1)}, by Bailey's lemma with
+  a = q, rho1 = q, rho2 = -1: `TL_succ` (the Bailey pair `bailey_pair` with the alpha_n of
+  README step 2 as the terms W_t, W_{-t-1}), `sum_TL` (interchange of the sums), `In_pos`,
+  `In_zero` (inner sums from the library q-Gauss sum `OpenProblemsLib.QSeries.qGaussSum_mul`),
+  `pair_zero`, `pair_succ` (pairing into (-1)^t q^{3t(t+1)}); infinite sums by truncation mod X^M.
+* Main theorem `A202146_entry_parity`: A202146(k) is odd iff k = 3m(m+1); hence A202150, defined
+  by a(n) = A202146(3n(n+1)), lists exactly the odd terms of A202146.
+Not checked here: nothing beyond reading the entry's g.f. as `entryTerm`.
 -/
 import Mathlib
+import OpenProblemsLib.QSeries
 
 open Polynomial Finset
 
@@ -551,3 +560,420 @@ theorem A202146_parity_of_star (hstar : sumS TL = theta) (k : ℕ) :
           omega
       simp [this]
     · intro h; exact absurd hm h
+
+/-! ## The entry's g.f. exactly as written in OEIS A202146 -/
+
+/-- 1/(1 - q^e) (for e ≥ 1) as a power series. -/
+noncomputable def invOneSub (e : ℕ) : PowerSeries ℤ := PowerSeries.invOfUnit (1 - PowerSeries.X ^ e) 1
+
+lemma mul_invOneSub (e : ℕ) (he : 1 ≤ e) : (1 - PowerSeries.X ^ e) * invOneSub e = 1 := by
+  apply PowerSeries.mul_invOfUnit
+  rw [map_sub, map_one, map_pow, PowerSeries.constantCoeff_X, zero_pow (by omega)]; simp
+
+/-- The n-th summand of the entry's g.f.
+1/(1-x) + Sum_{n>=1} x^n/(1-x) * Product_{k=1..n} (1 - x^k)/(1 - x^(2*k+1))
+(n = 0 gives 1/(1-x); the product index is written k+1, k < n). -/
+noncomputable def entryTerm (n : ℕ) : PowerSeries ℤ :=
+  PowerSeries.X ^ n * invOneSub 1 *
+    ∏ k ∈ range n, ((1 - PowerSeries.X ^ (k + 1)) * invOneSub (2 * (k + 1) + 1))
+
+/-- a(k) read off the entry's g.f.: [x^k] (1/(1-x) + Sum_{n=1..k} entryTerm n)
+(summands with n > k are multiples of x^n and do not contribute). -/
+noncomputable def A202146_entry (k : ℕ) : ℤ :=
+  PowerSeries.coeff k (invOneSub 1) + ∑ n ∈ range k, PowerSeries.coeff k (entryTerm (n + 1))
+
+lemma inv_unique {a b c : PowerSeries ℤ} (h1 : a * b = 1) (h2 : a * c = 1) : b = c := by
+  calc b = b * (a * c) := by rw [h2, mul_one]
+    _ = (a * b) * c := by ring
+    _ = c := by rw [h1, one_mul]
+
+lemma entryTerm_eq (n : ℕ) : entryTerm n = TA n := by
+  have hden : den n * (invOneSub 1 * ∏ k ∈ range n, invOneSub (2 * (k + 1) + 1)) = 1 := by
+    unfold den
+    rw [prod_range_succ']
+    simp only [mul_zero, zero_add]
+    have h1 := mul_invOneSub 1 le_rfl
+    have h2 : (∏ k ∈ range n, (1 - PowerSeries.X ^ (2 * (k + 1) + 1))) *
+        ∏ k ∈ range n, invOneSub (2 * (k + 1) + 1) = 1 := by
+      rw [← prod_mul_distrib]
+      exact prod_eq_one (fun k _ => mul_invOneSub _ (by omega))
+    linear_combination (∏ k ∈ range n, (1 - PowerSeries.X ^ (2 * (k + 1) + 1))) *
+      (∏ k ∈ range n, invOneSub (2 * (k + 1) + 1)) * h1 + h2
+  have hinv : den n * denInv n = 1 := PowerSeries.mul_invOfUnit _ _ (den_const n)
+  have e := inv_unique hden hinv
+  unfold entryTerm TA
+  rw [← e, prod_mul_distrib]
+  ring
+
+/-- The entry's g.f. gives the same coefficients as `A202146` (Sum q^n (q;q)_n/(q;q^2)_{n+1}). -/
+theorem A202146_entry_eq (k : ℕ) : A202146_entry k = A202146 k := by
+  unfold A202146_entry A202146 sumS
+  rw [PowerSeries.coeff_mk, sum_range_succ']
+  rw [add_comm]
+  congr 1
+  · apply sum_congr rfl; intro n _; rw [entryTerm_eq]
+  · rw [← entryTerm_eq 0]; simp [entryTerm]
+
+/-! ## Identity (*) from the Bailey pair, Bailey's lemma (a = q, rho1 = q, rho2 = -1)
+
+With `E_1 + E_3 = (-q;q)_n (1 + q^n)` (`bailey_pair`) the n-th term of LHS(*) (n ≥ 1) is
+`Σ_j W_j D_n / ((q;q)_{n-2j} (q;q)_{n+2j+1})`, `D_n = (-q)^n (-q;q)_{n-1} (q;q)_n`,
+`W_j = (-1)^j (q^{3j^2+j} + q^{3j^2+3j})`. Interchanging the sums, the inner sum over n for
+`r = 2j` (j ≥ 0) or `r = -2j-1` (j < 0) is `(-q)^r (-q;q)_{r-1} G_r` with
+`G_r = qGaussSum r = 1/(-q;q)_{r+1}` (library, `qGaussSum_mul`). The terms j = t and j = -t-1
+then add up to `(-1)^t q^{3t(t+1)}`. All infinite sums are handled by truncation mod `X^M`. -/
+
+section Star
+
+open OpenProblemsLib.QSeries
+
+lemma ite_f {α : Type*} {p : Prop} [Decidable p] (h : ¬ p) (a b : α) :
+    (if p then a else b) = b := by simp [h]
+
+local notation "qq" => (PowerSeries.X : PowerSeries ℤ)
+
+noncomputable abbrev ι : ℤ[X] →+* PowerSeries ℤ := Polynomial.coeToPowerSeries.ringHom
+
+lemma ι_X : ι X = qq := by simp
+
+lemma ι_qp (n : ℕ) : ι (qp n) = qpS n := by
+  unfold qp qpS; simp [map_prod]
+
+lemma ι_pm (n : ℕ) : ι (pm n) = ppS 1 n := by
+  unfold pm ppS; simp only [map_prod, map_add, map_one, map_pow, ι_X]
+  exact prod_congr rfl (fun i _ => by rw [add_comm i 1])
+
+lemma ppS_one_succ (n : ℕ) : ppS 1 (n + 1) = ppS 1 n * (1 + qq ^ (n + 1)) := by
+  unfold ppS; rw [prod_range_succ, add_comm 1 n]
+
+lemma den_mul (n : ℕ) : den n * (qpS n * ppS 1 n) = qpS (2 * n + 1) := by
+  induction n with
+  | zero => simp [den, qpS, ppS]
+  | succ n ih =>
+    rw [show den (n + 1) = den n * (1 - qq ^ (2 * (n + 1) + 1)) from prod_range_succ _ _,
+      show qpS (n + 1) = qpS n * (1 - qq ^ (n + 1)) from prod_range_succ _ _, ppS_one_succ,
+      show 2 * (n + 1) + 1 = (2 * n + 1 + 1) + 1 by ring,
+      show qpS (2 * n + 1 + 1 + 1) = qpS (2 * n + 1) * (1 - qq ^ (2 * n + 1 + 1)) *
+        (1 - qq ^ (2 * n + 1 + 1 + 1)) by
+          rw [show qpS (2 * n + 1 + 1 + 1) = qpS (2 * n + 1 + 1) * (1 - qq ^ (2 * n + 1 + 1 + 1))
+            from prod_range_succ _ _, show qpS (2 * n + 1 + 1) = qpS (2 * n + 1) *
+            (1 - qq ^ (2 * n + 1 + 1)) from prod_range_succ _ _]]
+    linear_combination (1 - qq ^ (2 * n + 1 + 1 + 1)) * (1 - qq ^ (n + 1)) * (1 + qq ^ (n + 1)) * ih
+
+lemma inv1_mul (a b : PowerSeries ℤ) (ha : PowerSeries.constantCoeff a = 1)
+    (hb : PowerSeries.constantCoeff b = 1) : inv1 (a * b) = inv1 a * inv1 b := by
+  apply inv_unique (a := a * b)
+  · exact mul_inv1 _ (by rw [map_mul, ha, hb, one_mul])
+  · rw [show a * b * (inv1 a * inv1 b) = (a * inv1 a) * (b * inv1 b) by ring, mul_inv1 a ha,
+      mul_inv1 b hb, one_mul]
+
+lemma TL_eq (n : ℕ) : TL n = (-qq) ^ n * ppS 1 n * ppS 1 n * qpS n * inv1 (qpS (2 * n + 1)) := by
+  have h1 : den n * denInv n = 1 := PowerSeries.mul_invOfUnit _ _ (den_const n)
+  have h2 : den n * (qpS n * ppS 1 n * inv1 (qpS (2 * n + 1))) = 1 := by
+    rw [← mul_assoc, den_mul, mul_inv1 _ (cc_qpS _)]
+  have e := inv_unique h1 h2
+  unfold TL
+  rw [e, show (∏ i ∈ range n, (1 + qq ^ (i + 1))) = ppS 1 n from
+    prod_congr rfl (fun i _ => by rw [add_comm i 1])]
+  ring
+
+/-- `1/(q;q)_m`, zero for negative `m`. -/
+noncomputable def iq (m : ℤ) : PowerSeries ℤ := if 0 ≤ m then inv1 (qpS m.toNat) else 0
+
+lemma iq_nat (m : ℕ) : iq m = inv1 (qpS m) := by simp [iq]
+
+lemma qz_inv (N : ℕ) (k : ℤ) : ι (qz N k) * inv1 (qpS N) = iq k * iq (N - k) := by
+  rcases lt_or_ge k 0 with h | h
+  · rw [qz_neg N k h, iq, ite_f (by omega)]; simp
+  rcases lt_or_ge (N : ℤ) k with h' | h'
+  · rw [qz_big N k h', iq, iq, ite_f (show ¬ (0 ≤ (N : ℤ) - k) by omega)]; simp
+  obtain ⟨K, rfl⟩ : ∃ K : ℕ, k = K := ⟨k.toNat, by omega⟩
+  have hK : K ≤ N := by omega
+  rw [show (N : ℤ) - K = ((N - K : ℕ) : ℤ) by omega, iq_nat, iq_nat, qz, ite_t h,
+    Int.toNat_natCast]
+  have e := congrArg ι (qb_prod N K hK)
+  rw [map_mul, map_mul, ι_qp, ι_qp, ι_qp] at e
+  have hu := mul_inv1 (qpS K) (cc_qpS _)
+  have hv := mul_inv1 (qpS (N - K)) (cc_qpS _)
+  have hw := mul_inv1 (qpS N) (cc_qpS _)
+  linear_combination (-(ι (qb N K) * inv1 (qpS N) * qpS (N - K) * inv1 (qpS (N - K)))) * hu -
+    ι (qb N K) * inv1 (qpS N) * hv + inv1 (qpS K) * inv1 (qpS (N - K)) * inv1 (qpS N) * e +
+    inv1 (qpS K) * inv1 (qpS (N - K)) * hw
+
+/-- `W_j = (-1)^j (q^{3j^2+j} + q^{3j^2+3j})`. -/
+noncomputable def W (j : ℤ) : PowerSeries ℤ := ι (w1 j + w3 j)
+
+/-- `D_n = (-q)^n (-q;q)_{n-1} (q;q)_n`. -/
+noncomputable def D (n : ℕ) : PowerSeries ℤ := (-qq) ^ n * ppS 1 (n - 1) * qpS n
+
+lemma TL_succ (n B : ℕ) (hB : n + 2 ≤ B) :
+    TL (n + 1) = ∑ t ∈ range B,
+      (W t * (D (n + 1) * (iq (((n + 1 : ℕ) : ℤ) - 2 * t) * iq (((n + 1 : ℕ) : ℤ) + 2 * t + 1))) +
+       W (-(t : ℤ) - 1) * (D (n + 1) * (iq (((n + 1 : ℕ) : ℤ) - 2 * (-(t : ℤ) - 1)) *
+         iq (((n + 1 : ℕ) : ℤ) + 2 * (-(t : ℤ) - 1) + 1)))) := by
+  set m := n + 1 with hm
+  have hbp := bailey_pair m
+  have hf1 := fin_supp w1 (2 * m + 1) m
+  have hf3 := fin_supp w3 (2 * m + 1) m
+  unfold E at hbp
+  rw [← finsum_add_distrib hf1 hf3] at hbp
+  have hsum : (fun j : ℤ => w1 j * qz (2 * m + 1) (m - 2 * j) + w3 j * qz (2 * m + 1) (m - 2 * j)) =
+      fun j => (w1 j + w3 j) * qz (2 * m + 1) (m - 2 * j) := by funext j; ring
+  rw [hsum, finsum_int_range _ B (fun j hj => by
+    have := qz_ne _ _ (fun h0 => hj (by rw [h0, mul_zero])); omega)] at hbp
+  have hι := congrArg ι hbp
+  rw [map_sum] at hι
+  simp only [map_mul, map_add, map_one, map_pow, ι_X, ι_pm] at hι
+  rw [TL_eq, show ppS 1 m = ppS 1 n * (1 + qq ^ m) from ppS_one_succ n]
+  have e1 : (-qq) ^ m * (ppS 1 n * (1 + qq ^ m)) * (ppS 1 n * (1 + qq ^ m)) * qpS m *
+      inv1 (qpS (2 * m + 1)) = D m * ((ppS 1 n * (1 + qq ^ m)) * (1 + qq ^ m)) *
+      inv1 (qpS (2 * m + 1)) := by
+    unfold D; rw [hm, Nat.add_sub_cancel]; ring
+  rw [e1, ← ppS_one_succ, ← hm, ← hι, mul_sum, sum_mul]
+  apply sum_congr rfl
+  intro t _
+  have q1 := qz_inv (2 * m + 1) ((m : ℤ) - 2 * t)
+  have q2 := qz_inv (2 * m + 1) ((m : ℤ) - 2 * (-(t : ℤ) - 1))
+  rw [show (((2 * m + 1 : ℕ) : ℤ) - ((m : ℤ) - 2 * t)) = (m : ℤ) + 2 * t + 1 by push_cast; ring]
+    at q1
+  rw [show (((2 * m + 1 : ℕ) : ℤ) - ((m : ℤ) - 2 * (-(t : ℤ) - 1))) =
+    (m : ℤ) + 2 * (-(t : ℤ) - 1) + 1 by push_cast; ring] at q2
+  unfold W
+  simp only [map_add]
+  rw [← q1, ← q2]
+  ring
+
+/-- Inner sums `In M r = Σ_{n<M} D_{n+1} / ((q;q)_{n+1-r} (q;q)_{n+r+2})`. -/
+noncomputable def In (M r : ℕ) : PowerSeries ℤ :=
+  ∑ n ∈ range M, D (n + 1) * (iq ((n : ℤ) + 1 - r) * iq ((n : ℤ) + r + 2))
+
+lemma sum_TL (M : ℕ) : ∑ n ∈ range M, TL (n + 1) =
+    ∑ t ∈ range (M + 2), (W t * In M (2 * t) + W (-(t : ℤ) - 1) * In M (2 * t + 1)) := by
+  rw [sum_congr rfl (fun n hn => TL_succ n (M + 2) (by rw [mem_range] at hn; omega)), sum_comm]
+  apply sum_congr rfl
+  intro t _
+  rw [sum_add_distrib, In, In, mul_sum, mul_sum]
+  have e1 : ∀ n : ℕ, ((n + 1 : ℕ) : ℤ) - 2 * (t : ℤ) = (n : ℤ) + 1 - ((2 * t : ℕ) : ℤ) := by
+    intro n; push_cast; ring
+  have e2 : ∀ n : ℕ, ((n + 1 : ℕ) : ℤ) + 2 * (t : ℤ) + 1 = (n : ℤ) + ((2 * t : ℕ) : ℤ) + 2 := by
+    intro n; push_cast; ring
+  have e3 : ∀ n : ℕ, ((n + 1 : ℕ) : ℤ) - 2 * (-(t : ℤ) - 1) = (n : ℤ) + ((2 * t + 1 : ℕ) : ℤ) + 2 := by
+    intro n; push_cast; ring
+  have e4 : ∀ n : ℕ, ((n + 1 : ℕ) : ℤ) + 2 * (-(t : ℤ) - 1) + 1 = (n : ℤ) + 1 - ((2 * t + 1 : ℕ) : ℤ) := by
+    intro n; push_cast; ring
+  simp only [e1, e2, e3, e4]
+  rw [add_left_cancel_iff.mpr]
+  apply sum_congr rfl; intro n _
+  rw [mul_comm (iq ((n : ℤ) + ((2 * t + 1 : ℕ) : ℤ) + 2))]
+
+lemma lower (M : ℕ) {a b : PowerSeries ℤ} (h : modX (M + 1) a = modX (M + 1) b) :
+    modX M a = modX M b :=
+  modX_eq_of_coeff M (fun k hk => coeff_eq_of_modX (M + 1) h k (by omega))
+
+lemma lower' (M L : ℕ) (hL : M ≤ L) {a b : PowerSeries ℤ} (h : modX L a = modX L b) :
+    modX M a = modX M b :=
+  modX_eq_of_coeff M (fun k hk => coeff_eq_of_modX L h k (by omega))
+
+lemma modX_shift (M r : ℕ) (P A B : PowerSeries ℤ) (h : modX (M - r) A = modX (M - r) B) :
+    modX M ((-qq) ^ r * P * A) = modX M ((-qq) ^ r * P * B) := by
+  rw [← sub_eq_zero, ← map_sub, show (-qq) ^ r * P * A - (-qq) ^ r * P * B =
+    (-qq) ^ r * (P * (A - B)) by ring]
+  apply modX_neg_X_pow_mul
+  rw [map_mul, map_sub, h, sub_self, mul_zero]
+
+lemma cc_one_add (r : ℕ) (hr : 1 ≤ r) : PowerSeries.constantCoeff (1 + qq ^ r) = 1 := by
+  simp [zero_pow (show r ≠ 0 by omega)]
+
+/-- `Γ_r = (-q)^r / ((1 + q^r)(1 + q^{r+1}))`. -/
+noncomputable def Γ (r : ℕ) : PowerSeries ℤ :=
+  (-qq) ^ r * inv1 ((1 + qq ^ r) * (1 + qq ^ (r + 1)))
+
+lemma ppS_split (r k : ℕ) (hr : 1 ≤ r) : ppS 1 (r - 1 + k) = ppS 1 (r - 1) * ppS r k := by
+  unfold ppS; rw [prod_range_add]; congr 1
+  apply prod_congr rfl; intro i _; congr 2; omega
+
+lemma key_term (r k : ℕ) (hr : 1 ≤ r) :
+    D (r + k) * (inv1 (qpS k) * inv1 (qpS (2 * r + k + 1))) = (-qq) ^ r * ppS 1 (r - 1) * sS r k := by
+  unfold D sS
+  rw [show r + k - 1 = r - 1 + k by omega, ppS_split r k hr, inv1_mul _ _ (cc_qpS _) (cc_qpS _),
+    show k + r = r + k by ring]
+  ring
+
+lemma G_inv (r : ℕ) (hr : 1 ≤ r) :
+    ppS 1 (r - 1) * qGaussSum r = inv1 ((1 + qq ^ r) * (1 + qq ^ (r + 1))) := by
+  have h := qGaussSum_mul r
+  have hp : ppS 1 (r + 1) = (1 + qq ^ r) * (1 + qq ^ (r + 1)) * ppS 1 (r - 1) := by
+    obtain ⟨s, rfl⟩ : ∃ s, r = s + 1 := ⟨r - 1, by omega⟩
+    rw [Nat.add_sub_cancel, ppS_one_succ, ppS_one_succ]; ring
+  apply inv_unique (a := (1 + qq ^ r) * (1 + qq ^ (r + 1)))
+  · rw [← mul_assoc, ← hp]; exact h
+  · exact mul_inv1 _ (by rw [map_mul, cc_one_add r hr, cc_one_add (r + 1) (by omega), one_mul])
+
+lemma In_pos (M r : ℕ) (hr : 1 ≤ r) : modX M (In M r) = modX M (Γ r) := by
+  rcases lt_or_ge M r with hM | hM
+  · have h0 : In M r = 0 := by
+      apply sum_eq_zero; intro n hn; rw [mem_range] at hn
+      rw [iq, ite_f (by omega)]; ring
+    have := modX_neg_X_pow_mul M r (inv1 ((1 + qq ^ r) * (1 + qq ^ (r + 1))))
+      (by rw [show M - r = 0 by omega]; exact Ideal.Quotient.eq_zero_iff_mem.mpr (by simp))
+    rw [h0, Γ, map_zero, this]
+  have hIn : In M r = (-qq) ^ r * ppS 1 (r - 1) * ∑ k ∈ range (M - (r - 1)), sS r k := by
+    unfold In
+    rw [← sum_range_add_sum_Ico _ (show r - 1 ≤ M by omega), sum_eq_zero (fun n hn => by
+      rw [mem_range] at hn; rw [iq, ite_f (by omega)]; ring), zero_add, sum_Ico_eq_sum_range,
+      mul_sum]
+    apply sum_congr rfl
+    intro k _
+    rw [← key_term r k hr, show r - 1 + k + 1 = r + k by omega,
+      show ((r - 1 + k : ℕ) : ℤ) + 1 - r = ((k : ℕ) : ℤ) by omega,
+      show ((r - 1 + k : ℕ) : ℤ) + r + 2 = ((2 * r + k + 1 : ℕ) : ℤ) by push_cast; omega,
+      iq_nat, iq_nat]
+  rw [hIn, Γ, ← G_inv r hr, ← mul_assoc]
+  apply modX_shift
+  have h := modX_qGaussSum r (M - r + 1)
+  rw [show M - (r - 1) = M - r + 1 by omega]
+  exact (lower _ h).symm
+
+lemma G_zero : qGaussSum 0 = inv1 (1 + qq) := by
+  apply inv_unique (a := 1 + qq)
+  · have h := qGaussSum_mul 0
+    rwa [show ppS 1 (0 + 1) = 1 + qq by simp [ppS]] at h
+  · exact mul_inv1 _ (by simp)
+
+lemma In_zero (M : ℕ) : modX M (2 * In M 0) = modX M (inv1 (1 + qq) - inv1 (1 - qq)) := by
+  have hs : ∑ k ∈ range (M + 1), sS 0 k = inv1 (1 - qq) + 2 * In M 0 := by
+    rw [sum_range_succ', add_comm, In, mul_sum]
+    congr 1
+    · unfold sS; simp [qpS, ppS]
+    · apply sum_congr rfl
+      intro n _
+      unfold sS D
+      have hp : ppS 0 (n + 1) = 2 * ppS 1 n := by
+        unfold ppS; rw [prod_range_succ', pow_zero, mul_comm]
+        rw [show (1 : PowerSeries ℤ) + 1 = 2 by norm_num]
+        congr 1; apply prod_congr rfl; intro i _; rw [show 0 + (i + 1) = 1 + i by ring]
+      rw [hp, show ((n : ℤ) + 1 - ((0 : ℕ) : ℤ)) = ((n + 1 : ℕ) : ℤ) by push_cast; ring,
+        show ((n : ℤ) + ((0 : ℕ) : ℤ) + 2) = ((n + 2 : ℕ) : ℤ) by push_cast; ring, iq_nat, iq_nat,
+        Nat.add_sub_cancel, show 2 * 0 + (n + 1) + 1 = n + 2 by ring, show n + 1 + 0 = n + 1 by ring,
+        inv1_mul _ _ (cc_qpS _) (cc_qpS _)]
+      ring
+  have h := lower _ (modX_qGaussSum 0 (M + 1))
+  rw [hs, G_zero] at h
+  rw [show inv1 (1 + qq) - inv1 (1 - qq) = (inv1 (1 - qq) + 2 * In M 0) - inv1 (1 - qq) +
+    (inv1 (1 + qq) - (inv1 (1 - qq) + 2 * In M 0)) by ring, map_add, map_sub (modX M) (inv1 (1 + qq)),
+    ← h, sub_self, add_zero]
+  ring_nf
+
+lemma sg_nat (n : ℕ) : sg (n : ℤ) = (-1) ^ n := by
+  induction n with
+  | zero => simp [sg]
+  | succ n ih => rw [Nat.cast_succ, sg_succ, ih, pow_succ]; ring
+
+lemma W_nat (s : ℕ) : W s = (-1) ^ s * (qq ^ (3 * s * s + s) + qq ^ (3 * s * s + s) * qq ^ (2 * s)) := by
+  unfold W w1 w3
+  rw [show (3 * ((s : ℤ) * s) + s).toNat = 3 * s * s + s by
+      rw [show (3 * ((s : ℤ) * s) + s) = ((3 * s * s + s : ℕ) : ℤ) by push_cast; ring]; rfl,
+    show (3 * ((s : ℤ) * s) + 3 * s).toNat = (3 * s * s + s) + 2 * s by
+      rw [show (3 * ((s : ℤ) * s) + 3 * s) = (((3 * s * s + s) + 2 * s : ℕ) : ℤ) by push_cast; ring]
+      rfl, sg_nat]
+  simp only [map_add, map_mul, map_pow, map_neg, map_one, ι_X, pow_add]
+  ring
+
+lemma W_neg (s : ℕ) : W (-(s : ℤ) - 1) = (-1) ^ (s + 1) *
+    (qq ^ (3 * s * s + s) * qq ^ (4 * s + 2) + qq ^ (3 * s * s + s) * qq ^ (2 * s)) := by
+  unfold W w1 w3
+  rw [show (3 * ((-(s : ℤ) - 1) * (-(s : ℤ) - 1)) + (-(s : ℤ) - 1)).toNat =
+      (3 * s * s + s) + (4 * s + 2) by
+      rw [show (3 * ((-(s : ℤ) - 1) * (-(s : ℤ) - 1)) + (-(s : ℤ) - 1)) =
+        (((3 * s * s + s) + (4 * s + 2) : ℕ) : ℤ) by push_cast; ring]; rfl,
+    show (3 * ((-(s : ℤ) - 1) * (-(s : ℤ) - 1)) + 3 * (-(s : ℤ) - 1)).toNat =
+      (3 * s * s + s) + 2 * s by
+      rw [show (3 * ((-(s : ℤ) - 1) * (-(s : ℤ) - 1)) + 3 * (-(s : ℤ) - 1)) =
+        (((3 * s * s + s) + 2 * s : ℕ) : ℤ) by push_cast; ring]; rfl,
+    show -(s : ℤ) - 1 = -((s + 1 : ℕ) : ℤ) by push_cast; ring, sg_neg, sg_nat]
+  simp only [map_add, map_mul, map_pow, map_neg, map_one, ι_X, pow_add]
+  ring
+
+lemma pair_zero : inv1 (1 - qq) + (inv1 (1 + qq) - inv1 (1 - qq)) + W (-((0 : ℕ) : ℤ) - 1) * Γ 1 = 1 := by
+  rw [W_neg, Γ, inv1_mul _ _ (by simp) (by simp)]
+  have ha := mul_inv1 (1 + qq) (by simp)
+  have hb := mul_inv1 (1 + qq ^ (1 + 1)) (by simp)
+  simp only [pow_one] at *
+  linear_combination ha + qq * inv1 (1 + qq) * hb
+
+lemma pair_succ (s : ℕ) (hs : 1 ≤ s) :
+    W s * Γ (2 * s) + W (-(s : ℤ) - 1) * Γ (2 * s + 1) = (-1) ^ s * qq ^ (3 * s * (s + 1)) := by
+  rw [W_nat, W_neg, Γ, Γ, inv1_mul _ _ (cc_one_add _ (by omega)) (cc_one_add _ (by omega)),
+    inv1_mul _ _ (cc_one_add _ (by omega)) (cc_one_add _ (by omega)),
+    show 3 * s * (s + 1) = (3 * s * s + s) + 2 * s by ring, (even_two_mul s).neg_pow,
+    (odd_two_mul_add_one s).neg_pow]
+  have hA := mul_inv1 (1 + qq ^ (2 * s)) (cc_one_add _ (by omega))
+  have hB := mul_inv1 (1 + qq ^ (2 * s + 1)) (cc_one_add _ (by omega))
+  have hC := mul_inv1 (1 + qq ^ (2 * s + 1 + 1)) (cc_one_add _ (by omega))
+  set E := qq ^ (3 * s * s + s)
+  linear_combination (-1) ^ s * E * qq ^ (2 * s) * (inv1 (1 + qq ^ (2 * s + 1)) * hA +
+    qq ^ (2 * s + 1) * inv1 (1 + qq ^ (2 * s + 1)) * hC + hB)
+
+lemma coeff_sgn_pow (t e k : ℕ) :
+    PowerSeries.coeff k ((-1 : PowerSeries ℤ) ^ t * qq ^ e) = if k = e then (-1) ^ t else 0 := by
+  rcases Nat.even_or_odd t with h | h
+  · rw [h.neg_one_pow, h.neg_one_pow, one_mul, PowerSeries.coeff_X_pow]
+  · rw [h.neg_one_pow, h.neg_one_pow, neg_one_mul, map_neg, PowerSeries.coeff_X_pow]
+    split_ifs <;> simp
+
+lemma TL_zero : TL 0 = inv1 (1 - qq) := by
+  simp [TL, denInv, den]
+
+/-- **Identity (*)**: Σ_{n≥0} (-q)^n (-q;q)_n/(q;q^2)_{n+1} = Σ_{m≥0} (-1)^m q^{3m(m+1)}. -/
+theorem star : sumS TL = theta := by
+  apply eq_of_modX
+  intro M
+  have hos : sumS TL = osum TL := by ext k; simp [sumS, osum, map_sum]
+  have hTL : ∀ L k, L ≤ k → modX L (TL k) = 0 := by
+    intro L k hk
+    unfold TL
+    rw [mul_assoc]
+    exact modX_neg_X_pow_mul L k _
+      (by rw [show L - k = 0 by omega]; exact Ideal.Quotient.eq_zero_iff_mem.mpr (by simp))
+  have h1 : modX M (sumS TL) = modX M (TL 0 + ∑ t ∈ range (M + 2),
+      (W t * In M (2 * t) + W (-(t : ℤ) - 1) * In M (2 * t + 1))) := by
+    rw [hos, ← sum_TL, add_comm, ← sum_range_succ' (fun n => TL n) M]
+    exact lower _ (modX_osum TL hTL (M + 1))
+  set T := ∑ t ∈ range (M + 2), (-1 : PowerSeries ℤ) ^ t * qq ^ (3 * t * (t + 1)) with hT
+  have h2 : modX M (TL 0 + ∑ t ∈ range (M + 2),
+      (W t * In M (2 * t) + W (-(t : ℤ) - 1) * In M (2 * t + 1))) = modX M T := by
+    rw [hT, sum_range_succ' _ (M + 1), sum_range_succ' _ (M + 1)]
+    have hp0 : modX M (W ((0 : ℕ) : ℤ) * In M (2 * 0) + W (-((0 : ℕ) : ℤ) - 1) * In M (2 * 0 + 1)) =
+        modX M (inv1 (1 + qq) - inv1 (1 - qq) + W (-((0 : ℕ) : ℤ) - 1) * Γ 1) := by
+      have hW0 : W ((0 : ℕ) : ℤ) = 2 := by rw [W_nat]; norm_num
+      rw [hW0, show 2 * 0 = 0 from rfl, show 2 * 0 + 1 = 1 from rfl, map_add,
+        map_mul (modX M) (W _) (In M 1), In_pos M 1 le_rfl, ← map_mul, In_zero, ← map_add]
+    have hps : ∀ t ∈ range (M + 1), modX M (W ((t + 1 : ℕ) : ℤ) * In M (2 * (t + 1)) +
+        W (-((t + 1 : ℕ) : ℤ) - 1) * In M (2 * (t + 1) + 1)) =
+        modX M ((-1 : PowerSeries ℤ) ^ (t + 1) * qq ^ (3 * (t + 1) * (t + 1 + 1))) := by
+      intro t _
+      rw [map_add, map_mul, map_mul, In_pos M _ (by omega), In_pos M _ (by omega), ← map_mul,
+        ← map_mul, ← map_add, pair_succ (t + 1) (by omega)]
+    rw [← add_assoc, map_add, map_add, map_sum, sum_congr rfl hps, hp0]
+    conv_rhs => rw [map_add, map_sum]
+    have h0 : modX M (TL 0) + modX M (inv1 (1 + qq) - inv1 (1 - qq) + W (-((0 : ℕ) : ℤ) - 1) * Γ 1) =
+        modX M ((-1 : PowerSeries ℤ) ^ 0 * qq ^ (3 * 0 * (0 + 1))) := by
+      rw [← map_add, TL_zero, ← add_assoc, pair_zero]; simp
+    linear_combination h0
+  rw [h1, h2]
+  apply modX_eq_of_coeff
+  intro k hk
+  rw [hT, map_sum, theta, PowerSeries.coeff_mk]
+  simp only [coeff_sgn_pow]
+  rw [← sum_range_add_sum_Ico _ (show k + 1 ≤ M + 2 by omega), sum_eq_zero (s := Ico _ _)
+    (fun t ht => by
+      have := (mem_Ico.mp ht).1
+      rw [ite_f (by nlinarith)]), add_zero]
+
+/-- **A202150 / A202146 parity**, unconditionally: A202146(k), read from the entry's g.f., is odd
+iff k = 3m(m+1) for some m; so A202150(n) = A202146(3n(n+1)) lists exactly the odd terms. -/
+theorem A202146_entry_parity (k : ℕ) : Odd (A202146_entry k) ↔ ∃ m, k = 3 * m * (m + 1) := by
+  rw [A202146_entry_eq]
+  exact A202146_parity_of_star star k
+
+end Star

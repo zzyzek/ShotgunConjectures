@@ -37,16 +37,21 @@ A(q) ≡ Σ_m q^{3m(m+1)} (mod 2): A202146(k) is odd iff k = 3m(m+1), so A202150
 - [`certificate/check.py`](certificate/check.py): (∗) and the parity statement as power-series identities to degree
   1500; the OEIS b-file of A202146 (n ≤ 2106 available, 1501 terms compared) matches the g.f.; the finite
   identities E_1, E_3 for n ≤ 12 (sympy).
-- Lean (Mathlib, partial): [`A202150_mathlib.lean`](A202150_mathlib.lean). Checked: the Gaussian-binomial rules,
-  the recurrences and closed forms E₁(n) = (−q;q)_n, E₃(n) = q^n(−q;q)_n (`E_closed`), the Bailey-pair identity
-  (`bailey_pair`), the reduction mod 2 (`mod2_reduction`), and `A202146_parity_of_star` (parity of A202146 given
-  identity (∗)). `tools/leancheck-mathlib.sh`, exit 0, no warnings; axioms propext, Classical.choice, Quot.sound.
-- Outside Lean: identity (∗) itself, i.e. step 3 (Bailey's lemma / q-Gauss summation applied to the pair; Andrews,
-  *q-Series*, CBMS 66, 1986, §3); the regrouping of E₁ + E₃ into α_n; the rewriting of the entry's g.f. as
-  Σ q^n (q;q)_n/(q;q²)_{n+1}.
+- Lean (Mathlib): [`A202150_mathlib.lean`](A202150_mathlib.lean), importing the library module
+  `OpenProblemsLib.QSeries`. Main theorem `A202146_entry_parity`: the coefficient A202146(k) of the
+  entry's g.f. (written literally, `A202146_entry`) is odd iff k = 3m(m+1). Route: the finite
+  identities `E_closed` and the Bailey pair `bailey_pair` (step 1-2), identity (*) as `star`
+  (step 3: the alpha_n regrouping is `TL_succ`, the interchange of sums `sum_TL`, the inner sums
+  come from the library q-Gauss sum `qGaussSum_mul` for a = q, rho1 = q, rho2 = -1, proved there by
+  a Gosper certificate for r = 0 and a Zeilberger certificate in r), `mod2_reduction`, and
+  `A202146_entry_eq` (the entry's g.f. equals Sum q^n (q;q)_n/(q;q^2)_{n+1}).
+  `tools/leancheck-mathlib.sh`, exit 0, no warnings; axioms propext, Classical.choice, Quot.sound.
+  No `sorry`, no `native_decide`.
+- Outside Lean: none. The only step not machine-checked is reading the entry's g.f. formula as the
+  Lean definition `entryTerm`.
 
-**Review level.** `rechecked` (the identities were found and confirmed numerically; the proof was re-derived
-step by step, including the folding of odd offsets and the n = 0, 1 terms).
+**Review level.** `lean-proof` (every step is in Lean; earlier the proof was re-derived step by step and
+confirmed numerically).
 
 **Prior art.** Checked 2026-11-06. Both entries still state the parity as a conjecture (A202150: checked to
 30300 terms). Web search for the series and for identity (∗) (partial theta identities: Warnaar,

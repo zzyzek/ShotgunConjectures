@@ -1,4 +1,5 @@
 import Mathlib
+import OpenProblemsLib.QSeries
 
 /-
 OEIS A195825: square array T(n,k), n >= 0, k >= 1; column k has g.f.
@@ -7,10 +8,13 @@ Conjecture (O. E. Pol, 2012): column k has ⌈k/2⌉ plateaus, with lengths k+1,
 (down to 2 for odd k, 3 for even k), and their levels are the first terms of A210843 (the levels
 of the plateaus as k → ∞).
 
-Model used here.  By the Jacobi triple product the g.f. of column k is
-Π_{n ≥ 1} 1/((1-q^{mn})(1-q^{mn-1})(1-q^{mn-m+1})), so T(n,k) is the number of partitions of n
-into parts ≡ 0, ±1 (mod m): `T m n` below (Mathlib `Nat.Partition`).  The triple product step
-is NOT checked in this file (certificate/check.py compares both for k ≤ 40, n ≤ 1500).
+Model used here.  `T m n` is the number of partitions of n into parts ≡ 0, ±1 (mod m) (Mathlib
+`Nat.Partition`).  `column_gf c` proves that this is column k = c + 1 (m = c + 3) as the entry
+defines it: `thetaEntry m * Σ_n T m n q^n = 1`, with `thetaEntry m` the series
+Σ_{j ∈ ℤ} (-1)^j q^{(m j^2 - (m-2) j)/2} (a finsum over ℤ).  Proof: the Jacobi triple product of
+the library module `OpenProblemsLib.QSeries` (`jacobi_triple_product`, here `hasProd_goodFactor`
+after `thetaEntry_eq`, `prod_goodFactor`) times Mathlib's restricted-partition generating
+function `Nat.Partition.hasProd_powerSeriesMk_card_restricted`.
 
 Main theorems.
 * `flat_iff c n`: with m = c + 3 (k = c + 1), T(n+1) = T(n) iff
@@ -23,8 +27,8 @@ Main theorems.
 Route: `T_succ` (T(n+1) = T(n) + D(n+1), D counts partitions without part 1), `D_pos_iff`
 (n has a partition into parts ≡ 0, ±1 mod m, none 1, iff A(m-1) ≤ n ≤ A(m+1) for some A ≥ 1),
 `level_step` (bijection `Φ`/`Ψ`: a part a m + e ↦ a (m+1) + e, e ∈ {-1,0,1}, refilled with 1s).
-Checked: all of the above.  Not checked: the Jacobi triple product step; the numerical values
-of A210843 (certificate/check.py: partial sums of A000716).
+Checked: all of the above.  Not checked: the closed form of the levels as partial sums of
+A000716 (an extra answer to A210843's question; certificate/check.py).
 -/
 
 namespace OEIS_A195825
@@ -558,6 +562,151 @@ theorem level_const (A k : ℕ) (hk : 2 * A + 1 ≤ k) :
       show 2 * A + 1 + (j + 1) + 3 = 2 * A + 1 + j + 2 + 2 by omega,
       show 2 * A + 1 + j + 3 = 2 * A + 1 + j + 2 + 1 by omega]
     exact this.symm
+
+/-! ## The column g.f. as the entry defines it (Jacobi triple product) -/
+
+section GF
+
+open PowerSeries OpenProblemsLib.QSeries
+open scoped PowerSeries.WithPiTopology
+
+/-- The entry's denominator Σ_{j ∈ ℤ} (-1)^j q^{(m j^2 - (m-2) j)/2}
+(the exponent condition is written 2n = m j^2 - (m-2) j). Column k (m = k + 2) of A195825 is
+the coefficient sequence of 1 / thetaEntry m. -/
+noncomputable def thetaEntry (m : ℕ) : PowerSeries ℤ :=
+  PowerSeries.mk fun n => ∑ᶠ j : ℤ,
+    if 2 * (n : ℤ) = m * j ^ 2 - (m - 2) * j then (-1) ^ j.natAbs else 0
+
+theorem exp_nat (m t : ℕ) (hm : 2 ≤ m) :
+    ((tri t + (m - 1) * tri' t : ℕ) : ℤ) * 2 = m * (t : ℤ) ^ 2 - (m - 2) * t := by
+  have h1 := tri_eq t
+  have h2 := tri'_eq t
+  have hm' : ((m - 1 : ℕ) : ℤ) = (m : ℤ) - 1 := by omega
+  push_cast [hm']
+  have e1 : (2 * (tri t : ℤ)) = t * (t + 1) := by exact_mod_cast h1
+  have e2 : (2 * (tri' t : ℤ) + t) = t * t := by exact_mod_cast h2
+  linear_combination e1 + ((m : ℤ) - 1) * e2
+
+theorem exp_neg (m t : ℕ) (hm : 2 ≤ m) :
+    ((tri' (t + 1) + (m - 1) * tri (t + 1) : ℕ) : ℤ) * 2 =
+      m * (-(t : ℤ) - 1) ^ 2 - (m - 2) * (-(t : ℤ) - 1) := by
+  have h1 := tri_eq (t + 1)
+  have h2 := tri'_eq (t + 1)
+  have hm' : ((m - 1 : ℕ) : ℤ) = (m : ℤ) - 1 := by omega
+  push_cast [hm']
+  have e1 : (2 * (tri (t + 1) : ℤ)) = (t + 1) * (t + 1 + 1) := by exact_mod_cast h1
+  have e2 : (2 * (tri' (t + 1) : ℤ) + (t + 1)) = (t + 1) * (t + 1) := by exact_mod_cast h2
+  linear_combination ((m : ℤ) - 1) * e1 + e2
+
+/-- The entry's series is the triple-product series with a = 1, b = m - 1. -/
+theorem thetaEntry_eq (m : ℕ) (hm : 3 ≤ m) : thetaEntry m = jtpSeries 1 (m - 1) := by
+  ext n
+  rw [thetaEntry, coeff_mk, coeff_jtpSeries]
+  rw [finsum_int_range _ (n + 1) (fun j hj => by
+    have he : 2 * (n : ℤ) = m * j ^ 2 - (m - 2) * j := by
+      by_contra hc; exact hj (by simp [hc])
+    have hm3 : (3 : ℤ) ≤ m := by exact_mod_cast hm
+    have hjj : 0 ≤ j * (j - 1) := by rcases le_or_gt 0 j with h0 | h0 <;> nlinarith
+    have key : 2 * (n : ℤ) = m * (j * (j - 1)) + 2 * j := by rw [he]; ring
+    have h1 := mul_nonneg (show (0 : ℤ) ≤ m - 3 by omega) hjj
+    have h2 := mul_nonneg (show (0 : ℤ) ≤ m by omega) hjj
+    push_cast
+    constructor <;> nlinarith [sq_nonneg j])]
+  apply sum_congr rfl
+  intro t _
+  congr 1
+  · have e := exp_nat m t (by omega)
+    have hiff : (2 * (n : ℤ) = m * (t : ℤ) ^ 2 - (m - 2) * t) ↔ n = 1 * tri t + (m - 1) * tri' t := by
+      rw [one_mul]; constructor <;> intro h <;> omega
+    simp only [hiff, Int.natAbs_natCast]
+  · have e := exp_neg m t (by omega)
+    have hiff : (2 * (n : ℤ) = m * (-(t : ℤ) - 1) ^ 2 - (m - 2) * (-(t : ℤ) - 1)) ↔
+        n = 1 * tri' (t + 1) + (m - 1) * tri (t + 1) := by
+      rw [one_mul]; constructor <;> intro h <;> omega
+    simp only [hiff, show (-(t : ℤ) - 1).natAbs = t + 1 by omega]
+
+/-- Factor `1 - q^(i+1)` if `i + 1` is an allowed part, else 1. -/
+noncomputable def goodFactor (m i : ℕ) : PowerSeries ℤ := if good m (i + 1) then 1 - X ^ (i + 1) else 1
+
+theorem good_mod (c n r : ℕ) : good (c + 3) ((c + 3) * n + r) ↔ good (c + 3) r := by
+  unfold good; rw [Nat.mul_add_mod]
+
+/-- The allowed parts in `(m n, m n + m]` are `m n + 1`, `m n + m - 1`, `m n + m`. -/
+theorem prod_goodFactor (c n : ℕ) :
+    ∏ i ∈ range ((c + 3) * n), goodFactor (c + 3) i = ∏ i ∈ range n, jtpFactor 1 (c + 2) i := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+    rw [show (c + 3) * (n + 1) = (c + 3) * n + (c + 3) by ring, prod_range_add, ih,
+      prod_range_succ (fun i => jtpFactor 1 (c + 2) i) n]
+    congr 1
+    rw [prod_range_succ, prod_range_succ, prod_range_succ']
+    have hmid : ∀ r ∈ range c, goodFactor (c + 3) ((c + 3) * n + (r + 1)) = 1 := by
+      intro r hr
+      rw [mem_range] at hr
+      unfold goodFactor
+      rw [ite_eq_right_iff]
+      intro hg
+      exfalso
+      revert hg
+      rw [show (c + 3) * n + (r + 1) + 1 = (c + 3) * n + (r + 2) by ring, good_mod]
+      unfold good
+      rw [Nat.mod_eq_of_lt (by omega)]
+      omega
+    rw [prod_eq_one hmid, one_mul]
+    have g1 : good (c + 3) ((c + 3) * n + (c + 2) + 1) := by
+      rw [show (c + 3) * n + (c + 2) + 1 = (c + 3) * n + (c + 3) by ring, good_mod]
+      unfold good; simp
+    have g2 : good (c + 3) ((c + 3) * n + (c + 1) + 1) := by
+      rw [show (c + 3) * n + (c + 1) + 1 = (c + 3) * n + (c + 2) by ring, good_mod]
+      unfold good; rw [Nat.mod_eq_of_lt (by omega)]; omega
+    have g3 : good (c + 3) ((c + 3) * n + 0 + 1) := by
+      rw [show (c + 3) * n + 0 + 1 = (c + 3) * n + 1 by ring, good_mod]
+      unfold good; rw [Nat.mod_eq_of_lt (by omega)]; omega
+    unfold goodFactor jtpFactor
+    simp only [g1, g2, g3, ↓reduceIte]
+    ring_nf
+
+/-- Jacobi triple product in the form needed here:
+∏_{q good} (1 - x^q) = thetaEntry m. -/
+theorem hasProd_goodFactor (c : ℕ) : HasProd (goodFactor (c + 3)) (thetaEntry (c + 3)) := by
+  rw [thetaEntry_eq _ (by omega), show c + 3 - 1 = c + 2 by omega]
+  apply hasProd_of_modX
+  · intro N i hi
+    unfold goodFactor
+    split_ifs
+    · exact modX_one_sub N (i + 1) (by omega)
+    · exact map_one _
+  · intro k
+    have hst := prod_modX_stable (goodFactor (c + 3)) (k + 1) ((c + 3) * (k + 1)) (by nlinarith)
+      (fun i hi => by
+        unfold goodFactor
+        split_ifs
+        · exact modX_one_sub _ (i + 1) (by omega)
+        · exact map_one _)
+    rw [← coeff_eq_of_modX (k + 1) hst k (by omega), prod_goodFactor]
+    exact jtp_coeff 1 (c + 2) le_rfl (by omega) k (k + 1) (by omega)
+
+/-- **Column g.f.** (`m = c + 3`, i.e. column k = c + 1): thetaEntry m · Σ T(n) q^n = 1, so the
+partition count `T m n` is column k of A195825 as the entry defines it. -/
+theorem column_gf (c : ℕ) :
+    thetaEntry (c + 3) * PowerSeries.mk (fun n => (T (c + 3) n : ℤ)) = 1 := by
+  have hT : PowerSeries.mk (fun n => (T (c + 3) n : ℤ)) =
+      PowerSeries.mk (fun n => ((Nat.Partition.restricted n (good (c + 3))).card : ℤ)) := by
+    ext n; simp [T, Nat.Partition.restricted]
+  have h2 := Nat.Partition.hasProd_powerSeriesMk_card_restricted (R := ℤ) (good (c + 3))
+  have h := (hasProd_goodFactor c).mul h2
+  rw [hT]
+  refine h.unique ?_
+  convert hasProd_one using 1
+  funext i
+  unfold goodFactor
+  split_ifs
+  · simp_rw [pow_mul]
+    exact PowerSeries.WithPiTopology.one_sub_mul_tsum_pow_of_constantCoeff_eq_zero (by simp)
+  · ring
+
+end GF
 
 end OEIS_A195825
 

@@ -22,7 +22,7 @@ FORCE=0; [ "${1:-}" = "--force" ] && FORCE=1
 
 # Dependency order: a module may import only modules listed before it.
 #
-MODULES="PowMod Pratt Fermat Korselt Cipolla SquaredRect ArithFactor D_CombLine R5_Quadratic Dwork DworkEuler DworkMultinomial ShevelevFactorial"
+MODULES="PowMod Pratt Fermat Korselt Cipolla SquaredRect ArithFactor D_CombLine R5_Quadratic Dwork DworkEuler DworkMultinomial ShevelevFactorial QSeries"
 
 compile() {
   local src="$1" olean="$2" ilean="$3"

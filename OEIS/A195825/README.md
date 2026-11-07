@@ -34,19 +34,25 @@ reproduces the data). A plateau is a maximal run of at least two equal consecuti
    level does not depend on m; it counts multisets of pairs (a, e) with Σa ≤ A, which is Σ_{B≤A} p₃(B).
 
 **Evidence.**
-- Lean (Mathlib): [`A195825_mathlib.lean`](A195825_mathlib.lean), with T(n,k) modelled as the number of partitions
-  (`Nat.Partition`) into parts ≡ 0, ±1 mod m. Main theorems `flat_iff` (steps 2-3: exact set of n with
-  T(n+1) = T(n)) and `level_const` (step 4: the level of plateau A is the same for all k ≥ 2A + 1); route `T_succ`,
-  `D_pos_iff`, `level_step` with the bijection `Φ`/`Ψ`. Check: `tools/leancheck-mathlib.sh`, exit 0, no warnings;
+- Lean (Mathlib): [`A195825_mathlib.lean`](A195825_mathlib.lean), importing the library module
+  `OpenProblemsLib.QSeries`, with T(n,k) modelled as the number of partitions (`Nat.Partition`) into
+  parts ≡ 0, ±1 mod m. `column_gf` (step 1): `thetaEntry m * Σ T(n) q^n = 1`, where `thetaEntry m`
+  is the entry's series Σ_{j∈ℤ} (−1)^j q^{(mj²−(m−2)j)/2}, so this T is column k as the entry defines
+  it; proved from the library's Jacobi triple product (`jacobi_triple_product`, via `thetaEntry_eq`,
+  `prod_goodFactor`, `hasProd_goodFactor`) and Mathlib's restricted-partition generating function.
+  Main theorems `flat_iff` (steps 2-3: exact set of n with T(n+1) = T(n)) and `level_const`
+  (step 4: the level of plateau A is the same for all k ≥ 2A + 1); route `T_succ`, `D_pos_iff`,
+  `level_step` with the bijection `Φ`/`Ψ`. Check: `tools/leancheck-mathlib.sh`, exit 0, no warnings;
   axioms at most propext, Classical.choice, Quot.sound. No `sorry`, no `native_decide`.
 - [`certificate/check.py`](certificate/check.py): for k = 1..40 and n ≤ 1500, the entry's series equals the
   partition count (step 1), the plateaus are exactly as stated, the levels are Σ_{B≤A} p₃(B); the entry's data and
   A210843's 15 data terms are reproduced.
-- Outside Lean: step 1 (Jacobi triple product for these products; checked 2026-11-06: Mathlib has only Euler's
-  pentagonal number theorem, `Mathlib/Combinatorics/Enumerative/Pentagonal`, i.e. the column k = 1, and no triple product), and the closed form Σ p₃(B) of the levels (not
-  needed for the conjecture; checked numerically).
+- Outside Lean: the closed form Σ_{B≤A} p₃(B) of the plateau levels (an extra answer to A210843's
+  question, not part of the conjecture; checked numerically). Reading the plateau lengths and counts
+  off `flat_iff` and the entry's g.f. as `thetaEntry` are definition-reading steps.
 
-**Review level.** `lean-witness` (all combinatorics in Lean; the triple product step is outside).
+**Review level.** `lean-proof` (the conjecture is proved in Lean from the entry's g.f., including the triple
+product step).
 
 **Prior art.** Checked 2026-11-06. The entry (revision #100, 2026) still states the conjecture; A210843 asks
 whether it is the Euler transform of 4, 3, 3, ... (step 4 answers yes). The triple product and the reading of the
