@@ -1,0 +1,7 @@
+  ***   Warning: new maximum stack size = 1500000256 (1430.512 Mbytes).
+n=2 B roots k=[24] S roots k=[24]
+n=4 B roots k=[] S roots k=[23]
+  *** nfroots: Warning: increasing stack size to 16000000.
+  *** nfroots: Warning: increasing stack size to 32000000.
+  *** nfroots: Warning: increasing stack size to 64000000.
+done NMAX=400

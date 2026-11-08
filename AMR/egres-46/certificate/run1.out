@@ -1,0 +1,34 @@
+k=3 degree 1: none (tested 37)
+k=3 degree 2: none (tested 740)
+k=3 degree 3: none (tested 9879)
+k=3 degree 4: none (tested 101269)
+k=3 degree 5: none (tested 850667)
+k=3 N=37 M=45 dgon=6 tested=850668 witness: 0 0 0 0 0 0
+k=4 degree 1: none (tested 52)
+k=4 degree 2: none (tested 1430)
+k=4 degree 3: none (tested 26234)
+k=4 degree 4: none (tested 367289)
+k=4 N=52 M=60 dgon=5 tested=388896 witness: 0 0 26 29 32
+k=5 degree 1: none (tested 67)
+k=5 degree 2: none (tested 2345)
+k=5 degree 3: none (tested 54739)
+k=5 degree 4: none (tested 971634)
+k=5 degree 5: none (tested 13991543)
+k=5 N=67 M=75 dgon=6 tested=13991544 witness: 0 0 0 0 0 0
+k=1 degree 1: none (tested 10)
+k=1 degree 2: none (tested 65)
+k=1 degree 3: none (tested 285)
+k=1 degree 4: none (tested 1000)
+k=1 degree 5: none (tested 3002)
+k=1 N=10 M=18 dgon=6 tested=3003 witness: 0 0 0 0 0 0
+k=2 degree 1: none (tested 28)
+k=2 degree 2: none (tested 434)
+k=2 degree 3: none (tested 4494)
+k=2 degree 4: none (tested 35959)
+k=2 N=28 M=36 dgon=5 tested=39865 witness: 0 0 19 20 21
+k=3 degree 1: none (tested 46)
+k=3 degree 2: none (tested 1127)
+k=3 degree 3: none (tested 18423)
+k=3 degree 4: none (tested 230299)
+k=3 degree 5: none (tested 2349059)
+k=3 N=46 M=54 dgon=6 tested=2349060 witness: 0 0 0 0 0 0

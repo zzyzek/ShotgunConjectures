@@ -2,7 +2,7 @@
 
 Open-problem lists linked from https://amathr.org/problems/ (Cooper, TOPP, Egres Open, Froberg et al. and others); ids AMR-<list>-<k>, statements paraphrased with the list named in each README.
 
-20 entries: 2 resolved by this project, 12 answered elsewhere, 1 disputed or partial.
+21 entries: 2 resolved by this project, 12 answered elsewhere, 2 disputed or partial.
 
 Of the 2 resolutions: 1 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -36,6 +36,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
+| [egres-46](egres-46/) | partial (ratio bounded by 2, known); odd-k change open | gonality under edge subdivisions | — | partly-known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [froberg-4.3](froberg-4.3/) | partial | two generic quadrics in the exterior algebra (even n proved elsewhere; odd n open) | — | partly-known | [known-theorem](../methods/known-theorem/README.md), [reading-the-statement](../methods/reading-the-statement/README.md) |
 
 ## Weaker results on open problems (the problem stays open)
@@ -43,7 +44,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [aimmatrix-sap3](aimmatrix-sap3/) | partial | fewest nonzeros of an irreducible β-arbitrary pattern (partial) | — | new | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
-| [froberg-H](froberg-H/) | partial | T\_{n,2,2} = S/(x\_1², …, x\_n²)² has the WLP for every n | needs Mathlib | new | [elementary-proof](../methods/elementary-proof/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
+| [froberg-H](froberg-H/) | partial | T\_{n,2,2} = S/(x\_1², …, x\_n²)² has the WLP for every n | [full proof](froberg-H/froberg_H_mathlib.lean) | new | [elementary-proof](../methods/elementary-proof/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
 | [froberg-O](froberg-O/) | partial | periods of the zero-set map φ on F\_p[x]: period 6 occurs (partial) | [witness](froberg-O/froberg_O.lean) | new | [complete-table-scan](../methods/complete-table-scan/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [froberg-P](froberg-P/) | partial | order of ψ(f) = Σ\_a f(a) x^a on polynomials of degree < p | [witness](froberg-P/froberg_P.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [lean-certificate](../methods/lean-certificate/README.md) |
 | [froberg-R](froberg-R/) | partial | explicit odd-degree forms with the Lundqvist–Nicklasson series (partial) | — | new | [parametric-family](../methods/parametric-family/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
@@ -354,6 +355,32 @@ Lean: [witness](shapiro-11/shapiro_11.lean).
 
 Lean: —.
 
+### [egres-46](egres-46/): gonality under edge subdivisions
+
+**Source.** Egres Open (Egervary Research Group), problem "Gonality under edge subdivisions" (Wayback 2024
+snapshot; listed at amathr.org/problems). Paraphrase: how does the divisorial gonality dgon change when every
+edge is subdivided k times? Is the ratio bounded? Can it change for odd k?
+
+**Reading.** sigma_k(G): every edge replaced by a path of k edges (k - 1 new vertices). "Subdivided k times" may
+mean sigma_k or sigma_{k+1}; this changes the parity in the third question.
+
+**Result (partial; known parts by others).**
+- Ratio: bounded. J. van Dobben de Bruyn, H. Smit, M. van der Wegen, *Discrete and metric divisorial gonality can
+  be different*, J. Combin. Theory Ser. A 189 (2022) 105619 (arXiv:2106.12568): dgon(Gamma(G)) = min_k
+  dgon(sigma_k G) and dgon_r(G) <= 2 dgon_r(Gamma(G)) - r, so 1 <= dgon(G)/dgon(sigma_k G) <= 2; their examples
+  give ratios up to 6/5; the best constant is open (their Section 6).
+- Change: yes for sigma_2 (tricycle graphs: dgon 6, dgon(sigma_2) = 5), hence for every even k in the sigma_k
+  reading, and for k = 1 in the "one inserted vertex" reading. Whether dgon(sigma_k G) < dgon(G) for some odd k
+  is listed as open in the same paper.
+- Our computation (new evidence, no counterexample): exhaustive divisor search (`certificate/dgon.c`, Dhar
+  burning) gives dgon(sigma_k T) = 6, 5, 6, 5, 6 for k = 1..5 on the minimal tricycle multigraph T_m and
+  6, 5, 6 for k = 1..3 on the simple tricycle T_ms (paper's values for k = 1, 2 reproduced); in a family of
+  generalised tricycles (cycle lengths 2-4, transition paths 1-3, spokes 1-2; `certificate/family.out`) many
+  drop at k = 2 and none at k = 3; among all 994 connected graphs on <= 7 vertices with dgon <= 5 none drops at
+  k = 3 (`certificate/atlas.out`).
+
+Lean: —.
+
 ### [froberg-4.3](froberg-4.3/): two generic quadrics in the exterior algebra (even n proved elsewhere; odd n open)
 
 **Source.** R. Fröberg, S. Lundqvist, A. Oneto, B. Shapiro, *Algebraic stories from one and from the
@@ -495,7 +522,7 @@ w = 0 by cancellation). Hence Φ ≠ 0, Φ is injective, and ×ℓ: R_{k+1} → 
 Dimension check: dim R_t = C(2k,t) + 2k·C(2k,t−2) (the x_i²-, x_i³-monomials form n copies of the Boolean level
 t−2 on n points, as in BFL), and dim R_{k+2} − dim R_{k+1} = C(2k,k)/(k+1)·(2k − 3k/(k+2)) > 0.
 
-Lean: needs Mathlib.
+Lean: [full proof](froberg-H/froberg_H_mathlib.lean).
 
 ### [froberg-O](froberg-O/): periods of the zero-set map φ on F_p[x]: period 6 occurs (partial)
 

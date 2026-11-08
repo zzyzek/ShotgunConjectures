@@ -32,14 +32,20 @@ Landau-Selberg-Delange method has about C x / sqrt(log x) elements up to x; the 
 x/(log x)^(1 - 2^-s) elements. So the count of terms up to x is of order x / sqrt(log x).
 
 **Evidence.**
+- Lean (Mathlib + `OpenProblemsLib.PNTApps`): [`A200982_mathlib.lean`](A200982_mathlib.lean).
+  `A200982_not_term_of_mixed`: if a prime p ≡ 1 (mod 4) and a prime q ≡ 3 (mod 4) both divide k, then k is
+  not a term (step 1 at q: q^(e-1)(q-1) divides L because 4 | p - 1 | lambda(k); the sum is ≡ (k/q)(q-1)
+  mod q^e). `A200982_avoid_density_zero` (step 3, `density_zero_of_sieve` with G_p(n) = "p | n" and
+  `not_summable_one_div_prime_mod` for each class mod 4) and `A200982_density_zero`: the terms (k ≥ 1,
+  k | sum_{j=1}^{k-1} j^(lambda(k)/2), lambda = Mathlib's `carmichael`, natural division) have natural
+  density 0. Checked 2026-11-08 with `tools/leancheck-mathlib.sh`: OK, axioms propext, Classical.choice,
+  Quot.sound.
 - [`certificate/check_A200982.py`](certificate/check_A200982.py): direct evaluation of the sum for k <= 6000
   agrees with the characterisation of step 2 (no mismatch), and the first terms agree with the entry.
-- Lean: none. The local characterisation is elementary; the density step needs Dirichlet's divergence of
-  sum 1/p over p = 3 mod 4 and p = 1 mod 4 (Mathlib has the divergence of sum log(p)/p over a class,
-  `ArithmeticFunction.vonMangoldt.not_summable_residueClass_prime_div`, not of sum 1/p) and a sieve density bound.
-- Outside Lean: everything (steps 1-3); the cited paper proves the same statements.
+- Outside Lean: none for the density statement (the full characterisation of step 2, the paper's
+  Proposition 12, is not needed for it and is not formalised).
 
-**Review level.** `rechecked` (argument re-derived independently, characterisation checked numerically).
+**Review level.** `lean-proof` (the density-zero conjecture proved in Lean; characterisation checked numerically).
 
 **Prior art.** Grau, Oller-Marcén, arXiv:1304.2678 (2013), Prop. 12-13, found 2026-11-07 by web search. Also
 searched: OEIS entry (conjecture still present, paper not linked), google-deepmind/formal-conjectures and

@@ -25,12 +25,21 @@ and Serre (1976) showed that the coefficients of every weight-1 form vanish on a
 density 1; the computation above is the explicit form of that fact for this entry.
 
 **Evidence.**
-- `certificate/check.py`: the product and the theta-sum agree for n ≤ 20 000 and match the
-  data; every n ≤ 20 000 with a(n) ≠ 0 has 24n + 10 a sum of two squares; fractions above.
-- No Lean: the pentagonal theorem and Landau's (or Dirichlet's) theorem are needed.
-  `lean_status: needs-mathlib`.
+- Lean (Mathlib + `OpenProblemsLib.PNTApps`): [`A204770_mathlib.lean`](A204770_mathlib.lean), the conjecture via
+  the parenthetical "without Landau" route above. a(n) is defined as the coefficient of x^n in
+  psi(x^3) f(-x) with the theta series psi(q) = sum_{j>=0} q^(j(j+1)/2), f(-q) = sum_{k in Z} (-1)^k q^(k(3k-1)/2)
+  (the entry's name; the product form is not used). `A204770_sq_add_sq`: a(n) ≠ 0 implies 24n + 10 is a sum
+  of two squares; `not_sq_add_sq_of_exact` (from Mathlib `Nat.eq_sq_add_sq_iff`); `count_G` (q - 1 residues
+  n mod q^2 with q exactly dividing 24n + 10); `A204770_nonzero_density_zero` (library
+  `density_zero_of_sieve` with Dirichlet's divergence for q ≡ 3 mod 4) and `A204770_zero_density_one`:
+  #{n < N : a(n) = 0}/N → 1. Checked 2026-11-08 with `tools/leancheck-mathlib.sh`: OK, axioms propext,
+  Classical.choice, Quot.sound.
+- `certificate/check.py`: the product and the theta-sum agree for n ≤ 20 000 and match the data; every
+  n ≤ 20 000 with a(n) ≠ 0 has 24n + 10 a sum of two squares; fractions above.
+- Outside Lean: none for the density-one statement (the rate O(N/sqrt(log N)), which uses Landau's theorem,
+  and the equality with the product form of the g.f. are not formalised).
 
-**Review level.** `rechecked` (argument re-derived; identity checked numerically to 20 000).
+**Review level.** `lean-proof` (density 1 of the zero terms proved in Lean; the O(N/sqrt(log N)) rate is a paper argument).
 
 **Prior art.** The conjecture is a direct instance of Serre's lacunarity theorem for weight-1
 forms (J.-P. Serre, "Divisibilité de certaines fonctions arithmétiques", Enseignement Math.

@@ -15,11 +15,18 @@ concatenation of a(1..n-1).
 x = (10C + 1) 10^d; then (1 + eps) x < (10C + 10) 10^d, so p = 10(C 10^d + m) + 1 with 10^(d-1) < m < 10^d. So m has d
 digits, is unused for d large, and the concatenation C m 1 = p is prime; a least such m exists.
 
-**Evidence.** Paper proof only. Lean: needs the prime number theorem in arithmetic progressions (Mathlib has
-Dirichlet's theorem, `Nat.forall_exists_prime_gt_and_modEq`; lib/PNTPlus has the PNT for all primes):
-`needs-mathlib`. Outside Lean: the whole argument.
+**Evidence.** Lean: [`A083762_mathlib.lean`](A083762_mathlib.lean) (Mathlib + vendored PNT+), checked 2026-11-08.
+- `prime_one_mod_ten_window`: for 1 ≤ A, A + 2 ≤ B there are arbitrarily large d with a prime p ≡ 1 (mod 10) in
+  (A·10^d, B·10^d). From `WeakPNT_AP` (PNT+: ψ(N; 10, 1)/N → 1/4, Wiener–Ikehara with Dirichlet L-functions) and
+  ψ − θ = O(√x) (`Chebyshev.psi_sub_theta_le_mul_sqrt`, Mathlib): the window carries ψ-mass ≥ 10^d/8, while
+  proper prime powers carry O(10^(d/2)).
+- `exists_next`: for every C and every finite set U there is m > 0, m ∉ U, with C‖m‖1 prime (A = 10C + 1,
+  B = 10C + 10, m = (p − 1)/10 − C·10^d has exactly d digits).
+- `a`, `state`, `a_spec`, `a_min`: the sequence as defined in **Reading**, total; `a_injective`; `a_zero`, `a_one`
+  (a(1) = 1, a(2) = 3).
+- Outside Lean: none for the partial result (only reading `concat1` and `a` as the OEIS definition).
 
-**Review level.** `agent`.
+**Review level.** `lean-proof` (partial result: the sequence never terminates).
 
 **Prior art.** Checked 2026-11-07: entry and b-file reference (Diana Mecum, n <= 200); no statement that the sequence
 is infinite was found. Obstruction analysis for the full conjecture: `open-problems/work/OEIS-A083762/REPORT.md`

@@ -4,17 +4,17 @@ OEIS entries whose conjecture this project settled and which OEIS does not yet r
 (prior-art review 2026-11-04: current entry, entries citing it, edit history, web, arXiv).
 Each draft comment is a starting point: shorten it to OEIS style and sign it. "Partly known" means a source covers part of it; the note says which part.
 
-249 entries.
+251 entries.
 
 ## Substantive (not an immediate consequence of a known theorem) (114)
 
 ### [A002093](https://oeis.org/A002093): highly abundant numbers are eventually divisible by every k
 
-- Problem: [OEIS-A002093](OEIS/A002093/README.md) (proved, partly-known). Lean: paper proof.
+- Problem: [OEIS-A002093](OEIS/A002093/README.md) (proved, partly-known). Lean: Lean proof, [`A002093_mathlib.lean`](OEIS/A002093/A002093_mathlib.lean).
 - Prior art: No source for (b) beyond k | 12 found; elementary, may be folklore.
 - Draft comment:
 
-  > The conjecture is true: - (b) True (ours): for every prime power q^e, all sufficiently large highly abundant n are divisible by q^e; hence by every k. - (a) Proved informally by D. Eppstein (blog, Feb 26 2015, revised after 630 was found); that case analysis is cited, not re-derived here. **Argument for (b).** For a prime s with s^a || n and the replacement s^a -> s^(a+i) (i >= 1), sigma is multiplied by (s^(a+i+1)-1)/(s^(a+1)-1) >= s^i (1 + delta_s(a)), delta_s(a) = (1 - 1/s)/(s^(a+1) - 1) > 0, decreasing in a. For s^a -> s^(a-j), sigma is multiplied by (s^(a-j+1)-1)/(s^(a+1)-1) >= s^(-j)(1 - s^(j-a-1)); for s^1 -> s^0 by 1/(s+1). A highly abundant n admits no m < n with sigma(m) >= sigma(n). Fix q, e and suppose v_q(n) <= e-1 for infinitely many highly abundant n; let delta = delta_q(e-1). Fix a prime r != q. 1. If v_r(n) is unbounded along them: pick i, j >= 1 with q^i < r^j < q^i(1 + delta/2) (exists since log r / log q is irrational). Then m = n q^i / r^j < n and sigma(m)/sigma(n) >= (1+delta)/(1+delta/2) * (1 - r^(j-a-1)) > 1 once a = v_r(n) is large. Contradiction. 2. If v_r(n) <= B but the largest prime factor P of n is unbounded: let eps = delta_r(B). For P large pick i >= 1, k >= 0 with P/(1 + delta/2) < q^i r^k < P (the numbers q^i r^k have consecutive ratios -> 1). Then m = n q^i r^k / P < n and sigma(m)/sigma(n) >= (1+delta) q^i r^k / (P+1) > (1+delta)/(1+delta/2) * P/(P+1) > 1. 3. If v_r(n) and P are both bounded: n is P-smooth with P bounded, so some prime s != q has v_s(n) unbounded; apply 1 with s in place of r. So v_q(n) >= e for all large highly abundant n. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A002093). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: - (b) True (ours): for every prime power q^e, all sufficiently large highly abundant n are divisible by q^e; hence by every k. - (a) Proved informally by D. Eppstein (blog, Feb 26 2015, revised after 630 was found); that case analysis is cited, not re-derived here. **Argument for (b).** For a prime s with s^a || n and the replacement s^a -> s^(a+i) (i >= 1), sigma is multiplied by (s^(a+i+1)-1)/(s^(a+1)-1) >= s^i (1 + delta_s(a)), delta_s(a) = (1 - 1/s)/(s^(a+1) - 1) > 0, decreasing in a. For s^a -> s^(a-j), sigma is multiplied by (s^(a-j+1)-1)/(s^(a+1)-1) >= s^(-j)(1 - s^(j-a-1)); for s^1 -> s^0 by 1/(s+1). A highly abundant n admits no m < n with sigma(m) >= sigma(n). Fix q, e and suppose v_q(n) <= e-1 for infinitely many highly abundant n; let delta = delta_q(e-1). Fix a prime r != q. 1. If v_r(n) is unbounded along them: pick i, j >= 1 with q^i < r^j < q^i(1 + delta/2) (exists since log r / log q is irrational). Then m = n q^i / r^j < n and sigma(m)/sigma(n) >= (1+delta)/(1+delta/2) * (1 - r^(j-a-1)) > 1 once a = v_r(n) is large. Contradiction. 2. If v_r(n) <= B but the largest prime factor P of n is unbounded: let eps = delta_r(B). For P large pick i >= 1, k >= 0 with P/(1 + delta/2) < q^i r^k < P (the numbers q^i r^k have consecutive ratios -> 1). Then m = n q^i r^k / P < n and sigma(m)/sigma(n) >= (1+delta) q^i r^k / (P+1) > (1+delta)/(1+delta/2) * P/(P+1) > 1. 3. If v_r(n) and P are both bounded: n is P-smooth with P bounded, so some prime s != q has v_s(n) unbounded; apply 1 with s in place of r. So v_q(n) >= e for all large highly abundant n. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A002093). - _<Name>_, <Mon DD YYYY>
 
 ### [A026002](https://oeis.org/A026002): Bergot's array with borders n(n−1)+1 has diagonal A026002
 
@@ -770,11 +770,11 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A210456](https://oeis.org/A210456): periods of digital roots of n-step Fibonacci numbers (divisibility by 3, Helenius's closed forms)
 
-- Problem: [OEIS-A210456](OEIS/A210456/README.md) (proved, new). Lean: paper proof.
+- Problem: [OEIS-A210456](OEIS/A210456/README.md) (proved, new). Lean: Lean proof, [`A210456_mathlib.lean`](OEIS/A210456/A210456_mathlib.lean).
 - Prior art: Uses classical tools (Gauss trace congruence, Singer difference sets).
 - Draft comment:
 
-  > The conjecture is true: Both conjectures are true. With P(n) the period mod 3: - a(n) = 3·P(n) whenever 3 ∤ P(n); in all cases 3 | a(n) for n ≥ 2. - P(3^m − 1) = 3^{2m} − 1 and P(3^m) = 3^{2m} + 3^m + 1, so a(3^m − 1) = 3^{2m+1} − 3 and a(3^m) = 3^{2m+1} + 3^{m+1} + 3. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A210456). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: Both conjectures are true. With P(n) the period mod 3: - a(n) = 3·P(n) whenever 3 ∤ P(n); in all cases 3 | a(n) for n ≥ 2. - P(3^m − 1) = 3^{2m} − 1 and P(3^m) = 3^{2m} + 3^m + 1, so a(3^m − 1) = 3^{2m+1} − 3 and a(3^m) = 3^{2m+1} + 3^{m+1} + 3. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A210456). - _<Name>_, <Mon DD YYYY>
 
 ### [A212392](https://oeis.org/A212392): n divides a(n) for A(x) = (x + A(A(x)))^2
 
@@ -858,11 +858,11 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A225776](https://oeis.org/A225776): Hankel determinants of sum_j C(k,j)^r are 2^n times a positive odd integer
 
-- Problem: [OEIS-A225776](OEIS/A225776/README.md) (proved, partly-known). Lean: paper proof.
+- Problem: [OEIS-A225776](OEIS/A225776/README.md) (proved, partly-known). Lean: Lean proof, [`A225776_mathlib.lean`](OEIS/A225776/A225776_mathlib.lean).
 - Prior art: Positivity for r>=4 not found in the literature; the moment representation is ours.
 - Draft comment:
 
-  > The conjecture is true: for all r >= 2 and n >= 0. - r = 3, the first sentence: Zhu and Sun, IJNT 14 (2018), Theorem 1.1 (known; the entry says so since Sep 2026). - a(r,n)/2^n is an odd integer for r >= 3: Zhu and Sun, Theorem 1.1 (known). For r = 2, f(2,k) = C(2k,k) and a(2,n) = 2^n (classical). - a(r,n) > 0 for r >= 4: new here (Zhu and Sun prove positivity only for r = 3). **Argument (positivity, all r >= 2).** f(r,k) is the constant term of L^k with the Laurent polynomial L = (1+x_1)...(1+x_{r-1})(1 + 1/(x_1...x_{r-1})): choosing x_i^{a_i} from (1+x_i)^k and (x_1...x_{r-1})^{-b} from the last factor gives coefficient C(k,a_1)...C(k,a_{r-1})C(k,b), and the constant term forces a_i = b. Put x_i = e^{i t_i}. Since 1 + e^{it} = 2 cos(t/2) e^{it/2}, and the half-angle phases cancel against 1 + e^{-i(t_1+...+t_{r-1})} = 2 cos(s/2) e^{-is/2} with s = t_1+...+t_{r-1}, L takes the real value L(t) = 2^r cos(s/2) cos(t_1/2)...cos(t_{r-1}/2) on the torus. Every exponent of x_i in L^k lies in [-k, k], so for N = 2n+1 and all k <= 2n the constant term equals the average over the grid G of N-th roots of unity: f(r,k) = N^{-(r-1)} Sum_{g in G} L_g^k, with L_g real. Hence the Hankel matrix is H = N^{-(r-1)} Sum_g v_g v_g^T with v_g = (1, L_g, ..., L_g^n), and by Cauchy-Binet det H = N^{-(r-1)(n+1)} Sum over (n+1)-subsets S of G of Prod_{a<b in S} (L_a - L_b)^2 >= 0. The grid points t = (2 pi m/N, 0, ..., 0), m = 0..n, give L = 2^{r-1}(1 + cos(2 pi m/N)), which are n+1 distinct values, so one summand is positive and det H > 0. (Equivalently: f(r,.) is the moment sequence of the image of Haar measure under L, a measure with infinite support.) (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A225776). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: for all r >= 2 and n >= 0. - r = 3, the first sentence: Zhu and Sun, IJNT 14 (2018), Theorem 1.1 (known; the entry says so since Sep 2026). - a(r,n)/2^n is an odd integer for r >= 3: Zhu and Sun, Theorem 1.1 (known). For r = 2, f(2,k) = C(2k,k) and a(2,n) = 2^n (classical). - a(r,n) > 0 for r >= 4: new here (Zhu and Sun prove positivity only for r = 3). **Argument (positivity, all r >= 2).** f(r,k) is the constant term of L^k with the Laurent polynomial L = (1+x_1)...(1+x_{r-1})(1 + 1/(x_1...x_{r-1})): choosing x_i^{a_i} from (1+x_i)^k and (x_1...x_{r-1})^{-b} from the last factor gives coefficient C(k,a_1)...C(k,a_{r-1})C(k,b), and the constant term forces a_i = b. Put x_i = e^{i t_i}. Since 1 + e^{it} = 2 cos(t/2) e^{it/2}, and the half-angle phases cancel against 1 + e^{-i(t_1+...+t_{r-1})} = 2 cos(s/2) e^{-is/2} with s = t_1+...+t_{r-1}, L takes the real value L(t) = 2^r cos(s/2) cos(t_1/2)...cos(t_{r-1}/2) on the torus. Every exponent of x_i in L^k lies in [-k, k], so for N = 2n+1 and all k <= 2n the constant term equals the average over the grid G of N-th roots of unity: f(r,k) = N^{-(r-1)} Sum_{g in G} L_g^k, with L_g real. Hence the Hankel matrix is H = N^{-(r-1)} Sum_g v_g v_g^T with v_g = (1, L_g, ..., L_g^n), and by Cauchy-Binet det H = N^{-(r-1)(n+1)} Sum over (n+1)-subsets S of G of Prod_{a<b in S} (L_a - L_b)^2 >= 0. The grid points t = (2 pi m/N, 0, ..., 0), m = 0..n, give L = 2^{r-1}(1 + cos(2 pi m/N)), which are n+1 distinct values, so one summand is positive and det H > 0. (Equivalently: f(r,.) is the moment sequence of the image of Haar measure under L, a measure with infinite support.) (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A225776). - _<Name>_, <Mon DD YYYY>
 
 ### [A225919](https://oeis.org/A225919): the greedy harmonic-block sequence for f(k) = 1/(k+4) is linearly recurrent
 
@@ -930,13 +930,13 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A230496](https://oeis.org/A230496): a(n) > 0 for every n
 
-- Problem: [OEIS-A230496](OEIS/A230496/README.md) (proved, new). Lean: paper proof.
+- Problem: [OEIS-A230496](OEIS/A230496/README.md) (proved, new). Lean: Lean proof, [`A230496_mathlib.lean`](OEIS/A230496/A230496_mathlib.lean).
 - Prior art: No proof found. A230497 and A230498 (evil/odious variants) stay open.
 - Draft comment:
 
-  > The conjecture is true: For every n there is an odd k > 1 with k, k^2, ..., k^n all odious. Explicitly, with 2^t > n, k = 1 + 2^{M e_1} + ... + 2^{M e_{2^t}} works whenever the exponents are "generic" in the sense below. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A230496). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: For every n there is an odd k > 1 with k, k^2, ..., k^n all odious. Explicitly, with 2^t > n, k = 1 + 2^{M e_1} + ... + 2^{M e_{2^t}} works whenever the exponents are "generic" in the sense below. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A230496). - _<Name>_, <Mon DD YYYY>
 
-## Immediate from a known theorem or short argument, still open in OEIS (135)
+## Immediate from a known theorem or short argument, still open in OEIS (137)
 
 ### [A004050](https://oeis.org/A004050): only 5, 11, 17, 35, 259 are 2^a + 3^b in two ways
 
@@ -1060,11 +1060,11 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A065255](https://oeis.org/A065255): b(k)/k → 10
 
-- Problem: [OEIS-A065255](OEIS/A065255/README.md) (proved, new). Lean: paper proof, [`A065255_mathlib.lean`](OEIS/A065255/A065255_mathlib.lean).
+- Problem: [OEIS-A065255](OEIS/A065255/README.md) (proved, new). Lean: Lean proof, [`A065255_mathlib.lean`](OEIS/A065255/A065255_mathlib.lean).
 - Prior art: Follows at once from the classical fact that m | sigma(n) for almost all n; not recorded on the entry.
 - Draft comment:
 
-  > The conjecture is true: B differs from the multiples of 10 by a set of density 0, so B has density 1/10 and b(k) ~ 10k. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065255). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: B differs from the multiples of 10 by a set of density 0, so B has density 1/10 and b(k) ~ 10k. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A065255). - _<Name>_, <Mon DD YYYY>
 
 ### [A071561](https://oeis.org/A071561): almost all integers have no middle divisor, so a(n)/n -> 1, not 4/3
 
@@ -1636,11 +1636,11 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A181674](https://oeis.org/A181674): the average order is 1, not Theta(log log n)
 
-- Problem: [OEIS-A181674](OEIS/A181674/README.md) (disproved, new). Lean: paper proof.
+- Problem: [OEIS-A181674](OEIS/A181674/README.md) (disproved, new). Lean: Lean proof, [`A181674_mathlib.lean`](OEIS/A181674/A181674_mathlib.lean).
 - Prior art: Refutation is a two-line density argument; no published discussion found.
 - Draft comment:
 
-  > The conjecture is false: M(x) -> 1; in particular M(x) = O(1), so M(x) is not Omega(log log x). (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A181674). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is false: M(x) -> 1; in particular M(x) = O(1), so M(x) is not Omega(log log x). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A181674). - _<Name>_, <Mon DD YYYY>
 
 ### [A182132](https://oeis.org/A182132): (30n-7)(90n-23)(300n-79) is Carmichael when all factors are prime
 
@@ -1898,6 +1898,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > Both conjectures are true. For n > 19, one of 9, 25, 35 (residues 0, 1, 2 mod 3) leaves 2n - c an odd multiple of 3 that is >= 9 when n >= 22, and 40 = 25 + 15, 42 = 15 + 27 (the classical fact that every even number > 38 is a sum of two odd composites). For the second, A002372(n) + A215461(n) + a(n) = n gives A215461(n) = 2(P - G) and a(n) = n - 2P + G, with P the number of odd primes below 2n and G = A002372(n), and both inequalities follow from n/log n << P = o(n) (Chebyshev) and G << n/log^2 n (Brun-Selberg sieve). A partial Lean 4 verification (the first conjecture; the second outside Lean) and the full argument are at https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A215462.
 
+### [A216196](https://oeis.org/A216196): Xoox-free Sudoku with more than 27 diagonals
+
+- Problem: [OEIS-A216196](OEIS/A216196/README.md) (disproved, new). Lean: Lean (partial), [`A216196.lean`](OEIS/A216196/A216196.lean).
+- Prior art: No prior counterexample found.
+- Draft comment:
+
+  > The conjecture is false: The Xoox-free Sudoku 1 2 3 4 5 6 7 8 9 9 4 8 3 7 2 6 1 5 5 6 7 8 9 1 2 3 4 4 5 6 7 8 9 1 2 3 3 7 2 6 1 5 9 4 8 8 9 1 2 3 4 5 6 7 7 8 9 1 2 3 4 5 6 6 1 5 9 4 8 3 7 2 2 3 4 5 6 7 8 9 1 has 45 diagonals. By SAT, 45 is the maximum over Xoox-free Sudokus and also over all Sudokus (the entry's Xoox-containing example already attains it). (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A216196). - _<Name>_, <Mon DD YYYY>
+
 ### [A216971](https://oeis.org/A216971): every entry of row n is divisible by n
 
 - Problem: [OEIS-A216971](OEIS/A216971/README.md) (proved, new). Lean: Lean proof, [`A216971_mathlib.lean`](OEIS/A216971/A216971_mathlib.lean).
@@ -1954,6 +1962,14 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
   > The conjecture is true: every positive multiple m of n with τ(m) < 2τ(n) divides n², so in particular a(n) | n² (and the maximum exists, at most n²). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A225004). - _<Name>_, <Mon DD YYYY>
 
+### [A225563](https://oeis.org/A225563): no totient trajectory splits into an odd number of equal-sum sets
+
+- Problem: [OEIS-A225563](OEIS/A225563/README.md) (proved, new). Lean: Lean proof, [`A225563_mathlib.lean`](OEIS/A225563/A225563_mathlib.lean).
+- Prior art: No proof found; the argument is a two-line size bound.
+- Draft comment:
+
+  > The conjecture is true: and more: for every m >= 1 and every k >= 3 the trajectory has no partition into k sets of equal sum. The trajectory sum is at most 3m - 3 for m >= 2 (equality at m = 2, 3, 5, 17, 257, 65537). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A225563). - _<Name>_, <Mon DD YYYY>
+
 ### [A226661](https://oeis.org/A226661): 3x+k cycles with exactly n odd elements exist for every n
 
 - Problem: [OEIS-A226661](OEIS/A226661/README.md) (proved, partly-known). Lean: Lean proof, [`A226661_mathlib.lean`](OEIS/A226661/A226661_mathlib.lean).
@@ -1996,19 +2012,19 @@ Each draft comment is a starting point: shorten it to OEIS style and sign it. "P
 
 ### [A228884](https://oeis.org/A228884): det[gcd(i-j, n)] is positive, divisible by phi(n)^phi(n) Sum_{d|n} phi(d) n/d, with small prime factors
 
-- Problem: [OEIS-A228884](OEIS/A228884/README.md) (proved, new). Lean: paper proof.
+- Problem: [OEIS-A228884](OEIS/A228884/README.md) (proved, new). Lean: Lean proof, [`A228884_mathlib.lean`](OEIS/A228884/A228884_mathlib.lean).
 - Prior art: No proof found; circulant diagonalisation is classical, so the proof is immediate.
 - Draft comment:
 
-  > The conjecture is true: Both parts are true, with the closed form a(n) = Prod_{k=0}^{n-1} lambda(gcd(k,n)), lambda(g) = Sum_{e | g} e phi(n/e) = Prod_{p^a || n} [ (b+1) p^{a-1}(p-1) if b < a ; p^{a-1}((a+1)p - a) if b = a ], p^b || g. (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228884). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: Both parts are true, with the closed form a(n) = Prod_{k=0}^{n-1} lambda(gcd(k,n)), lambda(g) = Sum_{e | g} e phi(n/e) = Prod_{p^a || n} [ (b+1) p^{a-1}(p-1) if b < a ; p^{a-1}((a+1)p - a) if b = a ], p^b || g. (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228884). - _<Name>_, <Mon DD YYYY>
 
 ### [A228885](https://oeis.org/A228885): sign of det[[gcd(i+j, n) = 1]] for squarefree n
 
-- Problem: [OEIS-A228885](OEIS/A228885/README.md) (proved, new). Lean: paper proof.
+- Problem: [OEIS-A228885](OEIS/A228885/README.md) (proved, new). Lean: Lean proof, [`A228885_mathlib.lean`](OEIS/A228885/A228885_mathlib.lean).
 - Prior art: No proof found; circulant diagonalisation is classical, so the proof is immediate.
 - Draft comment:
 
-  > The conjecture is true: Both conjectures are true: a(n) = (-1)^floor(n/2) Prod_{d|n} phi(d)^{phi(n/d)} for squarefree n, and a(n) = 0 otherwise (the entry already proves the zero case). (proof: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228885). - _<Name>_, <Mon DD YYYY>
+  > The conjecture is true: Both conjectures are true: a(n) = (-1)^floor(n/2) Prod_{d|n} phi(d)^{phi(n/d)} for squarefree n, and a(n) = 0 otherwise (the entry already proves the zero case). (proof verified in Lean 4 + Mathlib: https://github.com/zzyzek/ShotgunConjectures/tree/main/OEIS/A228885). - _<Name>_, <Mon DD YYYY>
 
 ### [A228916](https://oeis.org/A228916): indices of primes in A108300 are 1 and multiples of 3
 

@@ -31,3 +31,4 @@ Library issues noted while writing lib/docs (2026-11-07):
 - BernoulliDen `vscSet 0` is empty (harmless).
 
 Added 2026-11-07 (round r19 candidates): `isPrimeSmall_sound` (NT/D11.4), `isqrt_bounds` (OEIS/A060298), `num_injective` and `G_factor` (GF(2) polynomials, OEIS/A177960), the 9d^k9 covering lemma (OEIS/A108847).
+- Circulant/Hankel determinant over ZMod n as product of DFT eigenvalues, character sum over multiples of d, Ramanujan sums + von Sterneck (squarefree): duplicated in OEIS/A228884 and OEIS/A228885 (lean pass 2026-11-08). Promote to a CirculantDet module.

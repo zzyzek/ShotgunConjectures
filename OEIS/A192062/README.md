@@ -40,11 +40,19 @@ sequence, and each G_{k+1}(n) is again such a product.
 - [`certificate/chain.py`](certificate/chain.py): for j = 0..12 checks T(2n) = A(n)T(n) and the integrality of
   G_2..G_6 (primes 2, 3, 5, 7, 11) for n up to 12 * 2310 / (product of the primes already used); 0 failures, exit 0
   (55 s).
-- Lean: none. Outside Lean: the whole argument (Lehmer form, cyclotomic factorisation, integrality of P_d, the
-  exponent induction). A Mathlib proof would use `Polynomial.prod_cyclotomic_eq_X_pow_sub_one` and integrality of
-  P_d as an algebraic integer that is rational.
+- Lean (Mathlib): [`A192062_mathlib.lean`](A192062_mathlib.lean). `Gchain j 0 = T`, `Gchain j (k+1) n =
+  Gchain j k (p_k n) / Gchain j k n` with p_k = `Nat.nth Nat.Prime k` (so `Gchain j k` is G_(k+1) above).
+  `A192062_main`: for all j, k and n >= 1, Gchain j k n >= 1 divides Gchain j k (p_k n) and
+  Gchain j k (p_k n) = Gchain j k n * Gchain j (k+1) n. `A192062_G1`: Gchain j 1 n = A(n, j) (n >= 1), from
+  `T_double`: T(2n) = A(n) T(n). The Lean proof does not use cyclotomic polynomials: T is a strong divisibility
+  sequence (`T_gcd`, via the addition formula T(m+n+1) = c1 T(m+1) T(n+1) + c2 T(m) T(n), c1 = j for m, n odd,
+  c2 = j for m, n even, else 1), so v_l(T(gcd(a,b))) = min(v_l T(a), v_l T(b)) for every prime l; the k-th iterated
+  quotient has v_l equal to the k-th iterated difference of v_l o T, which is >= 0 for every gcd-to-min function
+  (`gd_nonneg`; induction on k with f(nd) = min(f(p_k n d), f(n p_0...p_(k-1))) and max(f - c, 0)).
+  Axioms: propext, Classical.choice, Quot.sound.
+- Outside Lean: none.
 
-**Review level.** `rechecked` (argument re-derived; numerical check of the chain).
+**Review level.** `lean-proof`.
 
 **Prior art.** Checked 2026-11-06. The entry and A191971 state the chain only as a conjecture. The ingredients
 (Lehmer sequences and their cyclotomic factorisation, D. H. Lehmer, Ann. Math. 31 (1930)) are classical; we found no

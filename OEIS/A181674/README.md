@@ -21,13 +21,19 @@ Only step 1 is needed to refute Theta(log log n). The likely source of the estim
 K(x) <= log_2 x gives exactly log log x.
 
 **Evidence.**
+- Lean (Mathlib + `OpenProblemsLib.PNTApps`): [`A181674_mathlib.lean`](A181674_mathlib.lean), the refutation.
+  `A181674_sum_le_mul` (sum_{n<=x} a(n) <= K(x) S(x)); `primorial_count_le` (K(x) <= M with M! <= x, from
+  `factorial_le_primorial`: the primorial of the primes <= n is at least (pi(n)+1)!); the library's
+  `semiprime_count_bound` (S(x) <= C x (1 + log(log_2 x + 1))/log x from Chebyshev and a dyadic Mertens
+  bound) and `key_ineq` give `A181674_sum_le`: sum_{n<=x} a(n) <= C x for x >= 16; `A181674_not_loglog`:
+  no c > 0 has c log log x <= (1/x) sum_{n<=x} a(n) for all large x. Checked 2026-11-08 with
+  `tools/leancheck-mathlib.sh`: OK, axioms propext, Classical.choice, Quot.sound.
 - `certificate/check.py`: reproduces the 105 data terms; M(10^e) = 1.423, 1.510, 1.564, 1.570, 1.520 for
-  e = 3..7 (K(x)S(x)/x = 1.50..1.71; log log x = 1.93..2.78). The convergence to 1 is too slow to see numerically;
-  the result rests on the argument.
-- Lean: none. Outside Lean: the whole argument; it needs Landau's semiprime asymptotic (for the refutation only an
-  upper bound S(x) = O(x log log x / log x), from Chebyshev and Mertens) and Stirling.
+  e = 3..7 (K(x)S(x)/x = 1.50..1.71; log log x = 1.93..2.78). The convergence to 1 is too slow to see numerically.
+- Outside Lean: the limit M(x) -> 1 (step 1 with Landau's asymptotic and step 2); the refutation of
+  Theta(log log n) needs only M(x) = O(1), which is in Lean.
 
-**Review level.** `rechecked` (argument written and re-derived; data terms checked).
+**Review level.** `lean-proof` (refutation in Lean; the limit 1 is a paper argument).
 
 **Prior art.** Checked 2026-11-07: entry and history (#1-#11) keep the conjecture without comment; not in
 google-deepmind/formal-conjectures or otoi-lab/oeis-lean-proofs. No published discussion found; the refutation is

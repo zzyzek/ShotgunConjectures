@@ -23,10 +23,15 @@ Absolute value: Prod_{e|n} (phi(n)/phi(e))^{phi(e)} = Prod_{e|n} phi(n/e)^{phi(e
 n squarefree), which is Oudra's product.
 
 **Evidence.** [`certificate/check.py`](certificate/check.py): the Ramanujan-sum product equals the determinant
-for n = 1..30 (exact sympy). Lean: none (needs Mathlib: circulant determinant via characters, Ramanujan sums).
-Outside Lean: the argument above (standard circulant diagonalisation and von Sterneck's formula for c_n(k)).
+for n = 1..30 (exact sympy). Lean: [`A228885_mathlib.lean`](A228885_mathlib.lean) (Mathlib, checked with
+`tools/leancheck-mathlib.sh`, axioms propext, Classical.choice, Quot.sound), indices 1..n as in the entry:
+`A228885_formula` (Oudra's formula for squarefree n) and `A228885_sign` (Sun's sign conjecture). Built there:
+`det_hankel_zmod` (det of v(x+y+2) over ZMod n = sign(j -> -j) times the DFT eigenvalues; the shift by 2 costs
+Prod_k e(-2k) = 1), `eig_ram` (eigenvalues = Ramanujan sums), `ram_squarefree` (von Sterneck for squarefree n),
+`sign_neg_zmod` and `prod_mu_sign` (pairing k with -k; fixed points 0 and n/2), `prod_totient_gcd`.
+Outside Lean: none. (The zero case for non-squarefree n is the entry's own proof and is not formalized.)
 
-**Review level.** `rechecked`.
+**Review level.** `lean-proof`.
 
 **Prior art.** Checked 2026-11-07. The entry proves a(n) = 0 for non-squarefree n, phi(n) | a(n) and a(p); Oudra's
 formula is labelled a conjecture. Web search found no proof. Not in google-deepmind/formal-conjectures or

@@ -22,10 +22,13 @@ composite: p < n; b+1 <= a < n; if n = p^a with a >= 2 then (a+1)p - a <= p^a (e
 where the factor is 4 = 2^2); if n has another prime factor then (a+1)p - a < 2p^a <= n.
 
 **Evidence.** [`certificate/check.py`](certificate/check.py): the product formula equals the determinant for
-n = 1..30 (exact sympy). Lean: none (needs Mathlib: circulant determinant as a product over characters).
-Outside Lean: the argument above (the circulant eigenvalue formula is standard).
+n = 1..30 (exact sympy). Lean: [`A228884_mathlib.lean`](A228884_mathlib.lean) (Mathlib, checked with
+`tools/leancheck-mathlib.sh`, axioms propext, Classical.choice, Quot.sound): `det_circulant_zmod` (circulant
+determinant over ZMod n = product of DFT eigenvalues, built here), `A228884_eq_prod` (a(n) = Prod_{k<n} lambda_k
+with lambda_k = Sum_{d|n, (n/d)|k} phi(d) n/d), `A228884_pos` and `A228884_dvd` (part (i)), `A228884_ii` (part (ii),
+via lambda_k = L(n, gcd(k,n)), multiplicativity of L and the two local factors). Outside Lean: none.
 
-**Review level.** `rechecked`.
+**Review level.** `lean-proof`.
 
 **Prior art.** Checked 2026-11-07. The entry notes the divisibility by Sum_{d|n} phi(d) n/d and a(p) for primes
 (both special cases of the formula) and nothing else. Web search found no proof; the related determinant of

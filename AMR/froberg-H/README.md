@@ -39,10 +39,19 @@ t−2 on n points, as in BFL), and dim R_{k+2} − dim R_{k+1} = C(2k,k)/(k+1)·
   implies maximal rank over Q): WLP for T_{n,2,2}, n = 3..9 (calibrates BFL's odd case).
   [`certificate/wlp_one.py`](certificate/wlp_one.py): n = 10, degree 6 → 7: rank 2310 = dim R_6 (2 min).
 - [`certificate/pairing.py`](certificate/pairing.py): checks Uβ = 0, D²w = 0 and ⟨link_c β, w⟩ = 2^k for k = 1..7.
-- Lean: none. The proof needs Specht-module facts (irreducibility of S^{(k+1,k−1)}, the sl₂ decomposition of the
-  Boolean lattice) that are not in Mathlib in usable form. Outside Lean: the whole argument.
+- Lean: [`froberg_H_mathlib.lean`](froberg_H_mathlib.lean) (Mathlib, checked with `tools/leancheck-mathlib.sh`,
+  axioms propext, Classical.choice, Quot.sound). `froberg_H_mul_ell_injective`: for #σ = 2k, a form p of degree
+  k+1 in ℂ[x_σ] with ℓp ∈ (x_1², …, x_n²)² lies in that ideal, i.e. ×ℓ: R_{k+1} → R_{k+2} is injective;
+  `froberg_H_even` is the case σ = Fin (2k). The Lean proof avoids Specht modules. It uses only adjointness of
+  U and D and the commutator DU − UD = #(G∖S) − #S on a set S: on [2k]∖i, link_i β ∈ Im U² ⊆ (ker U)^⊥ = Im D
+  (ker U ⊆ ker D² at level k on 2k−1 points), and writing link_i β = D g gives 3‖link_i β‖² ≤ ‖U link_i β‖² = ‖del_i β‖²
+  (del_i β = β on sets avoiding i, using Uβ = 0). Summing over i gives 3(k+1)‖β‖² ≤ (k−1)‖β‖², so β = 0, and
+  then γ = δ = 0 because U is injective below the middle.
+- Outside Lean: BFL Theorem 22's proof for all other degrees (and odd n), which with the Lean theorem gives the
+  WLP of T_{n,2,2} for every n; the rank computations above (Python).
 
-**Review level.** `rechecked` (proof plus independent rank computations for n ≤ 10 and the pairing for k ≤ 7).
+**Review level.** `lean-proof` for the new step (×ℓ: R_{k+1} → R_{k+2} injective for n = 2k); BFL Theorem 22
+for the other degrees is cited. Independent rank computations for n ≤ 10 and the pairing for k ≤ 7 agree.
 
 **Prior art.** Checked 2026-11-07: BFL (arXiv 1612.00411, Theorem 22 and the closing remark), web searches for
 WLP of (x_1², …, x_n²)² with n even (Booth–Singh–Vraciu 2024/25 and Migliore–Miró-Roig–Nagel 2012 concern powers

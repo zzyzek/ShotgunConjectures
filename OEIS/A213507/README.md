@@ -22,11 +22,19 @@ a(0), ..., a(p-1) are nonzero mod p, so no a(n) is divisible by p.
 - [`certificate/check.gp`](certificate/check.gp) (gp 2.15.4, `-D recover=0`, exit 0, no errors): the e.g.f. identity
   to O(x^400), the congruence for all n + k < 400 (0 failures), and for each prime no zero among a(0..2p-1) mod p
   with the 2p-periodicity visible; output in `certificate/out.txt`.
-- Lean: none. Outside Lean: steps 1-3 (step 2 is Bala's published induction; a Lean proof would formalise the
-  recurrence a(n+1) = sum_j n!/(n-j)! Catalan(j+1) a(n-j) and Bala's Lemma 1/Theorem 1, or a per-prime
-  finite-state periodicity check of that recurrence).
+- Lean: [`A213507_mathlib.lean`](A213507_mathlib.lean), checked (axioms propext, Classical.choice, Quot.sound;
+  no native_decide). `A213507_main`: for each listed p and every n, n! [x^n] exp(sum Catalan(n) x^n/n) is a
+  natural number not divisible by p. The e.g.f. is Mathlib's `(exp ℚ).subst L`; `a_eq_coeff` derives the
+  recurrence a(n+1) = sum_j n!/(n-j)! Catalan(j+1) a(n-j) from E' = L' E. The congruence is proved per prime
+  in finite form instead of through step 1 and Bala's Theorem 1: mod p the terms j >= p vanish and
+  n!/(n-j)! mod p is 2p-periodic in n, so a(n+2p) = a(n) mod p for all n once it holds for n < p
+  (`periodic`); the residues a(0..3p-1) mod p come from a verified evaluator (`tab_spec`) run in the kernel
+  (`decide +kernel`). `A213507_antiperiodic`: a(n+p) = -a(n) (mod p) for each listed p and all n (same
+  argument with shift p, finite check of a(n+p) + a(n) mod p for n < p). Whole file about 50 s.
+  Outside Lean: none. Not in Lean: the e.g.f. identity
+  of step 1 and Bala's congruence for composite k (neither is needed).
 
-**Review level.** `rechecked` (argument re-derived, numerics).
+**Review level.** `lean-proof` (Lean, Mathlib; the PARI certificate stays as a cross-check).
 
 **Prior art.** Checked 2026-11-06: Bala's formulas in the entry (2026) and P. Bala, "Integer sequences that become
 periodic on reduction modulo k for all k" (2017, linked from A047974), whose Theorem 1 gives the congruence; the

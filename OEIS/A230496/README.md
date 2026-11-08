@@ -30,17 +30,21 @@ So k^i is odious for 1 <= i <= n, hence a(n) <= k and a(n) > 0.
   injective exponents and checks s(k^i) odd directly; output in
   [`certificate/witness.out`](certificate/witness.out) (for t = 3, k has 1 137 145 bits and exponents
   0, 1, 8, 57, 256, 1153, 4181, 14180, 47381 in units of M = 24).
-- Lean: not written (`needs-mathlib`). A formal proof needs the multinomial theorem over Fin (r+1), the
-  carry-free digit-sum additivity s(a + 2^M b) = s(a) + s(b) for a < 2^M, and the orbit-counting lemma for a
-  2-group action.
-- Outside Lean: the whole argument (steps 1-3), written out above.
+- Lean (Mathlib): [`A230496_mathlib.lean`](A230496_mathlib.lean). `A230496_main`: for every n there is an odd
+  k > 1, odious, with k^i odious for 1 <= i <= n (odious = odd sum of `Nat.digits 2`). The Lean witness is the
+  construction above with r = 2^(n+1) blocks indexed by Option (ZMod r), base B = n + 2 for the exponents
+  (e_b = B^(phi b) - 1, phi : Option (ZMod r) = Fin (r+1), phi none = 0) and M = (r+1)^(n+1). Steps: carry-free
+  binary weight (`s_blocks_fiber`), multinomial theorem (Mathlib `Finset.sum_pow_eq_sum_piAntidiag`), base-B digit
+  uniqueness (`digits_unique`), and the orbit count done as iterated involutions beta -> beta o (+2^l)
+  (`step`, `parity_sum`). Axioms: propext, Classical.choice, Quot.sound.
+- Outside Lean: none.
 
 **Remarks.** The same orbit count shows that for generic sparse k (positive blocks, carry-free powers), the
 parities of s(k), ..., s(k^n) equal those of the part of k fixed by the symmetry; this is why the construction
 does not transfer to the evil/odious variants [A230497](https://oeis.org/A230497) and
 [A230498](https://oeis.org/A230498), which remain open (see the scan's work/OEIS-A230496/REPORT.md).
 
-**Review level.** `rechecked` (argument re-derived; explicit witnesses checked for n = 1, 3, 7).
+**Review level.** `lean-proof` (argument re-derived, then proved in Lean; explicit witnesses also checked for n = 1, 3, 7).
 
 **Prior art.** Checked 2026-11-07: the OEIS entries A230496-A230500 (conjecture still stated, no proof), web
 search for "odious powers" and Shevelev's SeqFan post "Odious-evil stability" (2013), google-deepmind/

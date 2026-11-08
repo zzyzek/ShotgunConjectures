@@ -44,12 +44,18 @@ the roots of f): s_1 = 1, s_3 = 7 for n ≥ 3 and s_3 = 4 for n = 2.
   against the b-file ([`certificate/b210456.txt`](certificate/b210456.txt), Hiroaki Yamanouchi), so 3 | a(n);
   (2) P(3^m − 1) = 3^{2m} − 1 and P(3^m) = 3^{2m} + 3^m + 1 for m = 1..6; (3) s_1, s_3 for n ≤ 40. The entry's
   comments give a(3^m − 1), a(3^m) for m ≤ 9 (Havermann), all equal to the closed forms.
-- Lean: none. Checked 2026-11-06: Mathlib has neither Gauss's trace congruence nor a closed-walk expansion of
-  tr(A^m) (only `ZMod.trace_pow_card` / `FiniteField.trace_pow_card` over fields of characteristic p, which gives the mod-3 statement only). Missing pieces for a Lean proof: Gauss's congruence tr(A^{9t}) ≡ tr(A^{3t}) (mod 9) for integer
-  matrices; the finite-field generation statements of step 2 (Singer difference sets).
-- Outside Lean: everything.
+- Lean: [`A210456_mathlib.lean`](A210456_mathlib.lean) (Mathlib + `OpenProblemsLib.Dwork`, checked with
+  `tools/leancheck-mathlib.sh`, axioms propext, Classical.choice, Quot.sound). `A210456_three_dvd`: 3 | a(n) for
+  n ≥ 2, with a(n) the least period mod 9 (`exists_period`, `a210456_spec`: pure periodicity, least period).
+  The Lean route for step 1 uses Dwork's lemma instead of Gauss's trace congruence: the power sums s_m are the
+  coefficients of N/P (P = 1 − x − … − xⁿ, N = −θP), exp(Σ s_m x^m/m) = 1/P has integer coefficients, so
+  9 | s_{9t} − s_{3t}; every period of u mod 9 is a period of s (shifts of u span all solutions of the
+  recurrence over ℤ); s_3 − s_1 ∈ {3, 6}.
+- Outside Lean: step 2 and the closed forms a(3^m − 1), a(3^m) (generation of F_{q²}^*, Hilbert 90, Singer
+  difference sets in PG(2,q), and a = 3P), checked numerically above.
 
-**Review level.** `rechecked` (argument re-derived; numerical checks above).
+**Review level.** `lean-proof` for the first conjecture (3 | a(n)); `rechecked` for Helenius's closed forms
+(argument re-derived; numerical checks above).
 
 **Prior art.** Checked 2026-11-06. The entry still states both conjectures. OEIS A351889 (periods of n-step Fibonacci
 numbers mod k) records Wall-type conjectures (period mod p^k = p^{k−1}·period mod p) and "Conjecture 3"

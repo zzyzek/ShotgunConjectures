@@ -21,6 +21,7 @@ Theorems used by this repo, with their axioms (`#print axioms`, 2026-11-07):
 | `chebyshev_asymptotic` | θ ~ x | OEIS-A139043 |
 | `mu_pnt_alt` | Σ_{n<x} μ(n)/n = o(1) | OEIS-A097945 |
 | `nth_prime_asymp`, `pn_pn_plus_one` | p_n ~ n log n, p_{n+1}/p_n → 1 | OEIS-A119659 |
+| `prime_between` | a prime in (x, (1+ε)x) for large x | OEIS-A131194, OEIS-A133835 (via `OpenProblemsLib.PNTApps.exists_prime_block`) |
 
 All of these, and `MediumPNT`, `WeakPNT''`, `pi_alt`, `pi_asymp`, `prime_between`, `mu_pnt`,
 `lambda_pnt`, depend only on `propext`, `Classical.choice`, `Quot.sound`.

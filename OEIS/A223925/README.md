@@ -24,11 +24,15 @@ Genocchi factor of step 2.
 **Evidence.**
 - [`certificate/check.py`](certificate/check.py): A000111 from the Seidel-Entringer triangle (the A132049 Maple
   program); for n <= 300, v_2(A132049(2n)) = 2n, E_n odd, v_2(T_n) = 2n - 2 - v_2(n); exit 0.
-- Lean: none. Outside Lean: the whole argument. Mathlib has von Staudt-Clausen (`Bernoulli.vonStaudt_clausen`, used
-  in `lib/OpenProblemsLib/BernoulliDen.lean`) but not the tangent and secant numbers or their relation to
-  Bernoulli numbers.
+- Lean: [`A223925_mathlib.lean`](A223925_mathlib.lean) (Mathlib + lib BernoulliDen), 2026-11-08. Main theorem
+  `A223925_main`: for n ≥ 1, A132049(2n) = 4^n·u with u odd (A132049(2n) defined as the reduced numerator of
+  4n T_n/E_n, T_n and E_n as coefficients of tan = sin/cos and sec = 1/cos). Steps: `tangentNum_eq`
+  (T_m = (-1)^(m+1) B_{2m}(16^m - 4^m)/(2m), from x tanh x = B(4x) - B(2x) + x and a complex rescaling),
+  `genocchi_odd` (2(4^m - 1)B_{2m} odd integer, von Staudt-Clausen), `m_tangentNum`, `secNum_odd` (secant
+  numbers odd, from the recurrence of sec·cos = 1) and the numerator bookkeeping.
+  Outside Lean: none (only reading the definitions).
 
-**Review level.** `rechecked`.
+**Review level.** `lean-proof`.
 
 **Prior art.** Checked 2026-11-06. Classical facts: tangent numbers T_n = 2^{2n}(2^{2n}-1)|B_{2n}|/(2n) and the
 Genocchi numbers G_n = 2(2^{2n}-1)|B_{2n}| are odd integers (formulas in OEIS A000182 and

@@ -45,10 +45,16 @@ Worked examples (copy their shape):
    the hundreds).
 4. Check with `tools/leancheck.sh <file>` only. It serialises all Lean runs on
    the machine (another job has priority); never call `lean` or `lake` directly.
-5. If the result needs Mathlib (primality certificates, Korselt's criterion in
-   general, Dirichlet/PNT/Dusart bounds, analysis), write the README with the
-   full argument and set `"lean_status": "needs-mathlib"`; name the missing
-   pieces in `depends_on`.
+5. Use Mathlib and the shared library (`lib/OpenProblemsLib`, `lib/PNTPlus`,
+   guides in `lib/docs`) freely; check with `tools/leancheck-mathlib.sh`.
+   If a definition or an elementary lemma is missing (a sequence, a number
+   family, a finite-sum identity, a determinant or rank argument), build it:
+   that is part of the proof, not a blocker. Set
+   `"lean_status": "needs-mathlib"` only when a named, substantial theorem is
+   missing from Mathlib and the library (for example Kepler, Dusart's explicit
+   bounds, Deligne, Mazur, the class number formula, transfer theorems), and
+   say in the notes which theorem and why building it is out of scope; list it
+   in `depends_on`. The deepest results of a round get the Lean pass first.
 6. Trivial or misstated items: README explaining the triviality or the
    misstatement; Lean if a one-line `decide` captures it.
 

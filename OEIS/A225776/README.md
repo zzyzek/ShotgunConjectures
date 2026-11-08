@@ -27,12 +27,18 @@ values, so one summand is positive and det H > 0. (Equivalently: f(r,.) is the m
 Haar measure under L, a measure with infinite support.)
 
 **Evidence.**
+- Lean (Mathlib): [`A225776_mathlib.lean`](A225776_mathlib.lean), theorem `A225776_pos`: for all r >= 2 and
+  n >= 0, 0 < det [f(r, i+j)]_{0<=i,j<=n} over ℤ, with f(r,k) = Sum_{j=0..k} C(k,j)^r. Axioms propext,
+  Classical.choice, Quot.sound. The Lean proof avoids the roots-of-unity grid and the cosines: in Laurent
+  polynomials, L(1/x) = L(x), so c^T H c = CT(Q(x) Q(1/x)) with Q = Sum c_i L^i is the sum of the squared
+  coefficients of Q (library `OpenProblemsLib.MomentHankel.hankel_posDef`, guide `lib/docs/moment-hankel.md`);
+  Q = 0 forces c = 0 because L at x_1 = t, x_2 = ... = 1 equals 2^{r-2}(2 + t + 1/t), injective on t = 1, 2, ...
 - [`certificate/check.py`](certificate/check.py): the grid-average formula for r = 2..4, k < 9; a(r,n) > 0 and
   a(r,n)/2^n odd for r = 2..7, n = 0..8 (exact sympy determinants).
-- Lean: none (needs Mathlib: real cosine values and a Cauchy-Binet/Gram determinant argument).
-- Outside Lean: the positivity argument above, and Zhu-Sun Theorem 1.1 for oddness.
+- Outside Lean: the oddness of a(r,n)/2^n for r >= 3 and the r = 3 statement a(n)/6^n odd (Zhu-Sun Theorem 1.1,
+  cited); a(2,n) = 2^n (classical).
 
-**Review level.** `rechecked` (argument re-derived; numerical check of each step).
+**Review level.** `lean-proof` for positivity (all r >= 2); oddness cited to Zhu-Sun.
 
 **Prior art.** Checked 2026-11-07. Zhu-Sun (arXiv:1609.06810, IJNT 2018) Theorem 1.1: "2^{-n}|f^{(r)}_{i+j}| is
 an odd integer" for r >= 3 and positivity only for r = 3. Web search found no positivity proof for r >= 4 and no

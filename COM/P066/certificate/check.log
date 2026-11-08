@@ -1,0 +1,4 @@
+M = 197386120142055051194076523980
+a = 164743819436130905311195649881
+gcd(a, M) = 1
+spot-check OK: P = a + jM (j < 3), m <= 300: n = 0: P+5^m = 2*odd>2; n = 1: two cover primes divide

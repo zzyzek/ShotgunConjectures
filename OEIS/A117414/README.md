@@ -32,11 +32,16 @@ E(z) = cosh(sqrt(2z)), so E(-z) = cos t.
 - `certificate/check.py` (exact rationals, standard library): expands the g.f. to row 16, checks the
   45 data terms, and the three identities for rows 0..16 against sec/tan numbers computed from
   sec * cos = 1 and tan = sin * sec; output in `certificate/check.log`.
-- Lean: none. A proof for all n would need Mathlib power series with sec and tan as formal series
-  (Euler and tangent numbers as their coefficients), which Mathlib does not provide; `needs-mathlib`.
-- Outside Lean: the power-series argument above.
+- Lean: [`A117414_mathlib.lean`](A117414_mathlib.lean), checked (axioms propext, Classical.choice,
+  Quot.sound). T is defined from Critzer's g.f. as a series in (Polynomial ℚ)⟦z⟧ (`G`, with
+  `G * E(-z) = E((u-1)z)`), sec = cos⁻¹ and tan = sin * sec in ℚ⟦x⟧ (Mathlib `PowerSeries.cos/sin`).
+  `A117414_main`: for every n, Sum_k T(n,k) = (2n)! [x^(2n)] sec, T(n,1) = n (2n-1)! [x^(2n-1)] tan,
+  T(n,2) = (2n)! [x^(2n)] (x tan x - x^2)/8. Proof through the ring map z -> x^2/2
+  (`expand 2 ∘ rescale (1/2)`), which sends E(-z) to cos.
+- Outside Lean: none beyond the reading (Critzer's g.f. as the definition of the triangle).
 
-**Review level.** `rechecked`: the g.f. computation was re-derived by hand (above) and recomputed.
+**Review level.** `lean-proof` (Lean, Mathlib) for the three identities under Critzer's g.f.; the 45 data terms
+are matched by `certificate/check.py`.
 
 **Prior art.** Verdict `misstated` (immediate). The identities follow from Critzer's g.f. at once;
 Elkies (arXiv:math/0101168, Lemma 4, eq. (53)) counts cyclically alternating permutations of [2m]

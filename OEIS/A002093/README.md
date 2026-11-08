@@ -31,10 +31,17 @@ So v_q(n) >= e for all large highly abundant n.
 - `certificate/check.py` (run on the OEIS b-file, 10000 terms): last terms not divisible by k = 2, 3, 4, 5, 7, 8, 9,
   11, 13, 16, 25, 27, 32, 49 are 3, 20, 630, 3024, 47520, 540540, 8168160, 46781280, 37067738400, 1164544781400,
   1226737062541710720, 31672512601329600, 4648566756368995059600, 5753889678079110793457232000.
-- Lean: none. Outside Lean: the whole argument for (b) (needs sigma's prime-power formula and density of
-  {i log q - j log r}); part (a) rests on Eppstein's write-up.
+- Lean (Mathlib + lib/PNTPlus): [`A002093_mathlib.lean`](A002093_mathlib.lean). `A002093_partB`: for every k >= 1
+  there is A such that every highly abundant n > A (defined as n >= 1 with sigma(m) < sigma(n) for 1 <= m < n) is
+  divisible by k; `A002093_primePow` is the case q^e. The Lean proof replaces the density step of the argument above
+  by the prime number theorem (a prime in (x, (1+eps)x), PNT+ `prime_between`): with G = sigma(q^(e-1)) and
+  k = 2qG, take a prime s != q and j >= 1 with s^j | n, s^j large and (s-1) s^(v_s(n)-j) >= 4qG (a large prime
+  factor with j = 1, or else a large exponent, since n is then smooth), and a prime Q with
+  k s^j < (k+1) q Q < (k+1) s^j; then m = n q Q / s^j < n and sigma(m) >= sigma(n) (`ha_key`).
+  Axioms: propext, Classical.choice, Quot.sound.
+- Outside Lean: part (a) (Eppstein's case analysis, cited).
 
-**Review level.** `agent` for (b) (written once, re-read; not independently re-derived); (a) cited.
+**Review level.** `lean-proof` for (b); (a) cited.
 
 **Prior art.** Checked 2026-11-07: entry and Wikipedia (Fischer: 2, 6, 12 only; Alaoglu-Erdős 1944 list exponent
 questions as open); D. Eppstein, "Highly abundant numbers", 11011110 blog, 2015-02-26 (part (a)). Not in

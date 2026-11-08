@@ -2,9 +2,9 @@
 
 M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes*, 2013. C = conjecture (part one), P = open problem (part four). Statements are paraphrased.
 
-114 entries: 112 resolved by this project, 2 answered elsewhere, 0 disputed or partial.
+116 entries: 114 resolved by this project, 2 answered elsewhere, 0 disputed or partial.
 
-Of the 112 resolutions: 107 proved in full in Lean, 5 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
+Of the 114 resolutions: 109 proved in full in Lean, 5 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 0 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
 Columns: **Lean** says how far Lean checks the result (`full proof`: the whole statement; `witness`: the finite facts, with the steps outside Lean named in the problem README; `needs Mathlib`: written proof only). **Prior art** (review 2026-11-04, sources in each problem README): `new` = no source found stating the answer, `partly-known`, `known`; "(immediate)" = follows in a few lines from a known theorem. **Verdict**: proved, disproved, or trivial/misstated. **Result**: one-line summary. **Method** links to [methods/](../methods/README.md). Each problem directory holds the README (source, reading, result, argument, evidence, review level, prior art), the Lean file and `certificate/` scripts.
 
@@ -62,6 +62,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [C123](C123/) | disproved | Carmichael numbers pq + q - p: fails for 1024651 | [full proof](C123/C123_mathlib.lean) | new | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [C124](C124/) | proved | 3-Carmichael numbers divisible by 5: p(q - 2^n) holds | [full proof](C124/C124_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [reduction-to-constant](../methods/reduction-to-constant/README.md) |
 | [C125](C125/) | disproved | 5p + 2^n is not always prime infinitely often | [full proof](C125/C125_mathlib.lean) | partly-known | [covering-congruences](../methods/covering-congruences/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
+| [C126](C126/) | false | false (non-constructively, via Wright's theorem); P = 15709 settled at m = 749 | [full proof](P066/P066_mathlib.lean) | new | [complete-table-scan](../methods/complete-table-scan/README.md), [covering-congruences](../methods/covering-congruences/README.md) |
 | [C127](C127/) | disproved | (P + 5^m)/30 is composite or non-integral for every m, for infinitely many Poulet P with 5 \| P, 3 ∤ P | [witness](C127/C127.lean) | partly-known | [covering-congruences](../methods/covering-congruences/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [C128](C128/) | disproved | (P + 5^m)/10 is composite for every m, for infinitely many Poulet P with 15 \| P | [witness](C128/C128.lean) | partly-known | [covering-congruences](../methods/covering-congruences/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [C136](C136/) | disproved | Primes (n + d^k)/d: none for P = 561, d = 3 | [full proof](C136/C136.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
@@ -109,6 +110,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [P062](P062/) | proved | Prime triples p, p + C1 - 1, p + C2 - 1 summing to a Carmichael number | [full proof](P062/P062_mathlib.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [P064](P064/) | disproved | C = pq + q - p (restates C123) | [full proof](C123/C123_mathlib.lean) | new | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
 | [P065](P065/) | disproved | C = p(q - 2^n) and 5p + 2^n (C124 and C125) | [full proof](C125/C125.lean) | partly-known | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [covering-congruences](../methods/covering-congruences/README.md) |
+| [P066](P066/) | disproved | (P + 5^m) prime conjectures for Poulet numbers | [full proof](P066/P066_mathlib.lean) | new | [covering-congruences](../methods/covering-congruences/README.md), [known-theorem](../methods/known-theorem/README.md) |
 | [P068](P068/) | proved | Poulet numbers with P1 + P2 - 1 Poulet | [full proof](P068/P068.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [P069](P069/) | proved | Poulet numbers with P1 + rev(P2) - 2 Poulet | [full proof](P069/P069.lean) | new (immediate) | [explicit-counterexample](../methods/explicit-counterexample/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [P078](P078/) | disproved | Primes (n + d^k)/d (restates C136) | [full proof](C136/C136.lean) | new (immediate) | [restatement-or-misstatement](../methods/restatement-or-misstatement/README.md), [explicit-counterexample](../methods/explicit-counterexample/README.md) |
@@ -711,6 +713,30 @@ Since 5p + 2^n > 241, each value has a proper factor.
 
 Lean: [full proof](C125/C125_mathlib.lean).
 
+### [C126](C126/): false (non-constructively, via Wright's theorem); P = 15709 settled at m = 749
+
+**Source.** M. Coman, *Two hundred conjectures and one hundred and fifty open problems on Fermat pseudoprimes*
+(2013), Conjecture 126 (also Open Problem 66, Conjecture 1): for every Poulet number P not divisible by 3 or 5
+there are m, n >= 1 such that (P + 5^m)/6^n is a prime or a prime power (paraphrased). Examples given: 341
+(m = 2, n = 1: 61), 1387 (m = 3, n = 3: 7), 1729 (m = 1, n = 1: 17^2).
+
+**Reading.** 6^n must divide P + 5^m; since P is odd, this needs m odd when P = 1 (mod 3) and m even when
+P = 2 (mod 3). The scan found three Poulet numbers with no m < 60: 13747, 14491, 15709.
+
+**Result.** False, non-constructively. The same statement is part (1) of Coman's Open Problem 66; [COM/P066](P066/README.md) proves in Lean that for every P in an explicit coprime residue class modulo M = 197386120142055051194076523980 and all m, n with 6^n | P + 5^m, (P + 5^m)/6^n is not a prime power (covering argument). Wright's theorem (Bull. London Math. Soc. 45 (2013)) puts infinitely many Carmichael numbers, hence Poulet numbers prime to 15, in that class. No explicit counterexample P is known.
+
+Data for the three small hard cases (kept from the first write-up): Partial. P = 15709: (15709 + 5^749)/6 is prime (523 digits), and no m <= 748 works. P = 13747 and
+P = 14491: no m <= 4000 (any n) gives a prime or prime power. No covering set with moduli of lcm up to 10^6
+exists for these two (about 15-21% of admissible m uncovered), so the conjecture is expected to hold but is not
+reached.
+
+**Argument.** Direct search: for each m, divide out 6 while possible and test every quotient for being a
+probable prime or a perfect power of one (PARI ispseudoprime, ispower); certificate/c126.gp (m <= 600),
+c126b.gp (m <= 4000). The m = 749 value is proved prime by an ECPP certificate (PARI primecert, validated by
+primecertisvalid; certificate/cert15709.txt).
+
+Lean: [full proof](P066/P066_mathlib.lean).
+
 ### [C127](C127/): (P + 5^m)/30 is composite or non-integral for every m, for infinitely many Poulet P with 5 | P, 3 ∤ P
 
 **Source.** M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat
@@ -1226,6 +1252,36 @@ Lean: [full proof](C123/C123_mathlib.lean).
 Lean: [`../C125/C125.lean`](C125/C125.lean).
 
 Lean: [full proof](C125/C125.lean).
+
+### [P066](P066/): (P + 5^m) prime conjectures for Poulet numbers
+
+**Source.** M. Coman, *Two Hundred Conjectures and One Hundred and Fifty Open Problems on Fermat Pseudoprimes*
+(2013), Part four (open problems), problem 66, restating conjectures 126-129 of Part one. Paraphrase: (1) every
+Poulet number P with 3, 5 not dividing P has m >= 1 with (P + 5^m)/6^n prime or a prime power; (2) every Poulet
+P with 5 | P, 3 not dividing P, has m with (P + 5^m)/30 prime; (3) every Poulet P with 15 | P has m with
+(P + 5^m)/10 prime; (4) apart from "definable exceptions", every n not divisible by 5 has m with 6n - 5^m prime
+or 1.
+
+**Reading.** In (1), n is any exponent with 6^n | P + 5^m (the claim fails for every such n below, so the
+choice of n does not matter).
+
+**Result.** - (1) False, non-constructively (new here). For every P = a (mod M) with
+  a = 164743819436130905311195649881, M = 197386120142055051194076523980 = 4·3·5·13·313·17·11489·31·7·601·
+  390001·19·829·5167, every m and every admissible n, (P + 5^m)/6^n is not a prime power. The class is coprime
+  (gcd(a, M) = 1), so it contains infinitely many Carmichael numbers (T. Wright, Bull. London Math. Soc. 45
+  (2013) 943-952), which are Poulet numbers with 3, 5 not dividing P. No explicit P is known.
+- (2) False: see [COM/C127](C127/README.md) (covering plus Larsen 2025).
+- (3) False: see [COM/C128](C128/README.md).
+- (4) Ill-posed: the exceptions are not defined; 113 n below 3000 have no such m (scan record COM-C129).
+
+**Argument for (1).** P = 1 (mod 4) gives P + 5^m = 2 (mod 4), so n <= 1. For n = 0, P + 5^m = 2·u with u odd
+and u > 1, not a prime power. For n = 1, 3 | P + 5^m forces m odd (P = 1 mod 3). Two disjoint coverings of the
+odd m: m = 1 (4), 3 (8), 7 (16), 15 (16) with q = 13, 313, 17, 11489, and m = 0 (3), 1 (6), 5 (12), 11 (24),
+2 (9), 5 (9), 17 (18) with q = 31, 7, 601, 390001, 19, 829, 5167 (q | 5^ord - 1 with the stated order). P = -5^r
+(mod q) on each class, so for odd m one prime from each covering divides (P + 5^m)/6; two distinct primes, so not
+a prime power.
+
+Lean: [full proof](P066/P066_mathlib.lean).
 
 ### [P068](P068/): Poulet numbers with P1 + P2 - 1 Poulet
 

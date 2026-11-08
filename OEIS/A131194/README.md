@@ -32,14 +32,20 @@ there is x_0 with a prime in (x, (1 + ε)x] for all x ≥ x_0.
    The same proof works for s = 2 (every step above gives at least 3 shared digits).
 
 **Evidence.**
+- Lean (Mathlib + `OpenProblemsLib.PNTApps` + vendored PNT+): [`A131194_mathlib.lean`](A131194_mathlib.lean).
+  `A131194_merge`: every seed a ≥ 100 has next_3^[i] a = next_3^[j] 101 for some i, j; `A133835_merge`: the
+  same for s = 2, seeds a ≥ 10, main seed 11; `merge_general` for any 1 ≤ s ≤ 3. `next s p` is the least
+  prime q > p whose decimal digit multiset shares at least s elements with that of p. The Lean proof is a
+  simplified form of the argument above: with L_j the largest prime below 10^(j+8), every orbit walks
+  through L_j for all large j (a later prime of the same block, else a prime of block k + 1 when k does not
+  end in 99999, else a prime of the top block 99999999, always shares 3 digits), so two orbits meet at
+  L_j. The prime number theorem enters as `exists_prime_block` (from PNT+'s `prime_between`). Checked
+  2026-11-08 with `tools/leancheck-mathlib.sh`: OK, axioms propext, Classical.choice, Quot.sound.
 - [`certificate/merge.py`](certificate/merge.py): every prime seed below 10^4 merges with the main orbit, for
   s = 3 (latest merge point 10789) and s = 2 (latest 9973).
-- Lean: none (`needs-mathlib`). Missing piece: the digit-orbit argument in Lean plus PNT in short-interval form
-  (the vendored PNTPlus gives θ(x) ~ x, from which it follows).
-- Outside Lean: the whole argument, with the prime number theorem as input. D_0 is not computed (the
-  result is qualitative, so it is not needed).
+- Outside Lean: none.
 
-**Review level.** `rechecked` (paper proof; merging checked for seeds below 10^4).
+**Review level.** `lean-proof` (both merge conjectures proved in Lean from the prime number theorem of PNT+).
 
 **Prior art.** Checked 2026-11-07: both OEIS entries (conjecture still stated, entry says the main sequence
 "presumably contains almost all primes"), formal-conjectures, oeis-lean-proofs: no proof found. The same

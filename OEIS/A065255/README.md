@@ -27,16 +27,20 @@ b(k) ~ 10k.
    and b(k)/k → 10.
 
 **Evidence.**
-- Lean (Mathlib): [`A065255_mathlib.lean`](A065255_mathlib.lean): `A065255_ten_dvd_sigma` (step 1) and
-  `A065255_iff` (sigma(n) ≡ n mod 10 iff 10 | n, under the hypothesis of step 1). Checked with
-  `tools/leancheck-mathlib.sh`: OK, axioms at most propext, Classical.choice, Quot.sound.
+- Lean (Mathlib + `OpenProblemsLib.PNTApps`): [`A065255_mathlib.lean`](A065255_mathlib.lean), the whole argument.
+  `A065255_ten_dvd_sigma`, `A065255_iff` (step 1); `A065255_exceptional_density_zero` (step 2, via
+  `density_zero_of_sieve` with G_p(n) = "p divides n exactly once" and Dirichlet's divergence
+  `not_summable_one_div_prime_mod` for p ≡ 9 mod 10; the sieve over finitely many p ≡ 9 mod 10 replaces the
+  squarefull decomposition); `A065255_density` (B has density 1/10); `A065255_main`
+  (`Nat.nth B k / (k + 1) → 10`, i.e. b(k)/k → 10 for the 1-indexed b). Checked 2026-11-08 with
+  `tools/leancheck-mathlib.sh`: OK, axioms propext, Classical.choice, Quot.sound. Library guide:
+  [lib/docs/pnt-applications.md](../../lib/docs/pnt-applications.md).
 - [`certificate/count.py`](certificate/count.py), output [`certificate/count.out`](certificate/count.out):
   x/#B(x) = 10.06, 10.001, 9.978, 9.979 at x = 10^4, 10^5, 10^6, 3·10^6. The proportion of n <= x with
   10 ∤ sigma(n) falls slowly (0.66, 0.62, 0.59, 0.58), as expected from a (log x)^(-c) rate.
-- Outside Lean: step 2 (density zero of E: divergence of the sum of 1/p over primes ≡ 9 mod 10 and the
-  sieve/squarefull bound) and step 3.
+- Outside Lean: none.
 
-**Review level.** `rechecked` (argument re-derived; arithmetic core in Lean).
+**Review level.** `lean-proof` (the conjecture as stated, b(k)/k → 10, proved in Lean).
 
 **Prior art.** Checked 2026-11-07: the OEIS entry (conjecture still stated), google-deepmind/formal-conjectures
 and otoi-lab/oeis-lean-proofs local clones (no entry). That sigma(n) is divisible by any fixed m for almost all

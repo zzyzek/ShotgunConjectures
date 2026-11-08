@@ -28,7 +28,10 @@ b (x_k^(q_k) ⊕ x_k) = b.
 - [`certificate/verify.py`](certificate/verify.py): nim factorials computed directly up to 2^21 - 1: claim (1) for
   n <= 21, claim (2) for n <= 20, and y(n) = 2 for n <= 18. [`certificate/nim.py`](certificate/nim.py): the nim
   product reproduces the entry's data, and s = x_k^(2^m) ⊕ x_k ⊕ x_(k-1) ∈ {0, 1} for k <= 5.
-- Lean: none (Mathlib at the pinned revision has no nimber multiplication).
+- Lean: none. Mathlib at the pinned revision has no nimbers. A Lean proof needs nim multiplication on ℕ and
+  Conway's nim-field theorem (On Numbers and Games, ch. 6): [0, 2^(2^k)) with nim sum and product is the field
+  GF(2^(2^k)), with x_k ⊗ x_k = x_k ⊕ α_k and a ⊕ (b ⊗ x_k) = a + b·2^(2^k). That theorem is the substantial missing
+  piece; it was not attempted in the 2026-11-08 Lean pass (time box spent on A002093, A230496, A192062).
 - Outside Lean: the whole argument, including the standard structure of the nim field.
 
 **Review level.** `rechecked` (argument written here; its intermediate identities checked numerically).

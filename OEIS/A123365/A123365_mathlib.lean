@@ -3,21 +3,24 @@ import Mathlib
 /-
 Core question core-multiplicative-exact-target (OEIS-A123365), two-prime-factor case.
 
-c(n) = number of cubes mod n. Closed forms used as hypotheses (NOT proved here; checked by
-brute force in work/tier2/A123365/probe.py and scripts/cube_checks.py beside this file):
-* c is multiplicative on coprime arguments (CRT);
-* q prime, q % 3 = 2: c(q^e) = 1 + (q - 1) s1(q, e) (`cq`);
-* p prime, p % 3 = 1: 3 c(p^e) = 3 + (p - 1) s1(p, e);
-where s1(q, e) = sum of q^(j-1) over 1 ≤ j ≤ e with j ≡ e (mod 3).
+c(n) = number of cubes mod n, defined as `cubeCount n = #{x^3 mod n : 0 <= x < n}` (A046530).
+Proved here for `cubeCount` (section CubeCount at the end):
+* `cubeCount_mul`: c is multiplicative on coprime arguments (CRT);
+* `cubeCount_prime_pow_two`: q prime, q % 3 = 2: c(q^e) = 1 + (q - 1) s1(q, e) (`cq`);
+* `cubeCount_prime_pow_one`: p prime, p % 3 = 1: 3 c(p^e) = 3 + (p - 1) s1(p, e);
+where s1(q, e) = sum of q^(j-1) over 1 <= j <= e with j = e (mod 3).
 
-Checked here (Lean + Mathlib, no hypotheses on c):
-* `cq_equation_no_solution`: for primes p, q with p % 3 = 1, q % 3 = 2 and e ≥ 1,
-  (p + 2) c(q^e) ≠ p q^e + 2 (with c(q^e) given by the closed form `cq`).
-Checked here, conditional on the three closed-form hypotheses above:
-* `three_c_eq_one_factor`: 3 c(x^a) = x^a + 2 with x prime, a ≥ 1 forces a = 1, x ≡ 1 (mod 3).
-* `three_c_ne_of_two_factors`: for distinct primes x, y and a, b ≥ 1,
-  3 c(x^a y^b) ≠ x^a y^b + 2; that is, no n with exactly two distinct prime factors
+Checked here (Lean + Mathlib):
+* `cq_equation_no_solution`: for primes p, q with p % 3 = 1, q % 3 = 2 and e >= 1,
+  (p + 2) c(q^e) != p q^e + 2 (with c(q^e) given by the closed form `cq`).
+* `three_c_eq_one_factor`, `three_c_ne_of_two_factors`: the statements below for any c with the
+  three properties above (stated as hypotheses).
+* `three_cubeCount_eq_one_factor`: 3 c(x^a) = x^a + 2 with x prime, a >= 1 forces a = 1, x = 1 (mod 3).
+* `three_cubeCount_prime`: 3 c(p) = p + 2 for every prime p = 1 (mod 3).
+* `three_cubeCount_ne_of_two_factors`: for distinct primes x, y and a, b >= 1,
+  3 c(x^a y^b) != x^a y^b + 2; that is, no n with exactly two distinct prime factors
   satisfies 3c(n) = n + 2.
+NOT checked here: nothing beyond reading the definition of `cubeCount` as A046530.
 -/
 
 open Finset
@@ -371,3 +374,291 @@ theorem three_c_eq_one_factor (c : ℕ → ℕ)
       rw [hE] at k2
       have k3 := Nat.mul_le_mul_right ((x' + 1) ^ a) (show 4 ≤ x' by omega)
       nlinarith
+
+/-! ## The number of cubes mod n: multiplicativity and closed forms at prime powers -/
+
+section CubeCount
+
+open Finset
+
+/-- Number of distinct cubes mod n (A046530): #{x^3 mod n : 0 ≤ x < n}. -/
+def cubeCount (n : ℕ) : ℕ := ((Finset.range n).image fun x => x ^ 3 % n).card
+
+/-- The cubes of `ZMod n` as a finset. -/
+def cubesZ (n : ℕ) [NeZero n] : Finset (ZMod n) := (univ : Finset (ZMod n)).image fun x => x ^ 3
+
+lemma cubeCount_eq (n : ℕ) [NeZero n] : cubeCount n = (cubesZ n).card := by
+  unfold cubeCount cubesZ
+  have hinj : Set.InjOn (fun a : ℕ => (a : ZMod n))
+      ((Finset.range n).image fun x => x ^ 3 % n : Finset ℕ) := by
+    intro a ha b hb hab
+    simp only [coe_image, coe_range, Set.mem_image, Set.mem_Iio] at ha hb
+    obtain ⟨x, -, rfl⟩ := ha
+    obtain ⟨y, -, rfl⟩ := hb
+    have := (ZMod.natCast_eq_natCast_iff' _ _ n).mp hab
+    simpa [Nat.mod_mod] using this
+  rw [← card_image_of_injOn hinj, image_image]
+  congr 1
+  ext z
+  simp only [mem_image, mem_range, mem_univ, true_and, Function.comp]
+  constructor
+  · rintro ⟨x, -, rfl⟩
+    exact ⟨x, by push_cast [ZMod.natCast_mod]; rfl⟩
+  · rintro ⟨x, rfl⟩
+    refine ⟨x.val, ZMod.val_lt x, ?_⟩
+    rw [ZMod.natCast_mod]; push_cast; rw [ZMod.natCast_zmod_val]
+
+lemma cubeCount_zero : cubeCount 0 = 0 := by simp [cubeCount]
+
+lemma cubeCount_one : cubeCount 1 = 1 := by decide
+
+/-- Multiplicativity (Chinese remainder theorem). -/
+theorem cubeCount_mul {m k : ℕ} (h : Nat.Coprime m k) :
+    cubeCount (m * k) = cubeCount m * cubeCount k := by
+  rcases Nat.eq_zero_or_pos m with hm | hm
+  · subst hm; simp [cubeCount_zero]
+  rcases Nat.eq_zero_or_pos k with hk | hk
+  · subst hk; simp [cubeCount_zero]
+  have : NeZero m := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
+  have : NeZero (m * k) := ⟨by positivity⟩
+  rw [cubeCount_eq, cubeCount_eq, cubeCount_eq, ← card_product]
+  let e := ZMod.chineseRemainder h
+  rw [← card_image_of_injective _ e.injective]
+  congr 1
+  ext ⟨a, b⟩
+  simp only [cubesZ, mem_image, mem_univ, true_and, mem_product]
+  constructor
+  · rintro ⟨_, ⟨x, rfl⟩, hx⟩
+    rw [map_pow] at hx
+    refine ⟨⟨(e x).1, ?_⟩, ⟨(e x).2, ?_⟩⟩
+    · simpa using congrArg Prod.fst hx
+    · simpa using congrArg Prod.snd hx
+  · rintro ⟨⟨x, hx⟩, ⟨y, hy⟩⟩
+    refine ⟨(e.symm (x, y)) ^ 3, ⟨_, rfl⟩, ?_⟩
+    rw [map_pow, RingEquiv.apply_symm_apply, hx.symm, hy.symm]
+    rfl
+
+section PrimePow
+
+variable {p : ℕ} (hp : p.Prime)
+include hp
+
+/-- In `ZMod (p^f)`, an element that is not a unit has `p ∣ val`. -/
+lemma dvd_val_of_not_isUnit {f : ℕ} [NeZero (p ^ f)] (x : ZMod (p ^ f)) (hx : ¬ IsUnit x) :
+    p ∣ x.val := by
+  by_contra hd
+  apply hx
+  have hc : Nat.Coprime x.val (p ^ f) :=
+    Nat.Coprime.pow_right _ ((Nat.coprime_comm).mp ((Nat.Prime.coprime_iff_not_dvd hp).mpr hd))
+  refine ⟨ZMod.unitOfCoprime _ hc, ?_⟩
+  rw [ZMod.coe_unitOfCoprime, ZMod.natCast_zmod_val]
+
+lemma not_isUnit_p {f : ℕ} (hf : 1 ≤ f) : ¬ IsUnit (p : ZMod (p ^ f)) := by
+  intro hu
+  have := (ZMod.isUnit_iff_coprime p (p ^ f)).mp hu
+  have h2 := Nat.Coprime.coprime_dvd_right (dvd_pow_self p (by omega)) this
+  rw [Nat.coprime_self] at h2
+  exact hp.one_lt.ne' h2
+
+/-- The map `a ↦ p^3 a` from `ZMod (p^(f-3))` to `ZMod (p^f)`. -/
+def shift3 (p f : ℕ) (a : ZMod (p ^ (f - 3))) : ZMod (p ^ f) := (p : ZMod (p ^ f)) ^ 3 * (a.val : ZMod (p ^ f))
+
+omit hp in
+lemma shift3_natCast (f a : ℕ) [NeZero (p ^ (f - 3))] :
+    shift3 p f (a : ZMod (p ^ (f - 3))) = (p : ZMod (p ^ f)) ^ 3 * (a : ZMod (p ^ f)) := by
+  unfold shift3
+  rw [ZMod.val_natCast]
+  have : ((p ^ 3 * (a % p ^ (f - 3)) : ℕ) : ZMod (p ^ f)) = ((p ^ 3 * a : ℕ) : ZMod (p ^ f)) := by
+    rw [ZMod.natCast_eq_natCast_iff]
+    apply Nat.ModEq.of_dvd (show p ^ f ∣ p ^ 3 * p ^ (f - 3) by
+      rw [← pow_add]; exact pow_dvd_pow p (by omega))
+    exact Nat.ModEq.mul_left' _ (Nat.mod_modEq a _)
+  push_cast at this
+  exact this
+
+lemma shift3_injective (f : ℕ) [NeZero (p ^ (f - 3))] : Function.Injective (shift3 p f) := by
+  intro a b hab
+  rcases Nat.lt_or_ge f 3 with hf | hf
+  · have : p ^ (f - 3) = 1 := by rw [show f - 3 = 0 by omega, pow_zero]
+    have hs : Subsingleton (ZMod (p ^ (f - 3))) := by rw [this]; infer_instance
+    exact Subsingleton.elim a b
+  unfold shift3 at hab
+  have h3 : ((p ^ 3 * a.val : ℕ) : ZMod (p ^ f)) = ((p ^ 3 * b.val : ℕ) : ZMod (p ^ f)) := by
+    push_cast; exact hab
+  rw [ZMod.natCast_eq_natCast_iff] at h3
+  have hpf : p ^ f = p ^ 3 * p ^ (f - 3) := by rw [← pow_add]; congr 1; omega
+  rw [hpf] at h3
+  have := Nat.ModEq.mul_left_cancel' (pow_ne_zero 3 hp.ne_zero) h3
+  apply ZMod.val_injective
+  exact Nat.ModEq.eq_of_lt_of_lt this (ZMod.val_lt a) (ZMod.val_lt b)
+
+/-- The cubes of the unit group, pushed to `ZMod n`. -/
+def unitCubes (n : ℕ) [NeZero n] : Finset (ZMod n) :=
+  ((univ : Finset (ZMod n)ˣ).image fun u => u ^ 3).image Units.val
+
+/-- Split of the cubes mod `p^f` into unit cubes and `p^3` times cubes mod `p^(f-3)`. -/
+lemma cubesZ_split (f : ℕ) [NeZero (p ^ f)] [NeZero (p ^ (f - 3))] :
+    cubesZ (p ^ f) = unitCubes (p ^ f) ∪ (cubesZ (p ^ (f - 3))).image (shift3 p f) := by
+  ext y
+  simp only [cubesZ, unitCubes, mem_union, mem_image, mem_univ, true_and]
+  constructor
+  · rintro ⟨x, rfl⟩
+    by_cases hx : IsUnit x
+    · obtain ⟨u, rfl⟩ := hx
+      left; exact ⟨u ^ 3, ⟨u, rfl⟩, by push_cast; rfl⟩
+    · right
+      obtain ⟨z, hz⟩ := dvd_val_of_not_isUnit hp x hx
+      refine ⟨((z ^ 3 : ℕ) : ZMod (p ^ (f - 3))), ⟨(z : ZMod (p ^ (f - 3))), by push_cast; rfl⟩, ?_⟩
+      rw [shift3_natCast, ← ZMod.natCast_zmod_val x, hz]
+      push_cast; ring
+  · rintro (⟨_, ⟨u, rfl⟩, rfl⟩ | ⟨_, ⟨z, rfl⟩, rfl⟩)
+    · exact ⟨u, by push_cast; rfl⟩
+    · refine ⟨(p : ZMod (p ^ f)) * (z.val : ZMod (p ^ f)), ?_⟩
+      have : z ^ 3 = ((z.val ^ 3 : ℕ) : ZMod (p ^ (f - 3))) := by
+        push_cast; rw [ZMod.natCast_zmod_val]
+      rw [this, shift3_natCast]
+      push_cast; ring
+
+lemma unitCubes_disjoint (f : ℕ) (hf : 1 ≤ f) [NeZero (p ^ f)] [NeZero (p ^ (f - 3))] :
+    Disjoint (unitCubes (p ^ f)) ((cubesZ (p ^ (f - 3))).image (shift3 p f)) := by
+  rw [disjoint_left]
+  intro y hy hy'
+  simp only [unitCubes, mem_image, mem_univ, true_and] at hy hy'
+  obtain ⟨_, ⟨u, rfl⟩, rfl⟩ := hy
+  obtain ⟨a, -, ha⟩ := hy'
+  have hu : IsUnit (shift3 p f a) := by rw [ha]; exact Units.isUnit _
+  unfold shift3 at hu
+  have := isUnit_of_mul_isUnit_left hu
+  rw [isUnit_pow_iff (by norm_num)] at this
+  exact not_isUnit_p hp hf this
+
+/-- `c(p^f) = #(unit cubes mod p^f) + c(p^(f-3))` for `f ≥ 1`. -/
+theorem cubeCount_prime_pow_step (f : ℕ) (hf : 1 ≤ f) [NeZero (p ^ f)] :
+    cubeCount (p ^ f) =
+      ((univ : Finset (ZMod (p ^ f))ˣ).image fun u => u ^ 3).card + cubeCount (p ^ (f - 3)) := by
+  have : NeZero (p ^ (f - 3)) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  rw [cubeCount_eq, cubeCount_eq, cubesZ_split hp f,
+    card_union_of_disjoint (unitCubes_disjoint hp f hf),
+    card_image_of_injective _ (shift3_injective hp f), unitCubes,
+    card_image_of_injective _ Units.val_injective]
+
+end PrimePow
+
+/-- In a finite commutative group, the number of cubes is `|G| / gcd(|G|, 3)` when `G` is cyclic. -/
+lemma card_cubes_cyclic {G : Type*} [CommGroup G] [Fintype G] [DecidableEq G] [IsCyclic G] :
+    ((univ : Finset G).image fun u => u ^ 3).card = Nat.card G / (Nat.card G).gcd 3 := by
+  rw [← IsCyclic.card_powMonoidHom_range]
+  rw [← SetLike.coe_sort_coe, MonoidHom.coe_range, Nat.card_eq_card_toFinset, Set.toFinset_range]
+  rfl
+
+lemma card_cubes_coprime {G : Type*} [CommGroup G] [Fintype G] [DecidableEq G]
+    (h : (Nat.card G).Coprime 3) :
+    ((univ : Finset G).image fun u => u ^ 3).card = Nat.card G := by
+  rw [Nat.card_eq_fintype_card, ← card_univ]
+  congr 1
+  rw [eq_univ_iff_forall]
+  intro g
+  simp only [mem_image, mem_univ, true_and]
+  exact ⟨(powCoprime h).symm g, by
+    have := (powCoprime h).apply_symm_apply g
+    rwa [powCoprime_apply] at this⟩
+
+/-- For a prime `q ≢ 1 (mod 3)`, `q ≠ 3`: `c(q^f) = (q-1) q^(f-1) + c(q^(f-3))` for `f ≥ 1`. -/
+theorem cubeCount_step_two {q : ℕ} (hq : q.Prime) (hq3 : q % 3 = 2) (f : ℕ) :
+    cubeCount (q ^ (f + 1)) = (q - 1) * q ^ f + cubeCount (q ^ (f + 1 - 3)) := by
+  have : NeZero (q ^ (f + 1)) := ⟨pow_ne_zero _ hq.ne_zero⟩
+  rw [cubeCount_prime_pow_step hq (f + 1) (by omega)]
+  congr 1
+  have hcard : Nat.card (ZMod (q ^ (f + 1)))ˣ = q ^ f * (q - 1) := by
+    rw [Nat.card_eq_fintype_card, ZMod.card_units_eq_totient, Nat.totient_prime_pow_succ hq]
+  rw [card_cubes_coprime, hcard]
+  · ring
+  rw [hcard]
+  apply Nat.coprime_mul_iff_left.mpr ⟨?_, ?_⟩
+  · apply Nat.Coprime.pow_left
+    rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd Nat.prime_three]; omega
+  · rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
+    have := hq.two_le; omega
+
+/-- For a prime `p ≡ 1 (mod 3)`: `3 c(p^f) = (p-1) p^(f-1) + 3 c(p^(f-3))` for `f ≥ 1`. -/
+theorem cubeCount_step_one {p : ℕ} (hp : p.Prime) (hp3 : p % 3 = 1) (f : ℕ) :
+    3 * cubeCount (p ^ (f + 1)) = (p - 1) * p ^ f + 3 * cubeCount (p ^ (f + 1 - 3)) := by
+  have : NeZero (p ^ (f + 1)) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  rw [cubeCount_prime_pow_step hp (f + 1) (by omega), mul_add]
+  congr 1
+  have := ZMod.isCyclic_units_of_prime_pow p hp (by omega) (f + 1)
+  have hcard : Nat.card (ZMod (p ^ (f + 1)))ˣ = p ^ f * (p - 1) := by
+    rw [Nat.card_eq_fintype_card, ZMod.card_units_eq_totient, Nat.totient_prime_pow_succ hp]
+  rw [card_cubes_cyclic, hcard]
+  have h3 : 3 ∣ p - 1 := by omega
+  have hg : (p ^ f * (p - 1)).gcd 3 = 3 := Nat.gcd_eq_right (dvd_mul_of_dvd_right h3 _)
+  rw [hg]
+  obtain ⟨k, hk⟩ := h3
+  rw [hk, show p ^ f * (3 * k) = 3 * (p ^ f * k) by ring, Nat.mul_div_cancel_left _ (by norm_num)]
+  ring
+
+/-- Closed form at primes `q ≡ 2 (mod 3)`: `c(q^e) = cq q e` (hypothesis `h2` below). -/
+theorem cubeCount_prime_pow_two {q : ℕ} (hq : q.Prime) (hq3 : q % 3 = 2) :
+    ∀ e, cubeCount (q ^ e) = cq q e
+  | 0 => by simp [cubeCount_one, cq, s1]
+  | 1 => by
+    have h := cubeCount_step_two hq hq3 0
+    norm_num [cubeCount_one] at h
+    simp [cq, s1]; omega
+  | 2 => by
+    have h := cubeCount_step_two hq hq3 1
+    rw [h, show 1 + 1 - 3 = 0 by rfl, pow_zero, cubeCount_one]
+    simp [cq, s1]; ring
+  | e + 3 => by
+    have h := cubeCount_step_two hq hq3 (e + 2)
+    have ih := cubeCount_prime_pow_two hq hq3 e
+    rw [show e + 2 + 1 - 3 = e by omega, ih] at h
+    rw [h]
+    show (q - 1) * q ^ (e + 2) + (1 + (q - 1) * s1 q e) = 1 + (q - 1) * (q ^ (e + 2) + s1 q e)
+    ring
+
+/-- Closed form at primes `p ≡ 1 (mod 3)`: `3 c(p^e) = 3 + (p - 1) s1 p e` (hypothesis `h1` below). -/
+theorem cubeCount_prime_pow_one {p : ℕ} (hp : p.Prime) (hp3 : p % 3 = 1) :
+    ∀ e, 3 * cubeCount (p ^ e) = 3 + (p - 1) * s1 p e
+  | 0 => by simp [cubeCount_one, s1]
+  | 1 => by
+    have h := cubeCount_step_one hp hp3 0
+    norm_num [cubeCount_one] at h
+    simp [s1]; omega
+  | 2 => by
+    have h := cubeCount_step_one hp hp3 1
+    rw [h, show 1 + 1 - 3 = 0 by rfl, pow_zero, cubeCount_one]
+    simp [s1]; ring
+  | e + 3 => by
+    have h := cubeCount_step_one hp hp3 (e + 2)
+    have ih := cubeCount_prime_pow_one hp hp3 e
+    rw [show e + 2 + 1 - 3 = e by omega, ih] at h
+    rw [h]
+    show (p - 1) * p ^ (e + 2) + (3 + (p - 1) * s1 p e) = 3 + (p - 1) * (p ^ (e + 2) + s1 p e)
+    ring
+
+/-- Two prime factors, hypotheses discharged: no `n = x^a y^b` (`x ≠ y` primes, `a, b ≥ 1`)
+satisfies `3 c(n) = n + 2`, where `c = cubeCount` is the number of cubes mod n. -/
+theorem three_cubeCount_ne_of_two_factors {x y a b : ℕ} (hx : x.Prime) (hy : y.Prime)
+    (hxy : x ≠ y) (ha : 1 ≤ a) (hb : 1 ≤ b) :
+    3 * cubeCount (x ^ a * y ^ b) ≠ x ^ a * y ^ b + 2 :=
+  three_c_ne_of_two_factors cubeCount (fun _ _ h => cubeCount_mul h)
+    (fun _ e hq hq3 => cubeCount_prime_pow_two hq hq3 e)
+    (fun _ e hp hp3 => cubeCount_prime_pow_one hp hp3 e) hx hy hxy ha hb
+
+/-- One prime factor, hypotheses discharged: `3 c(x^a) = x^a + 2` with `x` prime and `a ≥ 1`
+forces `a = 1` and `x ≡ 1 (mod 3)`. -/
+theorem three_cubeCount_eq_one_factor {x a : ℕ} (hx : x.Prime) (ha : 1 ≤ a)
+    (hE : 3 * cubeCount (x ^ a) = x ^ a + 2) : a = 1 ∧ x % 3 = 1 :=
+  three_c_eq_one_factor cubeCount (fun _ e hq hq3 => cubeCount_prime_pow_two hq hq3 e)
+    (fun _ e hp hp3 => cubeCount_prime_pow_one hp hp3 e) hx ha hE
+
+/-- Converse direction for primes: `3 c(p) = p + 2` for every prime `p ≡ 1 (mod 3)`. -/
+theorem three_cubeCount_prime {p : ℕ} (hp : p.Prime) (hp3 : p % 3 = 1) :
+    3 * cubeCount p = p + 2 := by
+  have h := cubeCount_prime_pow_one hp hp3 1
+  rw [pow_one] at h
+  rw [h]; simp [s1]; omega
+
+end CubeCount

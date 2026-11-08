@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-52 entries: 19 resolved by this project, 15 answered elsewhere, 1 disputed or partial.
+53 entries: 19 resolved by this project, 15 answered elsewhere, 1 disputed or partial.
 
 Of the 19 resolutions: 17 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -69,6 +69,7 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | [B4.4](B4.4/) | partial | members of an odd amicable pair are incongruent mod 4, checked on all known pairs | — | new | [complete-table-scan](../methods/complete-table-scan/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [B4.5](B4.5/) | partial | unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair) | [full proof](B4.5/B4_5_mathlib.lean) | known | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
 | [B31.4](B31.4/) | partial | is there n with n!(n+q)! ∣ (2n−p)! for every p, q ≥ 0? | [full proof](B31.4/B31_4_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [B36.2](B36.2/) | partial | solutions of phi(n+3) = phi(n) + 2 lie in two prime-power families | [full proof](B36.2/B36_2_mathlib.lean) | new | [modular-obstruction](../methods/modular-obstruction/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [B38.2](B38.2/) | partial | σ(y) = n! is solvable for 3 ≤ n ≤ 250 (partial) | [witness](B38.2/B38_2_mathlib.lean) | new | [lean-certificate](../methods/lean-certificate/README.md) |
 | [C15.1](C15.1/) | partial | Selfridge's conjecture on k(m) for even m (partial) | — | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [C20.4](C20.4/) | partial | three hexagonal (pentagonal) numbers of positive rank | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
@@ -1020,6 +1021,28 @@ at all small primes simultaneously; that is the open core of Erdős 727. The cou
 solutions drop fast with k (below 3·10⁸: 282 for k = 6, 18 for k = 7, 2 for k = 8).
 
 Lean: [full proof](B31.4/B31_4_mathlib.lean).
+
+### [B36.2](B36.2/): solutions of phi(n+3) = phi(n) + 2 lie in two prime-power families
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., B36 (paraphrased): is 5186 the only n with
+phi(n) = phi(n+1) = phi(n+2)? Does phi(n+k) = phi(n) + phi(k) have a solution for k = 3? McCranie found none of
+either below 10^10 (apart from 5186).
+
+**Result.** Partial (k = 3). Every solution of phi(n+3) = phi(n) + 2 has, for a prime p = 3 (mod 4) and a >= 1,
+either (A) n = 2p^a and phi(2p^a + 3) = p^(a-1)(p-1) + 2, or (B) n = 2p^a - 3 and phi(2p^a - 3) = p^(a-1)(p-1) - 2.
+In case (A) with a = 1, m = 2p + 3 is a composite with 2 phi(m) = m - 1, hence phi(m) | m - 1: a counterexample to
+Lehmer's totient conjecture. Both questions remain open; the triple question is known to have no further
+solution below 10^15 (OEIS A001274, J. McCranie, Jan 2026).
+
+**Argument.** phi(m) = 2 (mod 4) iff m is 4, p^a or 2p^a with p = 3 (mod 4) (each odd prime p contributes the
+factor p - 1, which is 0 mod 4 unless p = 3 mod 4, and 2^b contributes 2^(b-1)). For n >= 3 both phi(n) and
+phi(n+3) are even; if both were 0 mod 4 their difference would be too, so n or n+3 is of that form. If n = p^a,
+n+3 is even and phi(n+3) <= (p^a + 3)/2 < p^(a-1)(p-1) + 2; if n+3 = p^a, n is even and
+phi(n) <= (p^a - 3)/2 < p^(a-1)(p-1) - 2 (p >= 3); n = 4 and n = 1 fail. This leaves n = 2p^a (A) and
+n + 3 = 2p^a (B). In (A) with a = 1: phi(2p+3) = p + 1 = (m-1)/2 for m = 2p+3, and m prime would give
+phi(m) = m - 1.
+
+Lean: [full proof](B36.2/B36_2_mathlib.lean).
 
 ### [B38.2](B38.2/): σ(y) = n! is solvable for 3 ≤ n ≤ 250 (partial)
 
