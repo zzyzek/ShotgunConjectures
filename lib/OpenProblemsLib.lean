@@ -23,3 +23,4 @@ import OpenProblemsLib.LRAT
 import OpenProblemsLib.AutomaticMod
 import OpenProblemsLib.HannaMod4
 import OpenProblemsLib.ThreeSquares
+import OpenProblemsLib.Nagura

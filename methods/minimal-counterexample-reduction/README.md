@@ -22,4 +22,11 @@ origin: openai-scan
 1 problems (primary method first in each problem's list).
 
 - [NT-B2.12](../../NT/B2.12/README.md): Erdős's extra-weird numbers (partial) (partial result; problem still open)
+
+### Failed, partial and wrong attempts
+
+From [attempts.jsonl](../attempts.jsonl).
+
+- OEIS-A034175, minimal-counterexample-reduction (open; every integer < 29674962 occurs within 3e7 terms; goal: greedy square-sum sequence is a permutation of N): orbit-hitting for an additive greedy rule; target set {s^2 - m} has density ~ 1/(2 sqrt x), no growth or gcd mechanism forces a hit Next: look for an invariant of the local dynamics y = s^2 - x near the mex that forces x + m square within bounded time
+- OEIS-A077220, minimal-counterexample-reduction (open; every positive integer < 29552506 occurs within 3e7 terms; goal: greedy triangular-sum sequence is a permutation of the positive integers): orbit-hitting for an additive greedy rule; target set {T_s - m} has density ~ 1/sqrt(2x); no gcd or growth mechanism Next: same as A034175
 <!-- end generated -->

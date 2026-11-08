@@ -2,7 +2,7 @@
 
 R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004. Statements are paraphrased with the section number.
 
-49 entries: 19 resolved by this project, 15 answered elsewhere, 1 disputed or partial.
+52 entries: 19 resolved by this project, 15 answered elsewhere, 1 disputed or partial.
 
 Of the 19 resolutions: 17 proved in full in Lean, 1 with the finite facts (witnesses) checked in Lean and the remaining steps on paper, 1 on paper only (re-derived by a second reader; 0 of these need Mathlib to formalise).
 
@@ -63,9 +63,12 @@ Columns: **Lean** says how far Lean checks the result (`full proof`: the whole s
 | Problem | Verdict | Result | Lean | Prior art | Method |
 |---|---|---|---|---|---|
 | [A3.12](A3.12/) | partial | primes (p^p−1)/(p−1) and (p^p+1)/(p+1) | — | known | [known-theorem](../methods/known-theorem/README.md), [exact-arithmetic](../methods/exact-arithmetic/README.md) |
+| [A19.3](A19.3/) | partial | the least odd number not of the form ±p^a ± 2^b | — | new | [covering-congruences](../methods/covering-congruences/README.md), [sat-threshold](../methods/sat-threshold/README.md) |
 | [B2.12](B2.12/) | partial | Erdős's extra-weird numbers (partial) | — | new | [minimal-counterexample-reduction](../methods/minimal-counterexample-reduction/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
+| [B3.2](B3.2/) | partial | is every infinitary multiperfect number divisible by 3? | — | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md), [modular-obstruction](../methods/modular-obstruction/README.md) |
 | [B4.4](B4.4/) | partial | members of an odd amicable pair are incongruent mod 4, checked on all known pairs | — | new | [complete-table-scan](../methods/complete-table-scan/README.md), [elementary-proof](../methods/elementary-proof/README.md) |
 | [B4.5](B4.5/) | partial | unitary amicable pairs (infinitude, coprime pairs, an odd non-squarefree pair) | [full proof](B4.5/B4_5_mathlib.lean) | known | [complete-table-scan](../methods/complete-table-scan/README.md), [finite-witness-counterexample](../methods/finite-witness-counterexample/README.md) |
+| [B31.4](B31.4/) | partial | is there n with n!(n+q)! ∣ (2n−p)! for every p, q ≥ 0? | [full proof](B31.4/B31_4_mathlib.lean) | partly-known | [elementary-proof](../methods/elementary-proof/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [B38.2](B38.2/) | partial | σ(y) = n! is solvable for 3 ≤ n ≤ 250 (partial) | [witness](B38.2/B38_2_mathlib.lean) | new | [lean-certificate](../methods/lean-certificate/README.md) |
 | [C15.1](C15.1/) | partial | Selfridge's conjecture on k(m) for even m (partial) | — | partly-known | [complete-table-scan](../methods/complete-table-scan/README.md) |
 | [C20.4](C20.4/) | partial | three hexagonal (pentagonal) numbers of positive rank | — | known | [known-theorem](../methods/known-theorem/README.md), [complete-table-scan](../methods/complete-table-scan/README.md) |
@@ -790,6 +793,62 @@ Lean: —.
 
 Lean: —.
 
+### [A19.3](A19.3/): the least odd number not of the form ±p^a ± 2^b
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section A19.
+Cohen and Selfridge ask for the least positive odd number not of the form ±p^a ± 2^b (p prime,
+any signs). They note it exceeds 2^18 and give a 94-digit upper bound; Guy also cites Sun
+Zhi-Wei's residue class modulo 66483084961588510124010691590 whose members are not ±p^a ± q^b,
+which contains Cohen–Selfridge's 26-digit number 47867742232066880047611079. References:
+F. Cohen, J. L. Selfridge, *Math. Comp.* 29 (1975) 79–81; Z.-W. Sun, *Proc. AMS* 128 (2000)
+997–1002.
+
+**Reading.** We use the most demanding reading for the non-representation claims: p any
+prime (p = 2 allowed), a ≥ 0, b ≥ 0. For the representation search we use the least generous
+one: a ≥ 1, b ≥ 1 (then p is odd, since n is odd). So both bounds hold under every reading.
+
+**Result (partial; the exact value stays open).**
+
+1. *New upper bound.* x₀ = 10439679896374780276373 (23 digits, ≈ 1.04·10²²) is odd and is not of the form
+   ±p^a ± 2^b. So the least such number is at most x₀, improving the 26-digit bound
+   47867742232066880047611079 ≈ 4.79·10²⁵ (Cohen–Selfridge / Sun) by a factor of about 4600. Residues: x₀ ≡ 1 (mod 2) and x₀ mod (3, 5, 7, 11, 13, 17, 19, 31, 37,
+   41, 61, 73, 97, 109, 151, 241, 257, 331) = (2, 3, 1, 5, 5, 9, 5, 2, 16, 10, 49, 2, 31, 93, 32, 120,
+   129, 4).
+2. *New lower bound.* Every odd n < 42565109 is p^a + 2^b, p^a − 2^b or 2^b − p^a with p
+   prime, a ≥ 1, b ≥ 1, every prime proved (previous published bound 2^18 = 262144). Up to
+   2^28 = 268435456 the same holds except for three n: 42565109 and 52274777, whose only
+   representations found use probable primes (2^5945 + n, 1790 digits; 2^16116 − n, 4852
+   digits), and 111827383 = 239 · 467897, for which no representation exists with b ≤ 26000
+   (primes, PRP test) or with b ≤ 5000 (prime powers). These three have no representation with
+   b ≤ 5000; between 92% and 97%
+   of the numbers n ± 2^b (b ≤ 2000) have a prime factor below 1000, so they behave like
+   Sierpiński-type candidates with an almost-covering. p^a with a ≥ 2 was needed for 24 n.
+3. *Why covering numbers sit near 10²²–10²⁵ (structure).* Among two-sided coverings with
+   moduli dividing 720 built from primes below 10⁷ (x ≡ 2^c mod p covers b ≡ c for x − 2^b and,
+   when ord_p(2) is even, b ≡ c + ord/2 for x + 2^b), the least possible product of the
+   primes is between 10^28.519 (HiGHS dual bound) and 10^28.522, the latter attained by the 18 primes 3, 5, 7, 11, 13, 17, 19, 31, 37, 41, 61, 73, 97,
+   109, 151, 241, 257, 331 (ILP, HiGHS, L = 720); these are exactly the
+   primes behind the Cohen–Selfridge/Sun number. A covering x is the least positive member of a
+   class modulo 2·∏p ≈ 6.65·10²⁸, and each covering gives 1440 classes (x → ±2^t x).
+
+**Argument for item 1.** With S the 18 primes above and L = 720:
+- *Covering.* For every b mod 720, some p ∈ S divides x₀ − 2^b and some p ∈ S divides
+  x₀ + 2^b (ord_p(2) | 720 for all p ∈ S, so this is a finite check).
+- *Two primes.* If two distinct primes of S divide |x₀ ∓ 2^b|, it is not a prime power.
+- *One prime p (single classes).* Then |x₀ ∓ 2^b| = r^a forces r = p. For b ≥ 20 in the class
+  b ≡ b₀ (mod 720), the equation ε p^a = x₀ − 2^b (ε = ±1) or p^a = x₀ + 2^b implies
+  ε p^a ≡ x₀ (mod 2^20) and ε p^a ≡ x₀ ∓ 2^{b₀} (mod q) for every prime q with ord_q(2) | 720.
+  These restrict a modulo ord_{2^20}(p) and modulo ord_q(p); for every single class the
+  combined set of admissible a is empty.
+- *Small b.* For b < (bit length of x₀) + 721 the numbers |x₀ ∓ 2^b| are computed exactly: each
+  is > 1, has a prime factor in S, and is not a power of that prime.
+- The four shapes x₀ = p^a + 2^b, p^a − 2^b, 2^b − p^a (and −p^a − 2^b < 0) are exactly the
+  cases x₀ − 2^b = ±p^a and x₀ + 2^b = p^a, so x₀ has no representation.
+x₀ was found by sampling coverings on S with CaDiCaL (random relabellings), taking for each
+covering the least odd CRT solution over its orbit x → ±2^t x.
+
+Lean: —.
+
 ### [B2.12](B2.12/): Erdős's extra-weird numbers (partial)
 
 **Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., section B2 (paraphrased): Erdős asks
@@ -822,6 +881,41 @@ that "two ways without repetitions" means disjoint sets). Extra-weird = σ(n) > 
   (the least one is 1018976683725 = 3^3·5^2·7^2·11·13·17·19·23·29). Brute-force cross-checks: the primitive list
   matches a direct sieve for n ≤ 3·10^5 (835 numbers); `certificate/xw.c` (sieve of σ, every 3-abundant n tested,
   not only primitive ones) finds no extra-weird n ≤ 3·10^7 (606 506 numbers).
+
+Lean: —.
+
+### [B3.2](B3.2/): is every infinitary multiperfect number divisible by 3?
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section B3
+(unitary perfect numbers). Guy reports Graeme Cohen's infinitary divisors: p^x is an infinitary
+divisor of p^y when every binary digit of x is also a digit of y; σ∞(n) is the sum of the
+infinitary divisors of n; Cohen conjectures that every n with σ∞(n) = kn (k an integer ≥ 2,
+"infinitary multiperfect") is divisible by 3. Reference: G. L. Cohen, On an integer's
+infinitary divisors, *Math. Comp.* 54 (1990) 395–411.
+
+**Reading.** σ∞ is multiplicative with σ∞(p^y) = ∏_{i : bit i of y is 1} (1 + p^(2^i)).
+Equivalently, n is uniquely a product of distinct "Fermi–Dirac primes" q = p^(2^i), and
+σ∞(n) = ∏ (1 + q) over them. k = 1 (n = 1) is excluded.
+
+**Result (partial; the conjecture stays open).**
+
+1. *Computation (all k).* Every n ≤ 2·10¹⁰ with σ∞(n) ≡ 0 (mod n), n > 1, is divisible by 3.
+   The complete list in this range is 6, 60, 90, 120, 36720, 73440, 12646368, 22276800,
+   44553600, 126463680, 133660800, 252927360, 758782080, 4201148160, 8402296320, i.e. the
+   terms of OEIS A007358 below the bound, so that list is complete up to 2·10¹⁰.
+2. *Structure of a counterexample (elementary).* Let 3 ∤ n and σ∞(n) = kn.
+   (a) If 3 ∤ k, then every prime p ≡ 2 (mod 3), including p = 2, divides n to an even power:
+   an odd exponent puts the factor 1 + p ≡ 0 (mod 3) into σ∞(n) = kn.
+   (b) If 3 | k, then v₃(k) = Σ v₃(1 + p) over the primes p ≡ 2 (mod 3) (including 2) with odd
+   exponent in n; in particular k is divisible by 3 at least once per such prime.
+   (c) n is even (Cohen): for odd n with t Fermi–Dirac factors, 2^t | σ∞(n) = kn forces
+   2^t | k, but k = ∏(1 + 1/q) < 2^t.
+
+**Argument.** Item 1: segmented sieve computing σ∞(n) exactly (128-bit) from the
+factorisation for every n, `certificate/isig.c`; the run was split at 8.4·10⁹ (logs
+`isig_part1.txt`, sequential output up to 8402296320, and `isig_part2.txt` with progress
+lines). The program reproduces A007358 below 2·10⁸. Item 2 is the displayed one-line
+arguments.
 
 Lean: —.
 
@@ -864,6 +958,68 @@ the twin question) and the coprime conjecture remain open.
 σ*(n) = 4·6·8·18·72·4760 = 1184440320.
 
 Lean: [full proof](B4.5/B4_5_mathlib.lean).
+
+### [B31.4](B31.4/): is there n with n!(n+q)! ∣ (2n−p)! for every p, q ≥ 0?
+
+**Source.** R. K. Guy, *Unsolved Problems in Number Theory*, 3rd ed., Springer 2004, section B31
+(binomial coefficients). Guy records Harry Ruderman's request for a proof or disproof that for
+every pair (p, q) of nonnegative integers some positive integer n makes (2n − p)!/(n!(n + q)!) an
+integer. Reference given there: H. D. Ruderman, Problem 714, *Crux Math.* 8 (1982) 48; 9 (1983) 58.
+
+**Reading.** (2n − p)! needs 2n ≥ p. Write R(p, q) for "some n ≥ 1 with 2n ≥ p has
+n!(n + q)! ∣ (2n − p)!". Ruderman's question is "R(p, q) for all p, q".
+
+**Result (partial; the question stays open).**
+
+1. *Equivalence with Erdős problem 727 (ours, Lean).* Ruderman's question is equivalent to
+   the conjecture of Erdős, Graham, Ruzsa and Straus (erdosproblems.com/727, open even for
+   k = 2): for every k ≥ 2 there are infinitely many n with ((n + k)!)² ∣ (2n)!.
+   It is also equivalent to the weak form "for every k there is one such n", i.e. to every
+   term of OEIS A343507 existing.
+2. *Known cases.* R(p, q) holds for p ≤ 2 and every q: Erdős–Graham–Ruzsa–Straus (1975), by
+   Balakran's method, give infinitely many n with (n + k)!(n + 1)! ∣ (2n)!; with m = n + 1 this
+   is m!(m + k − 1)! ∣ (2m − 2)!, i.e. R(2, k − 1), and R(p, q) is monotone (below).
+3. *Computed cases.* R(p, q) holds for every pair with p + 2q ≤ 16 (from witnesses of
+   ((n + k)!)² ∣ (2n)! for k ≤ 8, recomputed here to 3·10⁸; they agree with A343507), and for
+   p + 2q ≤ 18 using the A343507 term a(9) = 2935782889 (not recomputed). Direct witnesses for
+   larger q at fixed p are in the table below.
+
+Largest q found with n ≤ 10⁷ for each p (so R(p, q′) holds for all q′ ≤ q; columns p = 13…16
+have only q = 0 solutions, with n ≤ 3·10⁸):
+
+| p | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 14 | 16 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| largest q | 17 | 16 | 12 | 12 | 10 | 9 | 6 | 6 | 2 | 2 | 0 | 0 |
+| witness n | 8122350 | 7241455 | 1474547 | 1474547 | 2086261 | 7235030 | 5665647 | 5665647 | 3648841 | 7141719 | 72286099 | 159329615 |
+
+**Argument.** *Monotonicity.* If n works for (p, q) it works for (p′, q′) with p′ ≤ p, q′ ≤ q, since
+n!(n + q′)! ∣ n!(n + q)! and (2n − p)! ∣ (2n − p′)!.
+
+*Ruderman ⇒ one solution for each k.* R(2k, 0) gives n with n!² ∣ (2n − 2k)! and 2n ≥ 2k;
+then n′ = n − k has ((n′ + k)!)² ∣ (2n′)!.
+
+*One solution for each k ⇒ Ruderman.* Given (p, q) let k = p + q + 2 and take n with
+((n + k)!)² ∣ (2n)!. Put m = n + p + 2 ≥ 1. Then m + q = n + k, so
+m!(m + q)! ∣ ((n + k)!)² ∣ (2n)! ∣ (2m − p)! because 2m − p = 2n + p + 4 ≥ 2n.
+
+*One solution for each k ⇒ infinitely many for each k.* Let ((n + K)!)² ∣ (2n)! with K ≥ 2.
+Then n ≥ K: n = 0 is impossible (K!² > 1), and if 1 ≤ n < K, Bertrand gives a prime ℓ with
+n < ℓ ≤ 2n ≤ n + K, so ℓ² ∣ ((n + K)!)², while ℓ ≤ 2n < 2ℓ and 2n < ℓ² give
+v_ℓ((2n)!) = ⌊2n/ℓ⌋ = 1. A solution for K is a solution for every k ≤ K
+((n + k)! ∣ (n + K)!). Taking K = k + a + 1 for each bound a gives a solution n > a for k.
+(The fact that [a(k) + 1, a(k) + k] contains no prime is noted in A343507 by Schoenfield.)
+
+*Why the question is hard (obstruction).* For a prime ℓ with ℓ² > 2n and ℓ > p + 2q, write
+r = n mod ℓ and r′ = (n + q) mod ℓ. Since 2n − p = n + (n + q) − (p + q), the ℓ-adic valuation
+of (2n − p)!/(n!(n + q)!) is ⌊(r + r′ − p − q)/ℓ⌋ ∈ {−1, 0, 1}, and it is −1 exactly when
+r = j < p/2 (then r′ = j + q), i.e. when ℓ ∣ n − j for some 0 ≤ j < p/2. So every solution for p ≥ 3 needs n and
+n − 1 to be √(2n)-smooth, and for p ≥ 2j + 1 the j + 1 consecutive integers n, …, n − j
+must all be √(2n)-smooth, plus carry conditions at every prime ≤ √(2n). Strings of
+consecutive smooth numbers exist (Balog–Wooley), but nobody controls the carry conditions
+at all small primes simultaneously; that is the open core of Erdős 727. The counts of
+solutions drop fast with k (below 3·10⁸: 282 for k = 6, 18 for k = 7, 2 for k = 8).
+
+Lean: [full proof](B31.4/B31_4_mathlib.lean).
 
 ### [B38.2](B38.2/): σ(y) = n! is solvable for 3 ≤ n ≤ 250 (partial)
 
