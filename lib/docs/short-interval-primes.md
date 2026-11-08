@@ -15,9 +15,7 @@ all real $x \ge 25$. No zeta-function input is used.
 **Notation.** $\psi$ and $\theta$ are Mathlib's `Chebyshev.psi`, `Chebyshev.theta`
 ($\theta(x) = \sum_{p \le x} \log p$). The Chebyshev constant is
 
-$$
-a = \tfrac{7}{15}\log 2 + \tfrac{3}{10}\log 3 + \tfrac16 \log 5 = 0.92129\ldots \qquad (\texttt{a},\ \texttt{a\\_bound}).
-$$
+$$a = \tfrac{7}{15}\log 2 + \tfrac{3}{10}\log 3 + \tfrac16 \log 5 = 0.92129\ldots \qquad (\texttt{a},\ \texttt{a\_bound}).$$
 
 **Theorem** (`ShortIntervalPrimes.lean`).
 

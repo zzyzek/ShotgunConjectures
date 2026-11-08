@@ -1,0 +1,12 @@
+52274777 checked through b=6000
+52274777 checked through b=7000
+52274777 checked through b=8000
+52274777 checked through b=9000
+52274777 checked through b=10000
+52274777 checked through b=11000
+52274777 checked through b=12000
+52274777 checked through b=13000
+52274777 checked through b=14000
+52274777 checked through b=15000
+52274777 checked through b=16000
+52274777 b=16116 2^b-n PRP digits 4852

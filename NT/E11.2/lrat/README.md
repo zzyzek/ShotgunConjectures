@@ -15,7 +15,8 @@ The upper bound of `../E11_2_lrat.lean` rests on these modules (namespace `E11Lr
 modules to `lib/build/E11Lrat/` (one machine-wide slot, 6 GB, 900 s per module). Compiling a module is its kernel
 check. Then `tools/leancheck-mathlib.sh NT/E11.2/E11_2_lrat.lean` checks the final theorems.
 
-Why a sub-CNF: the store packing of `OpenProblemsLib.LRAT` needs clause ids below 2^18. The full CNF has 561 765
+Why a sub-CNF: when this proof was built, the store packing of `OpenProblemsLib.LRAT` needed clause ids below 2^18
+(the limit is gone since 2026-11-07, see `lib/docs/lrat.md`; the sub-CNF proof is kept). The full CNF has 561 765
 clauses, so the proof is rerun on the clauses of its unsat core (all alo/amo/symmetry clauses plus 44 526 triple
 clauses). Any list of genuine solution tuples gives a CNF that every symmetry-broken colouring satisfies
 (`sat_of_broken`), so unsatisfiability of the sub-CNF is enough.
@@ -40,3 +41,7 @@ python3 mkmods.py ; python3 gen.py Q
 ./build.sh Q00 Q01 Q02 Q03 Q04 Q05 ; ./build.sh Q06 Q07 Q08 Q09 Q10    # two shells
 ./build.sh Steps
 ```
+
+Re-checked 2026-11-07 from scratch after the store packing change of `OpenProblemsLib.LRAT`: `Store` 43 s (needs
+`set_option maxHeartbeats 1000000` for elaboration), `F` 73 s, `Q00..Q29` 5142 s (160 to 231 s each, peak 2.5 GB);
+`E11_2_lrat.lean` OK, axioms within propext, Classical.choice, Quot.sound.

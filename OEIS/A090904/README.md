@@ -1,0 +1,3 @@
+# OEIS-A090904
+
+Written up with OEIS/A090905: see [../A090905/README.md](../A090905/README.md).

@@ -17,7 +17,8 @@ it cannot make a false statement provable.
 The checker is written for kernel reduction (`decide +kernel`): structural recursion only, the
 assignment is one `Nat` used as a bitmask (GMP-accelerated `|||`, `<<<`, `testBit` in the kernel),
 and the store is a static binary trie keyed by clause id, each entry a pair of `Nat`s packing the
-clause and its RUP hints in base `2^18`, length first (`unpack`). Measured cost: about 1 ms of
+clause and its RUP hints, each in a base `2^b` with its own width `b < 64`, length first
+(`unpack`). Measured cost: about 1 ms of
 kernel time per hint and about 0.3 GB of kernel memory per 1000 hints within one declaration.
 
 Main results.
@@ -213,15 +214,18 @@ theorem rup_sound {v lk C hs} (hlk : ∀ h c, lk h = some c → csat v c = true)
 
 /-! ## The clause store -/
 
-/-- Digit base of the packing: literal codes, clause ids and lengths below `2^18`. -/
-abbrev B : Nat := 262144
-
 /-- The first `f` base-`B` digits of `w`, lowest first. -/
-def dec (f w : Nat) : List Nat :=
+def dec (B f w : Nat) : List Nat :=
   Nat.rec (motive := fun _ => Nat → List Nat) (fun _ => []) (fun _ r w => (w % B) :: r (w / B)) f w
 
-/-- The list packed in `w`: the low digit is the length, the higher digits the entries. -/
-def unpack (w : Nat) : List Nat := dec (w % B) (w / B)
+/-- The list packed in `w` with digit base `B`: the low digit is the length, the higher digits
+the entries. -/
+def unpackB (B w : Nat) : List Nat := dec B (w % B) (w / B)
+
+/-- The list packed in `w`: the low 6 bits are a width `b`, the rest is the list packed with digit
+base `2^b` (`unpackB`). Each entry picks the smallest width its numbers need, so the encoding has
+no size limit and small entries stay small. -/
+def unpack (w : Nat) : List Nat := unpackB (2 ^ (w % 64)) (w / 64)
 
 theorem unpack_zero : unpack 0 = [] := rfl
 
@@ -392,8 +396,18 @@ open Lean Elab Term Meta
 
 def litOfInt (i : Int) : Nat := if i > 0 then 2 * i.toNat else 2 * (-i).toNat + 1
 
-/-- Inverse of `unpack` on lists shorter than `B` with entries below `B`. -/
-def pack (xs : List Nat) : Nat := xs.length + B * xs.foldr (fun x acc => x + B * acc) 0
+/-- Inverse of `unpack`: width `b` = bit length of the largest of the length and the entries
+(0 for the empty list, so that `pack [] = 0`). Fails only beyond `2^63`. -/
+def pack (xs : List Nat) : Nat :=
+  let b := (xs.foldr max xs.length).log2 + (if xs.isEmpty then 0 else 1)
+  let B := 2 ^ b
+  b + 64 * (xs.length + B * xs.foldr (fun x acc => x + B * acc) 0)
+
+def pairE (c h : List Nat) : MetaM Expr := do
+  unless (c.foldr max c.length) < 2 ^ 63 && (h.foldr max h.length) < 2 ^ 63 do
+    throwError "LRAT store: a literal code, clause id or length is not below 2^63"
+  return mkApp4 (mkConst ``Prod.mk [0, 0]) (mkConst ``Nat) (mkConst ``Nat)
+    (mkRawNatLit (pack c)) (mkRawNatLit (pack h))
 
 def ints (ws : List String) : List Int := ws.filterMap String.toInt?
 
@@ -424,9 +438,6 @@ partial def mkTrie (xs : List (Nat × Expr)) : Expr :=
     let r := ys.filter (fun p => p.1 % 2 = 1) |>.map fun p => (p.1 / 2, p.2)
     mkApp3 (mkConst ``T.node) e (mkTrie l) (mkTrie r)
 
-def pairE (c h : List Nat) : Expr :=
-  mkApp4 (mkConst ``Prod.mk [0, 0]) (mkConst ``Nat) (mkConst ``Nat)
-    (mkRawNatLit (pack c)) (mkRawNatLit (pack h))
 
 /-- `lratStore% "f.cnf" "f.lrat"`: entries `1..m` are the DIMACS clauses, then each LRAT
 addition (text format, as written by `cadical --lrat --binary=false`) at its id. Deletions
@@ -435,7 +446,7 @@ elab "lratStore% " s1:str s2:str : term => do
   let cls ← readCnf s1.getString
   let mut es : Array (Nat × Expr) := #[]
   for i in [0:cls.size] do
-    es := es.push (i + 1, pairE cls[i]! [])
+    es := es.push (i + 1, ← pairE cls[i]! [])
   let txt ← IO.FS.readFile s2.getString
   for line in txt.splitOn "\n" do
     let ws := (line.splitOn " ").filter (· ≠ "")
@@ -447,7 +458,7 @@ elab "lratStore% " s1:str s2:str : term => do
       let lits := is.takeWhile (· ≠ 0)
       let hints := (is.drop (lits.length + 1)).takeWhile (· ≠ 0)
       if hints.any (· < 0) then throwError "RAT hints are not supported"
-      es := es.push (idw.toNat!, pairE (lits.map litOfInt) (hints.map Int.toNat))
+      es := es.push (idw.toNat!, ← pairE (lits.map litOfInt) (hints.map Int.toNat))
   return mkTrie es.toList
 
 /-- `lratLast% "f.lrat"`: the id of the last addition (the empty clause). -/

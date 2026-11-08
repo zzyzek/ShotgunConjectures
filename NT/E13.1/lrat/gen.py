@@ -1,11 +1,12 @@
 # Write the chunk modules E13Lrat/<P>xx.lean (each: theorems `steps S<t> n k = true`, at most
 # CH hints per theorem, at most FH hints per module) and the composition E13Lrat/Steps<t>.lean,
 # for the store `S<t>` read from data/e13m<t>.cnf and data/e13m<t>.lrat (ids consecutive).
-# Usage: gen.py t P [CH] [FH]     (t = 2: P = A; t = 4p: P = P; t = 4n: P = N)
+# Usage: gen.py t P [CH] [FH]     (t = 2: P = A; t = 4p: P = P; t = 4n: P = N; t = 4: P = U)
 #
 import sys
 m, P = sys.argv[1], sys.argv[2]
-DESC = {"2": "m = 2", "4p": "m = 4, 12 has colour 2", "4n": "m = 4, 12 has not colour 2"}[m]
+DESC = {"2": "m = 2", "4p": "m = 4, 12 has colour 2", "4n": "m = 4, 12 has not colour 2",
+        "4": "m = 4, unsplit"}[m]
 CH = int(sys.argv[3]) if len(sys.argv) > 3 else 8000
 FH = int(sys.argv[4]) if len(sys.argv) > 4 else 400000
 S = "S%s" % m

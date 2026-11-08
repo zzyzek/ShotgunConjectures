@@ -1,0 +1,11 @@
+N 10 maxF<= 2.1895967901  lb 2.21871113153874 below target: True
+N 11 maxF<= 2.3444491662  lb 2.35463449506155 below target: True
+N 13 maxF<= 2.5945308565  lb 2.61283415205238 below target: True
+N 14 maxF<= 2.6965314534  lb 2.72097789934048 below target: True
+N 15 maxF<= 2.7865787941  lb 2.80437938182662 below target: True
+N 16 maxF<= 2.8665953376  lb 2.88645539226586 below target: True
+N 17 maxF<= 2.9381282600  lb 2.94752298479963 below target: True
+N 18 maxF<= 3.0024317717  lb 3.00961325251347 below target: True
+N 19 maxF<= 3.0605305537  lb 3.06321627790634 below target: True
+N 20 maxF<= 3.1132683182  lb 3.11853879318522 below target: True
+N 21 maxF<= 3.1613450341  lb 3.16444161677923 below target: True

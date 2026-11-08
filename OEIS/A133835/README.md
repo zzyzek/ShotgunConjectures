@@ -1,0 +1,3 @@
+# OEIS-A133835
+
+Written up with OEIS/A131194: see [../A131194/README.md](../A131194/README.md).

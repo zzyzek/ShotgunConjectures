@@ -1,0 +1,12 @@
+10 bcdef,afghc,abhid,acie,adijf,aejgb,bfjh,bgjic,chjed,eihgf
+10 bcdef,afghc,abhd,achije,adjf,aejgb,bfjih,bgidc,dhgj,digfe
+10 bcde,aefghic,abid,acije,adjfb,bejg,bfjh,bgji,bhjdc,dihgfe
+10 bcde,aefghc,abhd,achie,adijfb,bejg,bfjih,bgidc,dhgje,eigf
+10 bcde,aefghc,abhd,achije,adjfb,bejig,bfih,bgidc,dhgfj,dife
+10 bcde,aefghc,abhd,achife,adfb,bedijg,bfjh,bgjidc,dhjf,fihg
+10 bcde,aefgc,abghid,acife,adfb,bedijg,bfjhc,cgji,chjfd,fihg
+10 bcde,aefc,abfghid,acie,adihjfb,bejgc,cfjh,cgjei,ched,ehgf
+10 bcde,aefc,abfghijd,acje,adjihgfb,begc,cfeh,cgei,chej,cied
+10 bcde,aefc,abfgd,acge,adghifb,beijgc,cfjhed,egji,ehjf,fihg
+10 bcdef,afgc,abghid,acie,adijgf,aegb,bfejhc,cgji,chjed,eihg
+10 bcde,aefghic,abid,acie,adihjfb,bejg,bfjh,bgjei,bhedc,ehgf

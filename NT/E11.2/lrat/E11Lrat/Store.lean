@@ -11,6 +11,7 @@ namespace E11Lrat
 
 open OpenProblemsLib.LRAT
 
+set_option maxHeartbeats 1000000 in
 noncomputable def S : T := lratStore% "NT/E11.2/lrat/data/c171.cnf" "NT/E11.2/lrat/data/c171.lrat"
 
 end E11Lrat

@@ -1,0 +1,3 @@
+# OEIS-A214621
+
+Written up with OEIS/A214620: see [../A214620/README.md](../A214620/README.md).

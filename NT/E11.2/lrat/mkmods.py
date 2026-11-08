@@ -54,6 +54,7 @@ S = ["import OpenProblemsLib.LRAT", "",
      "is trusted: `E11Lrat.F` checks that the first entries are `cnf 171 L`, the step modules check",
      "every later entry by RUP. -/", "",
      "namespace E11Lrat", "", "open OpenProblemsLib.LRAT", "",
+     'set_option maxHeartbeats 1000000 in',
      'noncomputable def S : T := lratStore% "NT/E11.2/lrat/data/c171.cnf" "NT/E11.2/lrat/data/c171.lrat"',
      "", "end E11Lrat", ""]
 open("E11Lrat/Store.lean", "w").write("\n".join(S))

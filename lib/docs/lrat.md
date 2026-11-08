@@ -18,7 +18,28 @@ is even (DIMACS `d` becomes `2d`, `-d` becomes `2d + 1`). A valuation is `v : Na
 **The clause store** `S : T` is a binary trie keyed by clause id. Entries `1..m` should be the
 clauses of `F`, entries `m+1..last` the derived clauses, each with its hint list. The reader
 `lratStore% "f.cnf" "f.lrat"` builds it from a DIMACS file and a text LRAT file; each entry is
-two `Nat`s packing the clause and the hints in base `2^18`, so the data stay small terms.
+two `Nat`s packing the clause and the hints, so the data stay small terms.
+
+**Packing** (`unpack`). A packed list `w` has a width `b = w % 64` in its low 6 bits; the rest,
+`w / 64`, holds the length and then the entries as base-`2^b` digits, lowest first. The reader
+picks for each list the bit length of its largest number (length included), so literal codes,
+clause ids and lengths may be anything below `2^63`, and each list is no larger than its widest
+number needs. Until 2026-11-07 the base was a fixed `2^18`, which limited stores to 262 143
+entries (NT-E13.1 split its m = 4 proof and NT-E11.2 reran the proof on an unsat core because of
+it). A fixed base `2^32` was tried first and rejected: it made the E29.1 benchmark module 38%
+slower and the store elaboration 6 times slower, because every packed number grows by 32/18.
+
+Measured 2026-11-07, base `2^18` against per-entry width (same machine, quiet): GEO-E4.4 whole
+file 20.8 s against 19.9 s; E29.1 module `C07` 239 s against 241 s, peak 3.0 GB both; E29.1 store
+elaboration 23 s against 26 s. The reader does slightly more work per entry, so a store module of
+more than about 200 000 entries (NT-E11.2, NT-E13.1 m = 2) needs `set_option maxHeartbeats 1000000 in` before its
+`lratStore%` definition (elaboration heartbeats; the kernel check is not affected). Re-check of all
+users from scratch with the new packing (2026-11-07, two modules at a time): NT-E29.1 chunk modules
+3681 s, NT-E13.1 12 954 s (m = 2: 5906 s; m = 4 split: 7048 s), NT-E11.2 5142 s; all final files
+OK with axioms propext, Classical.choice, Quot.sound. Demonstration of the removed limit: the
+unsplit NT-E13.1 m = 4 proof, one store of 298 598 entries (25 287 clauses, 273 311 additions,
+6 132 487 hints), checks in 16 chunk modules (7569 s, peak 2.7 GB) plus the CNF check `F4`
+(39 s, 5.4 GB); `NT/E13.1/lrat/E13Lrat/Unsplit4.lean`.
 
 **Theorem** (`LRAT.lean`).
 
@@ -121,14 +142,15 @@ Here the CNF is read from the file (`dimacs%`), so the statement is about that f
 the store's first 16 378 entries are checked equal to it (`store_cnf`, 23 s). The 126 702 additions
 (2.99 million hints) are 375 chunk theorems in 8 modules compiled by `NT/E29.1/lrat/build.sh`,
 joined in `E29Lrat.Steps`; the final file proves `forces_iff : Forces N ↔ 3150 ≤ N`.
-Kernel time 3647 s for the steps (8 modules of 245 to 494 s), peak 3.1 GB per module.
+Kernel time 3681 s for the steps (8 modules of 247 to 503 s), peak 3.1 GB per module (re-check
+2026-11-07 with the per-entry packing; 3647 s with the old fixed base).
 
 ## 5. Lean names
 
 | name | statement or role |
 |---|---|
 | `litT`, `csat`, `Satisfies`, `Unsat` | semantics (trusted) |
-| `T`, `get`, `unpack` | the clause store and its packed entries |
+| `T`, `get`, `unpack` | the clause store and its packed entries (per-entry digit width) |
 | `unit`, `prop`, `negAll`, `rup` | unit propagation along the hints |
 | `rup_sound` | RUP from true clauses gives a true clause |
 | `chkF`, `chkF_sound` | entries `j..j+|F|-1` of the store are `F` |
@@ -140,4 +162,4 @@ Kernel time 3647 s for the steps (8 modules of 245 to 494 s), peak 3.1 GB per mo
 | `lratStore%`, `lratLast%`, `dimacs%` | readers (untrusted; build terms from files at elaboration time) |
 
 All in namespace `OpenProblemsLib.LRAT`; axioms propext, Classical.choice, Quot.sound.
-Used by NT-E29.1 and GEO-E4.4.
+Used by NT-E29.1, NT-E13.1, NT-E11.2 and GEO-E4.4.

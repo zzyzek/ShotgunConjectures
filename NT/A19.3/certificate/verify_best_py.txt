@@ -1,0 +1,5 @@
+covering OK; classes 1440 single-prime classes 771
+single-prime classes not excluded: 0 []
+direct check of b < 795 OK
+RESULT PROVED
+rc=0

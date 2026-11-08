@@ -41,7 +41,8 @@ sha256sum data/e13m2.cnf data/e13m2.lrat
 #   4f850754ba625b35d6e865f9c76b5c7a4a24c8cab522995c756e02e7c8aa6e28  data/e13m2.lrat  (40 MB; 234612 additions, 4577988 hints)
 python3 cnf.py 4 4 160 > data/e13m4.cnf                                 # p cnf 644 25287
 # m = 4 is split on variable 35 ("12 has colour 2"): the store packing of OpenProblemsLib.LRAT
-# needs ids below 2^18, and the unsplit trimmed proof has 273311 additions after 25287 clauses.
+# needed ids below 2^18 when this proof was built, and the unsplit trimmed proof has 273311 additions
+# after 25287 clauses. The limit is gone since 2026-11-07 (see "Unsplit m = 4" below).
 for t in p n; do s=""; [ $t = n ] && s="-"
   { head -1 data/e13m4.cnf | awk '{print $1,$2,$3,$4+1}'; tail -n +2 data/e13m4.cnf; echo "${s}35 0"; } > data/e13m4$t.cnf
   cadical --lrat --binary=false data/e13m4$t.cnf data/e13m4$t.raw.lrat    # ~20 s each
@@ -67,9 +68,29 @@ cd ../../.. && tools/leancheck-mathlib.sh NT/E13.1/E13_1_lrat.lean
 them consecutively after the input clauses. CaDiCaL is deterministic: the same CNF gives the
 same LRAT file (rerun on `data/e13m2.cnf` checked 2026-11-07: same sha256 after trimming). The data only feed the stores; any LRAT proof of the same CNF works.
 
+## Unsplit m = 4 (demonstration of the store without an id limit)
+
+`E13Lrat/Unsplit4.lean` proves `cnf4_unsat_unsplit : Unsat (cnf 4 164)` from one store `S4` of
+298 598 entries (ids beyond 2^18), the same statement as `cnf4_unsat` in `../E13_1_lrat.lean`.
+The recorded proof stays the split one (it needs 7048 s of chunk-module kernel time against 7569 s).
+
+```bash
+cadical --lrat --binary=false data/e13m4.cnf data/e13m4.raw.lrat         # ~9 s
+python3 trim.py 25287 data/e13m4.raw.lrat data/e13m4.lrat                # kept 273311, 6 132 487 hints
+sha256sum data/e13m4.lrat
+#   275af6ffc52171db45d68b774eb4a116b82c4789587f795895f4ff795d409555  data/e13m4.lrat  (53 MB)
+python3 gen.py 4 U
+./build.sh Store4 F4 U00 U01 U02 U03 U04 U05 U06 U07 ; ./build.sh U08 U09 U10 U11 U12 U13 U14 U15   # two shells, after Store4
+./build.sh Steps4 Unsplit4
+```
+
+Checked 2026-11-08: `Store4` 60 s, 1.6 GB; `F4` 39 s, 5.4 GB; `U00..U15` 7569 s in total (182 to 514 s
+each, peak 2.7 GB); `cnf4_unsat_unsplit` axioms propext, Classical.choice, Quot.sound.
+
 The `.olean` files depend on `lib/build/OpenProblemsLib/LRAT.olean`: after `tools/buildlib.sh`
 rebuilds `LRAT`, rebuild these modules too (all of them, in the order above).
 
-Checked 2026-11-07: all modules built with no warnings; `E13_1_lrat.lean` OK, `s_2_4` and `s_4_4`
+Re-checked 2026-11-07 from scratch after the store packing change of `OpenProblemsLib.LRAT`: chunk modules
+5906 s (m = 2) and 7048 s (m = 4 split), `E13_1_lrat.lean` OK. Checked 2026-11-07: all modules built with no warnings; `E13_1_lrat.lean` OK, `s_2_4` and `s_4_4`
 axioms propext, Classical.choice, Quot.sound. Kernel time of the chunk modules: 5905 s (m = 2),
 7361 s (m = 4, both halves of the split).
